@@ -41,6 +41,20 @@
 - **Pattern:** README points at overview, index, architecture, generic spec, OMP list, safety.
 - **Trade-off:** No CI workflow invented; validation is a local file/link gate.
 
+### Overlay Phase A — ACE playbook — 2026-08-15
+
+- **Concept:** ACE merge must be deterministic; an LLM curator can collapse the playbook into slogans.
+- **Pattern:** Non-LLM delta (append / increment helpful|harmful) plus reject rules for secrets and `SYSTEM.md` edits. Inject via `AGENTS.md`, not `system-prompt.md`.
+- **Trade-off:** Merge-install into existing `oh-my-pi/.omp/` instead of replacing that directory (OMP already ships commands/skills).
+- **Files to study:** `harness/omp/drivers/curate-playbook.ts`, `oh-my-pi/packages/coding-agent/src/prompts/system/project-prompt.md`
+
+### Overlay Phase B — S1 jsonl fields — 2026-08-15
+
+- **Concept:** OMP sessions persist `user` / `assistant` / `toolResult` messages in one jsonl. Assistant `content[]` includes `toolCall` blocks; `toolResult` has `toolCallId`, `toolName`, and `content`.
+- **Gap vs miner traces:** No first-class verifier field. Exporter writes `outcome.json` from an explicit `{type:"outcome"}` line or infers `stopReason`. Tool I/O is present — not lossy enough for a WS-B persistence patch (no D10).
+- **Pattern:** Post-hoc `export-session` to `traces/<id>/{meta.json,turns/,tool_calls.jsonl,outcome.json}`.
+- **Files to study:** `oh-my-pi/packages/coding-agent/src/session/turn-persistence.ts`, `session-persistence.ts`
+
 ### Overlay Phase 0 — Surfaces — 2026-08-15
 
 - **Concept:** AHE needs a file-level editable surface *and* a frozen kernel; without both, an evolver will “improve” `SYSTEM.md`.
