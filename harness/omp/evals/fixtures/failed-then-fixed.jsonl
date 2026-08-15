@@ -1,0 +1,4 @@
+{"type":"session_meta","id":"sess-failed-then-fixed","cwd":"/workspace"}
+{"type":"turn","role":"user","text":"Fix the missing export so the fixture compiles."}
+{"type":"turn","role":"assistant","text":"Added the named export after the compile error. LESSON: When a TypeScript compile fails on a missing export, add the export before retrying."}
+{"type":"outcome","passed":true,"exitCode":0}
