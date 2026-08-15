@@ -8,8 +8,8 @@ See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md) and [oh-my-
 
 | Path | Why |
 |------|-----|
-| `oh-my-pi/packages/coding-agent/src/prompts/system/system.md` | AHE: prompt-only evolution missed the gain (−2.3 pp). Not an improvement surface |
-| `oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.ts` | Assembles the system prompt; rewriting it is a kernel change |
+| `oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md` | AHE: prompt-only evolution missed the gain (−2.3 pp). Not an improvement surface. (There is no `system.md`; this is the file.) |
+| `oh-my-pi/packages/coding-agent/src/system-prompt.ts` | Assembles the system prompt; rewriting it is a kernel change |
 | `oh-my-pi/packages/coding-agent/src/tools/approval.ts` | Permission kernel |
 | `oh-my-pi/packages/coding-agent/src/config/model-roles.ts` | Model-role union and defaults |
 | `oh-my-pi/packages/coding-agent/src/session/role-models.ts` | Role → model resolution |

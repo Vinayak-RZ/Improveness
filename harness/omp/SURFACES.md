@@ -35,7 +35,9 @@ OMP already has `learn`, `memory-retain` / `recall` / `reflect`, autolearn, skil
 ## Install
 
 ```text
-ln -sfn "$(pwd)/harness/omp/overlay/.omp" "$(pwd)/oh-my-pi/.omp"
+bash harness/omp/scripts/install-overlay.sh
 ```
+
+That merges Improveness files into the existing `oh-my-pi/.omp/` (do not replace that directory; OMP already ships commands and skills).
 
 Drivers stay under `harness/omp/drivers/`. They may *read* a session jsonl the caller points at; they do not treat `~/.omp/agent/` as source of truth.

@@ -3,8 +3,10 @@
 Project-level `.omp/` artifacts owned by Improveness. This directory is the source of truth. For a local OMP run:
 
 ```text
-ln -sfn /absolute/path/to/Improveness/harness/omp/overlay/.omp /absolute/path/to/Improveness/oh-my-pi/.omp
+bash harness/omp/scripts/install-overlay.sh
 ```
+
+That **merges** playbook, AGENTS.md, agents, and hooks into the existing `oh-my-pi/.omp/` (OMP already ships commands and skills there). It does not replace the directory.
 
 Do not copy evolved files into `oh-my-pi/packages/`. Do not edit `system.md` from this overlay.
 
