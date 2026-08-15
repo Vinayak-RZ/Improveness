@@ -463,7 +463,7 @@ Do not publish to npm. Do not open an upstream OMP PR. Do not register a Harbor/
 - [x] Docs still say the adapter is not a public TB2 campaign
 - [x] `harness/omp/scripts/validate.sh` exits 0
 - [x] PROGRESS.md reflects P2 complete; P3 parked
-- [ ] PR #2 updated with gate evidence
+- [x] PR #2 updated with gate evidence
 
 ### P3 (this wave — parked)
 
