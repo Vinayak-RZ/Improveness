@@ -84,3 +84,10 @@
 - **Alternatives:** Closed loop that writes the canonical overlay; search that only logs without staging; human-only proposals with no driver.
 - **Selected:** `runSearch` may write `staging/`, `archive/<id>/`, manifests, and a `REVIEW_QUEUE.md` row. It must not copy into `overlay/.omp/` or `oh-my-pi/packages/`. Human promote remains the only path onto the project overlay (extends D7).
 - **Rationale:** [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) treats candidates as evidence. Weng reward-hacking bottleneck. Safety rule 6.
+
+## D13 — CACD is Contract · Architecture · Control · Delivery
+
+- **Context:** The overlay had a nawab plan and ADRs but no single machine-checkable operating model. The user asked for a proper CACD, repo-wide QA, and simulations of agentic architectures.
+- **Alternatives:** Treat CACD as CI/CD only; skip a named model and keep docs informal; require live-LLM architecture evals.
+- **Selected:** CACD means Contract, Architecture, Control, Delivery. QA verifies the catalog. Simulations replay named agentic wirings against the frozen suite without a live model.
+- **Rationale:** The selling point is comparing harness topologies (ACE-only vs gated Self-Harness vs leaked/held-out vs kernel-writing) before spending tokens. Keyless CI must stay green (D11).

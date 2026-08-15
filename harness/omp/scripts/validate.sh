@@ -99,4 +99,14 @@ if rg -n 'https?://[^[:space:]]*terminal-bench|huggingface.co/.+terminal-bench' 
   exit 1
 fi
 
+echo "== QA orchestrator present =="
+if [[ ! -f harness/omp/scripts/qa.sh ]]; then
+  echo "missing harness/omp/scripts/qa.sh" >&2
+  exit 1
+fi
+if ! rg -q 'simulate-architectures' harness/omp/scripts/qa.sh; then
+  echo "qa.sh must run architecture simulations" >&2
+  exit 1
+fi
+
 echo "validate.sh ok"

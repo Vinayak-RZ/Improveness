@@ -32,6 +32,9 @@ Improveness owns the overlay at `harness/omp/overlay/.omp/`. Local runs may syml
 | Search | Bounded archive-driven propose loop | `drivers/search.ts` + `drivers/propose.ts` | No — stages and queues only (D12) |
 | Local Harbor | Execute Harbor-shaped fixture tasks | `drivers/run-tb-local.ts` | No — not a public TB2 run |
 | Local benchmark | Improvement-cycle report | `evals/benchmarks/local-20/` | No — frozen 20-fixture suite only |
+| CACD | Contract · Architecture · Control · Delivery | `CACD.md` + `cacd/catalog.ts` | No — operating model, not a playbook |
+| QA | Repository-wide assurance | `drivers/qa-repo.ts` + `scripts/qa.sh` | No |
+| Simulations | Named agentic-architecture replays | `drivers/simulate-architectures.ts` | No — keyless; not public TB2 |
 
 ## What already exists — do not re-propose
 
