@@ -48,6 +48,25 @@
 - **Trade-off:** Merge-install into existing `oh-my-pi/.omp/` instead of replacing that directory (OMP already ships commands/skills).
 - **Files to study:** `harness/omp/drivers/curate-playbook.ts`, `oh-my-pi/packages/coding-agent/src/prompts/system/project-prompt.md`
 
+### Overlay Phase N — Hardening — 2026-08-15
+
+- **Concept:** The overlay gate is a small orchestrator (`validate.sh`), not the full OMP coding-agent-heavy suite.
+- **S3 security:** OAuth clients still read `OMP_*` env vars. Playbook has no secret-shaped lines. Held-out `no-secrets/repo` contains an intentional fake `sk-` string as the failing case. Evolver path checks deny `evals/checker` and `packages/coding-agent`.
+- **Ponytail:** Path-mapping is duplicated in `self-harness.ts` and `apply-candidate.ts` (one caller each). Left as-is; shrinking would be a later commit, not a new §9 row.
+- **Trade-off:** Golden-only P0 (no live `createAgentSession`) keeps CI deterministic.
+
+### Overlay Phase D — Manifests — 2026-08-15
+
+- **Concept:** A candidate without a parent hash cannot be rolled back; commit messages are not enough (C7).
+- **Pattern:** Snapshot parent bytes under `staging/snapshots/<id>/`, write a JSON manifest, restore on miss.
+- **Trade-off:** Queue is a markdown table, not a UI. Matches #7907 (evidence, not authority).
+
+### Overlay Phase C — Self-Harness — 2026-08-15
+
+- **Concept:** Accept iff held-in does not regress, held-out does not regress, and at least one split improves.
+- **Pattern:** Synthetic scores in unit tests; live checker on fixture `repo/` vs `expected/`. Staging only.
+- **Trade-off:** No Terminal-Bench in P0.
+
 ### Overlay Phase C — S2 SDK allowlist — 2026-08-15
 
 - **Concept:** `createAgentSession({ toolNames, restrictToolNames: true })` drops MCP, extensions, and ambient custom tools. `allowRestrictedCustomTools` is the only extra tool seam.

@@ -2,16 +2,15 @@
 
 ## Current phase
 
-OMP overlay P0 — **Phase 0 Surfaces** in progress (nawab feature-mode contract).
+OMP overlay P0 **complete** (Phases 0–D + N). Phase E archive is parked.
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| Nawab execution contract in `IMPLEMENTATION_PLAN.md` | done |
-| `harness/omp/SURFACES.md` + `KERNEL.md` | done |
-| Overlay README | done |
-| D9 overlay-first | done |
+| `harness/omp/` overlay + drivers + evals | done |
+| `harness/omp/scripts/validate.sh` | done (30 tests) |
+| Phase E DGM-lite archive | parked (P1) |
 
 ## Completed phases
 
@@ -21,7 +20,7 @@ OMP overlay P0 — **Phase 0 Surfaces** in progress (nawab feature-mode contract
 |-------|-----------|--------|
 | 0 | Plan approved | done |
 | A | Vendor config + authority artifacts | done |
-| B | Research corpus (`docs/00`–`09`, `docs/methods/`) | done |
+| B | Research corpus | done |
 | C | Generic + OMP proposals + safety | done |
 | N | References, README, link check | done |
 | In-tree OMP | `oh-my-pi/` without nested git | done |
@@ -30,18 +29,27 @@ OMP overlay P0 — **Phase 0 Surfaces** in progress (nawab feature-mode contract
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| 0 | Surfaces + kernel inventory + D9 | in progress (this commit) |
-| A | ACE playbook | pending |
-| B | Traces + debugger | pending |
-| C | Self-Harness gate | pending |
-| D | Manifests + review queue | pending |
-| N | validate.sh + hardening | pending |
+| 0 | Surfaces + kernel inventory + D9 | done |
+| A | ACE playbook + curator + context inject | done |
+| B | Traces + debugger | done |
+| C | Self-Harness gate | done |
+| D | Manifests + review queue | done |
+| N | validate.sh + hardening | done |
 | E | Project `.omp/` archive | parked (P1) |
 
 ## Remaining phases
 
-A → B → C → D → N. Phase E parked. Cutover is N/A.
+Phase E only (P1). Cutover is N/A.
 
 ## Active blockers
 
-None. KERNEL.md is frozen after this phase except via plan revision.
+None.
+
+## Gate evidence
+
+```text
+harness/omp/scripts/validate.sh
+# bun test harness/omp/tests/  →  30 pass
+# KERNEL lists checker, approval.ts, system-prompt.md
+# system-prompt files clean
+```
