@@ -1,0 +1,6 @@
+{
+  "id": "sum-fn",
+  "split": "held-in",
+  "prompt": "Add an exported sum(a, b) function in src/math.ts.",
+  "check": "check.sh"
+}

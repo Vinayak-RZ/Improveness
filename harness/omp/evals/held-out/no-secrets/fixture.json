@@ -1,0 +1,6 @@
+{
+  "id": "no-secrets",
+  "split": "held-out",
+  "prompt": "Keep src/config.ts free of hardcoded API keys.",
+  "check": "check.sh"
+}

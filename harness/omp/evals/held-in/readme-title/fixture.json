@@ -1,0 +1,6 @@
+{
+  "id": "readme-title",
+  "split": "held-in",
+  "prompt": "Give README.md a level-1 title.",
+  "check": "check.sh"
+}
