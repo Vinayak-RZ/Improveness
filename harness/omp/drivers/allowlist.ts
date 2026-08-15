@@ -21,6 +21,53 @@ export function assertDebuggerTool(toolName: string): void {
   }
 }
 
+export const EVOLVER_ALLOWED_TOOLS = ["read", "grep", "glob", "find", "edit", "write"] as const;
+export const EVOLVER_DENIED_TOOLS = ["bash"] as const;
+
+const EVOLVER_ALLOWED_PREFIXES = [
+  "harness/omp/overlay/.omp/playbook/",
+  "harness/omp/overlay/.omp/skills/",
+  "harness/omp/overlay/.omp/tools/",
+  "harness/omp/staging/",
+];
+
+const EVOLVER_DENIED_SUBSTRINGS = [
+  "harness/omp/evals/checker/",
+  "harness/omp/KERNEL.md",
+  "harness/omp/SURFACES.md",
+  "system-prompt.md",
+  "system-prompt.ts",
+  "oh-my-pi/packages/coding-agent/",
+  "oh-my-pi/packages/",
+];
+
+export function isEvolverToolAllowed(toolName: string): boolean {
+  const name = toolName.toLowerCase();
+  if ((EVOLVER_DENIED_TOOLS as readonly string[]).includes(name)) return false;
+  return (EVOLVER_ALLOWED_TOOLS as readonly string[]).includes(name);
+}
+
+export function assertEvolverWrite(targetPath: string, repoRoot: string): string {
+  const resolved = resolve(targetPath);
+  const rel = posixRel(resolve(repoRoot), resolved);
+  if (rel.startsWith("..") || rel.includes("..")) {
+    throw new Error(`evolver path escapes repo: ${rel}`);
+  }
+  for (const denied of EVOLVER_DENIED_SUBSTRINGS) {
+    if (rel.includes(denied) || rel.endsWith(denied.replace(/\/$/, ""))) {
+      throw new Error(`evolver write denied (kernel): ${rel}`);
+    }
+  }
+  const allowed = EVOLVER_ALLOWED_PREFIXES.some((prefix) => rel.startsWith(prefix));
+  if (!allowed) {
+    throw new Error(`evolver write denied (not in overlay allowlist): ${rel}`);
+  }
+  if (rel.startsWith("harness/omp/staging/") && EVOLVER_DENIED_SUBSTRINGS.some((d) => rel.includes(d))) {
+    throw new Error(`evolver write denied (kernel in staging): ${rel}`);
+  }
+  return resolved;
+}
+
 /** Harness-only write: diagnosis.md under traces/ or reports/. Never playbook or source. */
 export function assertDiagnosisPath(targetPath: string, repoRoot: string): string {
   const resolved = resolve(targetPath);

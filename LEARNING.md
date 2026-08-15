@@ -48,6 +48,13 @@
 - **Trade-off:** Merge-install into existing `oh-my-pi/.omp/` instead of replacing that directory (OMP already ships commands/skills).
 - **Files to study:** `harness/omp/drivers/curate-playbook.ts`, `oh-my-pi/packages/coding-agent/src/prompts/system/project-prompt.md`
 
+### Overlay Phase C — S2 SDK allowlist — 2026-08-15
+
+- **Concept:** `createAgentSession({ toolNames, restrictToolNames: true })` drops MCP, extensions, and ambient custom tools. `allowRestrictedCustomTools` is the only extra tool seam.
+- **Gap:** There is **no** first-class path allowlist on the SDK. Path policy lives in `assertEvolverWrite` (overlay wrapper). Not enough to open WS-B.
+- **Pattern:** Debugger/evolver as project agents (`.omp/agents/*.md`) plus wrapper checks. Task agent stays `default`; evolver `@smol`.
+- **Files to study:** `oh-my-pi/packages/coding-agent/src/sdk.ts` (`CreateAgentSessionOptions.toolNames`, `restrictToolNames`)
+
 ### Overlay Phase B — S1 jsonl fields — 2026-08-15
 
 - **Concept:** OMP sessions persist `user` / `assistant` / `toolResult` messages in one jsonl. Assistant `content[]` includes `toolCall` blocks; `toolResult` has `toolCallId`, `toolName`, and `content`.
