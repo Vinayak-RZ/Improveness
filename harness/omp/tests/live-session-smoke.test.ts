@@ -15,6 +15,18 @@ describe("live session smoke", () => {
     expect(options.cwd).toBe("/tmp/fixture");
   });
 
+  test("skips when OMP_LIVE_SMOKE is unset or credentials are missing", async () => {
+    expect(shouldSkipLiveSmoke({}).skip).toBe(true);
+    expect(shouldSkipLiveSmoke({ OMP_LIVE_SMOKE: "1" }).reason).toMatch(/no LLM credentials/);
+    const skipped = await runLiveSessionSmoke({
+      env: {},
+      createSession: async () => {
+        throw new Error("must not create a session when skipped");
+      },
+    });
+    expect(skipped.skipped).toBe(true);
+  });
+
   test("runs through an injected fake session when forced on", async () => {
     const result = await runLiveSessionSmoke({
       env: { OMP_LIVE_SMOKE: "1", ANTHROPIC_API_KEY: "test-not-real" },
