@@ -14,3 +14,21 @@
 - **Concept:** `documentation.mdc` requires PROJECT_OVERVIEW, IMPLEMENTATION_PLAN, DECISIONS, and PROGRESS as living authority, not optional extras.
 - **Pattern:** Copy the approved nawab plan into `IMPLEMENTATION_PLAN.md`; keep ADRs in `DECISIONS.md`.
 - **Trade-off:** Duplicating the plan into the repo (vs linking only the Cursor plan file) so the contract survives outside the agent UI.
+
+### Phase B — Research corpus — 2026-08-15
+
+- **Concept:** A *harness* is the runtime around a frozen model (tools, context, eval, permissions), not the weights.
+- **Pattern:** One segment file per Weng heading, plus a method page when a system is an implementation target.
+- **Trade-off:** Prompt-only ACE is cheapest but AHE shows it can regress on a strong coding seed; we specified full AHE surfaces anyway.
+
+### Phase C — Proposals — 2026-08-15
+
+- **Concept:** Held-out validation is the regression brake that makes same-model self-edit safe enough to specify.
+- **Pattern:** Generic capabilities (C1–C8) instantiated as OMP P1–P7 without writing patches.
+- **Trade-off:** Maintainer review (#7907) is slower than auto-apply; chosen to block reward hacking.
+
+### Phase N — Validate — 2026-08-15
+
+- **Concept:** Relative-link checking is the “test suite” for a docs-only repo.
+- **Pattern:** README points at overview, index, architecture, generic spec, OMP list, safety.
+- **Trade-off:** No CI workflow invented; validation is a local file/link gate.
