@@ -1,5 +1,13 @@
 # Learning log
 
+### In-tree OMP base — 2026-08-15
+
+- **Concept:** Stripping nested `.git` makes a third-party tree a normal directory in *this* repo’s history (no submodule, no accidental pushes to upstream).
+- **Pattern:** Clone `--depth 1`, `rm -rf .git`, commit under `oh-my-pi/`.
+- **Trade-off:** ~123MB in-tree vs submodule. Chosen because the user asked to own the tree as the upgrade base.
+
+## Session / phase entries
+
 ## Session / phase entries
 
 ### Phase A commit 1 — Vendor config — 2026-08-15

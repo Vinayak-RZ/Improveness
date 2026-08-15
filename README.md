@@ -2,7 +2,7 @@
 
 Research and change-proposal corpus for self-improving coding harnesses, based on [Lilian Weng, “Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/).
 
-This repo does **not** modify [OMP (Oh My Pi)](https://omp.sh/) or implement a harness overlay. It specifies what a generic harness and OMP would need.
+The in-tree [OMP (Oh My Pi)](https://omp.sh/) source lives at [`oh-my-pi/`](oh-my-pi/) (cloned from [can1357/oh-my-pi](https://github.com/can1357/oh-my-pi), nested `.git` removed). That tree is the base for upgrades specified in [`docs/proposals/`](docs/proposals/). Research docs remain the contract; implementation happens against `oh-my-pi/`, not an upstream fork checkout.
 
 ## Start here
 

@@ -2,7 +2,14 @@
 
 ## Current phase
 
-Phase N complete (docs valid). Ready for PR.
+In-tree OMP base added at `oh-my-pi/` (upstream `.git` stripped). Next: apply proposal upgrades against that tree.
+
+## Latest
+
+| Item | Status |
+|------|--------|
+| Clone `can1357/oh-my-pi` → `oh-my-pi/` | done |
+| Remove nested `.git` | done |
 
 ## Completed phases
 

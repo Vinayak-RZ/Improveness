@@ -7,12 +7,19 @@
 - **Selected:** Nawab master plan; Spec Kit collapsed (no runtime feature).
 - **Rationale:** Compulsory skill; this pass is docs/proposals, not a software feature with contracts.
 
-## D2 — Delivery is proposals only
+## D2 — Delivery started as proposals only
 
-- **Context:** User forbade OMP code changes and asked for generic + OMP change proposals.
-- **Alternatives:** Implement an overlay; fork OMP.
-- **Selected:** Specs only in this repo.
-- **Rationale:** Matches user scope and [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) (candidates are evidence, not auto-applied authority).
+- **Context:** First pass forbade OMP code changes.
+- **Alternatives:** Implement an overlay; fork OMP with remotes.
+- **Selected (superseded by D8):** Specs only in the first pass.
+- **Rationale:** Matched the original scope and [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907).
+
+## D8 — In-tree OMP is the upgrade base
+
+- **Context:** User asked to clone https://github.com/can1357/oh-my-pi.git into this workspace, remove its `.git`, and use it as the base for updates.
+- **Alternatives:** Keep proposals-only; git submodule; fork with remotes.
+- **Selected:** Full tree at `oh-my-pi/` with nested git removed so Improveness owns history.
+- **Rationale:** Explicit user instruction. Upstream history is not needed for local upgrades.
 
 ## D3 — OMP is the concrete example
 

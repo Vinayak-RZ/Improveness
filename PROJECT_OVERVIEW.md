@@ -10,7 +10,7 @@ Improveness is a maintainer-readable corpus that:
 
 ## System overview
 
-This repository is documentation only. There is no agent runtime, eval runner, or overlay.
+Research docs and proposals live at the repo root. The in-tree OMP source is [`oh-my-pi/`](oh-my-pi/) (upstream git history stripped) and is the base for upgrades. Do not treat this as a live fork with remotes; changes are committed here.
 
 | Layer | What lives here |
 |-------|-----------------|
@@ -26,8 +26,8 @@ See [docs/proposals/00-architecture.md](docs/proposals/00-architecture.md).
 
 ## Constraints
 
-- No OMP source changes, fork, or PR to `oh-my-pi`.
-- No overlay, plugin, SDK wrapper, or generic-harness implementation in this repo.
+- Upstream `oh-my-pi` git history is not preserved; we do not push back to `can1357/oh-my-pi` from this repo unless explicitly asked.
+- Upgrades land under [`oh-my-pi/`](oh-my-pi/), guided by [`docs/proposals/`](docs/proposals/).
 - No Terminal-Bench / SWE-bench reproduction.
 - No secrets or live agent credentials.
 - Spec Kit `.specify/` is out of scope for this pass.
