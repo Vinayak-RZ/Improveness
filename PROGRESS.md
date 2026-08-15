@@ -2,7 +2,7 @@
 
 ## Current phase
 
-OMP overlay **P2 complete** (root CI, bounded search, local Harbor runner, local-20 benchmark, extensive README). P3 remains parked.
+OMP overlay **P2 complete**. **CACD + repo QA + seven agentic-architecture simulations** added (D13). P3 remains parked.
 
 ## Latest
 
@@ -14,6 +14,8 @@ OMP overlay **P2 complete** (root CI, bounded search, local Harbor runner, local
 | Local Harbor runner | done |
 | Local-20 benchmark (0/12→7/12, 0/8→3/8) | done |
 | Extensive README | done |
+| CACD (D13) + `qa.sh` | done |
+| 7 architecture simulations | done |
 | `validate.sh` P2 greps | done |
 
 ## Completed phases

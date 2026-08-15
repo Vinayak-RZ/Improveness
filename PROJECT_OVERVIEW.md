@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Improveness is a maintainer-readable corpus **and** an overlay that adds a gated self-improvement loop on in-tree Oh My Pi:
+Improveness is a maintainer-readable corpus, a **CACD** operating model (Contract · Architecture · Control · Delivery), a **keyless simulator of agentic architectures**, and an overlay that adds a gated self-improvement loop on in-tree Oh My Pi:
 
 1. Explains Lilian Weng’s [“Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/) by natural segment.
 2. Specifies what **any** coding harness must add to become self-improving.

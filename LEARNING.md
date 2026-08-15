@@ -8,6 +8,13 @@
 
 ## Session / phase entries
 
+### CACD, QA, architecture simulations — 2026-08-15
+
+- **Concept:** CACD is Contract · Architecture · Control · Delivery — a live checklist, not another ADR log. Simulations compare *wirings* (who may write, who may see held-out) without a live model.
+- **Pattern:** Catalog needles in `cacd/catalog.ts`; `qa.sh` = validate.sh + qa-repo + simulate-architectures.
+- **Trade-off:** ACE-only is a passing simulation of *stagnation*, not a product failure. That is the AHE lesson encoded as a test.
+- **Files to study:** `harness/omp/CACD.md`, `harness/omp/evals/simulations/latest/summary.md`
+
 ### P2 closeout — CI, search, local-20 — 2026-08-15
 
 - **Concept:** A playbook-conditioned solver turns ACE memory into measurable fixture unlocks; held-out-only families staying locked is the leakage brake, not a bug.
