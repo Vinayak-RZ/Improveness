@@ -28,6 +28,7 @@ Improveness owns the overlay at `harness/omp/overlay/.omp/`. Local runs may syml
 | P5 Held-in / held-out | Self-Harness gate | `harness/omp/evals/` + `drivers/self-harness.ts` | No |
 | P6 Change manifests | Falsifiable candidate + rollback | `overlay/.omp/manifests/` + apply/rollback drivers | No |
 | P7 Review queue | Human promote | `harness/omp/REVIEW_QUEUE.md` | No |
+| Archive | DGM-lite project overlay snapshots | `harness/omp/archive/` + `drivers/archive.ts` | No — never archives checker or system-prompt |
 
 ## What already exists — do not re-propose
 
