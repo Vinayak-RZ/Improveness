@@ -42,4 +42,27 @@ if [[ -n "$(git diff -- oh-my-pi/packages/coding-agent/src/prompts/system/system
   exit 1
 fi
 
+echo "== at least 20 eval fixtures =="
+fixture_count="$(find harness/omp/evals/held-in harness/omp/evals/held-out -name fixture.json | wc -l | tr -d ' ')"
+if [[ "$fixture_count" -lt 20 ]]; then
+  echo "expected >=20 fixtures, found $fixture_count" >&2
+  exit 1
+fi
+
+echo "== TB adapter README present =="
+if [[ ! -f harness/omp/evals/tb-adapter/README.md ]]; then
+  echo "missing harness/omp/evals/tb-adapter/README.md" >&2
+  exit 1
+fi
+
+echo "== archive driver refuses kernel writes =="
+if ! rg -q 'isKernelRel' harness/omp/drivers/archive.ts; then
+  echo "archive.ts must call isKernelRel" >&2
+  exit 1
+fi
+if rg -n 'writeFileSync\([^)]*evals/checker' harness/omp/drivers/archive.ts; then
+  echo "archive must not write the checker" >&2
+  exit 1
+fi
+
 echo "validate.sh ok"
