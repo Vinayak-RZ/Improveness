@@ -65,4 +65,38 @@ if rg -n 'writeFileSync\([^)]*evals/checker' harness/omp/drivers/archive.ts; the
   exit 1
 fi
 
+echo "== overlay CI workflow calls validate.sh =="
+if [[ ! -f .github/workflows/overlay.yml ]]; then
+  echo "missing .github/workflows/overlay.yml" >&2
+  exit 1
+fi
+if ! rg -q 'validate.sh' .github/workflows/overlay.yml; then
+  echo "overlay.yml must run validate.sh" >&2
+  exit 1
+fi
+if rg -n 'working-directory: oh-my-pi|coding-agent-heavy' .github/workflows/overlay.yml; then
+  echo "overlay CI must not adopt OMP heavy jobs" >&2
+  exit 1
+fi
+
+echo "== search driver has step cap and kernel guard =="
+if ! rg -q 'MAX_STEP_CAP' harness/omp/drivers/search.ts; then
+  echo "search.ts must define MAX_STEP_CAP" >&2
+  exit 1
+fi
+if ! rg -q 'isKernelRel|assertEvolverWrite' harness/omp/drivers/search.ts; then
+  echo "search.ts must guard kernel paths" >&2
+  exit 1
+fi
+if rg -n 'writeFileSync\([^)]*evals/checker' harness/omp/drivers/search.ts; then
+  echo "search must not write the checker" >&2
+  exit 1
+fi
+
+echo "== local Harbor runner is not a public TB2 download =="
+if rg -n 'https?://[^[:space:]]*terminal-bench|huggingface.co/.+terminal-bench' harness/omp/drivers/run-tb-local.ts harness/omp/drivers/tb-export.ts harness/omp/drivers/run-benchmark.ts; then
+  echo "local runners must not download public TB2" >&2
+  exit 1
+fi
+
 echo "validate.sh ok"

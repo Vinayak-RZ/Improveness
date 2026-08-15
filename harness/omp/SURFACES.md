@@ -29,6 +29,9 @@ Improveness owns the overlay at `harness/omp/overlay/.omp/`. Local runs may syml
 | P6 Change manifests | Falsifiable candidate + rollback | `overlay/.omp/manifests/` + apply/rollback drivers | No |
 | P7 Review queue | Human promote | `harness/omp/REVIEW_QUEUE.md` | No |
 | Archive | DGM-lite project overlay snapshots | `harness/omp/archive/` + `drivers/archive.ts` | No — never archives checker or system-prompt |
+| Search | Bounded archive-driven propose loop | `drivers/search.ts` + `drivers/propose.ts` | No — stages and queues only (D12) |
+| Local Harbor | Execute Harbor-shaped fixture tasks | `drivers/run-tb-local.ts` | No — not a public TB2 run |
+| Local benchmark | Improvement-cycle report | `evals/benchmarks/local-20/` | No — frozen 20-fixture suite only |
 
 ## What already exists — do not re-propose
 
