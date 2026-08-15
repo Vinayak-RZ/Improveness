@@ -65,7 +65,7 @@ Aligned with [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907): c
 - Forking or rewriting OMP’s Rust/TypeScript core
 - Auto-editing canonical built-in prompts, hashline, LSP, or DAP
 - Stacking extra “closure-check” middleware on top of TTSR + advisor (AHE non-additive interference)
-- Evolutionary search (DGM/AlphaEvolve) before a cheap objective fitness exists
+- Unbounded evolutionary search (DGM/AlphaEvolve) that writes the kernel or skips the held-out gate (P2 search is bounded, stages only, and uses the frozen checker)
 - Weight updates, teacher distillation, or SIA-style Feedback-Agent training
 - Changing Windows-native / in-process tool implementations as a “self-improve” lever
 

@@ -77,7 +77,7 @@ A maintainer can run the P0/P1 overlay gate in GitHub Actions, and a bounded arc
 | P0 + P1 overlay complete (`validate.sh` 41 tests, 20 fixtures, archive primitive, TB adapter, hidden roles) | done | all P2 phases | [PROGRESS.md](PROGRESS.md) |
 | User approves this nawab plan | done (2026-08-15) | Phase 0 | approval recorded; Phase 0 is this commit |
 | Bun 1.3.14 for drivers/tests | done in prior wave | Phase A locally | re-verify at Phase A start |
-| GitHub Actions on Improveness root | missing (only under `oh-my-pi/.github/`) | Phase A | add root workflow; do **not** reuse OMP `coding-agent-heavy` |
+| GitHub Actions on Improveness root | done (`.github/workflows/overlay.yml`) | — | do **not** reuse OMP `coding-agent-heavy` |
 | LLM API keys | optional | none of required P2 gates | live smoke / live search skip without keys |
 | Harbor CLI / Docker / TB2 dataset | N/A | nothing | P2 runner is local bash + frozen checker |
 | Spec Kit project | N/A | nothing | still collapsed |
@@ -280,19 +280,19 @@ todos:
     status: completed
   - id: p2-phase-a-ci
     content: "Phase A: root overlay.yml runs validate.sh with Bun 1.3.14"
-    status: pending
+    status: completed
   - id: p2-phase-b-smoke
     content: "Phase B: optional live-smoke job; skip without secrets"
-    status: pending
+    status: completed
   - id: p2-phase-c-search
     content: "Phase C: bounded archive search; deterministic proposer; human queue"
-    status: pending
+    status: completed
   - id: p2-phase-d-harbor
     content: "Phase D: local Harbor-shaped runner; no public TB2"
-    status: pending
+    status: completed
   - id: p2-phase-n-hardening
     content: "Phase N: validate.sh greps + PROGRESS/LEARNING"
-    status: pending
+    status: completed
   - id: p3-public-tb2
     content: "P3 parked: public Terminal-Bench 2 / Harbor campaign"
     status: pending
@@ -453,16 +453,16 @@ Do not publish to npm. Do not open an upstream OMP PR. Do not register a Harbor/
 ### P2 (must pass)
 
 - [x] IMPLEMENTATION_PLAN.md is this contract; D11 + D12 recorded
-- [ ] `.github/workflows/overlay.yml` runs `validate.sh` with Bun 1.3.14
-- [ ] Live-smoke CI job cannot fail a keyless PR
-- [ ] `runSearch` throws on invalid step cap and kernel writes
-- [ ] Deterministic proposer cannot read held-out fixtures
-- [ ] Accept path: staging + archive parentId + REVIEW_QUEUE row; `overlay/.omp` unchanged
-- [ ] Reject path: held-out regression writes no staging files
-- [ ] Local Harbor runner executes adapter `test.sh` against fixture repos
-- [ ] Docs still say the adapter is not a public TB2 campaign
-- [ ] `harness/omp/scripts/validate.sh` exits 0
-- [ ] PROGRESS.md reflects P2 complete; P3 parked
+- [x] `.github/workflows/overlay.yml` runs `validate.sh` with Bun 1.3.14
+- [x] Live-smoke CI job cannot fail a keyless PR
+- [x] `runSearch` throws on invalid step cap and kernel writes
+- [x] Deterministic proposer cannot read held-out fixtures
+- [x] Accept path: staging + archive parentId + REVIEW_QUEUE row; `overlay/.omp` unchanged
+- [x] Reject path: held-out regression writes no staging files
+- [x] Local Harbor runner executes adapter `test.sh` against fixture repos
+- [x] Docs still say the adapter is not a public TB2 campaign
+- [x] `harness/omp/scripts/validate.sh` exits 0
+- [x] PROGRESS.md reflects P2 complete; P3 parked
 - [ ] PR #2 updated with gate evidence
 
 ### P3 (this wave — parked)

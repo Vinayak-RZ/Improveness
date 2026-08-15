@@ -1,6 +1,6 @@
 # Index
 
-Reading order for this corpus. Everything here is documentation and **change proposals**. Nothing here implements a harness or edits OMP.
+Reading order for the research corpus. The working overlay lives at [`harness/omp/`](../harness/omp/SURFACES.md); this folder is the paper map and proposals.
 
 ## How to read
 
