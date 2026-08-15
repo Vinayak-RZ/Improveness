@@ -1,0 +1,19 @@
+---
+description: Architecture for AI agents, LLM features, tools, MCP, and automations
+globs: "**/agent/**,**/agents/**,**/*mcp*,**/*llm*,**/*rag*,**/.cursor/**"
+alwaysApply: false
+---
+
+# Agentic systems (scoped)
+
+When building AI/agent features:
+
+1. Load skill `agentic-system-design`
+2. Use **agent-patterns MCP** (`.cursor/mcp.json`) for recipes, symptoms, and catalog ids — see `mcp-architecture.mdc`
+3. Hard cap on agent loop steps
+4. Strict tool schemas; idempotent where retried
+5. Human checkpoint before irreversible actions
+6. Eval dataset before shipping user-facing agent behavior
+7. Log model, tokens, latency, tool calls
+
+Skills in repo for cloud: commit `.cursor/skills/` — global `~/.cursor/` does not sync.

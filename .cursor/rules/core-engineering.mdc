@@ -1,0 +1,21 @@
+---
+description: Core engineering stance for all coding work
+alwaysApply: true
+---
+
+# Core engineering
+
+- **Ponytail first** — on any code change, **read** `.cursor/skills/ponytail/SKILL.md` and climb the ladder before writing (enforced by `ponytail.mdc`)
+- **Minimal correct diff** — solve the task; no drive-by refactors
+- **Read before write** — match existing conventions in the repo
+- **Reference, don't copy** — point to canonical files instead of duplicating large blocks
+- **Plan before implement** — follow `planning.mdc` for non-trivial work
+- **Surface trade-offs** — use `system-design-tradeoffs` skill or `trade-offs.mdc` for architectural choices
+- **Validate before done** — follow `quality-gates.mdc`
+- **No secrets in code** — environment variables only
+
+For architecture work, load the appropriate skill:
+
+- UI / Next.js / React → `frontend-architecture`
+- APIs / services / data → `backend-architecture`
+- LLM / agents / tools / RAG → `agentic-system-design`

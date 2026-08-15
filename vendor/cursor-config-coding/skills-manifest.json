@@ -1,0 +1,137 @@
+﻿{
+  "version": 7,
+  "description": "Coding Cursor config — 36 skills, 21 rules, agent-patterns MCP, nawab-plans + ponytail + Spec Kit, learn-while-building, auto conventional commits",
+  "mcp": {
+    "default_server": "agent-patterns",
+    "url": "https://mcp.agentpatternscatalog.org/mcp",
+    "docs": "docs/MCP_SETUP.md",
+    "catalog": "docs/mcp-catalog.json"
+  },
+  "spec_kit": {
+    "source": "https://github.com/github/spec-kit",
+    "pinned_version": "v0.12.11",
+    "install_script": "scripts/install-spec-kit.ps1",
+    "docs": "docs/SPEC_KIT.md",
+    "rule": "speckit"
+  },
+  "preinstalled": {
+    "count": 36,
+    "categories": {
+      "planning": ["nawab-plans"],
+      "minimal-code": [
+        "ponytail",
+        "ponytail-review",
+        "ponytail-audit",
+        "ponytail-debt",
+        "ponytail-gain",
+        "ponytail-help"
+      ],
+      "spec-driven": [
+        "speckit-constitution",
+        "speckit-specify",
+        "speckit-clarify",
+        "speckit-plan",
+        "speckit-checklist",
+        "speckit-tasks",
+        "speckit-analyze",
+        "speckit-implement",
+        "speckit-converge",
+        "speckit-taskstoissues"
+      ],
+      "architecture": [
+        "frontend-architecture",
+        "backend-architecture",
+        "agentic-system-design",
+        "system-design-tradeoffs"
+      ],
+      "nextjs": ["nextjs-app-router-patterns"],
+      "documentation": ["extensive-readme"],
+      "learning": ["learn-while-building"],
+      "animation": [
+        "gsap-core",
+        "gsap-react",
+        "gsap-scrolltrigger",
+        "gsap-timeline",
+        "gsap-plugins",
+        "gsap-performance",
+        "gsap-frameworks",
+        "gsap-utils",
+        "gsap-framer-scroll-animation"
+      ],
+      "ui": ["impeccable"],
+      "exploration": ["graphify"],
+      "utility": ["find-skills"]
+    }
+  },
+  "rules": {
+    "always_apply": [
+      "rule-awareness",
+      "ponytail",
+      "core-engineering",
+      "architecture-boundaries",
+      "ai-anti-patterns",
+      "planning",
+      "communication",
+      "documentation",
+      "learn-and-research"
+    ],
+    "contextual": [
+      "execution",
+      "quality-gates",
+      "git-commit-discipline",
+      "trade-offs",
+      "frontend-architecture",
+      "backend-architecture",
+      "agentic-systems",
+      "security-baseline",
+      "testing-discipline",
+      "tech-stack-skills",
+      "mcp-architecture",
+      "speckit"
+    ]
+  },
+  "workflows": {
+    "implementation": "nawab-plans → approve → phase → validate → commit",
+    "spec_driven": "constitution → specify → plan → tasks → implement (ponytail on code)",
+    "learning": "docs/LEARNING_AND_RESEARCH.md",
+    "commits": "conventional commits after milestones; auto-push at 10 unpushed or when user asks"
+  },
+  "optional_catalog": [
+    {
+      "name": "vercel-react-best-practices",
+      "installs": 467600,
+      "command": "npx skills add vercel-labs/agent-skills@vercel-react-best-practices -y --copy",
+      "when": "React/Next performance and patterns"
+    },
+    {
+      "name": "senior-architect",
+      "installs": 1800,
+      "command": "npx skills add sickn33/antigravity-awesome-skills@senior-architect -y --copy",
+      "when": "Holistic system design reviews"
+    },
+    {
+      "name": "agent-arch-system-design",
+      "installs": 854,
+      "command": "npx skills add ruvnet/ruflo@agent-arch-system-design -y --copy",
+      "when": "Supplement agentic-system-design skill"
+    },
+    {
+      "name": "security-reviewer",
+      "installs": 3400,
+      "command": "npx skills add jeffallan/claude-skills@security-reviewer -y --copy",
+      "when": "Auth, payments, sensitive API changes"
+    },
+    {
+      "name": "frontend-developer",
+      "installs": 806,
+      "command": "npx skills add sickn33/antigravity-awesome-skills@frontend-developer -y --copy",
+      "when": "General frontend implementation depth"
+    },
+    {
+      "name": "backend-design",
+      "installs": 86,
+      "command": "npx skills add dauquangthanh/hanoi-rainbow@backend-design -y --copy",
+      "when": "Supplement backend-architecture skill"
+    }
+  ]
+}

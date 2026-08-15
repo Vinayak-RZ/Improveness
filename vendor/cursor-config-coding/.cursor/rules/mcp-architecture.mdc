@@ -1,0 +1,37 @@
+---
+description: Use MCP servers (especially agent-patterns) for agentic architecture, pattern lookup, recipe recommendation, and design validation
+alwaysApply: false
+---
+
+# MCP for architecture
+
+When designing, reviewing, or debugging **agentic / LLM systems**, use connected MCP tools before improvising from memory.
+
+## Default server: agent-patterns
+
+Endpoint: `https://mcp.agentpatternscatalog.org/mcp` (see `.cursor/mcp.json`)
+
+| Situation | Call |
+|-----------|------|
+| New agent feature | `recommend_recipe` → expand composed patterns |
+| Architecture review | Match design to catalog patterns; check anti-patterns |
+| Runtime symptom (loops, tool hallucination, context blow-up) | `pattern_for_symptom` |
+| Compare two approaches | `find_pattern` + related edges / trade-offs |
+| Terminology / ADRs | `glossary_term`; cite **pattern ids** |
+
+## Workflow
+
+1. Check MCP is available (Settings → Tools & MCP)
+2. Query catalog **before** finalizing architecture
+3. Combine MCP results with skills: `agentic-system-design`, `system-design-tradeoffs`
+4. Document chosen **catalog pattern ids** in plan or ADR when applicable
+
+## If MCP unavailable
+
+Fall back to `agentic-system-design` skill and [docs/MCP_SETUP.md](../../docs/MCP_SETUP.md). Note in response that live catalog was not queried.
+
+## Other MCP servers
+
+Optional: Context7 (library docs), GitHub (repo data) — see [docs/mcp-catalog.json](../../docs/mcp-catalog.json). Use only when task requires live external data.
+
+Do not call MCP for routine CRUD coding with no agentic design component. Minimal-code discipline is enforced by `ponytail.mdc` + the `ponytail` skill — not by MCP.

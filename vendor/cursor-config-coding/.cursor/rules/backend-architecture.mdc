@@ -1,0 +1,18 @@
+---
+description: Backend and API architecture for routes, services, and server-side code
+globs: "**/api/**,**/routes/**,**/services/**,**/server/**,**/*controller*,**/*repository*"
+alwaysApply: false
+---
+
+# Backend architecture (scoped)
+
+When editing server/API code:
+
+1. Load skill `backend-architecture` for new endpoints, services, or schema work
+2. Handlers stay thin — business logic in service layer
+3. Parameterized queries only; validate all inputs at boundary
+4. Consistent error envelope and HTTP semantics
+5. AuthZ in services, not only at route edge
+6. Timeouts on all external calls
+
+Surface trade-offs for persistence, caching, and async before implementing.

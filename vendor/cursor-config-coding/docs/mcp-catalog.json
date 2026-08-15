@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "description": "MCP servers for architecture, patterns, and engineering context. Default: agent-patterns in .cursor/mcp.json",
+  "default": {
+    "name": "agent-patterns",
+    "url": "https://mcp.agentpatternscatalog.org/mcp",
+    "docs": "https://www.agentpatternscatalog.org/use/",
+    "auth": "none",
+    "tools_highlight": [
+      "find_pattern",
+      "recommend_recipe",
+      "pattern_for_symptom",
+      "glossary_term"
+    ]
+  },
+  "optional": [
+    {
+      "name": "context7",
+      "purpose": "Up-to-date library/framework documentation in context",
+      "url": "https://mcp.context7.com/mcp",
+      "auth": "API key via CONTEXT7_API_KEY",
+      "when": "Need current docs for a dependency while designing or implementing"
+    },
+    {
+      "name": "github",
+      "purpose": "Repository issues, PRs, code search",
+      "command": "npx -y @modelcontextprotocol/server-github",
+      "auth": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "when": "Agent needs live GitHub data for the project"
+    }
+  ],
+  "agent_patterns_use_cases": [
+    {
+      "scenario": "Design a new agent feature",
+      "mcp_prompt": "Recommend a recipe for [goal], expand the patterns it composes, and cite catalog pattern ids."
+    },
+    {
+      "scenario": "Review existing agent architecture",
+      "mcp_prompt": "Which catalog patterns does this design implement, which is it missing, and which anti-patterns is it at risk of?"
+    },
+    {
+      "scenario": "Debug agent misbehavior",
+      "mcp_prompt": "My agent [symptom]. Use pattern_for_symptom and list fixes and anti-patterns."
+    },
+    {
+      "scenario": "Compare approaches",
+      "mcp_prompt": "Compare [pattern A] vs [pattern B] using related edges and trade-offs from the catalog."
+    }
+  ]
+}

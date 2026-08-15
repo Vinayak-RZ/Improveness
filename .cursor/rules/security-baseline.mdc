@@ -1,0 +1,17 @@
+---
+description: Security standards for auth, API routes, secrets, and user input
+globs: "**/api/**,**/auth/**,**/middleware/**,**/*security*"
+alwaysApply: false
+---
+
+# Security baseline
+
+- Validate type, format, length, and range at every boundary
+- No secrets, tokens, or connection strings in code or logs
+- Parameterized queries / prepared statements only
+- Principle of least privilege for keys and service accounts
+- Rate-limit auth endpoints
+- Fail closed on authorization errors
+- Mask PII in logs
+
+For security-sensitive changes, recommend optional catalog skill: `jeffallan/claude-skills@security-reviewer` via `install-catalog-skill.ps1`.

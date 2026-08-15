@@ -1,0 +1,5 @@
+# Generated from github/spec-kit @ v0.12.11
+# Integration: cursor-agent (skills under .cursor/skills/speckit-*/SKILL.md)
+# Do not hand-edit to match upstream — re-run specify init and re-copy, or:
+#   .\scripts\install-spec-kit.ps1 -Target <app> -Tag vX.Y.Z
+# See docs/SPEC_KIT.md

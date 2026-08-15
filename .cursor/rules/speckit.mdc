@@ -1,0 +1,53 @@
+---
+description: Spec-Driven Development via GitHub Spec Kit — use for greenfield features, new products, or when the user asks for specs/constitution/plan/tasks before coding
+alwaysApply: false
+---
+
+# Spec Kit (Spec-Driven Development)
+
+From [github/spec-kit](https://github.com/github/spec-kit). Skills live under `.cursor/skills/speckit-*/`.
+
+## When to use
+
+Use Spec Kit for **greenfield work, net-new features, or multi-phase builds** where requirements should become executable artifacts before code.
+
+Do **not** force Spec Kit for trivial one-line fixes, typo edits, or tasks the user wants implemented immediately with only `planning.mdc` + `ponytail`.
+
+## Prerequisites
+
+Target code project must have a `.specify/` directory (templates + scripts). If missing:
+
+```powershell
+# from cursor-config-coding
+.\scripts\install-spec-kit.ps1 -Target "D:\path\to\code-repo"
+```
+
+Skills expect PowerShell scripts under `.specify/scripts/powershell/` on Windows.
+
+## Workflow (skills)
+
+Run in order. Invoke by skill name or `/speckit-*`:
+
+| Step | Skill | Purpose |
+|------|-------|---------|
+| 1 | `speckit-constitution` | Project principles / governing guidelines |
+| 2 | `speckit-specify` | What & why — requirements / user stories |
+| 3 | `speckit-clarify` (optional) | De-risk ambiguities before planning |
+| 4 | `speckit-plan` | Tech stack + implementation plan |
+| 5 | `speckit-checklist` (optional) | Quality checklist for requirements |
+| 6 | `speckit-tasks` | Actionable task breakdown |
+| 7 | `speckit-analyze` (optional) | Cross-artifact consistency check |
+| 8 | `speckit-implement` | Execute tasks |
+| 9 | `speckit-converge` | Assess codebase vs artifacts; append remaining work |
+| — | `speckit-taskstoissues` | Convert tasks → GitHub issues |
+
+## Precedence with this config
+
+1. **`ponytail`** still gates every code change (minimal correct diff).
+2. Spec Kit owns the **spec → plan → tasks → implement** artifact chain for feature work.
+3. Existing `planning.mdc` approval gate still applies before non-trivial coding unless the user said skip plan / just do it.
+4. Architecture skills (`frontend-architecture`, etc.) apply when designing within `/speckit-plan` / implement.
+
+## Docs
+
+Full guide: [docs/SPEC_KIT.md](../../docs/SPEC_KIT.md)

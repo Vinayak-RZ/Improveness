@@ -1,0 +1,31 @@
+---
+description: Load and follow all project rules before acting
+alwaysApply: true
+---
+
+# Rule Awareness
+
+Before starting any task in this repository:
+
+1. Read `AGENTS.md` at the project root.
+2. Check `.cursor/rules/` for all project rules.
+3. Always follow rules with `alwaysApply: true` (including `ponytail.mdc`).
+4. **Coding tasks:** read and apply the `ponytail` skill (`.cursor/skills/ponytail/SKILL.md`) **before** any plan that writes code or any file edit.
+5. **Plan mode / any implementation plan:** read and apply the `nawab-plans` skill (`.cursor/skills/nawab-plans/SKILL.md`) **compulsorily** — use `PLAN.template.md`. See `planning.mdc`.
+6. For `alwaysApply: false` rules, include them when the task matches their description:
+   - **Any coding task (write, fix, refactor, add dependency)** → `ponytail` skill first, then execution rules
+   - **Plan mode / drafting IMPLEMENTATION_PLAN** → `nawab-plans` skill (mandatory) + `planning.mdc`
+   - Implementation or file changes → execution rules + ponytail ladder on every edit
+   - Validation, completion, or phase reports → quality-gates + git-commit-discipline rules
+   - Over-engineering review → `ponytail-review` or `ponytail-audit` skills
+   - **Greenfield / new feature / specs-first** → `speckit.mdc` + `speckit-*` skills (after ponytail for code); structure delivery with `nawab-plans`
+   - Research, explain, learning → learn-and-research rule + `learn-while-building` skill
+   - README / onboarding docs → `extensive-readme` skill
+   - UI / React / Next.js files → frontend-architecture rule + skill
+   - API / services / server code → backend-architecture rule + skill
+   - Agents / LLM / MCP / automations → agentic-systems + mcp-architecture rules + skills
+   - Architectural choices → trade-offs rule + system-design-tradeoffs skill
+   - Test files → testing-discipline rule
+   - Auth / API security paths → security-baseline rule
+7. If project rules conflict with a user request, stop and ask which takes priority.
+8. Do not begin implementation until planning and approval requirements are satisfied.

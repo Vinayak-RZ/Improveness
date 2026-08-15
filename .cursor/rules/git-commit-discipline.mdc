@@ -1,0 +1,103 @@
+---
+description: Proactive conventional commits after milestones and push every 10 unpushed commits or when user asks
+alwaysApply: false
+---
+
+# Git commit and push discipline
+
+**Agent commits proactively** after meaningful milestones — do not wait for the user to say "commit".
+
+**Agent pushes** when unpushed commit count reaches **10**, or when the user explicitly asks to push.
+
+## When to commit
+
+Commit after:
+
+- ✅ An **approved implementation phase** completes and validates
+- ✅ A **feature** or user-visible capability is done
+- ✅ A **bug fix** is verified
+- ✅ A **refactor** that preserves behavior is complete
+- ✅ **Docs** tied to shipped work (README, ADR, phase report)
+
+Do **not** commit:
+
+- ❌ Mid-phase WIP with failing tests or broken build
+- ❌ Plan-only changes before user approval (unless docs-only plan)
+- ❌ Files containing secrets — warn user instead
+- ❌ Trivial one-line nits unless bundled with the same milestone commit
+
+## Conventional commit format
+
+```
+type(scope): imperative summary
+
+Optional body: why this change, not a file list.
+```
+
+| Type | Use |
+|------|-----|
+| `feat` | New capability |
+| `fix` | Bug fix |
+| `refactor` | Behavior-preserving restructure |
+| `docs` | Documentation only |
+| `test` | Tests only |
+| `chore` | Tooling, deps, config |
+| `perf` | Performance improvement |
+
+Examples:
+
+```
+feat(billing): add Stripe webhook handler for subscription events
+fix(auth): reject expired refresh tokens before DB lookup
+docs(readme): add architecture diagram and env reference
+```
+
+## Commit workflow
+
+1. Validate the milestone (tests/lint/typecheck as project supports)
+2. Update `PROGRESS.md` and phase report if present
+3. `git status` + `git diff` — review staged scope
+4. Stage relevant files only — no secrets, no unrelated changes
+5. Commit with conventional message
+6. Run **push check** (below)
+7. Report: **hash**, **message**, **unpushed count**, **push result** if pushed
+
+## Push policy
+
+Push after **every commit** when either:
+
+- Unpushed commits on current branch **≥ 10**, or
+- User explicitly says **push** (now or in global rules)
+
+### Push check (run after every commit)
+
+```powershell
+# Commits ahead of upstream (0 if no upstream yet)
+git rev-list --count @{u}..HEAD 2>$null
+# If no upstream, count all commits not on origin/<branch>:
+git rev-list --count origin/<branch>..HEAD 2>$null
+```
+
+| Condition | Action |
+|-----------|--------|
+| Unpushed ≥ 10 | `git push` (use `-u origin <branch>` if no upstream) |
+| User asked to push | `git push` immediately, even if < 10 |
+| Unpushed < 10 | Do not push; tell user count (e.g. "3/10 until auto-push") |
+| No remote | Skip push; tell user to add remote |
+| On `main`/`master` | Push allowed; **never** `--force` without explicit user request |
+
+After push: report remote, branch, and commits pushed.
+
+## Safety
+
+- NEVER update git config
+- NEVER `--no-verify`, force push, or hard reset unless user explicitly requests
+- NEVER force push to `main` or `master`
+- NEVER amend unless user asked and HEAD was not pushed
+- One logical change per commit
+- NEVER commit or push secrets (`.env`, credentials)
+
+## Pair with
+
+- `quality-gates.mdc` — validate before commit
+- `documentation.mdc` — sync docs in same commit when behavior changed

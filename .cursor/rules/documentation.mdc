@@ -1,0 +1,66 @@
+---
+description: Project documentation requirements
+alwaysApply: true
+---
+
+# Documentation Rules
+
+Documentation is a required deliverable.
+
+Documentation must remain synchronized with implementation.
+
+## Required Documents
+
+### PROJECT_OVERVIEW.md
+
+Maintain:
+
+- Project purpose
+- System overview
+- High-level architecture
+- Constraints
+
+### IMPLEMENTATION_PLAN.md
+
+Create after plan approval.
+
+Maintain:
+
+- Approved requirements
+- Architecture decisions
+- Phase breakdown
+- Deliverables
+- Risks
+
+### DECISIONS.md
+
+Maintain continuously.
+
+For every significant decision record:
+
+- Context
+- Alternatives
+- Selected solution
+- Rationale
+
+### PROGRESS.md
+
+Maintain continuously.
+
+Track:
+
+- Current phase
+- Completed phases
+- Remaining phases
+- Active blockers
+
+## Documentation Updates
+
+Documentation must be updated whenever:
+
+- Requirements change
+- Architecture changes
+- Scope changes
+- Major implementation decisions occur
+
+Documentation must reflect current project state.

@@ -1,0 +1,74 @@
+---
+description: Validation, completion, and reporting — apply when validating work, completing a phase, marking tasks done, or generating phase reports
+alwaysApply: false
+---
+
+# Quality Gates
+
+## Phase Completion Reports
+
+At the end of every phase create:
+
+`PHASE_<N>_COMPLETION.md`
+
+Include:
+
+- Completed work
+- Files modified
+- Architectural changes
+- Validation performed
+- Known issues
+- Next phase objectives
+- **What you learned** (2–4 bullets: concepts, patterns, trade-offs)
+
+Phase reports are mandatory.
+
+## Validation Requirements
+
+Before marking work complete, verify:
+
+- Requirements satisfied
+- Planned work completed
+- Edge cases considered
+- Existing functionality preserved
+- Documentation updated
+
+## Progress Tracking
+
+Update `PROGRESS.md` after:
+
+- Phase completion
+- Scope changes
+- Major milestones
+
+Ensure project status remains accurate.
+
+## Completion Criteria
+
+A task is complete only when:
+
+- Implementation completed
+- Validation completed
+- Documentation updated
+- Progress updated
+- Phase report generated (include **What you learned** bullets per `learn-and-research.mdc`)
+- **Conventional commit created** per `git-commit-discipline.mdc` (unless user said no commits this session)
+
+Do not mark work complete before all criteria are satisfied.
+
+## Required Workflow
+
+For every task:
+
+1. Analyze requirements.
+2. Ask clarifying questions.
+3. Create implementation plan.
+4. Obtain approval.
+5. Execute approved phase.
+6. Validate results.
+7. Generate phase report (with learning summary).
+8. Update documentation.
+9. **Create conventional commit** for the phase.
+10. Continue to next phase.
+
+Never skip workflow steps.
