@@ -8,7 +8,12 @@
 
 ## Session / phase entries
 
-## Session / phase entries
+### P2 plan draft — 2026-08-15
+
+- **Concept:** Archive snapshot + `sampleParent` is not yet a search loop; the missing piece is a hard-capped propose → frozen-check → stage cycle that still cannot promote.
+- **Pattern:** Deterministic proposer for CI; live evolver stay skip-gated (`OMP_LIVE_SEARCH`), same as P1 smoke.
+- **Trade-off:** Public TB2 stays P3. A local Harbor-shaped runner reuses `exportHarborTask` without Docker or the public set (P5 leakage).
+- **Files to study:** [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md)
 
 ### Phase A commit 1 — Vendor config — 2026-08-15
 

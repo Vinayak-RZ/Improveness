@@ -2,7 +2,7 @@
 
 ## Current phase
 
-OMP overlay **P1 complete** (20 fixtures, live smoke skip-gate, hidden ModelRoles, TB adapter, archive). Public TB2 and archive-driven search remain deferred.
+OMP overlay **P1 complete**. **P2 plan drafted** at [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md) — awaiting approval. Do not start P2 Phase 0 until approved.
 
 ## Latest
 
@@ -42,7 +42,11 @@ OMP overlay **P1 complete** (20 fixtures, live smoke skip-gate, hidden ModelRole
 
 ## Remaining phases
 
-Public TB2 / Harbor campaign; live smoke as required CI; archive-driven search. Cutover is N/A.
+**P2 (draft, not started):** root `validate.sh` CI; skip-gated live-smoke job; bounded archive search (stage + queue); local Harbor runner.
+
+**P3 (parked):** public TB2 / Harbor campaign; required live-smoke; Spec Kit; catalog ids; search that writes canonical overlay.
+
+Cutover is N/A.
 
 ## Active blockers
 

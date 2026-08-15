@@ -33,8 +33,11 @@ flowchart LR
 - Step 3’s driver should be specified against `createAgentSession`, not the TUI.
 - Step 5 snapshots **project** `.omp/` only, never `oh-my-pi` source.
 
-## P0 vs P1
+## P0 vs P1 vs P2
 
-| P0 (specify now) | P1 (later) |
-|------------------|------------|
-| Steps 0–4 | Step 5; ≥20-case eval suite; Spec Kit constitution; Agent Patterns Catalog ids |
+| Wave | Scope |
+|------|--------|
+| P0 (done) | Steps 0–4 |
+| P1 (done) | Step 5 archive primitive; ≥20-case suite; TB adapter (not public TB2) |
+| P2 (draft) | Improveness CI; bounded archive search; local Harbor runner — [p2-omp-overlay.md](../plans/p2-omp-overlay.md) |
+| P3 (parked) | Public TB2 campaign; Spec Kit constitution; Agent Patterns Catalog ids |

@@ -22,6 +22,8 @@ The in-tree [OMP (Oh My Pi)](https://omp.sh/) source lives at [`oh-my-pi/`](oh-m
 
 Authority: [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) · [PROGRESS.md](PROGRESS.md) · [DECISIONS.md](DECISIONS.md) · [LEARNING.md](LEARNING.md)
 
+P2 draft (not approved): [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md)
+
 ## Vendored Cursor config
 
 The full [Vinayak-RZ/cursor-config-coding](https://github.com/Vinayak-RZ/cursor-config-coding) tree lives at [`vendor/cursor-config-coding/`](vendor/cursor-config-coding/). Project [`.cursor/skills`](.cursor/skills/) and [`.cursor/rules`](.cursor/rules/) are installed from that clone so later agents can load `nawab-plans` locally.

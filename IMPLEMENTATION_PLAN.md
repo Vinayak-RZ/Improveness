@@ -1,5 +1,7 @@
 # Improveness — Master Execution Plan
 
+> P0/P1 execution contract (**complete**). P2 is drafted at [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md) and is **not** a license to implement until approved. After P2 approval, Phase 0 of that plan replaces this file.
+
 > Approved execution contract (copy of the nawab feature-mode plan). This file **is** the license to implement the Improveness overlay at `harness/omp/`. It is **not** a license to patch OMP core, push to `can1357/oh-my-pi`, or auto-apply candidates to built-ins.
 
 > Nawab master plan (feature mode). Skills applied: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit collapsed: no `.specify/` until a later software constitution.
@@ -456,11 +458,16 @@ Do not publish to npm or open an upstream OMP PR in this feature.
 - [x] Terminal-Bench **adapter** (Harbor-shaped local tasks — not a public TB2 run)
 - [x] ≥20-case eval set (12 held-in + 8 held-out)
 
-### Still deferred
+### Still deferred (see P2 draft)
 
-- [ ] Public Terminal-Bench 2 / Harbor campaign
-- [ ] Live smoke required in CI
-- [ ] Archive-driven evolutionary search
+P2 plan (awaiting approval): [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md).
+
+- [ ] Improveness GitHub Actions running `validate.sh` (P2 Phase A)
+- [ ] Skip-gated live-smoke CI job (P2 Phase B — not required without secrets)
+- [ ] Archive-driven evolutionary search, staging + queue only (P2 Phase C)
+- [ ] Local Harbor-shaped runner (P2 Phase D — not a public TB2 campaign)
+- [ ] Public Terminal-Bench 2 / Harbor campaign (P3)
+- [ ] Live smoke required in CI (P3)
 
 ---
 
