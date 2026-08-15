@@ -1,0 +1,6 @@
+{
+  "id": "gitignore-dist",
+  "split": "held-out",
+  "prompt": "Ignore the dist directory in .gitignore.",
+  "check": "check.sh"
+}

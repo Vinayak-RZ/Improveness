@@ -33,6 +33,23 @@ describe("frozen checker", () => {
     expect(scoreWorkspace(fixture, join(fixture, "expected")).passed).toBe(true);
   });
 
+  test("held-out has eight fixtures that are not held-in clones", () => {
+    const { existsSync } = require("node:fs") as typeof import("node:fs");
+    const heldIn = fixtureDirs("held-in");
+    const heldOut = fixtureDirs("held-out");
+    expect(heldOut).toHaveLength(8);
+    expect(heldIn.length + heldOut.length).toBe(20);
+    const overlap = heldOut.filter((id) => heldIn.includes(id));
+    expect(overlap).toEqual([]);
+    for (const id of heldOut) {
+      const dir = join(evals, "held-out", id);
+      expect(existsSync(join(dir, "fixture.json"))).toBe(true);
+      expect(existsSync(join(dir, "check.sh"))).toBe(true);
+      expect(scoreWorkspace(dir, join(dir, "expected")).passed).toBe(true);
+      expect(scoreWorkspace(dir, join(dir, "repo")).passed).toBe(false);
+    }
+  });
+
   test("held-in has twelve fixtures with check.sh and both trees", () => {
     const { existsSync } = require("node:fs") as typeof import("node:fs");
     const ids = fixtureDirs("held-in");

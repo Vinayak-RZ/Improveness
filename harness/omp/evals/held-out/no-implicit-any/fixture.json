@@ -1,0 +1,6 @@
+{
+  "id": "no-implicit-any",
+  "split": "held-out",
+  "prompt": "Enable noImplicitAny in tsconfig.json.",
+  "check": "check.sh"
+}

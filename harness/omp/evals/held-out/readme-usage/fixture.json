@@ -1,0 +1,6 @@
+{
+  "id": "readme-usage",
+  "split": "held-out",
+  "prompt": "Add a Usage H2 section to README.md.",
+  "check": "check.sh"
+}
