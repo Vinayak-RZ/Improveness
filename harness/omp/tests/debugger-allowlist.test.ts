@@ -17,7 +17,7 @@ describe("debugger allowlist", () => {
   test("agent markdown pins read-only tools and smol", () => {
     const body = readFileSync(debuggerMd, "utf8");
     expect(body).toMatch(/^---[\s\S]*tools:\s*read,\s*grep,\s*glob/m);
-    expect(body).toContain("model: \"@smol\"");
+    expect(body).toContain("model: \"@debugger\"");
     expect(body).toMatch(/Denied:.*\b(edit|write|bash)/);
   });
 

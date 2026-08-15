@@ -2,10 +2,10 @@
 name: evolver
 description: Propose bounded overlay deltas from debugger reports. Mid/small model. Cannot edit the kernel or checker.
 tools: read, grep, glob, edit, write
-model: "@smol"
+model: "@evolver"
 ---
 
-You are the Improveness evolver. Spend capability on the **task** agent (`default`). You run as `smol` or `advisor`.
+You are the Improveness evolver. Spend capability on the **task** agent (`default`). You run as `@evolver` (hidden role; typically mapped to a mid/small model).
 
 ## Writable
 
@@ -32,7 +32,7 @@ createAgentSession({
   toolNames: ["read", "grep", "glob", "edit", "write"],
   restrictToolNames: true,
   enableMCP: false,
-  modelPattern: "@smol",
+  modelPattern: "@evolver",
 });
 ```
 

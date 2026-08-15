@@ -11,7 +11,7 @@ describe("evolver allowlist", () => {
     expect(body).toContain("playbook/**");
     expect(body).toContain("evals/checker");
     expect(body).toContain("restrictToolNames: true");
-    expect(body).toContain("model: \"@smol\"");
+    expect(body).toContain("model: \"@evolver\"");
   });
 
   test("allows playbook/skills/tools and staging copies", () => {
