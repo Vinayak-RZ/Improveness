@@ -1,5 +1,5 @@
-# Phase E — parked (P1)
+# Phase E — unparked
 
-DGM-lite archive of **project** `.omp/` only. Not started in this wave.
+The DGM-lite archive primitive is implemented at [archive/](archive/) and [drivers/archive.ts](drivers/archive.ts).
 
-Do not archive `system-prompt.md`, `system-prompt.ts`, or `evals/checker/`. Do not start evolutionary search until fitness is cheap and objective (D5).
+Still **not** started: an automatic evolutionary search that mutates the archive. Fitness remains the frozen checker. Kernel paths stay out of snapshots.

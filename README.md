@@ -14,6 +14,8 @@ The in-tree [OMP (Oh My Pi)](https://omp.sh/) source lives at [`oh-my-pi/`](oh-m
 | [docs/proposals/01-generic-harness.md](docs/proposals/01-generic-harness.md) | Any harness |
 | [harness/omp/SURFACES.md](harness/omp/SURFACES.md) | Editable vs frozen paths |
 | [harness/omp/KERNEL.md](harness/omp/KERNEL.md) | Evolver-forbidden kernel |
+| [harness/omp/evals/tb-adapter/README.md](harness/omp/evals/tb-adapter/README.md) | Harbor-shaped tasks (not public TB2) |
+| [harness/omp/archive/README.md](harness/omp/archive/README.md) | DGM-lite overlay snapshots |
 | [docs/proposals/03-omp-proposed-changes.md](docs/proposals/03-omp-proposed-changes.md) | OMP change list (P1–P7) |
 | [docs/proposals/04-safety.md](docs/proposals/04-safety.md) | Evaluator outside the loop |
 | [docs/references.md](docs/references.md) | Papers and product docs |

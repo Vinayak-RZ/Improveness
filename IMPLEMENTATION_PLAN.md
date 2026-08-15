@@ -448,13 +448,19 @@ Do not publish to npm or open an upstream OMP PR in this feature.
 - [ ] PROGRESS.md reflects 0–D + N complete; Phase E parked
 - [ ] PR #1 updated with gate evidence
 
-### P1 (defer ok)
+### P1 (this wave — done)
 
-- [ ] Live `createAgentSession` smoke
-- [ ] `debugger` / `evolver` first-class `ModelRole` values
-- [ ] Phase E project-`.omp/` archive
-- [ ] Terminal-Bench
-- [ ] ≥20-case eval set
+- [x] Live `createAgentSession` smoke (skip without `OMP_LIVE_SMOKE=1` + keys)
+- [x] `debugger` / `evolver` first-class `ModelRole` values (hidden; D10)
+- [x] Phase E project-`.omp/` archive (snapshot + parent sampling; no mutate loop)
+- [x] Terminal-Bench **adapter** (Harbor-shaped local tasks — not a public TB2 run)
+- [x] ≥20-case eval set (12 held-in + 8 held-out)
+
+### Still deferred
+
+- [ ] Public Terminal-Bench 2 / Harbor campaign
+- [ ] Live smoke required in CI
+- [ ] Archive-driven evolutionary search
 
 ---
 

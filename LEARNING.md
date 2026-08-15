@@ -41,6 +41,14 @@
 - **Pattern:** README points at overview, index, architecture, generic spec, OMP list, safety.
 - **Trade-off:** No CI workflow invented; validation is a local file/link gate.
 
+### Overlay P1 — Eval20 / smoke / roles / TB / archive — 2026-08-15
+
+- **Concept:** Cheap objective fitness (`check.sh`) is what unblocks a DGM-lite archive; public TB2 is not required to start snapshotting.
+- **Pattern:** 12/8 held-in/held-out split; Harbor-shaped export is an adapter, not a score; live SDK is injected and skipped without keys; `@debugger`/`@evolver` are hidden first-class roles (D10).
+- **Trade-off:** First core patch (role union only) vs config-only custom roles. Chosen so overlay frontmatter can pin aliases without a TUI change.
+- **S2:** New fixtures use fake `sk-` only in held-out *failing* repos. Archive calls `isKernelRel` before copy.
+- **Files to study:** `harness/omp/drivers/archive.ts`, `oh-my-pi/packages/coding-agent/src/config/model-roles.ts`
+
 ### Overlay Phase A — ACE playbook — 2026-08-15
 
 - **Concept:** ACE merge must be deterministic; an LLM curator can collapse the playbook into slogans.
