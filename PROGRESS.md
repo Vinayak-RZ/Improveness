@@ -2,18 +2,19 @@
 
 ## Current phase
 
-OMP overlay **P1 complete**. **P2 plan drafted** at [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md) — awaiting approval. Do not start P2 Phase 0 until approved.
+OMP overlay **P2 Phase 0 complete** (contract adopted, D11/D12 recorded). Stop for the Phase 0 human checkpoint before Phase A (root `validate.sh` CI).
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| 12 held-in + 8 held-out fixtures | done |
-| Live `createAgentSession` smoke (skip without keys) | done |
-| Hidden `@debugger` / `@evolver` roles (D10) | done |
-| Harbor-shaped TB adapter | done (not public TB2) |
-| Overlay archive + parent sampling | done |
-| `validate.sh` | done (41 tests) |
+| P2 nawab contract in `IMPLEMENTATION_PLAN.md` | done |
+| D11 P2 vs P3 split | done |
+| D12 search stages, never promotes | done |
+| Root GitHub Actions `overlay.yml` | not started (Phase A) |
+| Skip-gated live-smoke CI job | not started (Phase B) |
+| Archive-driven search | not started (Phase C) |
+| Local Harbor runner | not started (Phase D) |
 
 ## Completed phases
 
@@ -38,11 +39,22 @@ OMP overlay **P1 complete**. **P2 plan drafted** at [docs/plans/p2-omp-overlay.m
 | C | ModelRole debugger/evolver | done |
 | D | TB adapter | done |
 | E | Archive primitive | done |
-| N | validate.sh + docs | done (this commit) |
+| N | validate.sh + docs | done |
+
+### Overlay P2
+
+| Phase | Objective | Status |
+|-------|-----------|--------|
+| 0 | Adopt P2 contract + D11/D12 | done (this commit) |
+| A | Root validate.sh CI | pending |
+| B | Optional live-smoke job | pending |
+| C | Bounded archive search | pending |
+| D | Local Harbor runner | pending |
+| N | validate.sh greps + docs | pending |
 
 ## Remaining phases
 
-**P2 (draft, not started):** root `validate.sh` CI; skip-gated live-smoke job; bounded archive search (stage + queue); local Harbor runner.
+**P2 next:** Phase A — `.github/workflows/overlay.yml` runs `harness/omp/scripts/validate.sh` with Bun 1.3.14. Do not start until the Phase 0 checkpoint is cleared.
 
 **P3 (parked):** public TB2 / Harbor campaign; required live-smoke; Spec Kit; catalog ids; search that writes canonical overlay.
 
@@ -50,14 +62,13 @@ Cutover is N/A.
 
 ## Active blockers
 
-None.
+Phase 0 human checkpoint (P2 vs P3 split freeze). No other blockers.
 
 ## Gate evidence
 
 ```text
-harness/omp/scripts/validate.sh
-# bun test harness/omp/tests/  →  41 pass
-# fixture.json count >= 20
-# tb-adapter/README.md present
-# archive.ts calls isKernelRel
+Phase 0
+# IMPLEMENTATION_PLAN.md is the P2 contract
+# DECISIONS.md has D11 and D12
+# §1 non-goals include no public TB2 and no auto-promote
 ```

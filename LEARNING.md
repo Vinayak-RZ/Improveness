@@ -8,6 +8,13 @@
 
 ## Session / phase entries
 
+### P2 Phase 0 — Adopt contract — 2026-08-15
+
+- **Concept:** Approval turns the draft nawab file into `IMPLEMENTATION_PLAN.md`; ADRs (D11/D12) freeze the P2 vs P3 split before CI or search code exists.
+- **Pattern:** Snapshot stays at `docs/plans/p2-omp-overlay.md`; the root plan is the live contract.
+- **Trade-off:** Stop after Phase 0 so the P2/P3 split can be frozen before adding `.github/workflows`.
+- **Files to study:** `IMPLEMENTATION_PLAN.md`, `DECISIONS.md` D11/D12
+
 ### P2 plan draft — 2026-08-15
 
 - **Concept:** Archive snapshot + `sampleParent` is not yet a search loop; the missing piece is a hard-capped propose → frozen-check → stage cycle that still cannot promote.

@@ -39,5 +39,5 @@ flowchart LR
 |------|--------|
 | P0 (done) | Steps 0–4 |
 | P1 (done) | Step 5 archive primitive; ≥20-case suite; TB adapter (not public TB2) |
-| P2 (draft) | Improveness CI; bounded archive search; local Harbor runner — [p2-omp-overlay.md](../plans/p2-omp-overlay.md) |
+| P2 (approved; Phase 0 done) | Improveness CI; bounded archive search; local Harbor runner — [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) |
 | P3 (parked) | Public TB2 campaign; Spec Kit constitution; Agent Patterns Catalog ids |

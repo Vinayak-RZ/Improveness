@@ -1,34 +1,34 @@
-# Improveness — Master Execution Plan
+# Improveness — Master Execution Plan (P2)
 
-> P0/P1 execution contract (**complete**). P2 is drafted at [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md) and is **not** a license to implement until approved. After P2 approval, Phase 0 of that plan replaces this file.
+> Approved execution contract (nawab feature mode). This file **is** the license to implement P2 of the Improveness overlay at `harness/omp/`. It is **not** a license to patch OMP core, push to `can1357/oh-my-pi`, auto-apply candidates to built-ins, or run public Terminal-Bench 2.
 
-> Approved execution contract (copy of the nawab feature-mode plan). This file **is** the license to implement the Improveness overlay at `harness/omp/`. It is **not** a license to patch OMP core, push to `can1357/oh-my-pi`, or auto-apply candidates to built-ins.
+> Snapshot of the approved draft: [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md). Edit **this** file when the contract changes.
 
-> Nawab master plan (feature mode). Skills applied: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit collapsed: no `.specify/` until a later software constitution.
+> Nawab master plan (feature mode). Skills applied: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit still collapsed: no `.specify/` in P2.
 
-> Do not edit the Cursor plan file. Update this copy when the contract changes.
+> Do not edit Cursor plan files. Do not start DGM/AlphaEvolve/SIA weight updates. Do not treat public Terminal-Bench 2 as evolver fitness.
 
-# OMP self-improvement — Master Execution Plan
-
-> Nawab master plan (feature mode). Skills applied this revision: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit collapsed: no `.specify/` until a later software constitution.
-
-This document is the **entire execution contract**. After approval, implement **one phase at a time** per §18. Do not treat the earlier sectioned outline as authority; this file supersedes it.
-
-Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul 2026)](https://lilianweng.github.io/posts/2026-07-04-harness/). Seed harness: in-tree [oh-my-pi/](oh-my-pi/).
+Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul 2026)](https://lilianweng.github.io/posts/2026-07-04-harness/). Seed harness: in-tree [oh-my-pi/](oh-my-pi/). Overlay: [harness/omp/](harness/omp/).
 
 ---
 
 ## §0 Plan metadata
 
-- **Mode:** feature (major addition to Improveness; OMP is vendored, not a second git root)
-- **Stack:** Improveness overlay = TypeScript/Bun drivers + Markdown `.omp/` artifacts. Vendored OMP = Bun monorepo (`@oh-my-pi/pi-coding-agent` 17.3.4). Tests for new code: `bun test` under `harness/omp/`.
+- **Mode:** feature (major addition to the existing Improveness overlay; OMP stays vendored)
+- **Stack:** TypeScript/Bun drivers + Markdown `.omp/` artifacts + root GitHub Actions. Vendored OMP = Bun monorepo (`bun@1.3.14`). Tests: `bun test` under `harness/omp/`.
 - **Base branch:** `main`
-- **Branch strategy:** single feature branch `cursor/harness-research-docs-4005` (already open as PR #1)
-- **Authority docs:** [docs/proposals/00-architecture.md](docs/proposals/00-architecture.md), [01-generic-harness.md](docs/proposals/01-generic-harness.md), [02-omp-gap-analysis.md](docs/proposals/02-omp-gap-analysis.md), [03-omp-proposed-changes.md](docs/proposals/03-omp-proposed-changes.md), [04-safety.md](docs/proposals/04-safety.md), [05-adoption-order.md](docs/proposals/05-adoption-order.md); [DECISIONS.md](DECISIONS.md) D5–D8; [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907)
-- **Estimated commits:** **13** (major-backend class 10–15; not padded to 18+)
-- **Lead agent role:** orchestrate, commit, push, update PR #1, integrate subagent output, run gates
+- **Branch strategy:** continue `cursor/harness-research-docs-4005` (open as [PR #2](https://github.com/Vinayak-RZ/Improveness/pull/2)) unless a reviewer asks for a new `cursor/p2-omp-overlay-4005` after P1 merges
+- **Authority docs:** [docs/proposals/00–05](docs/proposals/00-architecture.md); [DECISIONS.md](DECISIONS.md) D5–D12; [KERNEL.md](harness/omp/KERNEL.md); [SURFACES.md](harness/omp/SURFACES.md); [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907)
+- **Estimated commits:** **11** (major-backend class 10–15; not padded)
+- **Lead agent role:** orchestrate, commit, push, update PR #2, integrate subagent output, run gates
 
-**Hard scope shift vs prior contract:** [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) still says “docs and proposals only.” Phase 0 commit 1 **replaces** that file with this nawab contract and records **D9** (overlay-first implementation).
+**Hard scope vs P1 leftovers:** P1 deferred three items. P2 implements **two and a half**:
+
+| P1 leftover | P2 treatment |
+|-------------|--------------|
+| Live smoke required in CI | **Required job** = `validate.sh`. Live smoke is an **optional** job that skips without repo secrets (does not fail PRs/forks) |
+| Archive-driven evolutionary search | **In scope** — bounded loop; staging + archive + queue only |
+| Public Terminal-Bench 2 / Harbor campaign | **Out of scope (P3)** — P2 adds a **local** runner for already-shaped `tb-adapter` tasks |
 
 ---
 
@@ -36,62 +36,71 @@ Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul
 
 ### Objective
 
-A maintainer-gated self-improvement loop on in-tree Oh My Pi: ACE playbook, miner-ready traces, debugger, held-in/held-out Self-Harness, and AHE manifests — without rewriting `SYSTEM.md` or auto-applying candidates to OMP built-ins.
+A maintainer can run the P0/P1 overlay gate in GitHub Actions, and a bounded archive-driven search can propose overlay edits that land in `staging/` + `archive/` + `REVIEW_QUEUE.md` — never as auto-applied authority, never against public TB2.
 
 ### Deliverables
 
-- `harness/omp/` — Improveness-owned overlay, drivers, evals, staging, review queue
-- `oh-my-pi/.omp/` — install/symlink of the overlay for local runs (not a second source of truth)
-- Drivers using [oh-my-pi/packages/coding-agent/src/sdk.ts](oh-my-pi/packages/coding-agent/src/sdk.ts) `createAgentSession`
-- Frozen checker the evolver cannot write
-- Tests + `harness/omp/scripts/validate.sh`
-- Updated `IMPLEMENTATION_PLAN.md`, `PROGRESS.md`, `DECISIONS.md` (D9+), `LEARNING.md`
+- `.github/workflows/overlay.yml` — Improveness-owned; runs `harness/omp/scripts/validate.sh` with Bun 1.3.14
+- Optional live-smoke workflow job (skip / no-op without secrets)
+- `harness/omp/drivers/search.ts` — `sampleParent` → propose → frozen checker → `decideAccept` → stage → snapshot → queue
+- Deterministic proposer used by tests and `validate.sh` (no LLM)
+- Optional live evolver behind `OMP_LIVE_SEARCH=1` (same skip pattern as smoke)
+- `harness/omp/drivers/run-tb-local.ts` — execute Harbor-shaped local tasks; do not pull the public TB2 set
+- KERNEL / SURFACES / archive README updated for the search loop
+- `validate.sh` extended; PROGRESS / LEARNING / D11–D12
 
 ### Non-goals
 
+- No public Terminal-Bench 2 dataset, Harbor cloud campaign, or Docker Harbor install
+- No treating TB2 items as evolver fitness (proposal P5)
+- No auto-promote from staging → `overlay/.omp/` or `oh-my-pi/packages/`
+- No Spec Kit `.specify/`
+- No Agent Patterns Catalog ids
 - No PR or push to `can1357/oh-my-pi`
-- No edits to [oh-my-pi/packages/coding-agent/src/prompts/system/system.md](oh-my-pi/packages/coding-agent/src/prompts/system/system.md) as an improvement surface
-- No auto-apply to canonical `oh-my-pi/packages/coding-agent/src/tools/*.ts`
-- No DGM / AlphaEvolve / SIA / weight updates in P0
-- No Terminal-Bench / SWE-bench reproduction
-- No reimplementation of existing `learn`, memory, autolearn, or skills
-- No Spec Kit `.specify/` in this feature
-- No rewriting Rust / hashline / LSP / DAP
+- No edits to `system-prompt.md` / `system-prompt.ts` as an improvement surface
+- No DGM/AlphaEvolve/SIA/weight updates as the product
+- No making live LLM calls a required CI gate
+- No rewriting `learn` / memory / autolearn / skills
+- No second core `ModelRole` patch unless a P2 gate fails (D9)
 
 ### Priority
 
-- **P0:** Phases 0, A, B, C, D, N (surfaces → ACE → traces/debugger → Self-Harness → manifests → hardening)
-- **P1:** Phase E archive; live-LLM evals; `modelRoles.debugger` core enum; Terminal-Bench; ≥20-case suite
+- **P2 (this wave):** Phases 0, A, B, C, D, N
+- **P3 (parked):** public TB2/Harbor campaign; required live-smoke; Spec Kit; catalog ids; search that writes the canonical overlay
 
 ---
 
 ## §2 Prerequisites & blockers
 
-- **In-tree OMP at `oh-my-pi/` (nested git removed)** — status: done — blocks: all — resolution: D8
-- **Proposals P1–P7 written** — status: done — blocks: Phase 0 mapping — resolution: [03-omp-proposed-changes.md](docs/proposals/03-omp-proposed-changes.md)
-- **User approves this nawab plan** — status: pending — blocks: Phase 0 execution — resolution: approval of this document
-- **Bun available for drivers/tests** — status: pending (verify at Phase A start) — blocks: Phase A commit 3 — workaround: if Bun missing, install via OMP `packageManager` pin `bun@1.3.14`; do not start Phase A until `bun --version` works
-- **LLM API keys for live `createAgentSession`** — status: optional — blocks: none of P0 — workaround: P0 gates use golden jsonl + deterministic curator/checker; live SDK runs are P1
-- **OMP OAuth env placeholders** — status: done — blocks: none — do not restore hardcoded client secrets
-- **Spec Kit project** — status: N/A — blocks: nothing
+| Item | Status | Blocks | Resolution |
+|------|--------|--------|------------|
+| P0 + P1 overlay complete (`validate.sh` 41 tests, 20 fixtures, archive primitive, TB adapter, hidden roles) | done | all P2 phases | [PROGRESS.md](PROGRESS.md) |
+| User approves this nawab plan | done (2026-08-15) | Phase 0 | approval recorded; Phase 0 is this commit |
+| Bun 1.3.14 for drivers/tests | done in prior wave | Phase A locally | re-verify at Phase A start |
+| GitHub Actions on Improveness root | missing (only under `oh-my-pi/.github/`) | Phase A | add root workflow; do **not** reuse OMP `coding-agent-heavy` |
+| LLM API keys | optional | none of required P2 gates | live smoke / live search skip without keys |
+| Harbor CLI / Docker / TB2 dataset | N/A | nothing | P2 runner is local bash + frozen checker |
+| Spec Kit project | N/A | nothing | still collapsed |
 
-**Hard rule:** no execution phase starts while “user approves this plan” is pending. Phase A does not start if Bun is missing.
+**Hard rule:** Phase A does not start until the Phase 0 human checkpoint is cleared. Later phases stay sequential per §7.
 
 ---
 
 ## §3 Authority & artifact map
 
-- **Weng survey** — external URL — read-only research truth
-- **Proposals 00–05** — `docs/proposals/` — read-only product spec (P1–P7, C1–C8, adoption 0–5)
-- **This plan** — Cursor plan file — execution contract (writable only on plan revision)
-- **IMPLEMENTATION_PLAN.md** — repo root — copy of this contract after Phase 0 commit 1
-- **PROGRESS.md / DECISIONS.md / LEARNING.md** — repo root — live status, ADRs, phase learnings
-- **KERNEL.md / SURFACES.md** — `harness/omp/` after Phase 0 — writable by lead only; evolver-forbidden
-- **OMP source** — `oh-my-pi/packages/` — read-only unless a §9 WS-B row is opened
-- **Coding config / nawab skill** — `.cursor/skills/nawab-plans/` — read-only process authority
-- **Spec Kit** — `.specify/` — N/A
+| Document | Path | Role |
+|----------|------|------|
+| This plan | `IMPLEMENTATION_PLAN.md` | Live P2 execution contract |
+| P2 snapshot | `docs/plans/p2-omp-overlay.md` | Approved draft; do not treat as live if this file differs |
+| KERNEL / SURFACES | `harness/omp/` | Writable by lead only; evolver-forbidden |
+| Archive primitive | `harness/omp/drivers/archive.ts` | Read + extend; do not drop `isKernelRel` |
+| Self-Harness | `harness/omp/drivers/self-harness.ts` | Reuse `decideAccept` / `stageCandidate` |
+| TB adapter | `harness/omp/evals/tb-adapter/` | Local Harbor shape only |
+| OMP source | `oh-my-pi/packages/` | Read-only unless a §9 WS-B row is opened |
+| OMP workflows | `oh-my-pi/.github/workflows/` | Do not adopt as Improveness gate |
+| Spec Kit | `.specify/` | N/A |
 
-Subagents: all authority docs **read-only**. Writable paths unless a spawn says otherwise: `harness/omp/**`, root authority markdown listed above. `oh-my-pi/packages/**` is **read-only** until lead opens a WS-B commit row.
+Subagents: all authority docs **read-only**. Writable paths unless a spawn says otherwise: `harness/omp/**`, `.github/workflows/overlay.yml`, root authority markdown listed in §12. `oh-my-pi/packages/**` is **read-only**.
 
 ---
 
@@ -99,134 +108,141 @@ Subagents: all authority docs **read-only**. Writable paths unless a spawn says 
 
 ```mermaid
 flowchart TD
-  task[TaskAgent_default] --> sessionJsonl[OMP_session_jsonl]
-  sessionJsonl --> exporter[export-session]
-  exporter --> traces[harness_omp_traces]
-  traces --> debugger[DebuggerAgent_smol]
-  debugger --> diagnosis[diagnosis_md]
-  diagnosis --> evolver[EvolverAgent_smol]
-  playbook[PLAYBOOK_md] --> curator[curate-playbook]
-  curator --> playbook
-  playbook --> task
-  evolver --> staging[harness_omp_staging]
-  staging --> checker[FrozenChecker]
+  ci[GitHubActions_overlay_yml] --> validate[validate_sh]
+  validate --> unit[bun_test_harness_omp]
+  ci -.-> smoke[optional_live_smoke]
+  archive[(archive_snapshots)] --> sample[sampleParent]
+  sample --> propose[Proposer_deterministic_or_live]
+  propose --> checker[FrozenChecker]
   heldIn[held_in] --> checker
   heldOut[held_out] --> checker
-  checker -->|accept| manifest[CandidateManifest]
-  checker -->|reject| rejectLog[RejectedEditLog]
+  checker --> decide[decideAccept]
+  decide -->|accept| staging[harness_omp_staging]
+  staging --> manifest[CandidateManifest]
   manifest --> queue[REVIEW_QUEUE]
+  staging --> snap[snapshotOverlay]
+  snap --> archive
+  decide -->|reject| rejectLog[RejectedEditLog]
   human[Maintainer] --> queue
   human -->|promote| overlay[project_dot_omp]
+  tbLocal[run_tb_local] --> adapter[tb_adapter_or_export]
+  adapter --> checker
 ```
 
-### Target layout
+### Target layout (additions only)
 
 ```text
+.github/workflows/overlay.yml          # NEW — Improveness gate
 harness/omp/
-  SURFACES.md
-  KERNEL.md
-  REVIEW_QUEUE.md
-  overlay/.omp/
-    README.md
-    AGENTS.md                 # lists PLAYBOOK.md as context
-    playbook/PLAYBOOK.md
-    playbook/curator.md
-    agents/debugger.md
-    agents/evolver.md
-    hooks/                    # optional pre-hook excerpt
-    skills/                   # evolver-writable later
-    tools/                    # project tools only
-    manifests/
   drivers/
-    curate-playbook.ts
-    export-session.ts
-    run-eval.ts
-    self-harness.ts
-    apply-candidate.ts
-    rollback-candidate.ts
-  evals/
-    checker/                  # KERNEL — evolver cannot write
-    held-in/
-    held-out/
-    fixtures/                 # golden jsonl
-  staging/
-  traces/
-  scripts/validate.sh
+    search.ts                          # NEW — bounded archive loop
+    propose.ts                         # NEW — deterministic + optional live
+    run-tb-local.ts                    # NEW — local Harbor-shaped runner
+    archive.ts                         # existing — keep isKernelRel
+    self-harness.ts                    # existing — reuse decide/stage
   tests/
-oh-my-pi/                     # vendored; WS-B only if overlay fails
+    search.test.ts                     # NEW
+    run-tb-local.test.ts               # NEW
+  archive/README.md                    # UPDATE — loop exists; promote is human
+  PHASE_E_PARKED.md                    # UPDATE or retire after Phase C
 ```
 
-Install: symlink or copy `harness/omp/overlay/.omp/` → `oh-my-pi/.omp/` when running locally. Drivers always read/write `harness/omp/`, never `~/.omp/agent/` as source of truth (they may *read* a jsonl path the user points at).
+### Search loop (normative)
+
+```text
+runSearch({ repoRoot, stepCap, proposer }):
+  if stepCap < 1 or stepCap > MAX_STEP_CAP (8): throw
+  for i in 1..stepCap:
+    parentId = sampleParent(listArchive(repoRoot))
+    work = restoreParentToWorktree(parentId)   # never writes KERNEL / checker / oh-my-pi/packages
+    files = proposer.propose({
+      parent: work,
+      heldInOnly: true,                 # must not read held-out traces or prompts
+      writeCheck: assertEvolverWrite
+    })
+    before/after = frozen checker on held-in + held-out
+    decision = decideAccept(...)
+    log round (parentId, decision, scores)     # keep rejects (safety rule 4)
+    if decision == accept:
+      stageCandidate(files)                    # staging/ only
+      writeManifest + REVIEW_QUEUE row
+      snapshotOverlay({ parentId, fitness: heldOut.passed / heldOut.total })
+    # never applyCandidate onto overlay/.omp or oh-my-pi
+  stop
+```
+
+Default `stepCap = 3`. Hard max `8`. Exceeding the cap throws; it does not keep going.
+
+**Deterministic proposer (required for CI):** applies a known playbook/skill/tool delta from a fixture. No `createAgentSession`. This is the P2 gate.
+
+**Live proposer (optional):** `createAgentSession` with `@evolver`, `restrictToolNames`, `assertEvolverWrite` on every path. Behind `OMP_LIVE_SEARCH=1` + credentials. Not a `validate.sh` blocker.
 
 ### Trust boundaries
 
-- **Kernel (evolver cannot write):** `evals/checker/**`, `SURFACES.md`, `KERNEL.md`, `system.md`, `system-prompt.ts`, `tools/approval.ts`, `config/model-roles.ts`, `session/role-models.ts`, model-role config, this plan
-- **Editable surfaces (after Phase C):** `overlay/.omp/playbook/**`, `overlay/.omp/skills/**`, `overlay/.omp/tools/**`, staging copies of those
-- **Secrets:** stay in env (existing `OMP_*` OAuth placeholders). Curator rejects secret-shaped strings
-- **Human promote:** only path from staging → project `.omp/` or any OMP package file
+Unchanged from KERNEL, plus:
+
+- Search driver is a **maintainer tool**. It may write `staging/`, `archive/<id>/`, `REVIEW_QUEUE.md`, and manifests. It may **not** write `evals/checker/`, `KERNEL.md`, `SURFACES.md`, `validate.sh`, `system-prompt.md`/`.ts`, `oh-my-pi/packages/`, or `.github/workflows/`.
+- Proposer never sees held-out fixture prompts, traces, or `expected/`.
+- Fitness is the frozen checker only — not an LLM judge, not public TB2.
+- Human promote remains the only path onto `overlay/.omp/` (D7, D12).
 
 ### Core patch rule
 
-Touch `oh-my-pi/packages/coding-agent/` only if a phase exit gate cannot be met from overlay + SDK + existing session jsonl. Candidate triggers (open WS-B, do not pre-schedule):
-
-- Schema rejects unknown `modelRoles.debugger` — [model-roles.ts](oh-my-pi/packages/coding-agent/src/config/model-roles.ts), [settings-schema.ts](oh-my-pi/packages/coding-agent/src/config/settings-schema.ts) — Phase B
-- Evolver path allowlist too coarse — [approval.ts](oh-my-pi/packages/coding-agent/src/tools/approval.ts) or SDK wrapper — Phase C
-- Jsonl missing tool I/O — [session-persistence.ts](oh-my-pi/packages/coding-agent/src/session/session-persistence.ts) — Phase B or D
-
-Until one fails: **zero core patches**.
+Same as D9. P2 has **no pre-scheduled WS-B row**. Candidate trigger: live proposer cannot be constrained without an SDK path allowlist. Until that fails: zero core patches.
 
 ---
 
 ## §5 Workstreams
 
-- **WS-A OverlayLoop** — owns `harness/omp/**` and root authority markdown — depends on plan approval + Bun — lead
-- **WS-B CorePatch** — owns named files under `oh-my-pi/packages/coding-agent/` — depends on a failed WS-A gate written into DECISIONS — lead only; no parallel writer
+- **WS-A OverlayLoop** — owns `harness/omp/**` and root authority markdown — depends on plan approval — lead
+- **WS-C CI** — owns `.github/workflows/overlay.yml` only — depends on Phase 0 — lead; no parallel writer on that file
+- **WS-B CorePatch** — N/A unless a WS-A gate fails — lead only
+
+### WS-C — CI
+
+- **Objective:** Improveness PRs run the overlay gate without OMP’s heavy suite
+- **Phases:** A, B
+- **Integration:** workflow calls `harness/omp/scripts/validate.sh`; does not `bun test` inside `oh-my-pi/`
 
 ### WS-A — OverlayLoop
 
-- **Objective:** Ship the self-improvement loop outside OMP core
-- **Phases:** 0, A, B, C, D, N
-- **Integration:** symlink overlay into `oh-my-pi/.omp/` at Phase A gate; drivers remain in `harness/omp/drivers/`
-
-### WS-B — CorePatch
-
-- **Objective:** Minimal OMP source change only after a documented overlay failure
-- **Phases:** opened ad hoc inside B or C
-- **Integration:** same branch; one revertible commit; still no `system.md` edits
+- **Objective:** Bounded archive search + local TB runner
+- **Phases:** 0, C, D, N
+- **Integration:** search reuses archive + Self-Harness; runner reuses `exportHarborTask` + frozen checker
 
 ---
 
 ## §6 Agent orchestration & subagent spawn map
 
-- **S1** — trigger: Phase B start — type: `explore` — readonly: true — task: confirm jsonl fields in [session-persistence.ts](oh-my-pi/packages/coding-agent/src/session/session-persistence.ts) / [turn-persistence.ts](oh-my-pi/packages/coding-agent/src/session/turn-persistence.ts) are enough for `meta.json`, turns, tool I/O, outcome — sync: before commit 5 — gate: written field list in LEARNING.md
-- **S2** — trigger: Phase C start — type: `explore` — readonly: true — task: map `createAgentSession` options for `restrictToolNames`, tool allowlist, custom agents from `.omp/agents` — sync: before commit 8 — gate: option list in LEARNING.md
-- **S3** — trigger: Phase N — type: `security-review` — readonly: true — task: branch diff; kernel not writable; no secrets in playbook/traces — sync: before Phase N gate — gate: findings fixed or accepted in DECISIONS
-- **S4** — trigger: Phase N — type: `bugbot` — readonly: true — task: review overlay/driver diff — sync: before validate.sh — optional if lead already reviewed
+- **S1** — trigger: Phase A start — type: `explore` — readonly: true — task: confirm there is no root Improveness workflow yet; list what Bun setup action to use (`oven-sh/setup-bun@v2`, bun 1.3.14); confirm we must not trigger `oh-my-pi/.github/workflows/ci.yml` from the overlay workflow — sync: before commit 2 — gate: notes in LEARNING.md
+- **S2** — trigger: Phase C start — type: `explore` — readonly: true — task: list existing exports from `archive.ts`, `self-harness.ts`, `allowlist.ts`, `manifest.ts` that search.ts must reuse (do not fork `decideAccept`) — sync: before commit 5 — gate: reuse list in LEARNING.md
+- **S3** — trigger: Phase N — type: `security-review` — readonly: true — task: branch diff; search cannot write kernel; workflow does not echo secrets; no TB2 download URL — sync: before Phase N gate
+- **S4** — trigger: Phase N — type: `bugbot` — readonly: true — optional if lead already reviewed
 
-**Parallel limit:** 2. S1 and S2 are sequential (different phases). S3 and S4 may run together in Phase N.
+**Parallel limit:** 2. S1 and S2 are sequential. S3 and S4 may run together in Phase N.
 
 **File ownership:** lead is the only writer. Subagents do not commit.
 
-### Spawn S1 — jsonl completeness
+### Spawn S1 — CI surface
 
 ```text
 Full Repository Path: /workspace
-Workstream: WS-A
-Task: List session jsonl event types and whether tool input/output and verifier-like outcome exist
-Authority: docs/proposals/03-omp-proposed-changes.md P1; this plan §4
-Return: bullet list of fields + gap vs traces/meta.json,turns,tool_calls.jsonl,outcome.json
-Do NOT: edit files, propose SYSTEM.md changes, expand to TUI
+Workstream: WS-C
+Task: Confirm Improveness has no root .github/workflows. Recommend a minimal Bun 1.3.14 + validate.sh workflow. State why oh-my-pi CI must not be the overlay gate.
+Authority: this plan §4 / §10; oh-my-pi/.github/workflows/ci.yml
+Return: recommended action versions + job split (required vs optional smoke)
+Do NOT: edit files, add OMP coding-agent-heavy jobs
 ```
 
-### Spawn S2 — SDK allowlist
+### Spawn S2 — search reuse
 
 ```text
 Full Repository Path: /workspace
 Workstream: WS-A
-Task: How to run createAgentSession with a project agent markdown and a restricted tool/path set
-Authority: this plan §4 trust boundaries; oh-my-pi/packages/coding-agent/src/sdk.ts
-Return: exact option names, example call shape, what cannot be restricted without a core patch
-Do NOT: edit files
+Task: Name the functions search.ts must import from archive.ts, self-harness.ts, allowlist.ts, run-eval.ts, manifest.ts
+Authority: this plan §4 search loop; KERNEL.md
+Return: import list + any missing helper (e.g. listArchive) that commit 5 must add
+Do NOT: edit files, propose auto-apply
 ```
 
 ---
@@ -235,25 +251,23 @@ Do NOT: edit files
 
 ```mermaid
 flowchart LR
-  P0[Phase_0_Surfaces] --> PA[Phase_A_ACE]
-  PA --> PB[Phase_B_Traces]
-  PB --> PC[Phase_C_SelfHarness]
-  PC --> PD[Phase_D_Manifests]
+  P0[Phase_0_Contract] --> PA[Phase_A_CI_validate]
+  PA --> PB[Phase_B_optional_smoke]
+  PB --> PC[Phase_C_archive_search]
+  PC --> PD[Phase_D_local_Harbor]
   PD --> PN[Phase_N_Hardening]
-  PN --> CO[Cutover_N_A]
-  PE[Phase_E_Archive_P1]
+  PN --> P3[P3_parked]
 ```
 
-- **Phase 0 Surfaces** — WS-A — commits 1 — depends on plan approval — exit: reviewer can answer “what may the evolver touch?” from KERNEL.md + SURFACES.md; every P-item maps to a surface or “core later”
-- **Phase A ACE** — WS-A — commits 2–4 — depends on 0 + Bun — exit: `bun test harness/omp/tests/curate-playbook.test.ts` green; playbook listed in overlay AGENTS.md; no `system.md` diff
-- **Phase B Traces+Debugger** — WS-A — commits 5–6 — depends on A + S1 — exit: golden jsonl → stable trace tree; debugger allowlist test forbids write/edit/bash
-- **Phase C Self-Harness** — WS-A — commits 7–9 — depends on B + S2 — exit: planted held-out regression rejected; held-in win that also passes held-out lands in `harness/omp/staging/` only
-- **Phase D Manifests** — WS-A — commits 10–11 — depends on C — exit: one staging candidate has manifest + rollback test + REVIEW_QUEUE row
-- **Phase N Hardening** — all — commits 12–13 — depends on D — exit: `harness/omp/scripts/validate.sh` exits 0
-- **Cutover** — N/A — no consumer switch; overlay install is a local symlink, not a production cutover
-- **Phase E Archive** — P1 parked — depends on N + cheap objective fitness — do not start in this wave
+- **Phase 0 Contract** — WS-A — commit 1 — depends on approval — exit: IMPLEMENTATION_PLAN.md is this file; D11+D12 written; reviewer can answer “what does P2 ship vs park?”
+- **Phase A CI validate** — WS-C — commit 2 — depends on 0 + S1 — exit: `overlay.yml` exists; a dry-run of the job steps is documented; `validate.sh` still exits 0 locally
+- **Phase B optional smoke** — WS-C — commit 3 — depends on A — exit: second job cannot fail a PR that lacks secrets; `.env.example` documents both flags
+- **Phase C archive search** — WS-A — commits 4–7 — depends on B + S2 — exit: deterministic search accepts a planted win to staging+archive+queue, rejects held-out regression, throws on cap/kernel; no overlay/.omp promote
+- **Phase D local Harbor** — WS-A — commits 8–9 — depends on C — exit: runner scores ≥1 exported local task via `test.sh`; README still says not public TB2
+- **Phase N Hardening** — all — commits 10–11 — depends on D — exit: `validate.sh` exits 0 including new greps
+- **P3 parked** — public TB2, required live-smoke, Spec Kit, catalog ids
 
-Human checkpoint after Phase 0 (surface freeze) and after Phase C (first gate behavior) before Phase D.
+Human checkpoint after Phase 0 (contract freeze) and after Phase C (search never promotes) before Phase D.
 
 ---
 
@@ -261,94 +275,97 @@ Human checkpoint after Phase 0 (surface freeze) and after Phase C (first gate be
 
 ```yaml
 todos:
-  - id: phase-0-surfaces
-    content: "Phase 0: SURFACES.md, KERNEL.md, overlay README, D9, replace IMPLEMENTATION_PLAN.md"
+  - id: p2-phase-0-contract
+    content: "Phase 0: copy this plan to IMPLEMENTATION_PLAN.md; write D11/D12"
+    status: completed
+  - id: p2-phase-a-ci
+    content: "Phase A: root overlay.yml runs validate.sh with Bun 1.3.14"
     status: pending
-  - id: phase-a-ace
-    content: "Phase A: ACE playbook scaffold, deterministic curator, context injection"
+  - id: p2-phase-b-smoke
+    content: "Phase B: optional live-smoke job; skip without secrets"
     status: pending
-  - id: phase-b-traces
-    content: "Phase B: jsonl exporter + read-only debugger agent"
+  - id: p2-phase-c-search
+    content: "Phase C: bounded archive search; deterministic proposer; human queue"
     status: pending
-  - id: phase-c-gate
-    content: "Phase C: fixtures, frozen checker, allowlisted evolver, Self-Harness driver"
+  - id: p2-phase-d-harbor
+    content: "Phase D: local Harbor-shaped runner; no public TB2"
     status: pending
-  - id: phase-d-manifests
-    content: "Phase D: candidate manifests, rollback, REVIEW_QUEUE"
+  - id: p2-phase-n-hardening
+    content: "Phase N: validate.sh greps + PROGRESS/LEARNING"
     status: pending
-  - id: phase-n-hardening
-    content: "Phase N: validate.sh, kernel-write audit, ponytail review"
-    status: pending
-  - id: phase-e-archive
-    content: "Phase E (P1, parked): DGM-lite archive of project .omp/ only"
+  - id: p3-public-tb2
+    content: "P3 parked: public Terminal-Bench 2 / Harbor campaign"
     status: pending
 ```
 
-Rules: `in_progress` only for the single active phase. Do not mark Phase E in_progress in this wave.
+Rules: `in_progress` only for the single active phase. Do not mark `p3-public-tb2` in_progress in this wave.
 
 ---
 
 ## §9 Commit matrix
 
-Work class: **major backend feature → 13 rows**. One row = one conventional commit. Tests in the same commit. Next row blocked until the gate passes.
+Work class: **major backend feature → 11 rows**. One row = one conventional commit. Tests in the same commit. Next row blocked until the gate passes.
 
-### Phase 0 — Surfaces (WS-A)
+### Phase 0 — Contract (WS-A)
 
-- **1** — WS-A — `docs(harness): declare OMP surfaces and kernel` — `harness/omp/SURFACES.md`, `KERNEL.md`, `overlay/.omp/README.md`; D9 in DECISIONS.md; replace IMPLEMENTATION_PLAN.md with this contract; PROGRESS.md — Tests: checklist that P1–P7 each map to a surface or “core later” — Gate: files exist; KERNEL lists `system.md`, `system-prompt.ts`, `approval.ts`, `model-roles.ts`, `role-models.ts`, `evals/checker` — Agent: lead
+- **1** — WS-A — `docs: adopt P2 overlay execution contract` — copy this file to `IMPLEMENTATION_PLAN.md`; D11 (P2 scope) + D12 (search stages, never promotes) in `DECISIONS.md`; PROGRESS current-phase line — Tests: none — Gate: IMPLEMENTATION_PLAN §1 non-goals include “no public TB2” and “no auto-promote”; D11/D12 present — Agent: lead
 
-**Phase 0 gate:** KERNEL.md + SURFACES.md reviewable without the paper. Stop for human checkpoint.
+**Phase 0 gate:** contract reviewable without the paper. Stop for human checkpoint.
 
-### Phase A — ACE playbook (WS-A)
+### Phase A — Required CI (WS-C)
 
-- **2** — WS-A — `chore(harness): scaffold ACE playbook overlay` — `overlay/.omp/playbook/PLAYBOOK.md`, `curator.md`, `AGENTS.md` — Tests: none (stubs) — Gate: playbook sections present (strategies, failure modes, repo conventions); curator.md forbids SYSTEM.md and secrets — Agent: lead
-- **3** — WS-A — `feat(harness): deterministic playbook curator` — `drivers/curate-playbook.ts`, `tests/curate-playbook.test.ts`, fixture jsonl — Tests: fixture session → expected PLAYBOOK delta; write outside `playbook/` throws — Gate: `bun test harness/omp/tests/curate-playbook.test.ts` — Agent: lead
-- **4** — WS-A — `feat(harness): inject playbook via project context` — overlay AGENTS.md / optional `.omp/hooks/pre`; install note for symlink into `oh-my-pi/.omp/` — Tests: assertion that injection path does not touch `system.md` (grep gate in test or validate snippet) — Gate: `git diff -- oh-my-pi/packages/coding-agent/src/prompts/system/system.md` empty — Agent: lead
+- **2** — WS-C — `ci(harness): run overlay validate.sh on GitHub Actions` — `.github/workflows/overlay.yml` — `on: push/pull_request` path-filtered to `harness/omp/**`, `.github/workflows/overlay.yml`, and authority markdown the script diffs; job `validate` uses `oven-sh/setup-bun@v2` with `bun-version: 1.3.14`; `permissions: contents: read`; runs `bash harness/omp/scripts/validate.sh` — Tests: workflow file exists; does not `working-directory: oh-my-pi`; does not call OMP `coding-agent-heavy` — Gate: `rg -q 'validate.sh' .github/workflows/overlay.yml` and local `validate.sh` still 0 — Agent: lead (after S1)
 
-**Phase A gate:** curator test green; playbook is context, not system prompt. Reuse `learn` / memory / autolearn — do not rebuild them.
+**Phase A gate:** Improveness has its own overlay CI. OMP vendored workflows stay unused.
 
-### Phase B — Traces and debugger (WS-A)
+### Phase B — Optional live smoke (WS-C)
 
-- **5** — WS-A — `feat(harness): export OMP jsonl to miner traces` — `drivers/export-session.ts`, `tests/export-session.test.ts`, `evals/fixtures/*.jsonl` — Tests: golden jsonl → `traces/<id>/{meta.json,turns/,tool_calls.jsonl,outcome.json}` — Gate: `bun test harness/omp/tests/export-session.test.ts` — Agent: lead (after S1)
-- **6** — WS-A — `feat(harness): add read-only debugger agent` — `overlay/.omp/agents/debugger.md`; driver or task-agent recipe; allowlist test — Tests: restricted tool set is read/grep/find only; cannot write PLAYBOOK or source — Gate: `bun test harness/omp/tests/debugger-allowlist.test.ts` — Agent: lead
+- **3** — WS-C — `ci(harness): add skip-gated live-smoke job` — second job `live-smoke` in the same workflow; runs `bun harness/omp/drivers/live-session-smoke.ts` (or a thin CLI wrapper) only when `OMP_LIVE_SMOKE=1` **and** a secret key is present; otherwise the job is `skipped` or the script returns skip and the job stays green — never `continue-on-error: true` hiding real failures when keys *are* present — update `.env.example` — Tests: document the skip predicate; do not commit secrets — Gate: a PR without secrets still has a green required `validate` job; smoke is not `required` in branch protection (we cannot set protection from here; workflow `validate` is the required-looking job) — Agent: lead
 
-**Phase B gate:** exporter + debugger allowlist green. If S1 finds jsonl lossy, record D10 and optionally open WS-B (not a pre-allocated row).
+**Phase B gate:** live smoke can run in CI when the maintainer adds secrets; forks/PRs without keys stay green.
 
-### Phase C — Self-Harness gate (WS-A)
+### Phase C — Archive-driven search (WS-A)
 
-- **7** — WS-A — `test(harness): add held-in held-out fixtures and frozen checker` — `evals/held-in/` (3 fixtures), `evals/held-out/` (2 fixtures), `evals/checker/` — Tests: checker scores a known-pass and known-fail fixture without an LLM — Gate: `bun test harness/omp/tests/checker.test.ts` — Agent: lead
-- **8** — WS-A — `feat(harness): allowlisted evolver agent` — `overlay/.omp/agents/evolver.md`; path allowlist helper — Tests: writes to playbook/skills/tools allowed; writes to checker, KERNEL, `system.md`, `packages/coding-agent` denied — Gate: `bun test harness/omp/tests/evolver-allowlist.test.ts` — Agent: lead (after S2)
-- **9** — WS-A — `feat(harness): Self-Harness driver with staging accept` — `drivers/run-eval.ts`, `drivers/self-harness.ts` — Tests: planted playbook regression fails held-out; synthetic held-in win + held-out pass copies into `staging/` not `oh-my-pi/packages/` — Gate: `bun test harness/omp/tests/self-harness.test.ts` — Agent: lead
+- **4** — WS-A — `feat(harness): add search step-cap and kernel guards` — `drivers/search.ts` skeleton: `MAX_STEP_CAP = 8`, `assertStepCap`, refuse kernel dest via `isKernelRel` / `assertEvolverWrite`; `listArchive` helper if missing — Tests: `tests/search.test.ts` — cap 0 and cap 9 throw; writing `evals/checker` throws — Gate: `bun test harness/omp/tests/search.test.ts` — Agent: lead (after S2)
+- **5** — WS-A — `feat(harness): deterministic archive proposer` — `drivers/propose.ts` — `DeterministicProposer` reads a fixture delta (playbook/skill/tool under overlay paths only); must not import held-out `expected/` or `evals/held-out/**/fixture.json` prompts — Tests: proposer output paths pass `assertEvolverWrite`; a planted “see held-out” read throws — Gate: same test file — Agent: lead
+- **6** — WS-A — `feat(harness): wire search to Self-Harness and archive` — `runSearch` implements §4 loop; reuse `decideAccept`, `stageCandidate`, `snapshotOverlay`, `sampleParent`; write reject log under `harness/omp/reports/search/` (gitignored bodies ok; keep one golden reject fixture in tests) — Tests: planted held-in win + held-out pass → staging files + archive `meta.json` parentId; planted held-out regression → no staging write, reject logged — Gate: `bun test harness/omp/tests/search.test.ts` — Agent: lead
+- **7** — WS-A — `feat(harness): enqueue accepted search candidates` — on accept, write manifest + a `REVIEW_QUEUE.md` row with `apply to project .omp? = no`; **no** call that copies into `overlay/.omp/` or `oh-my-pi/` — Tests: queue row present; `git diff -- overlay/.omp/playbook` empty in the accept fixture — Gate: `bun test` search + review-queue — Agent: lead
 
-**Phase C gate:** accept/reject predicate implemented; checker path listed in KERNEL. Stop for human checkpoint.
+**Phase C gate:** search is evidence generation. Stop for human checkpoint.
 
-Budget: evolver `smol` or `advisor`; task agent `default` (Lin et al. 2026).
+Optional live proposer may be a **same-commit** helper behind `OMP_LIVE_SEARCH=1` in commit 5 or 6 if it stays skip-gated and untested by `validate.sh`. Do not add a 12th matrix row for it.
 
-### Phase D — Manifests and review queue (WS-A)
+### Phase D — Local Harbor runner (WS-A)
 
-- **10** — WS-A — `feat(harness): candidate manifests and rollback` — `overlay/.omp/manifests/` schema, `drivers/apply-candidate.ts`, `drivers/rollback-candidate.ts` — Tests: apply then rollback restores parent hash — Gate: `bun test harness/omp/tests/manifest-rollback.test.ts` — Agent: lead
-- **11** — WS-A — `docs(harness): maintainer review queue` — `REVIEW_QUEUE.md` plus one example row from a Phase C staging candidate — Tests: schema fields present (surface, files, parent hash, scores, rollback cmd) — Gate: file exists; no auto-apply script — Agent: lead
+- **8** — WS-A — `feat(harness): run Harbor-shaped local tasks` — `drivers/run-tb-local.ts` — for each selected fixture (default: already-exported `evals/tb-adapter/*` plus on-the-fly `exportHarborTask` for one held-in + one held-out), run `tests/test.sh` with cwd = fixture `repo/`; collect pass/fail — Tests: `tests/run-tb-local.test.ts` — known-fail `no-secrets` repo fails; a known-pass expected workspace passes — Gate: `bun test harness/omp/tests/run-tb-local.test.ts` — Agent: lead
+- **9** — WS-A — `docs(harness): local Harbor runner is not public TB2` — update `evals/tb-adapter/README.md`, `SURFACES.md` P5b row; runner must not fetch URLs, clone `terminal-bench`, or invoke a Harbor cloud CLI — Tests: `rg` gate in validate (commit 10) — Gate: README still contains “not a public Terminal-Bench 2” — Agent: lead
 
-**Phase D gate:** one candidate is evidence in the queue, not applied authority.
+**Phase D gate:** local adapter is executable. Public TB2 remains parked.
 
 ### Phase N — Validation
 
-- **12** — all — `chore(harness): add validation orchestrator` — `harness/omp/scripts/validate.sh` — Tests: script runs fast-tier tests + kernel grep — Gate: `harness/omp/scripts/validate.sh` exits 0 — Agent: lead
-- **13** — all — `docs: sync PROGRESS and LEARNING after OMP overlay P0` — PROGRESS, LEARNING, README pointer to `harness/omp/` — Tests: none — Gate: PROGRESS shows Phases 0–D + N complete; Phase E parked — Agent: lead
+- **10** — all — `chore(harness): extend validate.sh for P2 gates` — `validate.sh` also checks: `.github/workflows/overlay.yml` exists and calls `validate.sh`; `search.ts` contains `MAX_STEP_CAP` and `isKernelRel`/`assertEvolverWrite`; `search.ts` does not `writeFileSync` into `evals/checker`; `run-tb-local.ts` has no `terminal-bench` / `harbor` download URL — Gate: `harness/omp/scripts/validate.sh` exits 0 — Agent: lead
+- **11** — all — `docs: sync PROGRESS and LEARNING after OMP overlay P2` — PROGRESS, LEARNING, archive README (loop exists; promote is human); retire or rewrite `PHASE_E_PARKED.md` — Tests: none — Gate: PROGRESS shows P2 0–D+N complete; P3 parked — Agent: lead
 
-**Commit contract:** one logical change; never squash two matrix rows; conventional commits; push this branch after each commit; update PR #1 at end of each phase (and after every turn with code changes).
+**Commit contract:** one logical change; never squash two matrix rows; conventional commits; push `cursor/harness-research-docs-4005` after each commit; update PR #2 at end of each phase.
 
 ---
 
 ## §10 Test & CI strategy
 
-- **Fast** — unit/contract on curator, exporter, allowlists, checker, rollback — every overlay commit — `bun test harness/omp/tests/`
-- **Medium** — Self-Harness driver with synthetic scores (no live model) — Phase C+ — `bun test harness/omp/tests/self-harness.test.ts`
-- **Slow** — optional live `createAgentSession` — P1 / manual — only if keys present; not a Phase N blocker
-- **OMP core** — only if a WS-B row lands — `bun --cwd oh-my-pi/packages/coding-agent run check` (biome + types). Do **not** run full `oh-my-pi` `bun test` (coding-agent-heavy) as a default gate
+- **Fast** — unit/contract on search cap, kernel deny, deterministic propose, accept/reject, local TB runner — every overlay commit — `bun test harness/omp/tests/`
+- **Medium** — `runSearch` with synthetic scores / planted fixtures (no live model) — Phase C+ — `bun test harness/omp/tests/search.test.ts`
+- **Slow** — optional live smoke / live search — manual or optional CI job — keys required; not a Phase N blocker
+- **OMP core** — do not run `oh-my-pi` `coding-agent-heavy`. Do not add those jobs to `overlay.yml`
 
-**Test locations:** `harness/omp/tests/*.test.ts` + `harness/omp/evals/fixtures/`.  
-**Contract-first:** commit 7 (checker + fixtures) before commit 9 (driver). Commit 5 golden jsonl before any debugger that consumes traces.  
-**CI:** Improveness has no app CI yet. Phase N validate.sh is the stand-in. Do not add a GitHub Actions matrix in this feature unless a later plan says so.
+**CI (new in P2):**
+
+| Job | Required for PR green? | Secrets | Command |
+|-----|------------------------|---------|---------|
+| `validate` | yes | none | `bash harness/omp/scripts/validate.sh` |
+| `live-smoke` | no | LLM key + `OMP_LIVE_SMOKE=1` | skip-gated smoke driver |
+
+**Contract-first:** commit 4 (cap/kernel) before commit 6 (loop). Commit 8 runner tests before treating adapter as “runnable.”
 
 **Subagents** must not return “done” without naming which fast-tier files they would have run; lead runs the actual tests.
 
@@ -356,46 +373,47 @@ Budget: evolver `smol` or `advisor`; task agent `default` (Lin et al. 2026).
 
 ## §11 Research log & decisions
 
-- **Plan format** — thin Cursor outline vs nawab §0–§18 — **nawab** — skill `nawab-plans` — D1 (extended: this feature uses the same 18 sections)
-- **Where code lives** — patch OMP core vs Improveness `harness/omp/` overlay — **overlay-first** — AHE file-level surfaces; OMP already has `.omp/agents`, hooks, custom tools, `createAgentSession` — **D9** (write in Phase 0)
-- **First loop** — ACE-only forever vs ACE then tools/middleware/memory — **ACE first, not only** — AHE prompt-only −2.3 pp; D5
-- **Evolver model** — frontier vs mid/small — **smol/advisor** — Lin et al. 2026; D6
-- **Auto-apply** — closed loop vs maintainer queue — **queue + held-out** — Weng reward hacking; #7907; D7
-- **Debugger role** — new `ModelRole` enum vs project agent markdown — **project agent first** — [task/agents.ts](oh-my-pi/packages/coding-agent/src/task/agents.ts) already loads `.omp/agents/*.md`
-- **Session traces** — change persistence format vs post-hoc exporter — **exporter first** — sessions already jsonl under `~/.omp/agent/sessions/`
-- **Eval suite** — Terminal-Bench now vs 3–5 local fixtures — **local fixtures** — adoption step 3; TB2 is P1
-- **Archive / DGM** — now vs later — **later (Phase E)** — D5; needs cheap objective fitness
-- **Reuse memory/learn** — rebuild vs complement with playbook — **complement** — gap analysis; ACE is a new artifact
+- **Plan format** — nawab §0–§18 — D1
+- **P2 vs P3 split** — ship CI + bounded search + local runner now; park public TB2 / Spec Kit / required-live-smoke — **D11** — cost, leakage (P5), and AHE “do not tune on the public set”
+- **Search authority** — auto-apply vs stage+queue — **stage+queue (D12)** — D7; #7907; Weng reward hacking
+- **Live smoke in CI** — required vs skip-gated — **skip-gated** — forks and this cloud environment have no keys; required smoke would make PRs red by default
+- **Harbor** — public campaign vs local `instruction.md`+`test.sh` — **local only** — P1 already chose adapter-not-score; Docker/Harbor CLI is out of proportion to the 20-fixture suite
+- **Proposer** — live SDK first vs deterministic first — **deterministic first** — Lin et al.: evolver can be cheap; CI must stay keyless
+- **Fitness** — LLM judge vs frozen checker — **checker** — adoption step 5; archive already uses numeric fitness
+- **Step cap** — unbounded mutate vs hard cap — **cap 3 default / 8 max** — `agentic-system-design` + safety rule 7
+- **Workflow location** — extend `oh-my-pi/.github` vs root Improveness workflow — **root** — overlay is not an OMP package change; OMP CI is the wrong gate
+- **Reuse** — new accept logic vs `decideAccept` — **reuse** — one predicate; search is a driver, not a second gate
 
 ---
 
 ## §12 Documentation & artifact sync
 
-- **Plan approved** — this Cursor plan is authority; Phase 0 commit 1 copies it to `IMPLEMENTATION_PLAN.md`
-- **Phase complete** — `PROGRESS.md`; short `LEARNING.md` bullets (2–4); optional `docs/proposals/` note only if a P-item status changes
-- **Arch choice** — `DECISIONS.md` (D9 overlay-first; D10+ if WS-B opens)
-- **New surface** — update `SURFACES.md` / `KERNEL.md` in the same commit that adds the surface
-- **Cutover** — N/A; PR #1 body updated each phase with gate evidence
+- **Plan approved** — Phase 0 commit 1 copies this file to `IMPLEMENTATION_PLAN.md`
+- **Phase complete** — `PROGRESS.md`; 2–4 `LEARNING.md` bullets
+- **Arch choice** — `DECISIONS.md` D11/D12 in commit 1
+- **New surface** — search is a **driver**, not a new AHE component; update SURFACES proposal map + archive README in the same commits that add behavior (7 and 9)
+- **KERNEL** — add `drivers/search.ts` may not write kernel paths; add `.github/workflows/overlay.yml` as maintainer-only (evolver-forbidden) in commit 4 or 10
+- **Cutover** — N/A
 
 ---
 
 ## §13 Quality gates & checkpoints
 
-- **Phase 0 done** — KERNEL + SURFACES exist; P1–P7 mapped — blocks Phase A
-- **Phase A done** — curator test; empty `system.md` diff — blocks Phase B
-- **Phase B done** — export + debugger allowlist tests — blocks Phase C
-- **Phase C done** — checker + evolver allowlist + self-harness tests — blocks Phase D
-- **Phase D done** — rollback test + REVIEW_QUEUE row — blocks Phase N
-- **Phase N done** — `harness/omp/scripts/validate.sh` — blocks “P0 complete”
-- **PR ready** — fast tier green on the branch — blocks asking for review
-- **Hardening** — kernel grep + security-review S3 — blocks claiming P0 done
+- **Phase 0 done** — IMPLEMENTATION_PLAN is this contract; D11/D12 exist — blocks Phase A
+- **Phase A done** — `overlay.yml` calls `validate.sh` — blocks Phase B
+- **Phase B done** — smoke job cannot fail keyless PRs — blocks Phase C
+- **Phase C done** — search tests: accept→stage+archive+queue; reject held-out; cap/kernel throw — blocks Phase D
+- **Phase D done** — local runner tests; README not-TB2 — blocks Phase N
+- **Phase N done** — `validate.sh` exits 0 with P2 greps — blocks “P2 complete”
+- **PR ready** — fast tier green — blocks asking for review
+- **Hardening** — S3: no secrets in workflow logs; no TB2 URL — blocks claiming P2 done
 
 ### Human checkpoints
 
 - Approve this plan before Phase 0
-- After Phase 0: freeze KERNEL.md (edits only via plan revision)
-- After Phase C: confirm accept/reject behavior before manifests
-- Never: auto-promote staging to OMP built-ins
+- After Phase 0: freeze P2 vs P3 split
+- After Phase C: confirm search never promotes
+- Never: auto-promote staging; never score the evolver on public TB2
 
 ---
 
@@ -403,84 +421,71 @@ Budget: evolver `smol` or `advisor`; task agent `default` (Lin et al. 2026).
 
 ### Repo walkthrough
 
-1. Static audit: no secrets in playbook/traces/fixtures; OAuth files stay env-only; evolver cannot write checker/kernel/`system.md`
+1. Static audit: no secrets in workflow, playbook, traces; search cannot write checker/kernel/`system-prompt`
 2. Fast → medium tests under `harness/omp/tests/`
-3. Adjacent: confirm we did not duplicate `learn` / memory tools; confirm overlay install instructions
-4. ponytail-review on `harness/omp/` diff; skip full-repo ponytail-audit of vendored `oh-my-pi/` (out of scope)
-5. speckit-converge — N/A (no `.specify/`)
-6. Add any missing allowlist/rollback cases found — extra commits only inside Phase N if needed (do not silently expand §9; append a row via plan revision)
-7. Manual: symlink overlay, run curator on a fixture jsonl, inspect PLAYBOOK delta
+3. Adjacent: search reuses `decideAccept` (no second predicate); CI does not invoke OMP heavy tests
+4. ponytail-review on `harness/omp/` + `.github/workflows/overlay.yml`
+5. speckit-converge — N/A
+6. Extra allowlist/search cases only inside Phase N via plan revision
+7. Manual: `validate.sh`; optional `OMP_LIVE_SMOKE=1` smoke if keys exist
 
-### Orchestrator
-
-`harness/omp/scripts/validate.sh`:
+### Orchestrator additions (Phase N)
 
 ```text
-1. bun test harness/omp/tests/
-2. grep/rg: no SYSTEM.md writes in drivers or evolver.md
-3. KERNEL path list exists and includes checker + approval.ts + system.md
-4. git diff --check on harness/omp and authority docs
-5. refuse if oh-my-pi/packages/coding-agent/src/prompts/system/system.md is dirty
+6. .github/workflows/overlay.yml exists and references validate.sh
+7. search.ts has MAX_STEP_CAP and a kernel-path guard
+8. search.ts does not write evals/checker
+9. run-tb-local.ts / tb-export.ts do not mention a public TB2 download URL
 ```
 
 ---
 
 ## §15 Rollout & cutover
 
-N/A — no production consumer switch. Local “install” is copy or symlink of `harness/omp/overlay/.omp/` → `oh-my-pi/.omp/`. Rollback of a bad overlay candidate is `rollback-candidate.ts` (Phase D), not a deploy revert.
+N/A — no production consumer switch. Enabling CI is merging the workflow to `main` (via PR #2). Rollback of a bad search candidate remains `rollback-candidate.ts`. Disabling search is “do not run `search.ts`.”
 
-Do not publish to npm or open an upstream OMP PR in this feature.
+Do not publish to npm. Do not open an upstream OMP PR. Do not register a Harbor/TB2 leaderboard run.
 
 ---
 
 ## §16 Exit criteria
 
-### P0 (must pass)
+### P2 (must pass)
 
-- [ ] KERNEL.md + SURFACES.md answer editable vs frozen without reading Weng
-- [ ] Deterministic curator updates PLAYBOOK.md from a fixture and refuses writes outside `playbook/`
-- [ ] Playbook is injected as project context; `system.md` unchanged
-- [ ] Golden jsonl exports to the trace tree
-- [ ] Debugger agent cannot write/edit/bash
-- [ ] Frozen checker scores held-in/held-out fixtures
-- [ ] Evolver allowlist denies kernel, checker, and `packages/coding-agent`
-- [ ] Self-Harness accepts only to `harness/omp/staging/`
-- [ ] One candidate has manifest, rollback test, REVIEW_QUEUE row
+- [x] IMPLEMENTATION_PLAN.md is this contract; D11 + D12 recorded
+- [ ] `.github/workflows/overlay.yml` runs `validate.sh` with Bun 1.3.14
+- [ ] Live-smoke CI job cannot fail a keyless PR
+- [ ] `runSearch` throws on invalid step cap and kernel writes
+- [ ] Deterministic proposer cannot read held-out fixtures
+- [ ] Accept path: staging + archive parentId + REVIEW_QUEUE row; `overlay/.omp` unchanged
+- [ ] Reject path: held-out regression writes no staging files
+- [ ] Local Harbor runner executes adapter `test.sh` against fixture repos
+- [ ] Docs still say the adapter is not a public TB2 campaign
 - [ ] `harness/omp/scripts/validate.sh` exits 0
-- [ ] PROGRESS.md reflects 0–D + N complete; Phase E parked
-- [ ] PR #1 updated with gate evidence
+- [ ] PROGRESS.md reflects P2 complete; P3 parked
+- [ ] PR #2 updated with gate evidence
 
-### P1 (this wave — done)
+### P3 (this wave — parked)
 
-- [x] Live `createAgentSession` smoke (skip without `OMP_LIVE_SMOKE=1` + keys)
-- [x] `debugger` / `evolver` first-class `ModelRole` values (hidden; D10)
-- [x] Phase E project-`.omp/` archive (snapshot + parent sampling; no mutate loop)
-- [x] Terminal-Bench **adapter** (Harbor-shaped local tasks — not a public TB2 run)
-- [x] ≥20-case eval set (12 held-in + 8 held-out)
-
-### Still deferred (see P2 draft)
-
-P2 plan (awaiting approval): [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md).
-
-- [ ] Improveness GitHub Actions running `validate.sh` (P2 Phase A)
-- [ ] Skip-gated live-smoke CI job (P2 Phase B — not required without secrets)
-- [ ] Archive-driven evolutionary search, staging + queue only (P2 Phase C)
-- [ ] Local Harbor-shaped runner (P2 Phase D — not a public TB2 campaign)
-- [ ] Public Terminal-Bench 2 / Harbor campaign (P3)
-- [ ] Live smoke required in CI (P3)
+- [ ] Public Terminal-Bench 2 / Harbor campaign
+- [ ] Live smoke required (red without keys)
+- [ ] Spec Kit `.specify/`
+- [ ] Agent Patterns Catalog ids
+- [ ] Search that writes canonical `overlay/.omp/` without a human
 
 ---
 
 ## §17 Risks & contingencies
 
-- **Jsonl too lossy for traces** — med / high — S1 before commit 5 — contingency: D10 + WS-B persistence patch; still no SYSTEM.md rewrite
-- **SDK cannot restrict evolver paths** — med / high — S2 before commit 8 — contingency: wrapper around `createTools` / approval; last resort WS-B
-- **ACE-only treated as the product** — med / high — D5; Phase B/C required in P0 — contingency: do not skip to Phase E or ship after A
-- **Evolver edits checker** — low / critical — KERNEL + allowlist tests commits 7–8 — contingency: fail Phase C; do not continue
-- **Secret leak into playbook** — med / high — curator reject rules; Phase N audit — contingency: redact fixture and add regression test
-- **Scope creep into OMP core / TB2 / DGM** — med / high — §1 non-goals — contingency: park as P1, do not add §9 rows without plan revision
-- **Full OMP test suite as default gate** — low / med — too heavy, unrelated flakes — contingency: only run coding-agent `check` if WS-B opens
-- **Subagent overlap** — low / med — lead-only writes; parallel limit 2 — contingency: serialize
+- **Search becomes auto-apply** — med / critical — D12 + commit 7 test that overlay playbook is unchanged — contingency: fail Phase C; do not continue
+- **Held-out leakage into proposer** — med / high — commit 5 test; proposer API takes `heldInOnly: true` — contingency: fail Phase C
+- **Public TB2 treated as fitness** — med / high — §1 non-goals; commit 9/10 greps — contingency: delete any download/runner that pulls TB2
+- **Required live-smoke reddens every PR** — high / med — skip-gated job (D11) — contingency: keep `validate` as the only required job
+- **OMP CI accidentally adopted** — low / med — S1; path filters; no `working-directory: oh-my-pi` — contingency: revert workflow
+- **Secrets echoed in Actions logs** — med / high — S3; do not `echo` env; smoke prompt is “pong” only — contingency: redact and rotate
+- **Unbounded search cost** — med / med — hard cap 8 — contingency: default 3; no retry-on-reject beyond cap
+- **Scope creep into Spec Kit / catalog / core** — med / high — §1 — contingency: park as P3; do not add §9 rows without plan revision
+- **SDK cannot restrict live proposer paths** — low / high — wrapper + `assertEvolverWrite`; last resort WS-B — contingency: ship deterministic-only and leave live proposer skipped
 
 ---
 
@@ -491,17 +496,17 @@ P2 plan (awaiting approval): [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-ov
 2. Verify §2: plan approved; Bun present before Phase A
 3. Per phase in §7:
    a. Restate objective; mark that phase todo in_progress
-   b. Spawn S1 (Phase B) or S2 (Phase C) or S3/S4 (Phase N) as specified
+   b. Spawn S1 (Phase A) or S2 (Phase C) or S3/S4 (Phase N) as specified
    c. For each §9 row in that phase only:
       implement → test → gate → commit → push origin cursor/harness-research-docs-4005
       (never batch two matrix rows)
    d. Integrate subagent notes into LEARNING.md at the sync point
-   e. Phase gate → PROGRESS.md → update PR #1
+   e. Phase gate → PROGRESS.md → update PR #2
    f. Stop for human checkpoint after Phase 0 and Phase C
-4. Do not start Phase E in this wave
+4. Do not start P3 in this wave
 5. Phase N: §14 walkthrough + validate.sh
 6. §15 is N/A
-7. Verify §16 P0 → PR #1 body lists gate commands and results
+7. Verify §16 P2 → PR #2 body lists gate commands and results
 ```
 
 After each phase, report: what landed, commit hashes, unpushed count, What you learned (2–4 bullets).
@@ -510,10 +515,14 @@ After each phase, report: what landed, commit hashes, unpushed count, What you l
 
 ## Open questions
 
-None blocking Phase 0. Live-LLM vs golden-only is already decided (golden = P0). Overlay vs core is D9.
+None. Defaults in §11 were accepted on approval (2026-08-15):
+
+1. Live smoke stays **skip-gated** (not required).
+2. Harbor stays **local adapter runner** (not public TB2).
+3. Search **stages + queues** (does not promote).
 
 ## Approval
 
 **Mode:** feature  
-Plan ready for review. Approve to begin **Phase 0** (commit 1 only).  
-Lead agent follows **§18 Execution protocol**.
+**Approved:** 2026-08-15. Phase 0 (this commit) adopts the contract.  
+Stop for the Phase 0 human checkpoint before Phase A. Lead agent follows **§18 Execution protocol**.
