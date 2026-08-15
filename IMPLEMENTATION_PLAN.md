@@ -1,29 +1,32 @@
 # Improveness — Master Execution Plan
 
-> Approved execution contract (copy of the nawab plan). Do not treat this file as a license to implement OMP or a generic harness — docs and proposals only.
+> Approved execution contract (copy of the nawab feature-mode plan). This file **is** the license to implement the Improveness overlay at `harness/omp/`. It is **not** a license to patch OMP core, push to `can1357/oh-my-pi`, or auto-apply candidates to built-ins.
 
-> Nawab master plan (feature mode, docs-only). Skills applied this revision: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`, `documentation.mdc`. Spec Kit collapsed: no runtime feature / `.specify/` contracts.
+> Nawab master plan (feature mode). Skills applied: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit collapsed: no `.specify/` until a later software constitution.
 
-Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul 2026)](https://lilianweng.github.io/posts/2026-07-04-harness/).
+> Do not edit the Cursor plan file. Update this copy when the contract changes.
+
+# OMP self-improvement — Master Execution Plan
+
+> Nawab master plan (feature mode). Skills applied this revision: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit collapsed: no `.specify/` until a later software constitution.
+
+This document is the **entire execution contract**. After approval, implement **one phase at a time** per §18. Do not treat the earlier sectioned outline as authority; this file supersedes it.
+
+Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul 2026)](https://lilianweng.github.io/posts/2026-07-04-harness/). Seed harness: in-tree [oh-my-pi/](oh-my-pi/).
 
 ---
 
 ## §0 Plan metadata
 
+- **Mode:** feature (major addition to Improveness; OMP is vendored, not a second git root)
+- **Stack:** Improveness overlay = TypeScript/Bun drivers + Markdown `.omp/` artifacts. Vendored OMP = Bun monorepo (`@oh-my-pi/pi-coding-agent` 17.3.4). Tests for new code: `bun test` under `harness/omp/`.
+- **Base branch:** `main`
+- **Branch strategy:** single feature branch `cursor/harness-research-docs-4005` (already open as PR #1)
+- **Authority docs:** [docs/proposals/00-architecture.md](docs/proposals/00-architecture.md), [01-generic-harness.md](docs/proposals/01-generic-harness.md), [02-omp-gap-analysis.md](docs/proposals/02-omp-gap-analysis.md), [03-omp-proposed-changes.md](docs/proposals/03-omp-proposed-changes.md), [04-safety.md](docs/proposals/04-safety.md), [05-adoption-order.md](docs/proposals/05-adoption-order.md); [DECISIONS.md](DECISIONS.md) D5–D8; [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907)
+- **Estimated commits:** **13** (major-backend class 10–15; not padded to 18+)
+- **Lead agent role:** orchestrate, commit, push, update PR #1, integrate subagent output, run gates
 
-| Field                 | Value                                                                                                                                                                          |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Mode**              | feature (empty repo → documentation + proposal corpus)                                                                                                                         |
-| **Stack**             | Markdown knowledge base only. No app runtime.                                                                                                                                  |
-| **Base branch**       | `main`                                                                                                                                                                         |
-| **Feature branch**    | `cursor/<descriptive-name>-4005`                                                                                                                                               |
-| **Authority docs**    | Weng post; cited papers; [can1357/oh-my-pi](https://github.com/can1357/oh-my-pi); [Vinayak-RZ/cursor-config-coding](https://github.com/Vinayak-RZ/cursor-config-coding)        |
-| **Estimated commits** | **8** (docs / spec pass — nawab marketing/docs class)                                                                                                                          |
-| **Lead agent**        | Orchestrate, commit, integrate explore subagents, PR                                                                                                                           |
-| **Config repo**       | Copy entire `Vinayak-RZ/cursor-config-coding` into `vendor/cursor-config-coding/`, then install project `.cursor/{skills,rules}` from it. Do not replace this repo’s git root. |
-
-
-**Hard scope:** research documentation and *change proposals only*. No edits to the OMP codebase. No overlay, plugin, SDK wrapper, or generic-harness implementation in this repo.
+**Hard scope shift vs prior contract:** [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) still says “docs and proposals only.” Phase 0 commit 1 **replaces** that file with this nawab contract and records **D9** (overlay-first implementation).
 
 ---
 
@@ -31,216 +34,198 @@ Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul
 
 ### Objective
 
-A maintainer-readable corpus that (1) explains Weng’s survey by natural segment, (2) specifies what *any* coding harness must add to self-improve, and (3) specifies what OMP would need — without changing OMP or shipping harness code.
+A maintainer-gated self-improvement loop on in-tree Oh My Pi: ACE playbook, miner-ready traces, debugger, held-in/held-out Self-Harness, and AHE manifests — without rewriting `SYSTEM.md` or auto-applying candidates to OMP built-ins.
 
 ### Deliverables
 
-- `vendor/cursor-config-coding/` — full clone of the coding-config repo
-- Project `.cursor/skills` + `.cursor/rules` sourced from that clone (so later agents load nawab-plans locally)
-- `docs/` research segments + `docs/methods/`
-- `docs/proposals/` generic + OMP change specs
-- Authority artifacts: `PROJECT_OVERVIEW.md`, `IMPLEMENTATION_PLAN.md`, `PROGRESS.md`, `DECISIONS.md`, `LEARNING.md`
+- `harness/omp/` — Improveness-owned overlay, drivers, evals, staging, review queue
+- `oh-my-pi/.omp/` — install/symlink of the overlay for local runs (not a second source of truth)
+- Drivers using [oh-my-pi/packages/coding-agent/src/sdk.ts](oh-my-pi/packages/coding-agent/src/sdk.ts) `createAgentSession`
+- Frozen checker the evolver cannot write
+- Tests + `harness/omp/scripts/validate.sh`
+- Updated `IMPLEMENTATION_PLAN.md`, `PROGRESS.md`, `DECISIONS.md` (D9+), `LEARNING.md`
 
 ### Non-goals
 
-- No OMP source changes, fork, or PR to `oh-my-pi`
-- No overlay/plugin/SDK wrapper in this repo
-- No generic harness implementation, eval runner, or weight-update loop
+- No PR or push to `can1357/oh-my-pi`
+- No edits to [oh-my-pi/packages/coding-agent/src/prompts/system/system.md](oh-my-pi/packages/coding-agent/src/prompts/system/system.md) as an improvement surface
+- No auto-apply to canonical `oh-my-pi/packages/coding-agent/src/tools/*.ts`
+- No DGM / AlphaEvolve / SIA / weight updates in P0
 - No Terminal-Bench / SWE-bench reproduction
-- No AI Scientist / ScientistOne paper-writing pipeline
-- Spec Kit `.specify/` artifacts — N/A (no runtime feature contracts)
+- No reimplementation of existing `learn`, memory, autolearn, or skills
+- No Spec Kit `.specify/` in this feature
+- No rewriting Rust / hashline / LSP / DAP
 
 ### Priority
 
-
-| Priority | Items                                                                                                                                             |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **P0**   | Config vendor + `.cursor` install; segment docs 01–09; methods; generic proposals; OMP gap + proposed changes; safety; references; authority docs |
-| **P1**   | Spec Kit constitution; Agent Patterns Catalog MCP citations; evolutionary-search (DGM) as a later proposal appendix                               |
-
+- **P0:** Phases 0, A, B, C, D, N (surfaces → ACE → traces/debugger → Self-Harness → manifests → hardening)
+- **P1:** Phase E archive; live-LLM evals; `modelRoles.debugger` core enum; Terminal-Bench; ≥20-case suite
 
 ---
 
 ## §2 Prerequisites & blockers
 
+- **In-tree OMP at `oh-my-pi/` (nested git removed)** — status: done — blocks: all — resolution: D8
+- **Proposals P1–P7 written** — status: done — blocks: Phase 0 mapping — resolution: [03-omp-proposed-changes.md](docs/proposals/03-omp-proposed-changes.md)
+- **User approves this nawab plan** — status: pending — blocks: Phase 0 execution — resolution: approval of this document
+- **Bun available for drivers/tests** — status: pending (verify at Phase A start) — blocks: Phase A commit 3 — workaround: if Bun missing, install via OMP `packageManager` pin `bun@1.3.14`; do not start Phase A until `bun --version` works
+- **LLM API keys for live `createAgentSession`** — status: optional — blocks: none of P0 — workaround: P0 gates use golden jsonl + deterministic curator/checker; live SDK runs are P1
+- **OMP OAuth env placeholders** — status: done — blocks: none — do not restore hardcoded client secrets
+- **Spec Kit project** — status: N/A — blocks: nothing
 
-| Item                                             | Status  | Blocks            | Resolution                                                                |
-| ------------------------------------------------ | ------- | ----------------- | ------------------------------------------------------------------------- |
-| User approved proposals-only (no OMP code)       | done    | all               | Keep scope                                                                |
-| `gh` can clone `Vinayak-RZ/cursor-config-coding` | pending | Phase A           | Clone at execution start; if private-fail, use already-authenticated `gh` |
-| Plan-mode copy deferred                          | done    | Phase A           | Copy happens in first execution commit, not during planning               |
-| OMP version pin for citations                    | pending | Phase C OMP pages | Cite `omp.sh` + repo docs as of plan date; note APIs may move             |
-| Spec Kit project                                 | N/A     | —                 | No `.specify/` until a later software phase                               |
-
-
-**Hard rule:** Phase B/C docs may start only after Phase A vendors the config repo (so skills are in-tree). Planning already read those skills via GitHub.
+**Hard rule:** no execution phase starts while “user approves this plan” is pending. Phase A does not start if Bun is missing.
 
 ---
 
 ## §3 Authority & artifact map
 
+- **Weng survey** — external URL — read-only research truth
+- **Proposals 00–05** — `docs/proposals/` — read-only product spec (P1–P7, C1–C8, adoption 0–5)
+- **This plan** — Cursor plan file — execution contract (writable only on plan revision)
+- **IMPLEMENTATION_PLAN.md** — repo root — copy of this contract after Phase 0 commit 1
+- **PROGRESS.md / DECISIONS.md / LEARNING.md** — repo root — live status, ADRs, phase learnings
+- **KERNEL.md / SURFACES.md** — `harness/omp/` after Phase 0 — writable by lead only; evolver-forbidden
+- **OMP source** — `oh-my-pi/packages/` — read-only unless a §9 WS-B row is opened
+- **Coding config / nawab skill** — `.cursor/skills/nawab-plans/` — read-only process authority
+- **Spec Kit** — `.specify/` — N/A
 
-| Document         | Path                                   | Role                                              |
-| ---------------- | -------------------------------------- | ------------------------------------------------- |
-| Weng survey      | external URL                           | Read-only research truth                          |
-| OMP docs / SDK   | `omp.sh`, `can1357/oh-my-pi`           | Read-only seed-harness truth                      |
-| Coding config    | `vendor/cursor-config-coding/`         | Read-only skill/rule authority after clone        |
-| This plan        | Cursor plan + `IMPLEMENTATION_PLAN.md` | Execution contract                                |
-| PROGRESS         | `PROGRESS.md`                          | Live status                                       |
-| DECISIONS        | `DECISIONS.md`                         | ADRs                                              |
-| LEARNING         | `LEARNING.md`                          | Phase “what you learned” (`learn-while-building`) |
-| PROJECT_OVERVIEW | `PROJECT_OVERVIEW.md`                  | Purpose + constraints                             |
-| Spec Kit         | `.specify/`                            | N/A — no runtime feature                          |
-
-
-Subagents: all authority docs **read-only**. Writable paths = `docs/`**, root `*.md` listed above, `vendor/cursor-config-coding/**` (clone only), `.cursor/**` (install from vendor).
+Subagents: all authority docs **read-only**. Writable paths unless a spawn says otherwise: `harness/omp/**`, root authority markdown listed above. `oh-my-pi/packages/**` is **read-only** until lead opens a WS-B commit row.
 
 ---
 
 ## §4 Architecture & system map
 
-Target loop we *specify* (not implement). Patterns from `agentic-system-design`: Supervisor+workers, Human-in-the-loop, ReAct with step cap, episodic trace log, golden-set evals.
-
 ```mermaid
 flowchart TD
-  user[User task] --> orch[Orchestrator step budget]
-  orch --> policy[Read-only policy kernel]
-  orch --> ctx[Context builder playbook plus memory]
-  ctx --> model[Task model]
-  model --> tools[Tool executor schemas timeouts]
-  tools --> seed[Seed harness OMP or generic]
-  seed --> traces[Episodic trace store on disk]
-  traces --> debugger[Debugger role]
-  debugger --> evolver[Evolve agent cheap model OK]
-  evolver --> manifest[Falsifiable change manifest]
-  manifest --> gate[Held-in held-out verifier]
-  gate -->|accept| surface[Declared editable files]
-  gate -->|reject| log[Rejected edit log]
-  surface --> seed
-  human[Human promote] -.-> gate
+  task[TaskAgent_default] --> sessionJsonl[OMP_session_jsonl]
+  sessionJsonl --> exporter[export-session]
+  exporter --> traces[harness_omp_traces]
+  traces --> debugger[DebuggerAgent_smol]
+  debugger --> diagnosis[diagnosis_md]
+  diagnosis --> evolver[EvolverAgent_smol]
+  playbook[PLAYBOOK_md] --> curator[curate-playbook]
+  curator --> playbook
+  playbook --> task
+  evolver --> staging[harness_omp_staging]
+  staging --> checker[FrozenChecker]
+  heldIn[held_in] --> checker
+  heldOut[held_out] --> checker
+  checker -->|accept| manifest[CandidateManifest]
+  checker -->|reject| rejectLog[RejectedEditLog]
+  manifest --> queue[REVIEW_QUEUE]
+  human[Maintainer] --> queue
+  human -->|promote| overlay[project_dot_omp]
 ```
-
-
 
 ### Target layout
 
 ```text
-repo/
-├── vendor/cursor-config-coding/     # full cloned config repo
-├── .cursor/skills/                  # installed from vendor
-├── .cursor/rules/
-├── docs/
-│   ├── 00-index.md
-│   ├── 01-rsi-and-harness.md … 09-challenges-and-evals.md
-│   ├── methods/
-│   ├── proposals/
-│   │   ├── 00-architecture.md
-│   │   ├── 01-generic-harness.md
-│   │   ├── 02-omp-gap-analysis.md
-│   │   ├── 03-omp-proposed-changes.md
-│   │   ├── 04-safety.md
-│   │   └── 05-adoption-order.md
-│   └── references.md
-├── PROJECT_OVERVIEW.md
-├── IMPLEMENTATION_PLAN.md
-├── PROGRESS.md
-├── DECISIONS.md
-├── LEARNING.md
-└── README.md
+harness/omp/
+  SURFACES.md
+  KERNEL.md
+  REVIEW_QUEUE.md
+  overlay/.omp/
+    README.md
+    AGENTS.md                 # lists PLAYBOOK.md as context
+    playbook/PLAYBOOK.md
+    playbook/curator.md
+    agents/debugger.md
+    agents/evolver.md
+    hooks/                    # optional pre-hook excerpt
+    skills/                   # evolver-writable later
+    tools/                    # project tools only
+    manifests/
+  drivers/
+    curate-playbook.ts
+    export-session.ts
+    run-eval.ts
+    self-harness.ts
+    apply-candidate.ts
+    rollback-candidate.ts
+  evals/
+    checker/                  # KERNEL — evolver cannot write
+    held-in/
+    held-out/
+    fixtures/                 # golden jsonl
+  staging/
+  traces/
+  scripts/validate.sh
+  tests/
+oh-my-pi/                     # vendored; WS-B only if overlay fails
 ```
+
+Install: symlink or copy `harness/omp/overlay/.omp/` → `oh-my-pi/.omp/` when running locally. Drivers always read/write `harness/omp/`, never `~/.omp/agent/` as source of truth (they may *read* a jsonl path the user points at).
 
 ### Trust boundaries
 
-- Evolver never writes verifier, model-role config, permission kernel, or OMP source
-- User content / traces treated as untrusted (prompt injection)
-- Human checkpoint before permission, network, DAP, computer, browser, destructive bash
-- This repo stores specs only — no secrets, no live agent credentials
+- **Kernel (evolver cannot write):** `evals/checker/**`, `SURFACES.md`, `KERNEL.md`, `system.md`, `system-prompt.ts`, `tools/approval.ts`, `config/model-roles.ts`, `session/role-models.ts`, model-role config, this plan
+- **Editable surfaces (after Phase C):** `overlay/.omp/playbook/**`, `overlay/.omp/skills/**`, `overlay/.omp/tools/**`, staging copies of those
+- **Secrets:** stay in env (existing `OMP_*` OAuth placeholders). Curator rejects secret-shaped strings
+- **Human promote:** only path from staging → project `.omp/` or any OMP package file
 
-### Agentic design note (required by skill)
+### Core patch rule
 
+Touch `oh-my-pi/packages/coding-agent/` only if a phase exit gate cannot be met from overlay + SDK + existing session jsonl. Candidate triggers (open WS-B, do not pre-schedule):
 
-| Layer      | This project’s stance                                                                |
-| ---------- | ------------------------------------------------------------------------------------ |
-| Autonomy   | Specify a closed loop; **human-in-loop** for promote (aligns oh-my-pi#7907)          |
-| Tools      | Propose schemas; do not implement                                                    |
-| Memory     | External files (ACE playbook + OMP retain/learn); not in-prompt blobs                |
-| Model tier | Spend budget on task agent; evolver can be mid/small (Lin et al. 2026)               |
-| Evals      | Propose golden + held-out + adversarial (reward-hack) cases; ≥20 later — P1 to *run* |
-| Guardrails | Max steps, allowlisted write paths, audit log, no unbounded loops                    |
+- Schema rejects unknown `modelRoles.debugger` — [model-roles.ts](oh-my-pi/packages/coding-agent/src/config/model-roles.ts), [settings-schema.ts](oh-my-pi/packages/coding-agent/src/config/settings-schema.ts) — Phase B
+- Evolver path allowlist too coarse — [approval.ts](oh-my-pi/packages/coding-agent/src/tools/approval.ts) or SDK wrapper — Phase C
+- Jsonl missing tool I/O — [session-persistence.ts](oh-my-pi/packages/coding-agent/src/session/session-persistence.ts) — Phase B or D
 
-
-### Trade-off: proposal-only vs overlay code
-
-**Decision:** Specs only in this repo.
-
-**Option A:** Specs only — Pros: no OMP fork risk, matches user + #7907. Cons: cannot measure lift.  
-**Option B:** Overlay implementation — Pros: runnable loop. Cons: violates current scope; couples to fast-moving OMP APIs.
-
-**Default:** A because user forbade OMP/generic implementation.  
-**Override:** PRIORITY = QUALITY (docs correctness) over SPEED.
-
-### Trade-off: OMP as example vs OpenCode
-
-**Decision:** OMP is the concrete example; OpenCode is comparison only.
-
-**Option A:** OMP — Pros: SDK, 7 file surfaces, memory/learn/TTSR, hashline. Cons: stronger seed, less bench headroom.  
-**Option B:** OpenCode — Pros: AHE already scored it (47.2% TB2). Cons: rebuild primitives OMP has.
-
-**Default:** A. **Override:** SIMPLICITY would pick OpenCode; we do not.
+Until one fails: **zero core patches**.
 
 ---
 
 ## §5 Workstreams
 
+- **WS-A OverlayLoop** — owns `harness/omp/**` and root authority markdown — depends on plan approval + Bun — lead
+- **WS-B CorePatch** — owns named files under `oh-my-pi/packages/coding-agent/` — depends on a failed WS-A gate written into DECISIONS — lead only; no parallel writer
 
-| ID   | Name             | Owns paths                              | Depends on                  | Lead / subagent           |
-| ---- | ---------------- | --------------------------------------- | --------------------------- | ------------------------- |
-| WS-A | Config bootstrap | `vendor/`, `.cursor/`                   | clone access                | lead                      |
-| WS-B | Research corpus  | `docs/0*.md`, `docs/methods/`           | WS-A done                   | lead; explore S1 optional |
-| WS-C | Change proposals | `docs/proposals/`, `docs/references.md` | WS-B segments 04+06 drafted | lead                      |
+### WS-A — OverlayLoop
 
+- **Objective:** Ship the self-improvement loop outside OMP core
+- **Phases:** 0, A, B, C, D, N
+- **Integration:** symlink overlay into `oh-my-pi/.omp/` at Phase A gate; drivers remain in `harness/omp/drivers/`
 
-### WS-A — Config bootstrap
+### WS-B — CorePatch
 
-- **Objective:** Entire `cursor-config-coding` lives in-workspace; project agents can load `nawab-plans` locally.
-- **Integration:** After commit 1, all later writing follows those skills.
-
-### WS-B — Research corpus
-
-- **Objective:** Weng segments + method deep-dives with generic/OMP implication notes.
-- **Integration:** Feeds WS-C citations.
-
-### WS-C — Change proposals
-
-- **Objective:** Generic required capabilities + OMP gap list + safety + adoption order.
-- **Integration:** README / PROJECT_OVERVIEW point here as the “how would you actually go” answer.
+- **Objective:** Minimal OMP source change only after a documented overlay failure
+- **Phases:** opened ad hoc inside B or C
+- **Integration:** same branch; one revertible commit; still no `system.md` edits
 
 ---
 
 ## §6 Agent orchestration & subagent spawn map
 
+- **S1** — trigger: Phase B start — type: `explore` — readonly: true — task: confirm jsonl fields in [session-persistence.ts](oh-my-pi/packages/coding-agent/src/session/session-persistence.ts) / [turn-persistence.ts](oh-my-pi/packages/coding-agent/src/session/turn-persistence.ts) are enough for `meta.json`, turns, tool I/O, outcome — sync: before commit 5 — gate: written field list in LEARNING.md
+- **S2** — trigger: Phase C start — type: `explore` — readonly: true — task: map `createAgentSession` options for `restrictToolNames`, tool allowlist, custom agents from `.omp/agents` — sync: before commit 8 — gate: option list in LEARNING.md
+- **S3** — trigger: Phase N — type: `security-review` — readonly: true — task: branch diff; kernel not writable; no secrets in playbook/traces — sync: before Phase N gate — gate: findings fixed or accepted in DECISIONS
+- **S4** — trigger: Phase N — type: `bugbot` — readonly: true — task: review overlay/driver diff — sync: before validate.sh — optional if lead already reviewed
 
-| ID  | Trigger       | Type    | readonly | Task                                                | Sync point      | Gate |
-| --- | ------------- | ------- | -------- | --------------------------------------------------- | --------------- | ---- |
-| S1  | Phase B start | explore | true     | Recheck Weng post + OMP docs for drift vs this plan | Before commit 3 | —    |
-| S2  | Phase N       | explore | true     | Link-check docs/ and flag missing method pages      | Before commit 8 | —    |
+**Parallel limit:** 2. S1 and S2 are sequential (different phases). S3 and S4 may run together in Phase N.
 
+**File ownership:** lead is the only writer. Subagents do not commit.
 
-**Parallel limit:** 2.  
-**File ownership:** lead writes all docs. Subagents return findings only.
-
-### Spawn S1 — source drift check
+### Spawn S1 — jsonl completeness
 
 ```text
 Full Repository Path: /workspace
-Workstream: WS-B
-Task: Confirm Weng section list and OMP surfaces still match the plan tables
-Authority: plan §4, Weng URL, omp.sh
-Return: bullet deltas only
-Do NOT: edit files, expand to implementation
+Workstream: WS-A
+Task: List session jsonl event types and whether tool input/output and verifier-like outcome exist
+Authority: docs/proposals/03-omp-proposed-changes.md P1; this plan §4
+Return: bullet list of fields + gap vs traces/meta.json,turns,tool_calls.jsonl,outcome.json
+Do NOT: edit files, propose SYSTEM.md changes, expand to TUI
 ```
 
-Lead retains: git, commits, PR, PROGRESS, integrating S1/S2.
+### Spawn S2 — SDK allowlist
+
+```text
+Full Repository Path: /workspace
+Workstream: WS-A
+Task: How to run createAgentSession with a project agent markdown and a restricted tool/path set
+Authority: this plan §4 trust boundaries; oh-my-pi/packages/coding-agent/src/sdk.ts
+Return: exact option names, example call shape, what cannot be restricted without a core patch
+Do NOT: edit files
+```
 
 ---
 
@@ -248,24 +233,25 @@ Lead retains: git, commits, PR, PROGRESS, integrating S1/S2.
 
 ```mermaid
 flowchart LR
-  P0[Phase_0_PlanApproved] --> PA[Phase_A_VendorConfig]
-  PA --> PB[Phase_B_ResearchDocs]
-  PB --> PC[Phase_C_Proposals]
-  PC --> PN[Phase_N_Validate]
+  P0[Phase_0_Surfaces] --> PA[Phase_A_ACE]
+  PA --> PB[Phase_B_Traces]
+  PB --> PC[Phase_C_SelfHarness]
+  PC --> PD[Phase_D_Manifests]
+  PD --> PN[Phase_N_Hardening]
+  PN --> CO[Cutover_N_A]
+  PE[Phase_E_Archive_P1]
 ```
 
+- **Phase 0 Surfaces** — WS-A — commits 1 — depends on plan approval — exit: reviewer can answer “what may the evolver touch?” from KERNEL.md + SURFACES.md; every P-item maps to a surface or “core later”
+- **Phase A ACE** — WS-A — commits 2–4 — depends on 0 + Bun — exit: `bun test harness/omp/tests/curate-playbook.test.ts` green; playbook listed in overlay AGENTS.md; no `system.md` diff
+- **Phase B Traces+Debugger** — WS-A — commits 5–6 — depends on A + S1 — exit: golden jsonl → stable trace tree; debugger allowlist test forbids write/edit/bash
+- **Phase C Self-Harness** — WS-A — commits 7–9 — depends on B + S2 — exit: planted held-out regression rejected; held-in win that also passes held-out lands in `harness/omp/staging/` only
+- **Phase D Manifests** — WS-A — commits 10–11 — depends on C — exit: one staging candidate has manifest + rollback test + REVIEW_QUEUE row
+- **Phase N Hardening** — all — commits 12–13 — depends on D — exit: `harness/omp/scripts/validate.sh` exits 0
+- **Cutover** — N/A — no consumer switch; overlay install is a local symlink, not a production cutover
+- **Phase E Archive** — P1 parked — depends on N + cheap objective fitness — do not start in this wave
 
-
-
-| Phase   | Objective                       | Workstreams | Commits | Depends on          | Exit gate                                                                                                      |
-| ------- | ------------------------------- | ----------- | ------- | ------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 0       | This plan approved              | —           | —       | user approve        | Approval below                                                                                                 |
-| A       | Vendor config + authority stubs | WS-A        | 1–2     | 0                   | `vendor/cursor-config-coding/.cursor/skills/nawab-plans/SKILL.md` exists; `.cursor/skills/nawab-plans` present |
-| B       | Research corpus                 | WS-B        | 3–5     | A                   | All 01–09 + methods files exist                                                                                |
-| C       | Generic + OMP proposals         | WS-C        | 6–7     | B (at least 04, 06) | All `docs/proposals/*.md` exist                                                                                |
-| N       | Validate + README               | all         | 8       | C                   | Doc link check; PROGRESS complete                                                                              |
-| Cutover | N/A — no consumer switch        | —           | —       | —                   | N/A                                                                                                            |
-
+Human checkpoint after Phase 0 (surface freeze) and after Phase C (first gate behavior) before Phase D.
 
 ---
 
@@ -273,120 +259,141 @@ flowchart LR
 
 ```yaml
 todos:
-  - id: vendor-cursor-config
-    content: "Phase A: clone cursor-config-coding into vendor/ and install project .cursor skills/rules"
+  - id: phase-0-surfaces
+    content: "Phase 0: SURFACES.md, KERNEL.md, overlay README, D9, replace IMPLEMENTATION_PLAN.md"
     status: pending
-  - id: artifact-scaffold
-    content: "Phase A: add PROJECT_OVERVIEW, PROGRESS, DECISIONS, LEARNING, IMPLEMENTATION_PLAN stubs"
+  - id: phase-a-ace
+    content: "Phase A: ACE playbook scaffold, deterministic curator, context injection"
     status: pending
-  - id: docs-segments-early
-    content: "Phase B: write docs/00-index plus segments 01-04"
+  - id: phase-b-traces
+    content: "Phase B: jsonl exporter + read-only debugger agent"
     status: pending
-  - id: docs-segments-late
-    content: "Phase B: write segments 05-09"
+  - id: phase-c-gate
+    content: "Phase C: fixtures, frozen checker, allowlisted evolver, Self-Harness driver"
     status: pending
-  - id: docs-methods
-    content: "Phase B: write methods/ pages"
+  - id: phase-d-manifests
+    content: "Phase D: candidate manifests, rollback, REVIEW_QUEUE"
     status: pending
-  - id: docs-proposals-generic
-    content: "Phase C: generic harness change spec"
+  - id: phase-n-hardening
+    content: "Phase N: validate.sh, kernel-write audit, ponytail review"
     status: pending
-  - id: docs-proposals-omp
-    content: "Phase C: OMP gap analysis, proposed changes, safety"
-    status: pending
-  - id: docs-refs-validate
-    content: "Phase N: references, README, link check, LEARNING.md"
+  - id: phase-e-archive
+    content: "Phase E (P1, parked): DGM-lite archive of project .omp/ only"
     status: pending
 ```
+
+Rules: `in_progress` only for the single active phase. Do not mark Phase E in_progress in this wave.
 
 ---
 
 ## §9 Commit matrix
 
-Docs/spec class → **8 commits**. One row = one commit. No padding.
+Work class: **major backend feature → 13 rows**. One row = one conventional commit. Tests in the same commit. Next row blocked until the gate passes.
 
+### Phase 0 — Surfaces (WS-A)
 
-| #   | WS  | Commit                                 | Contents                                                                                                | Tests (same commit)                                                       | Gate                                               | Agent |
-| --- | --- | -------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------- | ----- |
-| 1   | A   | `chore: vendor cursor-config-coding`   | clone into `vendor/cursor-config-coding/`; copy/link `.cursor/skills` + `.cursor/rules`; note in README | `test -f vendor/cursor-config-coding/.cursor/skills/nawab-plans/SKILL.md` | path exists                                        | lead  |
-| 2   | A   | `docs: add authority artifacts`        | PROJECT_OVERVIEW, IMPLEMENTATION_PLAN (copy of approved plan), PROGRESS, DECISIONS, LEARNING stubs      | files exist                                                               | `test -f IMPLEMENTATION_PLAN.md`                   | lead  |
-| 3   | B   | `docs: research segments 01-04`        | `docs/00-index.md`, `01`–`04`                                                                           | each file has Weng claim + implication note                               | file count                                         | lead  |
-| 4   | B   | `docs: research segments 05-09`        | `05`–`09`                                                                                               | same                                                                      | file count                                         | lead  |
-| 5   | B   | `docs: method deep-dives`              | `docs/methods/*`                                                                                        | one page per listed method                                                | file count                                         | lead  |
-| 6   | C   | `docs: generic harness proposals`      | `proposals/00`, `01`, `05`                                                                              | required-capability checklist present                                     | file count                                         | lead  |
-| 7   | C   | `docs: OMP proposals and safety`       | `proposals/02`, `03`, `04`                                                                              | gap table + “do not propose” list                                         | file count                                         | lead  |
-| 8   | N   | `docs: references README and validate` | `references.md`, README, PROGRESS, LEARNING phase notes                                                 | relative links resolve                                                    | `rg -l '\\]\\(docs/' README.md` + manual link pass | lead  |
+- **1** — WS-A — `docs(harness): declare OMP surfaces and kernel` — `harness/omp/SURFACES.md`, `KERNEL.md`, `overlay/.omp/README.md`; D9 in DECISIONS.md; replace IMPLEMENTATION_PLAN.md with this contract; PROGRESS.md — Tests: checklist that P1–P7 each map to a surface or “core later” — Gate: files exist; KERNEL lists `system.md`, `system-prompt.ts`, `approval.ts`, `model-roles.ts`, `role-models.ts`, `evals/checker` — Agent: lead
 
+**Phase 0 gate:** KERNEL.md + SURFACES.md reviewable without the paper. Stop for human checkpoint.
 
-**Phase A gate:** nawab-plans skill on disk in this repo.  
-**Phase B gate:** 00–09 + methods present.  
-**Phase C gate:** six proposal files present.  
-**Phase N gate:** no broken relative links in `docs/` and root `*.md`.
+### Phase A — ACE playbook (WS-A)
+
+- **2** — WS-A — `chore(harness): scaffold ACE playbook overlay` — `overlay/.omp/playbook/PLAYBOOK.md`, `curator.md`, `AGENTS.md` — Tests: none (stubs) — Gate: playbook sections present (strategies, failure modes, repo conventions); curator.md forbids SYSTEM.md and secrets — Agent: lead
+- **3** — WS-A — `feat(harness): deterministic playbook curator` — `drivers/curate-playbook.ts`, `tests/curate-playbook.test.ts`, fixture jsonl — Tests: fixture session → expected PLAYBOOK delta; write outside `playbook/` throws — Gate: `bun test harness/omp/tests/curate-playbook.test.ts` — Agent: lead
+- **4** — WS-A — `feat(harness): inject playbook via project context` — overlay AGENTS.md / optional `.omp/hooks/pre`; install note for symlink into `oh-my-pi/.omp/` — Tests: assertion that injection path does not touch `system.md` (grep gate in test or validate snippet) — Gate: `git diff -- oh-my-pi/packages/coding-agent/src/prompts/system/system.md` empty — Agent: lead
+
+**Phase A gate:** curator test green; playbook is context, not system prompt. Reuse `learn` / memory / autolearn — do not rebuild them.
+
+### Phase B — Traces and debugger (WS-A)
+
+- **5** — WS-A — `feat(harness): export OMP jsonl to miner traces` — `drivers/export-session.ts`, `tests/export-session.test.ts`, `evals/fixtures/*.jsonl` — Tests: golden jsonl → `traces/<id>/{meta.json,turns/,tool_calls.jsonl,outcome.json}` — Gate: `bun test harness/omp/tests/export-session.test.ts` — Agent: lead (after S1)
+- **6** — WS-A — `feat(harness): add read-only debugger agent` — `overlay/.omp/agents/debugger.md`; driver or task-agent recipe; allowlist test — Tests: restricted tool set is read/grep/find only; cannot write PLAYBOOK or source — Gate: `bun test harness/omp/tests/debugger-allowlist.test.ts` — Agent: lead
+
+**Phase B gate:** exporter + debugger allowlist green. If S1 finds jsonl lossy, record D10 and optionally open WS-B (not a pre-allocated row).
+
+### Phase C — Self-Harness gate (WS-A)
+
+- **7** — WS-A — `test(harness): add held-in held-out fixtures and frozen checker` — `evals/held-in/` (3 fixtures), `evals/held-out/` (2 fixtures), `evals/checker/` — Tests: checker scores a known-pass and known-fail fixture without an LLM — Gate: `bun test harness/omp/tests/checker.test.ts` — Agent: lead
+- **8** — WS-A — `feat(harness): allowlisted evolver agent` — `overlay/.omp/agents/evolver.md`; path allowlist helper — Tests: writes to playbook/skills/tools allowed; writes to checker, KERNEL, `system.md`, `packages/coding-agent` denied — Gate: `bun test harness/omp/tests/evolver-allowlist.test.ts` — Agent: lead (after S2)
+- **9** — WS-A — `feat(harness): Self-Harness driver with staging accept` — `drivers/run-eval.ts`, `drivers/self-harness.ts` — Tests: planted playbook regression fails held-out; synthetic held-in win + held-out pass copies into `staging/` not `oh-my-pi/packages/` — Gate: `bun test harness/omp/tests/self-harness.test.ts` — Agent: lead
+
+**Phase C gate:** accept/reject predicate implemented; checker path listed in KERNEL. Stop for human checkpoint.
+
+Budget: evolver `smol` or `advisor`; task agent `default` (Lin et al. 2026).
+
+### Phase D — Manifests and review queue (WS-A)
+
+- **10** — WS-A — `feat(harness): candidate manifests and rollback` — `overlay/.omp/manifests/` schema, `drivers/apply-candidate.ts`, `drivers/rollback-candidate.ts` — Tests: apply then rollback restores parent hash — Gate: `bun test harness/omp/tests/manifest-rollback.test.ts` — Agent: lead
+- **11** — WS-A — `docs(harness): maintainer review queue` — `REVIEW_QUEUE.md` plus one example row from a Phase C staging candidate — Tests: schema fields present (surface, files, parent hash, scores, rollback cmd) — Gate: file exists; no auto-apply script — Agent: lead
+
+**Phase D gate:** one candidate is evidence in the queue, not applied authority.
+
+### Phase N — Validation
+
+- **12** — all — `chore(harness): add validation orchestrator` — `harness/omp/scripts/validate.sh` — Tests: script runs fast-tier tests + kernel grep — Gate: `harness/omp/scripts/validate.sh` exits 0 — Agent: lead
+- **13** — all — `docs: sync PROGRESS and LEARNING after OMP overlay P0` — PROGRESS, LEARNING, README pointer to `harness/omp/` — Tests: none — Gate: PROGRESS shows Phases 0–D + N complete; Phase E parked — Agent: lead
+
+**Commit contract:** one logical change; never squash two matrix rows; conventional commits; push this branch after each commit; update PR #1 at end of each phase (and after every turn with code changes).
 
 ---
 
 ## §10 Test & CI strategy
 
+- **Fast** — unit/contract on curator, exporter, allowlists, checker, rollback — every overlay commit — `bun test harness/omp/tests/`
+- **Medium** — Self-Harness driver with synthetic scores (no live model) — Phase C+ — `bun test harness/omp/tests/self-harness.test.ts`
+- **Slow** — optional live `createAgentSession` — P1 / manual — only if keys present; not a Phase N blocker
+- **OMP core** — only if a WS-B row lands — `bun --cwd oh-my-pi/packages/coding-agent run check` (biome + types). Do **not** run full `oh-my-pi` `bun test` (coding-agent-heavy) as a default gate
 
-| Tier   | Purpose                              | Trigger          | Command                             |
-| ------ | ------------------------------------ | ---------------- | ----------------------------------- |
-| Fast   | file presence + relative link sanity | every commit 3–8 | `test` paths; `rg` for `](` targets |
-| Medium | N/A — no runtime                     | —                | N/A — no app                        |
-| Slow   | N/A — no benches                     | —                | N/A — do not run Terminal-Bench     |
+**Test locations:** `harness/omp/tests/*.test.ts` + `harness/omp/evals/fixtures/`.  
+**Contract-first:** commit 7 (checker + fixtures) before commit 9 (driver). Commit 5 golden jsonl before any debugger that consumes traces.  
+**CI:** Improveness has no app CI yet. Phase N validate.sh is the stand-in. Do not add a GitHub Actions matrix in this feature unless a later plan says so.
 
-
-**Test locations:** none yet; validation is checklist + link check.  
-**CI:** none in repo today — do not invent a workflow unless a later phase asks.
+**Subagents** must not return “done” without naming which fast-tier files they would have run; lead runs the actual tests.
 
 ---
 
 ## §11 Research log & decisions
 
-
-| Topic               | Options                               | Choice                                      | Source / skill                       | Record in |
-| ------------------- | ------------------------------------- | ------------------------------------------- | ------------------------------------ | --------- |
-| Plan format         | Thin Cursor plan vs nawab §0–§18      | Nawab; collapse Spec Kit                    | `nawab-plans`, `planning.mdc`        | DECISIONS |
-| Delivery            | Implement overlay vs propose only     | Propose only                                | user; oh-my-pi#7907                  | DECISIONS |
-| Example harness     | OpenCode vs OMP                       | OMP example; OpenCode comparison            | omp.sh; AHE TB2 table                | DECISIONS |
-| Config in workspace | Read GitHub only vs full vendor clone | Vendor full clone + install `.cursor`       | user request                         | DECISIONS |
-| Optimizer target    | Prompt-only ACE vs full AHE surfaces  | Specify AHE surfaces; start adoption at ACE | AHE ablations; ACE paper             | DECISIONS |
-| Evolver model       | Frontier vs mid/small                 | Mid/small OK                                | Lin et al. 2026                      | DECISIONS |
-| Auto-apply edits    | Closed loop vs maintainer queue       | Maintainer queue + held-out gate            | Weng reward-hack; #7907              | DECISIONS |
-| Spec Kit            | Full `.specify/` vs skip              | Skip this pass                              | `speckit-plan` needs runtime feature | DECISIONS |
-| Weight updates      | SIA / Continual Harness               | Out of scope                                | Weng; provisional SIA evidence       | DECISIONS |
-
+- **Plan format** — thin Cursor outline vs nawab §0–§18 — **nawab** — skill `nawab-plans` — D1 (extended: this feature uses the same 18 sections)
+- **Where code lives** — patch OMP core vs Improveness `harness/omp/` overlay — **overlay-first** — AHE file-level surfaces; OMP already has `.omp/agents`, hooks, custom tools, `createAgentSession` — **D9** (write in Phase 0)
+- **First loop** — ACE-only forever vs ACE then tools/middleware/memory — **ACE first, not only** — AHE prompt-only −2.3 pp; D5
+- **Evolver model** — frontier vs mid/small — **smol/advisor** — Lin et al. 2026; D6
+- **Auto-apply** — closed loop vs maintainer queue — **queue + held-out** — Weng reward hacking; #7907; D7
+- **Debugger role** — new `ModelRole` enum vs project agent markdown — **project agent first** — [task/agents.ts](oh-my-pi/packages/coding-agent/src/task/agents.ts) already loads `.omp/agents/*.md`
+- **Session traces** — change persistence format vs post-hoc exporter — **exporter first** — sessions already jsonl under `~/.omp/agent/sessions/`
+- **Eval suite** — Terminal-Bench now vs 3–5 local fixtures — **local fixtures** — adoption step 3; TB2 is P1
+- **Archive / DGM** — now vs later — **later (Phase E)** — D5; needs cheap objective fitness
+- **Reuse memory/learn** — rebuild vs complement with playbook — **complement** — gap analysis; ACE is a new artifact
 
 ---
 
 ## §12 Documentation & artifact sync
 
-
-| Event                 | Update                                                       |
-| --------------------- | ------------------------------------------------------------ |
-| Plan approved         | Copy this contract → `IMPLEMENTATION_PLAN.md`                |
-| Phase complete        | `PROGRESS.md` + LEARNING.md bullets (`learn-while-building`) |
-| Arch / scope decision | `DECISIONS.md`                                               |
-| Phase N               | README + PROJECT_OVERVIEW match actual tree                  |
-
+- **Plan approved** — this Cursor plan is authority; Phase 0 commit 1 copies it to `IMPLEMENTATION_PLAN.md`
+- **Phase complete** — `PROGRESS.md`; short `LEARNING.md` bullets (2–4); optional `docs/proposals/` note only if a P-item status changes
+- **Arch choice** — `DECISIONS.md` (D9 overlay-first; D10+ if WS-B opens)
+- **New surface** — update `SURFACES.md` / `KERNEL.md` in the same commit that adds the surface
+- **Cutover** — N/A; PR #1 body updated each phase with gate evidence
 
 ---
 
 ## §13 Quality gates & checkpoints
 
-
-| Gate               | When  | Command / checklist                         | Blocks  |
-| ------------------ | ----- | ------------------------------------------- | ------- |
-| Plan approved      | now   | user approval                               | Phase A |
-| Config vendored    | end A | nawab-plans SKILL.md present                | Phase B |
-| Research complete  | end B | 00–09 + methods exist                       | Phase C |
-| Proposals complete | end C | six proposal files                          | Phase N |
-| Docs valid         | end N | relative links; no OMP/code patches in diff | PR      |
-
+- **Phase 0 done** — KERNEL + SURFACES exist; P1–P7 mapped — blocks Phase A
+- **Phase A done** — curator test; empty `system.md` diff — blocks Phase B
+- **Phase B done** — export + debugger allowlist tests — blocks Phase C
+- **Phase C done** — checker + evolver allowlist + self-harness tests — blocks Phase D
+- **Phase D done** — rollback test + REVIEW_QUEUE row — blocks Phase N
+- **Phase N done** — `harness/omp/scripts/validate.sh` — blocks “P0 complete”
+- **PR ready** — fast tier green on the branch — blocks asking for review
+- **Hardening** — kernel grep + security-review S3 — blocks claiming P0 done
 
 ### Human checkpoints
 
-- [ ] Approve this nawab plan (begin Phase A)
-- [ ] After Phase C: confirm OMP proposal list is “propose to maintainers,” not a patch set
+- Approve this plan before Phase 0
+- After Phase 0: freeze KERNEL.md (edits only via plan revision)
+- After Phase C: confirm accept/reject behavior before manifests
+- Never: auto-promote staging to OMP built-ins
 
 ---
 
@@ -394,30 +401,33 @@ Docs/spec class → **8 commits**. One row = one commit. No padding.
 
 ### Repo walkthrough
 
-1. Diff contains **no** OMP source, no TS/JS overlay, no eval runner
-2. `vendor/cursor-config-coding` is a complete clone (skills + rules + AGENTS.md)
-3. Every segment page: Weng claim, cited systems, works/fails, generic implication, OMP implication
-4. Generic proposal lists required capabilities with acceptance criteria and failure modes
-5. OMP proposal has “already present / propose / do not propose”
-6. Safety page states evaluator-outside-the-loop
-7. LEARNING.md has one entry per completed phase
+1. Static audit: no secrets in playbook/traces/fixtures; OAuth files stay env-only; evolver cannot write checker/kernel/`system.md`
+2. Fast → medium tests under `harness/omp/tests/`
+3. Adjacent: confirm we did not duplicate `learn` / memory tools; confirm overlay install instructions
+4. ponytail-review on `harness/omp/` diff; skip full-repo ponytail-audit of vendored `oh-my-pi/` (out of scope)
+5. speckit-converge — N/A (no `.specify/`)
+6. Add any missing allowlist/rollback cases found — extra commits only inside Phase N if needed (do not silently expand §9; append a row via plan revision)
+7. Manual: symlink overlay, run curator on a fixture jsonl, inspect PLAYBOOK delta
 
 ### Orchestrator
 
+`harness/omp/scripts/validate.sh`:
+
 ```text
-1. test -d vendor/cursor-config-coding/.cursor/skills/nawab-plans
-2. test -f .cursor/skills/nawab-plans/SKILL.md
-3. test files: docs/00-index.md … 09, methods/*, proposals/00–05, references.md
-4. grep diff for accidental code (*.ts, Dockerfile) — expect none except vendor
-5. relative link pass
-6. PROGRESS.md shows Phase N complete
+1. bun test harness/omp/tests/
+2. grep/rg: no SYSTEM.md writes in drivers or evolver.md
+3. KERNEL path list exists and includes checker + approval.ts + system.md
+4. git diff --check on harness/omp and authority docs
+5. refuse if oh-my-pi/packages/coding-agent/src/prompts/system/system.md is dirty
 ```
 
 ---
 
 ## §15 Rollout & cutover
 
-N/A — no production consumer. Publishing is this repo’s docs + optional later share of proposals with OMP maintainers (not in this pass).
+N/A — no production consumer switch. Local “install” is copy or symlink of `harness/omp/overlay/.omp/` → `oh-my-pi/.omp/`. Rollback of a bad overlay candidate is `rollback-candidate.ts` (Phase D), not a deploy revert.
+
+Do not publish to npm or open an upstream OMP PR in this feature.
 
 ---
 
@@ -425,96 +435,72 @@ N/A — no production consumer. Publishing is this repo’s docs + optional late
 
 ### P0 (must pass)
 
-- [ ] `vendor/cursor-config-coding` cloned in full
-- [ ] Project `.cursor/skills/nawab-plans` loadable
-- [ ] Segments 01–09 + listed methods exist
-- [ ] Generic + OMP + safety + adoption-order proposals exist
-- [ ] No OMP/generic harness implementation files
-- [ ] Authority docs (OVERVIEW, PLAN, PROGRESS, DECISIONS, LEARNING) exist
-- [ ] Relative links resolve
-- [ ] PROGRESS reflects complete state
+- [ ] KERNEL.md + SURFACES.md answer editable vs frozen without reading Weng
+- [ ] Deterministic curator updates PLAYBOOK.md from a fixture and refuses writes outside `playbook/`
+- [ ] Playbook is injected as project context; `system.md` unchanged
+- [ ] Golden jsonl exports to the trace tree
+- [ ] Debugger agent cannot write/edit/bash
+- [ ] Frozen checker scores held-in/held-out fixtures
+- [ ] Evolver allowlist denies kernel, checker, and `packages/coding-agent`
+- [ ] Self-Harness accepts only to `harness/omp/staging/`
+- [ ] One candidate has manifest, rollback test, REVIEW_QUEUE row
+- [ ] `harness/omp/scripts/validate.sh` exits 0
+- [ ] PROGRESS.md reflects 0–D + N complete; Phase E parked
+- [ ] PR #1 updated with gate evidence
 
 ### P1 (defer ok)
 
-- [ ] Spec Kit constitution
-- [ ] Agent Patterns Catalog MCP pattern ids
-- [ ] Runnable eval suite (≥20 cases)
+- [ ] Live `createAgentSession` smoke
+- [ ] `debugger` / `evolver` first-class `ModelRole` values
+- [ ] Phase E project-`.omp/` archive
+- [ ] Terminal-Bench
+- [ ] ≥20-case eval set
 
 ---
 
 ## §17 Risks & contingencies
 
-
-| Risk                                        | Likelihood | Impact | Mitigation                                     | Contingency                                |
-| ------------------------------------------- | ---------- | ------ | ---------------------------------------------- | ------------------------------------------ |
-| OMP APIs drift                              | high       | med    | Cite docs-as-of-date; gap analysis not patches | Revise proposal pages                      |
-| Scope creep into overlay code               | med        | high   | §1 non-goals; Phase N diff audit               | Delete code, keep specs                    |
-| Config clone fails                          | low        | high   | `gh` already listed the repo                   | Fetch zip / retry                          |
-| Prompt-only proposals (ACE-only)            | med        | med    | AHE ablation: prompt-only −2.3 pp              | Require tools/hooks/memory in generic spec |
-| Reward hacking in a future implementer      | med        | high   | Safety kernel + #7907 maintainer queue         | Refuse auto-apply in all proposal text     |
-| Diversity collapse if someone later evolves | med        | med    | Defer DGM; mention novelty later               | P1 appendix only                           |
-
+- **Jsonl too lossy for traces** — med / high — S1 before commit 5 — contingency: D10 + WS-B persistence patch; still no SYSTEM.md rewrite
+- **SDK cannot restrict evolver paths** — med / high — S2 before commit 8 — contingency: wrapper around `createTools` / approval; last resort WS-B
+- **ACE-only treated as the product** — med / high — D5; Phase B/C required in P0 — contingency: do not skip to Phase E or ship after A
+- **Evolver edits checker** — low / critical — KERNEL + allowlist tests commits 7–8 — contingency: fail Phase C; do not continue
+- **Secret leak into playbook** — med / high — curator reject rules; Phase N audit — contingency: redact fixture and add regression test
+- **Scope creep into OMP core / TB2 / DGM** — med / high — §1 non-goals — contingency: park as P1, do not add §9 rows without plan revision
+- **Full OMP test suite as default gate** — low / med — too heavy, unrelated flakes — contingency: only run coding-agent `check` if WS-B opens
+- **Subagent overlap** — low / med — lead-only writes; parallel limit 2 — contingency: serialize
 
 ---
 
 ## §18 Execution protocol
 
 ```text
-1. Load this plan + vendor nawab-plans (after commit 1) + ponytail on any future code
-2. Clear §2: clone access
-3. Skip Spec Kit Phase 0
-4. For each phase in §7:
-   a. Sync §8 todos
-   b. Spawn S1 at Phase B; S2 at Phase N
-   c. For each §9 row: write → gate → commit → push (one row per commit)
-   d. Integrate subagent findings into docs, do not let subagents commit
-   e. Phase gate → PROGRESS.md + LEARNING.md (concept / pattern / trade-off)
-   f. Human checkpoint after Phase C
-5. Phase N walkthrough §14
-6. Skip cutover
-7. Verify §16 P0 → draft PR
+1. Load this plan + nawab-plans; ponytail on every code edit
+2. Verify §2: plan approved; Bun present before Phase A
+3. Per phase in §7:
+   a. Restate objective; mark that phase todo in_progress
+   b. Spawn S1 (Phase B) or S2 (Phase C) or S3/S4 (Phase N) as specified
+   c. For each §9 row in that phase only:
+      implement → test → gate → commit → push origin cursor/harness-research-docs-4005
+      (never batch two matrix rows)
+   d. Integrate subagent notes into LEARNING.md at the sync point
+   e. Phase gate → PROGRESS.md → update PR #1
+   f. Stop for human checkpoint after Phase 0 and Phase C
+4. Do not start Phase E in this wave
+5. Phase N: §14 walkthrough + validate.sh
+6. §15 is N/A
+7. Verify §16 P0 → PR #1 body lists gate commands and results
 ```
 
----
-
-## Research corpus the docs must cover (WS-B content)
-
-Unchanged substance from the prior plan, now bound to files:
-
-1. RSI + harness definition (Good, Yudkowsky; out-of-scope: self-play / TTT)
-2. Design patterns: workflow loop, filesystem memory, inspectable sub-agents
-3. Coding-agent anatomy (stabilized tool groups + OMP extras: hashline, LSP, DAP, TTSR)
-4. Context engineering: ACE → MCE → Meta-Harness
-5. Workflow design: AI Scientist, ScientistOne, Autodata; ADAS, AFlow
-6. Self-improving harness: STOP, Updating≠Benefit, Self-Harness, AHE
-7. Evolutionary search: Promptbreeder, GEPA, AlphaEvolve, DGM (specify, do not adopt in v1)
-8. Joint weight optimization: SIA, Continual Harness — document only
-9. Challenges + appendix benches
-
-### Generic required capabilities (WS-C Track A)
-
-Editable 7-component contract; read-only safety kernel; trace store; debugger; ACE playbook (delta merge); Self-Harness gate; AHE manifests; human promote. Out of v1: DGM archives, weight updates, auto-research pipelines.
-
-### OMP already present vs propose (WS-C Track B)
-
-**Already present:** hashline; LSP/DAP; `.omp/{skills,rules,prompts,instructions,hooks,tools,extensions}`; retain/recall/reflect/learn/manage_skill; managed-skills; TTSR; advisor; `task`; SDK; skill inheritance.
-
-**Propose (describe APIs/files, not diffs):** structured session export; debugger role; ACE store + deterministic curator; allowlisted evolver; held-in/held-out driver on `createAgentSession`; manifest + rollback; maintainer-review queue (#7907).
-
-**Do not propose:** fork; auto-edit canonical built-ins; stack redundant closure-checks on TTSR+advisor; evolutionary search before cheap fitness.
+After each phase, report: what landed, commit hashes, unpushed count, What you learned (2–4 bullets).
 
 ---
 
 ## Open questions
 
-- None blocking Phase A. OMP pin can be “docs as of 2026-08-15” without a git SHA.
-
----
+None blocking Phase 0. Live-LLM vs golden-only is already decided (golden = P0). Overlay vs core is D9.
 
 ## Approval
 
 **Mode:** feature  
-Plan ready for review. Approve to begin **Phase A** (vendor `cursor-config-coding`, then write docs/proposals).  
+Plan ready for review. Approve to begin **Phase 0** (commit 1 only).  
 Lead agent follows **§18 Execution protocol**.
-
-Copying the config repo was **not** done during this planning pass (plan mode forbids workspace writes). It is commit 1 of execution.

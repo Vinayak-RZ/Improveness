@@ -40,3 +40,10 @@
 - **Concept:** Relative-link checking is the “test suite” for a docs-only repo.
 - **Pattern:** README points at overview, index, architecture, generic spec, OMP list, safety.
 - **Trade-off:** No CI workflow invented; validation is a local file/link gate.
+
+### Overlay Phase 0 — Surfaces — 2026-08-15
+
+- **Concept:** AHE needs a file-level editable surface *and* a frozen kernel; without both, an evolver will “improve” `SYSTEM.md`.
+- **Pattern:** Declare surfaces and kernel in `harness/omp/` before any driver code. Map every P-item to overlay vs “core later.”
+- **Trade-off:** Overlay-first (D9) is slower to change OMP built-ins; chosen so candidates stay evidence (#7907) and we do not fork core.
+- **Files to study:** `harness/omp/KERNEL.md`, `harness/omp/SURFACES.md`
