@@ -31,7 +31,7 @@ const EVOLVER_ALLOWED_PREFIXES = [
   "harness/omp/staging/",
 ];
 
-const EVOLVER_DENIED_SUBSTRINGS = [
+export const KERNEL_PATH_MARKERS = [
   "harness/omp/evals/checker/",
   "harness/omp/KERNEL.md",
   "harness/omp/SURFACES.md",
@@ -40,6 +40,10 @@ const EVOLVER_DENIED_SUBSTRINGS = [
   "oh-my-pi/packages/coding-agent/",
   "oh-my-pi/packages/",
 ];
+
+export function isKernelRel(rel: string): boolean {
+  return KERNEL_PATH_MARKERS.some((denied) => rel.includes(denied) || rel.endsWith(denied.replace(/\/$/, "")));
+}
 
 export function isEvolverToolAllowed(toolName: string): boolean {
   const name = toolName.toLowerCase();
@@ -53,7 +57,7 @@ export function assertEvolverWrite(targetPath: string, repoRoot: string): string
   if (rel.startsWith("..") || rel.includes("..")) {
     throw new Error(`evolver path escapes repo: ${rel}`);
   }
-  for (const denied of EVOLVER_DENIED_SUBSTRINGS) {
+  for (const denied of KERNEL_PATH_MARKERS) {
     if (rel.includes(denied) || rel.endsWith(denied.replace(/\/$/, ""))) {
       throw new Error(`evolver write denied (kernel): ${rel}`);
     }
@@ -62,7 +66,7 @@ export function assertEvolverWrite(targetPath: string, repoRoot: string): string
   if (!allowed) {
     throw new Error(`evolver write denied (not in overlay allowlist): ${rel}`);
   }
-  if (rel.startsWith("harness/omp/staging/") && EVOLVER_DENIED_SUBSTRINGS.some((d) => rel.includes(d))) {
+  if (rel.startsWith("harness/omp/staging/") && isKernelRel(rel)) {
     throw new Error(`evolver write denied (kernel in staging): ${rel}`);
   }
   return resolved;
