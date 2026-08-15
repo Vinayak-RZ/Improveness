@@ -1,0 +1,13 @@
+{
+  "id": "cand-example-playbook",
+  "surface": "playbook",
+  "files": ["harness/omp/staging/playbook/PLAYBOOK.md"],
+  "parentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scores": {
+    "heldIn": { "passed": 3, "total": 3 },
+    "heldOut": { "passed": 2, "total": 2 }
+  },
+  "rollback": "bun harness/omp/drivers/rollback-candidate.ts --id cand-example-playbook",
+  "evidenceId": "sess-omp-golden",
+  "rootCause": "Example only — Phase C synthetic held-in win. Not applied authority."
+}
