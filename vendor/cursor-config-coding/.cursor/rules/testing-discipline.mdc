@@ -1,0 +1,15 @@
+---
+description: Testing conventions when writing or modifying tests
+globs: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
+alwaysApply: false
+---
+
+# Testing discipline
+
+- Test names describe behavior: `returns 404 when user does not exist`
+- Unit tests for pure logic; integration tests at boundaries
+- Mock external dependencies, not your own domain rules
+- No merging with failing tests
+- Run the narrowest test command for the changed files before claiming done
+
+Bug fixes should include a regression test when practical.

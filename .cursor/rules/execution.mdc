@@ -1,0 +1,99 @@
+---
+description: Phase execution workflow — apply when implementing code, modifying or creating files, or executing an approved implementation phase
+alwaysApply: false
+---
+
+# Execution Rules
+
+## Ponytail gate
+
+Before writing or editing code in this phase:
+
+1. **Read** `.cursor/skills/ponytail/SKILL.md` — required, not optional.
+2. Trace the real flow in the files the change touches.
+3. Climb the ladder — stop at the first rung that holds.
+4. Prefer deletion over addition; fewest files possible.
+5. On non-trivial diffs, consider `ponytail-review` before marking the phase done.
+
+## Phase-Based Development
+
+All implementation must be performed in phases.
+
+Do not attempt large implementations in a single step.
+
+Work only on the approved phase.
+
+## Architecture Preservation
+
+Before modifying existing systems:
+
+- Analyze current architecture.
+- Identify affected components.
+- Evaluate impacts.
+- Preserve existing patterns where possible.
+
+Avoid unnecessary architectural changes.
+
+## Assumption Management
+
+Never hide assumptions.
+
+Document assumptions using:
+
+- Assumption
+- Reason
+- Impact
+
+Important assumptions require approval.
+
+## Dependency Management
+
+Before introducing dependencies:
+
+- Explain necessity.
+- Evaluate alternatives.
+- Explain maintenance impact.
+
+Prefer existing dependencies whenever possible.
+
+## File Creation Rules
+
+Before creating new files:
+
+- Verify necessity.
+- Explain purpose.
+- Check whether existing files can be extended.
+
+Avoid unnecessary file creation.
+
+## Refactoring Rules
+
+Do not perform unrelated refactoring.
+
+Allowed:
+
+- Task-required refactoring
+
+Not allowed:
+
+- Unrequested rewrites
+- Structural reorganizations
+- Preference-driven changes
+
+Unless explicitly approved.
+
+## Context Preservation
+
+Maintain awareness of:
+
+- Existing architecture
+- Previous decisions
+- Existing constraints
+- Completed work
+
+Do not contradict previously approved decisions.
+
+If conflicts are discovered:
+
+- Stop.
+- Request clarification.

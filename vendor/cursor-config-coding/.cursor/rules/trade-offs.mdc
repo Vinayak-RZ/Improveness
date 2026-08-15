@@ -1,0 +1,17 @@
+---
+description: Require explicit trade-off analysis before architectural decisions involving performance, consistency, cost, complexity, or autonomy
+alwaysApply: false
+---
+
+# Trade-offs
+
+When multiple valid approaches exist, **do not choose silently**.
+
+1. Name the decision
+2. List Option A and Option B with pros/cons
+3. State default recommendation
+4. Note override: `PRIORITY = COST | SPEED | QUALITY | SIMPLICITY | CONSISTENCY | AVAILABILITY`
+
+Load skill `system-design-tradeoffs` for full template and matrices.
+
+Apply for: caching, database choice, sync vs async, SSR vs CSR, monolith vs services, agent autonomy, model tier selection.

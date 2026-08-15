@@ -1,0 +1,29 @@
+---
+description: Layer boundaries and structural invariants when creating modules, services, or cross-cutting refactors
+alwaysApply: true
+---
+
+# Architecture boundaries
+
+## Separation of concerns
+
+| Layer | May call | Must not |
+|-------|----------|----------|
+| UI / routes | Services, actions, hooks | Direct DB, raw secrets |
+| Service | Domain, repositories, external APIs | Render UI |
+| Data access | Database, caches | Business policy |
+| Domain | Pure logic, types | Framework imports |
+
+## Cross-cutting rules
+
+- Validate at **system boundaries** (API input, webhooks, forms)
+- One source of truth per concept — no duplicate models diverging
+- Prefer **composition** over deep inheritance
+- New dependencies require justification (size, maintenance, license)
+- Document non-obvious decisions in ADR or plan (use `system-design-tradeoffs`)
+
+## Before large refactors
+
+1. Run or propose `graphify` on affected area
+2. Name target architecture (frontend / backend / agentic skill)
+3. Phase the migration — no big-bang without approval

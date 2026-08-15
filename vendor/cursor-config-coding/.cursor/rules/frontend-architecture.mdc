@@ -1,0 +1,17 @@
+---
+description: Frontend architecture conventions for React, Next.js, and component structure
+globs: "**/*.{tsx,jsx,vue,svelte}"
+alwaysApply: false
+---
+
+# Frontend architecture (scoped)
+
+When editing UI files:
+
+1. Load skill `frontend-architecture` for new features or structural changes
+2. Keep components thin — data fetching in RSC/server layer or dedicated hooks
+3. Use design tokens / shared primitives — run `impeccable` for polish audits
+4. Animation: prefer `gsap-*` skills for scroll/timelines; see tech catalog for Framer Motion
+5. Every interactive surface needs loading, error, and empty states where applicable
+
+Stack-specific skills: [docs/TECH_STACK_SKILLS.md](../../docs/TECH_STACK_SKILLS.md)

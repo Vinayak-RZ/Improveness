@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "preinstalled_stack_skill": "nextjs-app-router-patterns",
+  "stacks": {
+    "nextjs": {
+      "detect": ["next", "next.config"],
+      "primary": ["nextjs-app-router-patterns"],
+      "recommended": [
+        "vercel-labs/agent-skills@vercel-react-best-practices",
+        "clerk/skills@clerk-nextjs-patterns"
+      ],
+      "optional": [
+        "sickn33/antigravity-awesome-skills@nextjs-best-practices",
+        "mindrally/skills@nextjs-react-typescript"
+      ],
+      "also_use_preinstalled": ["impeccable", "gsap-framer-scroll-animation", "graphify"]
+    },
+    "react": {
+      "detect": ["react", "vite", "create-react-app"],
+      "exclude_if": ["next"],
+      "primary": ["vercel-labs/agent-skills@vercel-react-best-practices"],
+      "recommended": [
+        "vercel-labs/agent-skills@vercel-react-view-transitions",
+        "duyet/claude-plugins@react-nextjs-patterns"
+      ],
+      "also_use_preinstalled": ["impeccable", "gsap-react", "gsap-core", "graphify"]
+    },
+    "flutter": {
+      "detect": ["pubspec.yaml", "flutter"],
+      "primary": ["flutter/skills@flutter-apply-architecture-best-practices"],
+      "recommended": [
+        "flutter/skills@flutter-build-responsive-layout",
+        "flutter/skills@flutter-fix-layout-issues"
+      ],
+      "also_use_preinstalled": ["graphify"]
+    },
+    "kotlin": {
+      "detect": ["build.gradle.kts", "kotlin"],
+      "primary": ["github/awesome-copilot@kotlin-springboot"],
+      "recommended": [
+        "github/awesome-copilot@create-spring-boot-kotlin-project"
+      ],
+      "also_use_preinstalled": ["graphify"]
+    },
+    "django": {
+      "detect": ["django", "manage.py"],
+      "primary": ["affaan-m/everything-claude-code@django-patterns"],
+      "recommended": [
+        "affaan-m/everything-claude-code@django-security",
+        "affaan-m/everything-claude-code@django-tdd"
+      ],
+      "also_use_preinstalled": ["graphify"]
+    },
+    "express": {
+      "detect": ["express", "fastify"],
+      "primary": ["mcollina/skills@node"],
+      "recommended": [
+        "teachingai/full-stack-skills@express",
+        "davila7/claude-code-templates@senior-architect"
+      ],
+      "also_use_preinstalled": ["graphify"]
+    }
+  }
+}

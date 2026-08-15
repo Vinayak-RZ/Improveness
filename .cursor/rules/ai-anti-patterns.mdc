@@ -1,0 +1,19 @@
+---
+description: Block common AI-generated code anti-patterns
+alwaysApply: true
+---
+
+# AI anti-patterns
+
+Reject and refactor these patterns:
+
+- Copy-paste duplicate logic instead of reusing existing functions
+- Speculative features or abstractions not required by the task
+- Swallowed exceptions or empty catch blocks
+- `any` / untyped boundaries without documented reason
+- God files that mix UI, data access, and business rules
+- Hard-coded config that should be environment-driven
+- Comments that restate obvious code instead of explaining why
+- Drive-by refactors outside the approved scope
+
+When unsure about architecture, **stop and apply** `system-design-tradeoffs` rather than guessing.

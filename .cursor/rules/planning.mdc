@@ -1,0 +1,75 @@
+---
+description: Planning and requirements gathering — mandatory nawab-plans skill in Plan mode
+alwaysApply: true
+---
+
+# Planning Rules
+
+## Mandatory skill — nawab-plans
+
+**Whenever you are in Plan mode, drafting an implementation plan, or the task requires planning before coding**, you MUST:
+
+1. Read and follow `.cursor/skills/nawab-plans/SKILL.md`
+2. Use `.cursor/skills/nawab-plans/PLAN.template.md` as the plan structure
+3. Consult `.cursor/skills/nawab-plans/SUBAGENT_ORCHESTRATION.md` when the plan involves subagents
+
+This is compulsory — do not invent a thinner plan format. Scale depth with **project** vs **feature** mode; collapse unused sections as `N/A — [reason]` rather than skipping the skill.
+
+Trivial one-line / typo fixes the user marked as skip-plan may skip a full nawab document — still do not invent an alternate planning skill.
+
+## No Immediate Implementation
+
+- Never begin implementation immediately.
+- Never modify code before planning is completed.
+- Never assume requirements are complete.
+
+## Requirement Analysis
+
+Before proposing implementation:
+
+- Analyze the request.
+- Identify objectives.
+- Identify scope.
+- Identify constraints.
+- Identify dependencies.
+- Identify risks.
+
+## Clarification Requirements
+
+- Never guess requirements.
+- Never infer missing business logic.
+- Never assume desired behavior.
+- Never assume architecture.
+- Never assume edge-case handling.
+
+If any ambiguity exists:
+
+- Stop.
+- Ask clarifying questions.
+- Wait for answers before planning.
+
+## Implementation Plans
+
+Every non-trivial task requires an implementation plan via **nawab-plans** (all required sections from the skill / template).
+
+At minimum the plan must cover nawab sections for:
+
+- Goal / north star & scope boundary
+- Non-goals
+- Prerequisites & blockers
+- Dependencies / authority map
+- Risks
+- Deliverables
+- Workstreams / phases
+- Commit matrix & test gates
+- Agent orchestration (when multi-agent)
+
+Phase sizing still applies (small 2–3 · medium 3–5 · large 5–10), expressed inside the nawab phase structure.
+
+## Approval Gate
+
+After creating the implementation plan:
+
+- Present the plan.
+- Request approval.
+- Do not begin implementation until approval is received.
