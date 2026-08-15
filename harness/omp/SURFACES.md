@@ -13,7 +13,7 @@ Improveness owns the overlay at `harness/omp/overlay/.omp/`. Local runs may syml
 | Tool implementation | Revertible source | `.omp/tools/*.{ts,js,sh,py}`, `.omp/extensions/` | `overlay/.omp/tools/` | Yes — project tools only. Never `oh-my-pi/packages/coding-agent/src/tools/*.ts` |
 | Middleware / hooks | Pre/post files | `.omp/hooks/{pre,post}`; TTSR; `ExtensionAPI` | `overlay/.omp/hooks/` | Yes — project hooks only. Do not stack closure-check on TTSR |
 | Skill | On-demand `SKILL.md` | `.omp/skills/*/SKILL.md`; managed-skills via `learn` | `overlay/.omp/skills/` | Yes — project skills. Reuse `learn`; do not rebuild it |
-| Sub-agent config | Isolated workers | `.omp/agents/*.md`; roles `default/smol/slow/plan/advisor` | `overlay/.omp/agents/debugger.md`, `evolver.md` | Agent markdown yes. `modelRoles` / `model-roles.ts` no |
+| Sub-agent config | Isolated workers | `.omp/agents/*.md`; roles include hidden `debugger` / `evolver` (D10) | `overlay/.omp/agents/debugger.md`, `evolver.md` | Agent markdown yes. Role **map** still kernel |
 | Long-term memory | Durable store | `retain` / `recall` / `reflect`; ACE playbook is **new** | `overlay/.omp/playbook/` | Playbook yes. Memory backends and `learn` stay OMP primitives |
 
 ## Proposal map (P1–P7)
@@ -21,7 +21,8 @@ Improveness owns the overlay at `harness/omp/overlay/.omp/`. Local runs may syml
 | Item | Intent | Surface in this repo | Core patch later? |
 |------|--------|----------------------|-------------------|
 | P1 Structured session export | Miner-ready per-session directory | `harness/omp/drivers/export-session.ts` → `harness/omp/traces/` | Only if jsonl lacks tool I/O |
-| P2 Debugger role | Read-only diagnosis | `overlay/.omp/agents/debugger.md` | Only if `modelRoles.debugger` must be a first-class enum |
+| P2 Debugger role | Read-only diagnosis | `overlay/.omp/agents/debugger.md` + hidden `ModelRole` | Done (D10 enum only) |
+| P5b TB adapter | Harbor-shaped local tasks | `evals/tb-adapter/` | No — not a public TB2 run |
 | P3 ACE playbook | Deterministic curator + context inject | `overlay/.omp/playbook/` + `drivers/curate-playbook.ts` | No |
 | P4 Allowlisted evolver | Write allowlist | `overlay/.omp/agents/evolver.md` + path helper | Only if SDK cannot restrict paths |
 | P5 Held-in / held-out | Self-Harness gate | `harness/omp/evals/` + `drivers/self-harness.ts` | No |
