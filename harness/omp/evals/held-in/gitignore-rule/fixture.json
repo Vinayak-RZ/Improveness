@@ -1,0 +1,6 @@
+{
+  "id": "gitignore-rule",
+  "split": "held-in",
+  "prompt": "Ignore node_modules in .gitignore.",
+  "check": "check.sh"
+}

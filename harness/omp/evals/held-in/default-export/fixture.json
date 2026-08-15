@@ -1,0 +1,6 @@
+{
+  "id": "default-export",
+  "split": "held-in",
+  "prompt": "Add a default export for the App function in src/app.ts.",
+  "check": "check.sh"
+}

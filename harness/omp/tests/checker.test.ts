@@ -1,8 +1,16 @@
+import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "bun:test";
 import { scoreWorkspace } from "../evals/checker/check.ts";
 
 const evals = join(import.meta.dir, "../evals");
+
+function fixtureDirs(split: "held-in" | "held-out"): string[] {
+  return readdirSync(join(evals, split), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
 
 describe("frozen checker", () => {
   test("known-pass expected tree scores true", () => {
@@ -25,21 +33,18 @@ describe("frozen checker", () => {
     expect(scoreWorkspace(fixture, join(fixture, "expected")).passed).toBe(true);
   });
 
-  test("all five fixtures have a check.sh and both trees", () => {
+  test("held-in has twelve fixtures with check.sh and both trees", () => {
     const { existsSync } = require("node:fs") as typeof import("node:fs");
-    const ids = [
-      "held-in/greet-export",
-      "held-in/sum-fn",
-      "held-in/readme-title",
-      "held-out/greet-types",
-      "held-out/no-secrets",
-    ];
+    const ids = fixtureDirs("held-in");
+    expect(ids).toHaveLength(12);
     for (const id of ids) {
-      const dir = join(evals, id);
+      const dir = join(evals, "held-in", id);
       expect(existsSync(join(dir, "fixture.json"))).toBe(true);
       expect(existsSync(join(dir, "check.sh"))).toBe(true);
       expect(existsSync(join(dir, "repo"))).toBe(true);
       expect(existsSync(join(dir, "expected"))).toBe(true);
+      expect(scoreWorkspace(dir, join(dir, "expected")).passed).toBe(true);
+      expect(scoreWorkspace(dir, join(dir, "repo")).passed).toBe(false);
     }
   });
 });

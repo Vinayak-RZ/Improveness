@@ -1,0 +1,6 @@
+{
+  "id": "package-script",
+  "split": "held-in",
+  "prompt": "Add a build script to package.json.",
+  "check": "check.sh"
+}
