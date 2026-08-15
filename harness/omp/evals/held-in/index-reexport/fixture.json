@@ -1,0 +1,6 @@
+{
+  "id": "index-reexport",
+  "split": "held-in",
+  "prompt": "Re-export greet from src/index.ts.",
+  "check": "check.sh"
+}

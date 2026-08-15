@@ -1,0 +1,6 @@
+{
+  "id": "named-type-export",
+  "split": "held-in",
+  "prompt": "Export a User type from src/types.ts.",
+  "check": "check.sh"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "unused-var-marker",
+  "split": "held-in",
+  "prompt": "Prefix the unused variable in src/unused.ts with an underscore.",
+  "check": "check.sh"
+}

@@ -1,0 +1,6 @@
+{"id":"sess-omp-golden","cwd":"/workspace","type":"session_meta"}
+{"role":"user","timestamp":1,"content":[{"type":"text","text":"Add a named export for greet."}]}
+{"role":"assistant","timestamp":2,"model":"test-smol","stopReason":"toolUse","content":[{"type":"text","text":"I will read the file first."},{"type":"toolCall","id":"call-1","name":"read","arguments":{"path":"src/greet.ts"}}]}
+{"role":"toolResult","timestamp":3,"toolCallId":"call-1","toolName":"read","content":[{"type":"text","text":"export function greet() {}"}]}
+{"role":"assistant","timestamp":4,"model":"test-smol","stopReason":"endTurn","content":[{"type":"text","text":"Added the named export."}]}
+{"type":"outcome","passed":true,"exitCode":0}

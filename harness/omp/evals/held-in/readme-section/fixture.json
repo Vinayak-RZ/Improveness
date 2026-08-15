@@ -1,0 +1,6 @@
+{
+  "id": "readme-section",
+  "split": "held-in",
+  "prompt": "Add an Install section heading to README.md.",
+  "check": "check.sh"
+}

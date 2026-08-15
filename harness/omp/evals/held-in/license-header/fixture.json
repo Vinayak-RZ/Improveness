@@ -1,0 +1,6 @@
+{
+  "id": "license-header",
+  "split": "held-in",
+  "prompt": "Add a one-line MIT license comment at the top of src/lib.ts.",
+  "check": "check.sh"
+}

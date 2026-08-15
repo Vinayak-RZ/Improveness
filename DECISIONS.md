@@ -55,3 +55,18 @@
 - **Alternatives:** Closed auto-merge; maintainer review queue.
 - **Selected:** Held-out gate plus human promote; no writes to canonical OMP built-ins.
 - **Rationale:** Weng reward-hacking bottleneck; OMP maintainer stance.
+
+## D9 — Overlay-first; core patches only when a gate fails
+
+- **Context:** D8 put Oh My Pi in-tree. The question is where self-improvement code lives.
+- **Alternatives:** Patch `oh-my-pi/packages/coding-agent/` first; git submodule + upstream PRs; Improveness `harness/omp/` overlay + SDK drivers.
+- **Selected:** Overlay-first at `harness/omp/`. Touch OMP core only if a phase exit gate cannot be met from `.omp/` + `createAgentSession` + existing session jsonl.
+- **Rationale:** AHE surfaces are file-level. OMP already loads project agents, hooks, and custom tools. D7 forbids auto-apply to built-ins. [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) treats candidates as evidence.
+- **Core-patch triggers (not pre-scheduled):** unknown `modelRoles.debugger` rejected by schema; evolver path allowlist too coarse; jsonl missing tool I/O. Still never edit `system.md` as an improvement surface.
+
+## D10 — First core patch is hidden debugger/evolver roles
+
+- **Context:** P1 asked for first-class `@debugger` and `@evolver`. Custom roles already work via `getKnownRoleIds`, but the `ModelRole` union did not name them.
+- **Alternatives:** Config-only custom roles; add visible selector entries; skip the core edit.
+- **Selected:** Add `debugger` and `evolver` to `ModelRole` / `MODEL_ROLES` / `MODEL_ROLE_IDS` with `hidden: true`.
+- **Rationale:** Overlay agents can pin `model: "@debugger"` / `"@evolver"`. Hidden keeps the TUI selector unchanged. No `system-prompt.md` edit.

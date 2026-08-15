@@ -1,0 +1,7 @@
+{
+  "name": "fixture",
+  "scripts": {
+    "lint": "echo lint",
+    "build": "echo build"
+  }
+}

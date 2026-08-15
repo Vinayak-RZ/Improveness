@@ -1,0 +1,6 @@
+{
+  "id": "tsconfig-strict",
+  "split": "held-in",
+  "prompt": "Enable compilerOptions.strict in tsconfig.json.",
+  "check": "check.sh"
+}

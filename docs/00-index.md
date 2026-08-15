@@ -12,7 +12,8 @@ Reading order for this corpus. Everything here is documentation and **change pro
    - OMP: [02-omp-gap-analysis.md](proposals/02-omp-gap-analysis.md) then [03-omp-proposed-changes.md](proposals/03-omp-proposed-changes.md)
    - safety: [04-safety.md](proposals/04-safety.md)
    - order: [05-adoption-order.md](proposals/05-adoption-order.md)
-5. Sources: [references.md](references.md)
+5. Overlay execution: P0/P1 in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); P2 draft (awaiting approval) in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md).
+6. Sources: [references.md](references.md)
 
 ## Paper map
 

@@ -1,0 +1,6 @@
+{
+  "id": "greet-types",
+  "split": "held-out",
+  "prompt": "Export greet(name: string): string from src/greet.ts.",
+  "check": "check.sh"
+}

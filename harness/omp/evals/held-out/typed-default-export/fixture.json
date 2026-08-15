@@ -1,0 +1,6 @@
+{
+  "id": "typed-default-export",
+  "split": "held-out",
+  "prompt": "Default-export a typed greet(name: string): string from src/greet.ts.",
+  "check": "check.sh"
+}

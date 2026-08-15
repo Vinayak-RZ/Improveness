@@ -1,0 +1,6 @@
+{
+  "name": "held-out",
+  "scripts": {
+    "build": "echo build"
+  }
+}
