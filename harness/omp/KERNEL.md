@@ -25,6 +25,9 @@ See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md) and [oh-my-
 | `harness/omp/SURFACES.md` | Declares the contract; not a playbook |
 | `harness/omp/KERNEL.md` | This file |
 | `harness/omp/scripts/validate.sh` | Hardening orchestrator |
+| `harness/omp/CACD.md` | Operating model; not a playbook |
+| `harness/omp/scripts/qa.sh` | Repository QA orchestrator |
+| `.github/workflows/overlay.yml` | Improveness CI; evolver cannot edit the gate |
 | `IMPLEMENTATION_PLAN.md` | Execution contract |
 | `DECISIONS.md` | ADRs |
 
@@ -42,4 +45,4 @@ See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md) and [oh-my-
 - `harness/omp/overlay/.omp/tools/**`
 - Staging copies under `harness/omp/staging/` of those same trees
 
-Accept lands in **staging**. Promote to the overlay (or any OMP package file) is a **human** action via [REVIEW_QUEUE.md](REVIEW_QUEUE.md).
+Accept lands in **staging**. `drivers/search.ts` may also write `archive/<id>/` and a `REVIEW_QUEUE.md` row. Promote to the overlay (or any OMP package file) is a **human** action via [REVIEW_QUEUE.md](REVIEW_QUEUE.md) (D12).

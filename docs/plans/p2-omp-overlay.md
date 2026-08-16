@@ -1,6 +1,6 @@
 # OMP overlay P2 — Master Execution Plan
 
-> Draft nawab contract. **Not a license to implement** until the user approves this document. After approval, Phase 0 copies this file over [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) and records **D11**.
+> Approved snapshot (2026-08-15). Live execution contract is [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md). Edit that file when the contract changes.
 
 > Nawab master plan (feature mode). Skills applied: `nawab-plans`, `planning.mdc`, `agentic-system-design`, `system-design-tradeoffs`, `learn-while-building`. Spec Kit still collapsed: no `.specify/` in P2.
 

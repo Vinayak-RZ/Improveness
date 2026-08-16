@@ -1,6 +1,6 @@
 # Adoption order
 
-Same sequence for a generic harness and for OMP. Cheapest first. Each step is a **spec milestone**, not a commit in this repo.
+Same sequence for a generic harness and for OMP. Cheapest first. Steps 0–5 are implemented under [`harness/omp/`](../../harness/omp/SURFACES.md); this page remains the spec order.
 
 ```mermaid
 flowchart LR
@@ -39,5 +39,5 @@ flowchart LR
 |------|--------|
 | P0 (done) | Steps 0–4 |
 | P1 (done) | Step 5 archive primitive; ≥20-case suite; TB adapter (not public TB2) |
-| P2 (draft) | Improveness CI; bounded archive search; local Harbor runner — [p2-omp-overlay.md](../plans/p2-omp-overlay.md) |
+| P2 (implemented) | Improveness CI; bounded archive search; local Harbor runner; local-20 benchmark — [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) |
 | P3 (parked) | Public TB2 campaign; Spec Kit constitution; Agent Patterns Catalog ids |

@@ -70,3 +70,24 @@
 - **Alternatives:** Config-only custom roles; add visible selector entries; skip the core edit.
 - **Selected:** Add `debugger` and `evolver` to `ModelRole` / `MODEL_ROLES` / `MODEL_ROLE_IDS` with `hidden: true`.
 - **Rationale:** Overlay agents can pin `model: "@debugger"` / `"@evolver"`. Hidden keeps the TUI selector unchanged. No `system-prompt.md` edit.
+
+## D11 — P2 ships CI + bounded search + local Harbor runner
+
+- **Context:** P1 deferred live-smoke-in-CI, archive-driven search, and a public Terminal-Bench 2 / Harbor campaign.
+- **Alternatives:** Make live smoke a required CI job; run a public TB2/Harbor campaign in this wave; park search until a public bench exists.
+- **Selected:** Required CI job is `validate.sh` only. Live smoke is skip-gated. Archive search is in scope. Public TB2, required smoke, Spec Kit, and catalog ids stay P3.
+- **Rationale:** Keyless PRs must stay green. Proposal P5 forbids tuning on the public set the proposer already saw. The 20-fixture frozen checker is enough fitness to start a bounded search.
+
+## D12 — Archive search stages and queues; it does not promote
+
+- **Context:** Wiring `sampleParent` to a propose → check loop could silently become auto-apply onto `overlay/.omp/` or OMP packages.
+- **Alternatives:** Closed loop that writes the canonical overlay; search that only logs without staging; human-only proposals with no driver.
+- **Selected:** `runSearch` may write `staging/`, `archive/<id>/`, manifests, and a `REVIEW_QUEUE.md` row. It must not copy into `overlay/.omp/` or `oh-my-pi/packages/`. Human promote remains the only path onto the project overlay (extends D7).
+- **Rationale:** [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) treats candidates as evidence. Weng reward-hacking bottleneck. Safety rule 6.
+
+## D13 — CACD is Contract · Architecture · Control · Delivery
+
+- **Context:** The overlay had a nawab plan and ADRs but no single machine-checkable operating model. The user asked for a proper CACD, repo-wide QA, and simulations of agentic architectures.
+- **Alternatives:** Treat CACD as CI/CD only; skip a named model and keep docs informal; require live-LLM architecture evals.
+- **Selected:** CACD means Contract, Architecture, Control, Delivery. QA verifies the catalog. Simulations replay named agentic wirings against the frozen suite without a live model.
+- **Rationale:** The selling point is comparing harness topologies (ACE-only vs gated Self-Harness vs leaked/held-out vs kernel-writing) before spending tokens. Keyless CI must stay green (D11).

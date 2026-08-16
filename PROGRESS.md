@@ -2,18 +2,21 @@
 
 ## Current phase
 
-OMP overlay **P1 complete**. **P2 plan drafted** at [docs/plans/p2-omp-overlay.md](docs/plans/p2-omp-overlay.md) — awaiting approval. Do not start P2 Phase 0 until approved.
+OMP overlay **P2 complete**. **CACD + repo QA + seven agentic-architecture simulations** added (D13). P3 remains parked.
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| 12 held-in + 8 held-out fixtures | done |
-| Live `createAgentSession` smoke (skip without keys) | done |
-| Hidden `@debugger` / `@evolver` roles (D10) | done |
-| Harbor-shaped TB adapter | done (not public TB2) |
-| Overlay archive + parent sampling | done |
-| `validate.sh` | done (41 tests) |
+| `.github/workflows/overlay.yml` | done |
+| Skip-gated live-smoke CI job | done |
+| `runSearch` + deterministic proposer | done |
+| Local Harbor runner | done |
+| Local-20 benchmark (0/12→7/12, 0/8→3/8) | done |
+| Extensive README | done |
+| CACD (D13) + `qa.sh` | done |
+| 7 architecture simulations | done |
+| `validate.sh` P2 greps | done |
 
 ## Completed phases
 
@@ -33,16 +36,20 @@ OMP overlay **P1 complete**. **P2 plan drafted** at [docs/plans/p2-omp-overlay.m
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| A | 20 fixtures | done |
-| B | Live smoke skip-gate | done |
-| C | ModelRole debugger/evolver | done |
-| D | TB adapter | done |
-| E | Archive primitive | done |
-| N | validate.sh + docs | done (this commit) |
+| A–N | 20 fixtures, smoke, roles, TB adapter, archive | done |
+
+### Overlay P2
+
+| Phase | Objective | Status |
+|-------|-----------|--------|
+| 0 | Adopt P2 contract + D11/D12 | done |
+| A | Root validate.sh CI | done |
+| B | Optional live-smoke job | done |
+| C | Bounded archive search | done |
+| D | Local Harbor runner | done |
+| N | validate.sh greps + docs + local-20 | done |
 
 ## Remaining phases
-
-**P2 (draft, not started):** root `validate.sh` CI; skip-gated live-smoke job; bounded archive search (stage + queue); local Harbor runner.
 
 **P3 (parked):** public TB2 / Harbor campaign; required live-smoke; Spec Kit; catalog ids; search that writes canonical overlay.
 
@@ -56,8 +63,8 @@ None.
 
 ```text
 harness/omp/scripts/validate.sh
-# bun test harness/omp/tests/  →  41 pass
-# fixture.json count >= 20
-# tb-adapter/README.md present
-# archive.ts calls isKernelRel
+# bun test harness/omp/tests/
+# overlay.yml calls validate.sh
+# search.ts has MAX_STEP_CAP + kernel guard
+# local-20: held-in 0/12 → 7/12, held-out 0/8 → 3/8 after 5 steps
 ```

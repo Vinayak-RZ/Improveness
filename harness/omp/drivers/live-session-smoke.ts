@@ -62,3 +62,13 @@ export async function runLiveSessionSmoke(input: {
   const reply = await session.prompt(input.prompt ?? "Reply with the word pong and do not edit files.");
   return { skipped: false, passed: /pong/i.test(reply.text), reply: reply.text };
 }
+
+if (import.meta.main) {
+  const gate = shouldSkipLiveSmoke();
+  if (gate.skip) {
+    console.log(JSON.stringify({ skipped: true, reason: gate.reason }));
+    process.exit(0);
+  }
+  console.error("live smoke requested but this CLI does not construct createAgentSession; inject a factory from tests or a maintainer wrapper");
+  process.exit(1);
+}

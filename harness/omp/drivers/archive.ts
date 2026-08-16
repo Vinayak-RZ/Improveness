@@ -48,6 +48,32 @@ function sha256(body: string): string {
   return createHash("sha256").update(body).digest("hex");
 }
 
+export function listArchive(repoRoot: string): ArchiveNode[] {
+  const dir = join(resolve(repoRoot), "harness/omp/archive");
+  if (!statExists(dir)) return [];
+  const metas: ArchiveMeta[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const metaPath = join(dir, entry.name, "meta.json");
+    if (!statExists(metaPath)) continue;
+    metas.push(JSON.parse(readFileSync(metaPath, "utf8")) as ArchiveMeta);
+  }
+  return metas.map((meta) => ({
+    id: meta.id,
+    fitness: meta.fitness,
+    childCount: metas.filter((other) => other.parentId === meta.id).length,
+  }));
+}
+
+export function loadSnapshotPlaybook(repoRoot: string, id: string): string | null {
+  const filesDir = join(resolve(repoRoot), "harness/omp/archive", id, "files");
+  if (!statExists(filesDir)) return null;
+  const names = readdirSync(filesDir).filter((name) => name.endsWith("PLAYBOOK.md"));
+  if (names.length === 0) return null;
+  const preferred = names.find((name) => name.includes("staging")) ?? names[0];
+  return readFileSync(join(filesDir, preferred), "utf8");
+}
+
 export function sampleParent(nodes: ArchiveNode[]): string {
   if (nodes.length === 0) throw new Error("archive is empty");
   const weights = nodes.map((node) => Math.max(node.fitness, 0) / (1 + node.childCount));

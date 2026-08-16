@@ -8,6 +8,27 @@
 
 ## Session / phase entries
 
+### CACD, QA, architecture simulations — 2026-08-15
+
+- **Concept:** CACD is Contract · Architecture · Control · Delivery — a live checklist, not another ADR log. Simulations compare *wirings* (who may write, who may see held-out) without a live model.
+- **Pattern:** Catalog needles in `cacd/catalog.ts`; `qa.sh` = validate.sh + qa-repo + simulate-architectures.
+- **Trade-off:** ACE-only is a passing simulation of *stagnation*, not a product failure. That is the AHE lesson encoded as a test.
+- **Files to study:** `harness/omp/CACD.md`, `harness/omp/evals/simulations/latest/summary.md`
+
+### P2 closeout — CI, search, local-20 — 2026-08-15
+
+- **Concept:** A playbook-conditioned solver turns ACE memory into measurable fixture unlocks; held-out-only families staying locked is the leakage brake, not a bug.
+- **Pattern:** `run-benchmark.ts` copies evals into a temp worktree so search can write archive/queue without dirtying the canonical overlay.
+- **Trade-off:** This benchmark is harness-memory, not a live LLM agent. Chosen so CI stays keyless and D11 (no public TB2) still holds.
+- **Files to study:** `harness/omp/drivers/search.ts`, `harness/omp/evals/benchmarks/local-20/summary.md`
+
+### P2 Phase 0 — Adopt contract — 2026-08-15
+
+- **Concept:** Approval turns the draft nawab file into `IMPLEMENTATION_PLAN.md`; ADRs (D11/D12) freeze the P2 vs P3 split before CI or search code exists.
+- **Pattern:** Snapshot stays at `docs/plans/p2-omp-overlay.md`; the root plan is the live contract.
+- **Trade-off:** Stop after Phase 0 so the P2/P3 split can be frozen before adding `.github/workflows`.
+- **Files to study:** `IMPLEMENTATION_PLAN.md`, `DECISIONS.md` D11/D12
+
 ### P2 plan draft — 2026-08-15
 
 - **Concept:** Archive snapshot + `sampleParent` is not yet a search loop; the missing piece is a hard-capped propose → frozen-check → stage cycle that still cannot promote.

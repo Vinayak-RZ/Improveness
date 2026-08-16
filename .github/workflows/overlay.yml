@@ -1,0 +1,64 @@
+name: Overlay
+
+on:
+  push:
+    paths:
+      - "harness/omp/**"
+      - ".github/workflows/overlay.yml"
+      - "IMPLEMENTATION_PLAN.md"
+      - "DECISIONS.md"
+      - "PROGRESS.md"
+      - "LEARNING.md"
+      - "README.md"
+  pull_request:
+    paths:
+      - "harness/omp/**"
+      - ".github/workflows/overlay.yml"
+      - "IMPLEMENTATION_PLAN.md"
+      - "DECISIONS.md"
+      - "PROGRESS.md"
+      - "LEARNING.md"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: overlay-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: qa.sh (runs validate.sh)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.14"
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+      - name: Run repository QA
+        run: bash harness/omp/scripts/qa.sh
+
+  live-smoke:
+    name: live-smoke (skip without keys)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.14"
+      - name: Skip-gated createAgentSession smoke
+        env:
+          OMP_LIVE_SMOKE: ${{ vars.OMP_LIVE_SMOKE }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OMP_ANTHROPIC_OAUTH_CLIENT_ID: ${{ secrets.OMP_ANTHROPIC_OAUTH_CLIENT_ID }}
+        run: bun harness/omp/drivers/live-session-smoke.ts

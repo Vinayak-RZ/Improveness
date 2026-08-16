@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Improveness is a maintainer-readable corpus **and** an overlay that adds a gated self-improvement loop on in-tree Oh My Pi:
+Improveness is a maintainer-readable corpus, a **CACD** operating model (Contract · Architecture · Control · Delivery), a **keyless simulator of agentic architectures**, and an overlay that adds a gated self-improvement loop on in-tree Oh My Pi:
 
 1. Explains Lilian Weng’s [“Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/) by natural segment.
 2. Specifies what **any** coding harness must add to become self-improving.
@@ -30,6 +30,6 @@ See [docs/proposals/00-architecture.md](docs/proposals/00-architecture.md).
 
 - Upstream `oh-my-pi` git history is not preserved; we do not push back to `can1357/oh-my-pi` from this repo unless explicitly asked.
 - Upgrades land under [`harness/omp/`](harness/omp/), guided by [`docs/proposals/`](docs/proposals/). Core OMP patches only if a phase gate fails (D9).
-- No Terminal-Bench / SWE-bench reproduction.
-- No secrets or live agent credentials.
-- Spec Kit `.specify/` is out of scope for this pass.
+- No public Terminal-Bench 2 / SWE-bench campaign. Local 20-fixture Harbor-shaped tasks and `evals/benchmarks/local-20/` are in-repo only.
+- Secrets stay in env. Live smoke/search are optional and skip-gated.
+- Spec Kit `.specify/` is out of scope (P3).
