@@ -450,7 +450,7 @@ bash harness/omp/scripts/qa.sh
 | Slow | Live `createAgentSession` | skip unless `OMP_LIVE_SMOKE=1` and a key |
 | Out of gate | OMP `coding-agent-heavy` | do not run as the overlay gate |
 
-`qa.sh` = `validate.sh` + `qa-repo.ts` + `simulate-architectures.ts`. CI ([`.github/workflows/overlay.yml`](.github/workflows/overlay.yml)) runs `qa.sh` on the `validate` job (Bun 1.3.14, `contents: read`). The `live-smoke` job is skip-gated and must not redden a keyless PR.
+`qa.sh` = `validate.sh` + `qa-repo.ts` + `simulate-architectures.ts`. CI ([`.github/workflows/overlay.yml`](.github/workflows/overlay.yml)) installs ripgrep, then runs `qa.sh` on the `validate` job (Bun 1.3.14, `contents: read`). Every fixture `check.sh` calls `rg`; without it expected trees fail. The `live-smoke` job is skip-gated and must not redden a keyless PR.
 
 ## 13. Safety kernel
 

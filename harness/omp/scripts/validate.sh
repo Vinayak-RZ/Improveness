@@ -9,6 +9,10 @@ if ! command -v bun >/dev/null; then
   echo "bun is required" >&2
   exit 1
 fi
+if ! command -v rg >/dev/null; then
+  echo "rg (ripgrep) is required; fixture check.sh and this gate call it" >&2
+  exit 1
+fi
 
 echo "== bun test harness/omp/tests =="
 bun test harness/omp/tests/
@@ -72,6 +76,10 @@ if [[ ! -f .github/workflows/overlay.yml ]]; then
 fi
 if ! rg -q 'validate.sh' .github/workflows/overlay.yml; then
   echo "overlay.yml must run validate.sh" >&2
+  exit 1
+fi
+if ! rg -q 'ripgrep' .github/workflows/overlay.yml; then
+  echo "overlay.yml must install ripgrep (every fixture check.sh uses rg)" >&2
   exit 1
 fi
 if rg -n 'working-directory: oh-my-pi|coding-agent-heavy' .github/workflows/overlay.yml; then
