@@ -70,7 +70,10 @@ Before large refactors, consider `graphify` on the affected directory.
 | Need | Skill / doc |
 |------|-------------|
 | Learn while building | `learn-while-building` |
-| Exhaustive README | `extensive-readme` |
+| Make a README (choose type) | `readme` |
+| Readable / general README.md | `readable-readme` |
+| Extensive internals companion | `extensive-readme` |
+| Product / OSS landing README | `product-readme` |
 | Workflow guide | [docs/LEARNING_AND_RESEARCH.md](docs/LEARNING_AND_RESEARCH.md) |
 
 End each phase with a short **What you learned** summary. Optional: maintain `LEARNING.md` in the project.
@@ -106,7 +109,7 @@ Reload Cursor after changing `mcp.json`.
 
 11. Apply `quality-gates.mdc` — validate, report, update progress docs, **commit**.
 
-## Pre-installed skills (36)
+## Pre-installed skills (39)
 
 See [skills-manifest.json](skills-manifest.json) for the full list.
 

@@ -1,53 +1,27 @@
 # Extensive README — pre-ship checklist
 
-Run before delivering. Fix every fail. Do not ship a catalog-only README.
+## Routing and file
+
+- [ ] Wrote `docs/EXTENSIVE.md` (or the path the user named), **not** as a replacement for a product/readable `README.md`
+- [ ] Main `README.md` has a top banner link here (added or already present)
+- [ ] If the user wanted a product or readable main README, that was a different skill
+
+## Coverage
+
+- [ ] End-to-end "how this repository runs" with a diagram
+- [ ] **Every first-party package** has its own section (or every top-level module in a single-package repo)
+- [ ] Each package: what it is for, how it is used, how it works
+- [ ] File map for important files: path, **why it exists**, what it does
+- [ ] No "and other utilities" instead of a section
+- [ ] Generated/vendor trees mentioned once, not file-listed
 
 ## Accuracy
 
-- [ ] Features, paths, and counts match the current tree (not memory or an old README)
-- [ ] Env vars match `.env.example` / config modules; required vs optional is correct
-- [ ] Tool / API / CLI counts match the registry or routes
-- [ ] Diagrams show interfaces that still exist
-- [ ] Stack names are the ones in code (do not mix Chroma/Qdrant/Postgres by habit)
+- [ ] Every path exists in the tree
+- [ ] Package list matches workspaces / folders
+- [ ] No invented features or URLs
 
-## Structure
+## Teaching and future
 
-- [ ] Major `##` sections numbered sequentially `1…N`
-- [ ] Subsections use `N.M` matching the parent
-- [ ] TOC lists every major section; anchors work
-- [ ] Physical order matches numeric order
-- [ ] Empty inapplicable sections were omitted, not left as placeholders
-
-## Teaching (mandatory)
-
-- [ ] 3–8 **ideas worth understanding** (or fewer only if the repo truly has fewer)
-- [ ] Each idea has: name, mechanism, analogy, constraint, honest limits
-- [ ] Each idea cites `{path}` or an invariant in this repo
-- [ ] Ideas are bets/techniques, not a restated feature list
-- [ ] **Further reading** exists when there are ideas to teach
-- [ ] Every citation URL was verified (see [further-reading.md](further-reading.md))
-- [ ] No invented, guessed, or "probably this arxiv id" links
-- [ ] Glossary teaches terms as used here, not generic Wikipedia blurbs
-
-## Voice
-
-- [ ] Opening 30 lines: title, positioning, TL;DR
-- [ ] A curious non-specialist can follow the narrative without a glossary in the other hand
-- [ ] Required jargon is defined in one plain sentence on first use
-- [ ] Hard ideas: simple explanation in the README, then a verified blog or wiki link
-- [ ] Narrative (vision + ideas + how it works + future) is finishable in one sitting (~10–20 min); catalogs are tables, not essays
-- [ ] No engagement bait; present tense for current behavior; past tense only in changelog
-- [ ] Honest today vs roadmap
-
-## Future advancements (mandatory)
-
-- [ ] Section exists near the end of the README (after further reading / roadmap)
-- [ ] At least **3** advancements, prefer **4**
-- [ ] Each names a next bet, why it matters, what would land, and done-when
-- [ ] Each is grounded in this repo (`{path}`, TODO, missing test, incomplete interface)
-- [ ] None are generic slogans ("scale", "add AI", "more features")
-
-## Routing
-
-- [ ] This file is a reference manual, not a product landing page
-- [ ] If the user asked for a public product README (logo, tagline, tiny quickstart), stop and use `product-readme`
+- [ ] Non-obvious ideas explained simply; hard ones link a verified blog or wiki
+- [ ] Future advancements: at least 3, prefer 4, grounded in this repo

@@ -1,6 +1,6 @@
 ﻿{
   "version": 7,
-  "description": "Coding Cursor config — 36 skills, 21 rules, agent-patterns MCP, nawab-plans + ponytail + Spec Kit, learn-while-building, auto conventional commits",
+  "description": "Coding Cursor config — 39 skills, 21 rules, agent-patterns MCP, nawab-plans + ponytail + Spec Kit, learn-while-building, auto conventional commits",
   "mcp": {
     "default_server": "agent-patterns",
     "url": "https://mcp.agentpatternscatalog.org/mcp",
@@ -15,7 +15,7 @@
     "rule": "speckit"
   },
   "preinstalled": {
-    "count": 36,
+    "count": 39,
     "categories": {
       "planning": ["nawab-plans"],
       "minimal-code": [
@@ -45,7 +45,7 @@
         "system-design-tradeoffs"
       ],
       "nextjs": ["nextjs-app-router-patterns"],
-      "documentation": ["extensive-readme"],
+      "documentation": ["readme", "product-readme", "readable-readme", "extensive-readme"],
       "learning": ["learn-while-building"],
       "animation": [
         "gsap-core",

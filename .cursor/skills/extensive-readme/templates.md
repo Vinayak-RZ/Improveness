@@ -1,202 +1,93 @@
-# Extensive README — Section templates
+# Extensive README — templates
 
-Copy and adapt. Skip sections that do not apply. Keep numbering sequential in the
-final file. Teaching blocks are not optional when the project has non-obvious ideas.
+Default file: `docs/EXTENSIVE.md`. Number sections sequentially. One subsection
+per first-party package — do not skip.
 
-## Skeleton (section order)
+## Skeleton
 
 ```markdown
-# {Project} — {one-line what + for whom}
+# {Project} — extensive internals
 
-> {What it is}. {What it is not}. Primary interface: {CLI / API / UI}.
-
-Runtime: {language / deploy target}.
-
----
-
-## TL;DR
-
-- {Differentiator 1}
-- {Differentiator 2}
-- …
+Companion to the main [README](../README.md). How the repo runs, every package,
+and why the important files exist. Do not invent paths.
 
 ## Table of contents
 
-- [1. Vision](#1-vision)
-- [2. Ideas worth understanding](#2-ideas-worth-understanding)
-- [3. Architecture](#3-architecture)
-- [4. Quickstart](#4-quickstart)
-- [5. Configuration](#5-configuration)
-- [6. Directory tree](#6-directory-tree)
-- [7. Interfaces](#7-interfaces)
-- [8. Data model](#8-data-model)
-- [9. Testing](#9-testing)
-- [10. Further reading](#10-further-reading)
-- [11. Roadmap and changelog](#11-roadmap-and-changelog)
-- [12. Future advancements](#12-future-advancements)
-- [13. FAQ](#13-faq)
-- [14. Glossary](#14-glossary)
+- [1. How this repository runs](#1-how-this-repository-runs)
+- [2. Package map](#2-package-map)
+- [3. Packages](#3-packages)
+- [4. Configuration](#4-configuration)
+- [5. Tests and CI](#5-tests-and-ci)
+- [6. Ideas worth understanding](#6-ideas-worth-understanding)
+- [7. Further reading](#7-further-reading)
+- [8. Future advancements](#8-future-advancements)
 
-## 1. Vision
+## 1. How this repository runs
 
-### What it is
-### What it is not
+{Mermaid: user/action → entry → packages → result. Then a short walkthrough.}
 
-## 2. Ideas worth understanding
+## 2. Package map
 
-{See teaching block template below. 3–8 ideas.}
+| Package | Path | Role | Entry |
+|---------|------|------|-------|
+| `{name}` | `{dir}` | {one line} | `{file or command}` |
 
-## 3. Architecture
+## 3. Packages
 
-Use a mermaid `flowchart TD` or `flowchart LR` here (≤15 nodes).
+### 3.1 `{package name}`
 
-### 3.1 Concept to implementation map
+**What it is for.** {Plain sentence.}
 
-| Concept | Where it lives | Notes |
-|---------|----------------|-------|
-| {idea} | `{path}` | {one line} |
+**How it is used.** {Who imports it, which CLI, which URL.}
 
-## 4. Quickstart
+**How it works.** {High-level flow. Cite entry `{path}`.}
 
-## 5. Configuration
+#### File map
 
-| Variable | Required | Default | What it does |
-|----------|----------|---------|--------------|
-| `{NAME}` | yes/no | `{value}` | {one line} |
+| File | Why it is here | What it does |
+|------|----------------|--------------|
+| `{path}` | {reason this file exists} | {one line} |
 
-## 6. Directory tree
+{Repeat 3.2, 3.3, … for every first-party package.}
 
-## 7. Interfaces
+## 4. Configuration
 
-## 8. Data model
+## 5. Tests and CI
 
-## 9. Testing
+## 6. Ideas worth understanding
 
-## 10. Further reading
+## 7. Further reading
 
-## 11. Roadmap and changelog
-
-## 12. Future advancements
-
-{Mandatory. At least 3, prefer 4. See template below.}
-
-## 13. FAQ
-
-## 14. Glossary
+## 8. Future advancements
 ```
 
-Renumber if you skip sections. TOC anchors must match headings.
-
-## Teaching block (one idea)
-
-Use this shape for every item in **Ideas worth understanding**:
+## Package section (copy per package)
 
 ```markdown
-### N.M {Memorable name}
+### N.M `{name}` (`{dir}`)
 
-**Constraint.** {What would go wrong, or what the system cannot afford.}
+**What it is for.** …
 
-**How it works.** {Short sentences a non-specialist can follow. Cite `{path}`. If this is hard, one simple paragraph plus a verified blog or wiki — do not paste the paper.}
+**How it is used.** …
 
-**Analogy.** {One comparison a newcomer can hold — e.g. "a JIT, but for weights".}
+**How it works.** …
 
-**Limits.** {When it wins, when it loses, what is unproven. Do not oversell.}
+#### File map
 
-**Read next.** [{Title}]({verified-url}) — {why this source}. Blog, wiki, or paper. Optional second link.
+| File | Why it is here | What it does |
+|------|----------------|--------------|
+| `{path}` | {why} | {what} |
 ```
 
-Good names are ideas, not features: "one hierarchy, not one memory requirement",
-not "supports CUDA".
+Include: entry files, public API, core logic, package-local config, that package's
+tests. Exclude: generated output, vendored deps.
 
-## Further reading section
+## Workflow diagram
 
-```markdown
-## N. Further reading
+Use mermaid `sequenceDiagram` or `flowchart TD`, ≤15 nodes per diagram; split if
+the runtime has more stages.
 
-Start here if you want the ideas, not the file tree.
+## Future advancements
 
-| Idea | Canonical source | What you will learn |
-|------------------------|---------------------|
-| {name} | [{title}]({url}) | {one line} |
-
-Related systems (verified):
-
-- [{project}]({url}) — {what it shares with this repo}
-```
-
-Rules for every URL: [further-reading.md](further-reading.md).
-
-## Future advancements (mandatory, near the end)
-
-At least **3**, prefer **4**. Each one must cite a gap in *this* repo.
-
-```markdown
-## N. Future advancements
-
-What can still be built in this repository.
-
-### N.1 {Named next bet}
-
-**Why now.** {What is missing or weak today. Cite `{path}`, a TODO, or a missing test.}
-
-**What would land.** {Files, APIs, or docs that would change.}
-
-**Done when.** {How a later reader would know this shipped.}
-
-### N.2 {Named next bet}
-
-**Why now.** …
-**What would land.** …
-**Done when.** …
-
-### N.3 {Named next bet}
-
-**Why now.** …
-**What would land.** …
-**Done when.** …
-
-### N.4 {Named next bet}
-
-**Why now.** …
-**What would land.** …
-**Done when.** …
-```
-
-Do not substitute a bullet wishlist. Do not invent work that contradicts **What it is not**.
-
-## Catalog table (tools / APIs / CLI)
-
-```markdown
-### N.M {Category} ({count})
-
-| Name | Auth / gate | What it does |
-|------|-------------|--------------|
-| `{id}` | {none / role / approval} | {outcome-focused one line} |
-```
-
-Show category counts and a verified total.
-
-## Concept → implementation map
-
-```markdown
-| Concept | Code | Config | Test |
-|---------|------|--------|------|
-| {idea name} | `{path}` | `{VAR}` | `{test path}` |
-```
-
-## Glossary row
-
-Teach, do not only define:
-
-```markdown
-| Term | Meaning in this repo | Why it matters |
-|------|----------------------|----------------|
-| {term} | {definition tied to this codebase} | {what a reader will misread without this} |
-```
-
-## Opening blockquote
-
-```markdown
-> **{Project} is {category}.** It is not {nearby-wrong-thing}. The primary
-> interface is `{command or URL}`. Optional pieces degrade to {fallback}.
-```
+At least 3, prefer 4. Same shape as readable-readme: Why now / What would land /
+Done when. Cite `{path}`.
