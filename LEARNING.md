@@ -1,5 +1,12 @@
 # Learning log
 
+### Readable + extensive README split — 2026-08-17
+
+- **Concept:** The `readme` skill is a router. Main `README.md` is a one-sitting human overview (`readable-readme`). Package/file maps go to `docs/EXTENSIVE.md` (`extensive-readme`). Putting the dump in README.md is now an anti-pattern.
+- **Pattern:** Vendor `cursor-config-coding` skills into `vendor/` and copy into `.cursor/skills/` (D4). New skills: `readme`, `readable-readme`, `product-readme`; `extensive-readme` retargeted.
+- **Trade-off:** Two files vs one giant README. Chosen so GitHub landing is finishable; internals stay complete.
+- **Files to study:** `.cursor/skills/readme/SKILL.md`, `README.md`, `docs/EXTENSIVE.md`
+
 ### D14 snapshot apply + spatiotemporal composability — 2026-08-17
 
 - **Concept:** Improveness is a working-copy mutator. Overlay-only / never-touch-packages / forever-review-queue was a misread. #7907 is for *upstream* maintainers. Cordis names the runtime bottleneck: self-mod that requires killing the process dumps session state. Temporal composability = revert every effect on unload. Spatial composability = declare and react to dependencies.

@@ -16,6 +16,7 @@ Research docs and proposals live at the repo root. The in-tree OMP source is [`o
 
 | Layer | What lives here |
 |-------|-----------------|
+| Human overview | [`README.md`](README.md) — readable; internals in [`docs/EXTENSIVE.md`](docs/EXTENSIVE.md) |
 | Research | [`docs/`](docs/00-index.md) segments and [`docs/methods/`](docs/methods/) |
 | Proposals | [`docs/proposals/`](docs/proposals/00-architecture.md) — generic + OMP + [snapshot apply](docs/proposals/06-snapshot-apply.md) |
 | Overlay / loop | [`harness/omp/`](harness/omp/SURFACES.md) — drivers, evals, staging, apply |

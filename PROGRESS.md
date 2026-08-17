@@ -13,7 +13,8 @@ OMP overlay **P2 complete**. **P3 Phase 0 in progress:** D14 snapshot-apply visi
 | `runSearch` + deterministic proposer | done (still stage-only) |
 | Local Harbor runner | done |
 | Local-20 benchmark (0/12→7/12, 0/8→3/8) | done |
-| Extensive README | done; vision realigned D14 |
+| Extensive README | done; split to `docs/EXTENSIVE.md` |
+| Readable README | done (readme-router: readable + extensive) |
 | CACD (D13) + `qa.sh` | done |
 | 7 architecture simulations | done |
 | D14 working-snapshot apply contract | Phase 0 |

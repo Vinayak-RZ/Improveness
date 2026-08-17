@@ -5,16 +5,17 @@ Reading order for the research corpus. The working overlay lives at [`harness/om
 ## How to read
 
 1. Start with [PROJECT_OVERVIEW.md](../PROJECT_OVERVIEW.md) for scope and constraints.
-2. Read segments 01–09 in order (Weng’s natural structure).
-3. Use [methods/](methods/) when you need one system in enough detail to specify from.
-4. Use [proposals/](proposals/00-architecture.md) when you want the “what would we add” answer:
+2. Human overview: [README.md](../README.md). Internals: [EXTENSIVE.md](EXTENSIVE.md).
+3. Read segments 01–09 in order (Weng’s natural structure).
+4. Use [methods/](methods/) when you need one system in enough detail to specify from.
+5. Use [proposals/](proposals/00-architecture.md) when you want the “what would we add” answer:
    - generic harness: [01-generic-harness.md](proposals/01-generic-harness.md)
    - OMP: [02-omp-gap-analysis.md](proposals/02-omp-gap-analysis.md) then [03-omp-proposed-changes.md](proposals/03-omp-proposed-changes.md)
    - safety: [04-safety.md](proposals/04-safety.md)
    - order: [05-adoption-order.md](proposals/05-adoption-order.md)
    - snapshot apply: [06-snapshot-apply.md](proposals/06-snapshot-apply.md)
-5. Overlay execution: live P3 contract in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); P2 snapshot in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md); P3 snapshot in [plans/p3-snapshot-apply.md](plans/p3-snapshot-apply.md).
-6. Sources: [references.md](references.md)
+6. Overlay execution: live P3 contract in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); P2 snapshot in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md); P3 snapshot in [plans/p3-snapshot-apply.md](plans/p3-snapshot-apply.md).
+7. Sources: [references.md](references.md)
 
 ## Paper map
 
