@@ -1,6 +1,6 @@
 # References
 
-Citations used in this corpus. Dates and URLs as of 2026-08-15.
+Citations used in this corpus. Dates and URLs as of 2026-08-17.
 
 ## Survey
 
@@ -33,6 +33,12 @@ Citations used in this corpus. Dates and URLs as of 2026-08-15.
 - Lin et al. “Harness Updating Is Not Harness Benefit.” https://arxiv.org/abs/2605.30621
 - Zhang et al. “Self-Harness: Harnesses That Improve Themselves.” https://arxiv.org/abs/2606.09498
 - Lin et al. “Agentic Harness Engineering.” https://arxiv.org/abs/2604.25850 — [china-qijizhifeng/agentic-harness-engineering](https://github.com/china-qijizhifeng/agentic-harness-engineering)
+
+## Dynamic composition (live self-mod without killing the runtime)
+
+- Shi, Zhang, Cui, et al. “A Programming Paradigm for Spatiotemporal Composability.” Draft of 13 August 2026. https://github.com/cordiverse/paper — [PDF](https://github.com/cordiverse/paper/blob/main/paper.pdf)
+- Cordis (runtime). https://github.com/cordiverse
+- DeepSeek Harness — plugins and lifecycle (Fiber states, `inject`, `ctx.effect`, HMR). https://deepseek-harness.github.io/deepseek-harness/en/develop/framework/
 
 ## Evolutionary search
 

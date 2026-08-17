@@ -1,5 +1,12 @@
 # Learning log
 
+### D14 snapshot apply + spatiotemporal composability — 2026-08-17
+
+- **Concept:** Improveness is a working-copy mutator. Overlay-only / never-touch-packages / forever-review-queue was a misread. #7907 is for *upstream* maintainers. Cordis names the runtime bottleneck: self-mod that requires killing the process dumps session state. Temporal composability = revert every effect on unload. Spatial composability = declare and react to dependencies.
+- **Pattern:** Keep D7/D12 text (catalog needles) with product-status banners. Change c-plan needle from `No auto-promote` to `working snapshot` in the same commit as the plan. Name the future driver `apply-snapshot.ts`, never `auto-apply.ts`.
+- **Trade-off:** Gated auto-apply onto the snapshot (chosen) vs review-queue-only (mismatches vision) vs Cordis rewrite of OMP now (too large). Restart remains the fallback when an edit is not revertible.
+- **Files to study:** `DECISIONS.md` D14, `docs/proposals/06-snapshot-apply.md`, `docs/methods/spatiotemporal-composability.md`
+
 ### In-tree OMP base — 2026-08-15
 
 - **Concept:** Stripping nested `.git` makes a third-party tree a normal directory in *this* repo’s history (no submodule, no accidental pushes to upstream).

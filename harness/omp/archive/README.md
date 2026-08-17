@@ -1,3 +1,3 @@
 # Overlay archive (DGM-lite)
 
-Snapshots of **project** playbook/skills/tools or staging only. Parent pointer + fitness. `drivers/search.ts` can run a bounded propose → check → stage loop (`MAX_STEP_CAP = 8`). Accepts are evidence in staging + this archive + `REVIEW_QUEUE.md`. Promote is still a human action (D12). Never archive the checker or `system-prompt` files.
+Snapshots of **project** playbook/skills/tools, staging, and (after D14) working-snapshot diffs. Parent pointer + fitness. `drivers/search.ts` runs a bounded propose → check → stage loop (`MAX_STEP_CAP = 8`). P2 still stages; P3 `apply-snapshot` writes the working snapshot after accept. Never archive the checker or `system-prompt` files. Human checkpoint remains for permission-widening.

@@ -6,4 +6,4 @@ The DGM-lite archive primitive and the bounded search loop both exist:
 - [drivers/search.ts](drivers/search.ts) — hard-capped propose → frozen checker → stage / reject
 - [drivers/propose.ts](drivers/propose.ts) — deterministic held-in-only recipe proposer
 
-Fitness remains the frozen checker. Kernel paths stay out of snapshots. Canonical `overlay/.omp` is not auto-written (D12).
+Fitness remains the frozen checker. Kernel paths stay out of snapshots. P2 search does not write canonical `overlay/.omp` (D12 as shipped). D14 product: gated apply onto the working snapshot after accept.

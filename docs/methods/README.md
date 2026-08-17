@@ -15,3 +15,4 @@ One page per cited system, enough to specify from. Parent survey: [../00-index.m
 | AFlow | [aflow.md](aflow.md) |
 | AlphaEvolve | [alphaevolve.md](alphaevolve.md) |
 | DGM | [dgm.md](dgm.md) |
+| Spatiotemporal composability (Cordis) | [spatiotemporal-composability.md](spatiotemporal-composability.md) |

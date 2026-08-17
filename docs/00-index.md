@@ -12,7 +12,8 @@ Reading order for the research corpus. The working overlay lives at [`harness/om
    - OMP: [02-omp-gap-analysis.md](proposals/02-omp-gap-analysis.md) then [03-omp-proposed-changes.md](proposals/03-omp-proposed-changes.md)
    - safety: [04-safety.md](proposals/04-safety.md)
    - order: [05-adoption-order.md](proposals/05-adoption-order.md)
-5. Overlay execution: live P2 contract in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); approved snapshot in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md).
+   - snapshot apply: [06-snapshot-apply.md](proposals/06-snapshot-apply.md)
+5. Overlay execution: live P3 contract in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); P2 snapshot in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md); P3 snapshot in [plans/p3-snapshot-apply.md](plans/p3-snapshot-apply.md).
 6. Sources: [references.md](references.md)
 
 ## Paper map
@@ -24,11 +25,11 @@ Reading order for the research corpus. The working overlay lives at [`harness/om
 | 3 | [03-coding-agent-anatomy.md](03-coding-agent-anatomy.md) | Stabilized coding-agent tool surface |
 | 4 | [04-context-engineering.md](04-context-engineering.md) | ACE → MCE → Meta-Harness |
 | 5 | [05-workflow-design.md](05-workflow-design.md) | Handcrafted and searched workflows |
-| 6 | [06-self-improving-harness.md](06-self-improving-harness.md) | STOP, Self-Harness, AHE |
+| 6 | [06-self-improving-harness.md](06-self-improving-harness.md) | STOP, Self-Harness, AHE, spatiotemporal composability |
 | 7 | [07-evolutionary-search.md](07-evolutionary-search.md) | AlphaEvolve, DGM, prompt evolution |
 | 8 | [08-joint-optimization.md](08-joint-optimization.md) | Harness + weight updates (out of v1) |
 | 9 | [09-challenges-and-evals.md](09-challenges-and-evals.md) | Failure modes, bottlenecks, benches |
 
 ## Default recommendation
 
-Specify **AHE-style observability + Self-Harness validation**, starting with ACE-style memory, for any harness. Instantiate the same spec against OMP’s existing `learn` / `retain` / TTSR / SDK. Do not auto-apply edits to canonical built-ins.
+Specify **AHE-style observability + Self-Harness validation**, starting with ACE-style memory, for any harness. Instantiate against OMP’s existing `learn` / `retain` / TTSR / SDK. After the gate, **apply to the working snapshot** (D14). Do not auto-apply to the checker, the system prompt, or upstream `can1357/oh-my-pi`. Prefer revertible plugins over killing the runtime ([spatiotemporal composability](methods/spatiotemporal-composability.md)).

@@ -31,13 +31,14 @@ flowchart LR
 - Step 0 is mostly **documentation of existing `.omp/` paths** (see [02-omp-gap-analysis.md](02-omp-gap-analysis.md)).
 - Step 1 may promote stable bullets through `learn` → managed-skills.
 - Step 3’s driver should be specified against `createAgentSession`, not the TUI.
-- Step 5 snapshots **project** `.omp/` only, never `oh-my-pi` source.
+- Step 5 snapshots **project** `.omp/` and, after D14, the working snapshot. Never the checker or `system-prompt` files.
 
-## P0 vs P1 vs P2
+## P0 vs P1 vs P2 vs P3
 
 | Wave | Scope |
 |------|--------|
 | P0 (done) | Steps 0–4 |
 | P1 (done) | Step 5 archive primitive; ≥20-case suite; TB adapter (not public TB2) |
-| P2 (implemented) | Improveness CI; bounded archive search; local Harbor runner; local-20 benchmark — [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) |
-| P3 (parked) | Public TB2 campaign; Spec Kit constitution; Agent Patterns Catalog ids |
+| P2 (done) | Improveness CI; bounded archive search (stage-only); local Harbor runner; local-20 benchmark |
+| P3 (live) | Gated apply onto the working snapshot; spatiotemporal composability research — [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) |
+| Parked | Public TB2 as report-only; Spec Kit constitution; Agent Patterns Catalog ids |
