@@ -1,39 +1,53 @@
 # Extensive README — pre-ship checklist
 
-Run before delivering or merging README changes.
+Run before delivering. Fix every fail. Do not ship a catalog-only README.
 
 ## Accuracy
 
-- [ ] Every feature mentioned exists in the codebase (no invented capabilities)
-- [ ] Env var names match `.env.example` or config module exactly
-- [ ] Tool/API/endpoint counts verified from source (registry, routes, OpenAPI)
-- [ ] File paths and module names are current
-- [ ] Tech stack names match actual dependencies (no stale DB/vector store names)
-- [ ] Version constraints match `package.json` / lockfile / `pyproject.toml`
+- [ ] Features, paths, and counts match the current tree (not memory or an old README)
+- [ ] Env vars match `.env.example` / config modules; required vs optional is correct
+- [ ] Tool / API / CLI counts match the registry or routes
+- [ ] Diagrams show interfaces that still exist
+- [ ] Stack names are the ones in code (do not mix Chroma/Qdrant/Postgres by habit)
 
 ## Structure
 
-- [ ] Major sections numbered sequentially (`## 1.` … `## N.`)
-- [ ] Subsections use `### N.M` matching parent
-- [ ] Physical section order matches numeric order
-- [ ] TOC links resolve to correct heading anchors
-- [ ] Skipped sections omitted (no empty "TBD" placeholders)
+- [ ] Major `##` sections numbered sequentially `1…N`
+- [ ] Subsections use `N.M` matching the parent
+- [ ] TOC lists every major section; anchors work
+- [ ] Physical order matches numeric order
+- [ ] Empty inapplicable sections were omitted, not left as placeholders
 
-## Diagrams
+## Teaching (mandatory)
 
-- [ ] Mermaid renders (valid syntax, ≤15 nodes per diagram)
-- [ ] Diagrams match current architecture (no removed services)
-- [ ] Split large diagrams into 2.1, 2.2 subsections if needed
+- [ ] 3–8 **ideas worth understanding** (or fewer only if the repo truly has fewer)
+- [ ] Each idea has: name, mechanism, analogy, constraint, honest limits
+- [ ] Each idea cites `{path}` or an invariant in this repo
+- [ ] Ideas are bets/techniques, not a restated feature list
+- [ ] **Further reading** exists when there are ideas to teach
+- [ ] Every citation URL was verified (see [further-reading.md](further-reading.md))
+- [ ] No invented, guessed, or "probably this arxiv id" links
+- [ ] Glossary teaches terms as used here, not generic Wikipedia blurbs
 
-## Usability
+## Voice
 
-- [ ] New contributor can run project from Quickstart alone
-- [ ] TL;DR captures differentiators in first screen
-- [ ] Vision clarifies what the project is **not**
-- [ ] Roadmap distinguishes shipped vs planned
+- [ ] Opening 30 lines: title, positioning, TL;DR
+- [ ] A curious non-specialist can follow the narrative without a glossary in the other hand
+- [ ] Required jargon is defined in one plain sentence on first use
+- [ ] Hard ideas: simple explanation in the README, then a verified blog or wiki link
+- [ ] Narrative (vision + ideas + how it works + future) is finishable in one sitting (~10–20 min); catalogs are tables, not essays
+- [ ] No engagement bait; present tense for current behavior; past tense only in changelog
+- [ ] Honest today vs roadmap
 
-## Maintenance
+## Future advancements (mandatory)
 
-- [ ] Changelog row added if this update reflects shipped work
-- [ ] Completed roadmap items moved to changelog
-- [ ] Related code changes in same commit/PR as README update
+- [ ] Section exists near the end of the README (after further reading / roadmap)
+- [ ] At least **3** advancements, prefer **4**
+- [ ] Each names a next bet, why it matters, what would land, and done-when
+- [ ] Each is grounded in this repo (`{path}`, TODO, missing test, incomplete interface)
+- [ ] None are generic slogans ("scale", "add AI", "more features")
+
+## Routing
+
+- [ ] This file is a reference manual, not a product landing page
+- [ ] If the user asked for a public product README (logo, tagline, tiny quickstart), stop and use `product-readme`

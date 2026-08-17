@@ -1,233 +1,237 @@
-# Improveness — a gated engine for self-improving agentic harnesses
+# Improveness — extra files that teach a coding agent, for people who want to understand how
 
-> **What it is:** A research corpus, a CACD operating model, and a keyless simulator of agentic-architecture wirings, plus a maintainer-gated overlay that evolves *project* Oh My Pi surfaces against a frozen checker.
-> **What it is not:** A weight trainer, an auto-apply bot, a live fork of `can1357/oh-my-pi`, or a public Terminal-Bench 2 campaign.
-> **Primary interface:** Bun CLIs under `harness/omp/drivers/` and `bash harness/omp/scripts/qa.sh`.
+> **Improveness is a reference project for harness engineering.** It is not a new language model, not a silent auto-installer, and not a public leaderboard run. The primary interface is `bash harness/omp/scripts/qa.sh`. Optional live pings degrade to skip when no API key is set.
 
-Runtime: Bun 1.3.14 on the repo filesystem. No HTTP server. No Docker. LLM API keys are optional and never required for QA.
+Runtime: [Bun](https://bun.sh) 1.3.14 on the filesystem. No HTTP server. No Docker.
 
 ---
 
 **TL;DR**
 
-- The *model* stays frozen. What improves is the **harness** around it — playbook, skills, tools, hooks — not `system-prompt.md`.
-- **Selling point:** seven named agentic architectures are simulated without a live model. ACE-only stagnates (0/20). Gated Self-Harness improves (7/12 · 3/8). Leaks, kernel writes, unbounded loops, and auto-promote are refused.
-- **CACD** is Contract · Architecture · Control · Delivery. QA opens all 12 catalog paths every run (D13).
-- Accept means `staging/` + `archive/<id>/` + a `REVIEW_QUEUE.md` row. A human promotes. There is no auto-apply (D7, D12).
-- Fitness is a **20-fixture** frozen checker (12 held-in, 8 held-out). The proposer never sees held-out ids.
-- Recorded search cycle: held-in **0/12 → 7/12**, held-out **0/8 → 3/8**. Unlocking all held-in AHE families reaches **12/12 · 6/8**; secret held-out tasks stay locked.
-- `qa.sh` is the repo gate: 19 test files, CACD needles, relative links, then the seven simulations. CI runs that script.
-- In-tree [`oh-my-pi/`](oh-my-pi/) is the upgrade base (nested git removed). This repo does not push upstream.
-- AHE measured prompt-only evolution at **−2.3 pp**. That file is kernel, not a playbook.
-- Source survey: [Lilian Weng, “Harness Engineering for Self-Improvement” (Jul 2026)](https://lilianweng.github.io/posts/2026-07-04-harness/).
+- A **coding agent** uses a language model to edit a repo. The **harness** is everything around that model: instructions, tools, memory, permissions, tests.
+- This repo improves the harness, not the model. The system prompt is locked on purpose.
+- Twenty tiny coding tasks: 12 practice (the improver may look) and 8 hidden (it must not see their names). Homework vs exam.
+- Five recorded lessons moved the score from **0/12 and 0/8** to **7/12 and 3/8**. Two “don’t hardcode secrets” hidden tasks stayed failed on purpose.
+- Kept suggestions go to a waiting room, a history folder, and a human review list. A person installs. The scripts never do.
+- Seven named designs are replayed with **no API key**. Slogans-only stays at 0/20. Cheating setups are refused.
+- [`oh-my-pi/`](oh-my-pi/) is a snapshot of [Oh My Pi](https://github.com/can1357/oh-my-pi). We do not push upstream.
+- Survey this follows: [Lilian Weng, “Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/).
 
 ---
 
 ## Table of contents
 
 1. [Vision](#1-vision)
-2. [Concept to implementation](#2-concept-to-implementation)
+2. [Ideas worth understanding](#2-ideas-worth-understanding)
 3. [Architecture](#3-architecture)
-4. [CACD](#4-cacd)
-5. [Simulations](#5-simulations)
-6. [Quickstart](#6-quickstart)
-7. [Configuration](#7-configuration)
-8. [Project structure](#8-project-structure)
-9. [Drivers and interfaces](#9-drivers-and-interfaces)
-10. [Data model](#10-data-model)
-11. [Eval suite](#11-eval-suite)
-12. [Testing, QA, and CI](#12-testing-qa-and-ci)
-13. [Safety kernel](#13-safety-kernel)
-14. [Deployment](#14-deployment)
-15. [Cookbook](#15-cookbook)
-16. [Benchmarks](#16-benchmarks)
-17. [Extending](#17-extending)
-18. [Roadmap and changelog](#18-roadmap-and-changelog)
-19. [FAQ and glossary](#19-faq-and-glossary)
-20. [Appendix: CLI reference](#20-appendix-cli-reference)
+4. [Quickstart](#4-quickstart)
+5. [Configuration](#5-configuration)
+6. [Directory tree](#6-directory-tree)
+7. [Interfaces](#7-interfaces)
+8. [Data model](#8-data-model)
+9. [Testing](#9-testing)
+10. [Further reading](#10-further-reading)
+11. [Roadmap and changelog](#11-roadmap-and-changelog)
+12. [Future advancements](#12-future-advancements)
+13. [FAQ](#13-faq)
+14. [Glossary](#14-glossary)
 
 ## 1. Vision
 
 ### 1.1 What it is
 
-Improveness is a **harness-engineering engine**. It answers: given a strong coding agent (here, Oh My Pi), what do you add so the *harness* can improve itself without rewriting weights, without touching the permission kernel, and without silently promoting candidates?
+Improveness answers: given a strong coding agent (here, Oh My Pi), what do you add so the *wrapper around the model* can get better without retraining weights, without rewriting the system prompt, and without silently editing the official project?
 
-Four layers live in one git root:
+Four things live in this git root:
 
-1. **Corpus** — Weng segments and method pages in [`docs/`](docs/00-index.md).
-2. **CACD** — a machine-checkable operating model in [`harness/omp/CACD.md`](harness/omp/CACD.md).
-3. **Simulator** — seven named agentic wirings in [`harness/omp/drivers/simulate-architectures.ts`](harness/omp/drivers/simulate-architectures.ts).
-4. **Overlay** — the live loop on in-tree OMP under [`harness/omp/`](harness/omp/SURFACES.md).
+1. Paper notes in [`docs/`](docs/00-index.md)
+2. Extra files and scripts under [`harness/omp/`](harness/omp/SURFACES.md)
+3. A snapshot of Oh My Pi at [`oh-my-pi/`](oh-my-pi/)
+4. A no-key check that opens a 12-row checklist and replays seven designs: `bash harness/omp/scripts/qa.sh`
+
+It is for platform authors who want to compare designs before spending tokens, and for anyone who has not read the papers.
 
 ### 1.2 What it is not
 
-- Not a live fork of [oh-my-pi](https://github.com/can1357/oh-my-pi) with remotes. Nested `.git` was stripped (D8).
-- Not DGM, AlphaEvolve, or SIA weight updates. Those stay parked.
-- Not an ACE-only prompt rewriter. The `ace-only` simulation exists to *prove* slogans do not move the suite.
-- Not a closed loop that writes canonical `overlay/.omp` or `oh-my-pi/packages/`.
-- Not a public Terminal-Bench 2 or SWE-bench leaderboard run (D11, proposal P5).
+- Not a live fork of [oh-my-pi](https://github.com/can1357/oh-my-pi). Nested git was removed (decision D8).
+- Not a weight trainer (Darwin-Gödel Machine, AlphaEvolve, and similar stay on the shelf).
+- Not “write nicer slogans in a playbook.” The `ace-only` replay exists to *prove* slogans score 0/20.
+- Not a closed loop that overwrites official extra files or `oh-my-pi/packages/`.
+- Not a run of public [Terminal-Bench](https://www.tbench.ai/). We refuse to grade the improver on a set it could memorize.
 
-### 1.3 Who it is for
+Success: `qa.sh` exits 0, all seven replays pass, and you can answer “what may the improver edit?” from [`KERNEL.md`](harness/omp/KERNEL.md) and [`SURFACES.md`](harness/omp/SURFACES.md).
 
-Platform authors who need to **compare agentic architectures before buying tokens**. Maintainers who treat improvement candidates as evidence ([oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907)). Future agents that must load a nawab contract from [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
+## 2. Ideas worth understanding
 
-### 1.4 Success criteria
+These are the bets in the code, not a feature list. Each one has a file you can open.
 
-`bash harness/omp/scripts/qa.sh` exits 0. All seven architecture simulations pass. A reviewer can answer “what may the evolver touch?” from [`harness/omp/KERNEL.md`](harness/omp/KERNEL.md) and [`harness/omp/SURFACES.md`](harness/omp/SURFACES.md) without reading the paper.
+### 2.1 Change the wrapper, not the brain
 
-## 2. Concept to implementation
+**Constraint.** Retraining a frontier model for every new habit is too expensive, and letting the agent rewrite its own official files lets it cheat.
 
-| Paper / idea | What it means | Where it lives here |
-|--------------|---------------|---------------------|
-| Weng survey | Harness engineering, not RSI-via-weights | [`docs/00-index.md`](docs/00-index.md) segments 01–09 |
-| ACE | Collapse-resistant playbook memory | [`overlay/.omp/playbook/`](harness/omp/overlay/.omp/playbook/) + [`curate-playbook.ts`](harness/omp/drivers/curate-playbook.ts) |
-| AHE | Evolve tools / middleware / memory; not the system prompt | [`SURFACES.md`](harness/omp/SURFACES.md); prompt files are kernel |
-| Self-Harness | Held-in / held-out accept rule | [`self-harness.ts`](harness/omp/drivers/self-harness.ts) |
-| Agent Debugger | Read-only diagnosis role | [`agents/debugger.md`](harness/omp/overlay/.omp/agents/debugger.md) |
-| Allowlisted evolver | Writes only overlay / staging | [`allowlist.ts`](harness/omp/drivers/allowlist.ts) + [`evolver.md`](harness/omp/overlay/.omp/agents/evolver.md) |
-| DGM-lite archive | Parent + fitness snapshots | [`archive.ts`](harness/omp/drivers/archive.ts) |
-| CACD | Contract · Architecture · Control · Delivery | [`CACD.md`](harness/omp/CACD.md) + [`cacd/catalog.ts`](harness/omp/cacd/catalog.ts) |
-| Architecture sim | Keyless replay of unsafe vs gated wirings | [`simulate-architectures.ts`](harness/omp/drivers/simulate-architectures.ts) |
+**How it works.** The model stays frozen. What changes is the **harness**: a playbook of lessons, extra tools, extra skills, and tests. [`harness/omp/SURFACES.md`](harness/omp/SURFACES.md) lists files the improver may touch. [`harness/omp/KERNEL.md`](harness/omp/KERNEL.md) lists files it must not. Oh My Pi’s own packages are locked. The same idea, from the Oh My Pi authors: swap the *edit format* and Grok Code Fast 1 went from 6.7% to 68.3% pass@1 with **zero** training compute.
 
-Lin et al. 2026: spend capability on the **task** agent; the evolver may be mid/small (D6). AHE: prompt-only evolution **−2.3 pp** on Terminal-Bench 2 — that is why `system-prompt.md` is frozen.
+**Analogy.** You do not rewire a person’s brain to teach them a house style. You give them a better checklist and better tools.
+
+**Limits.** This scores whether the playbook contains the right lessons, not whether a live model can code. A public leaderboard run is still future work, and must never become the improver’s score.
+
+**Read next.** [Weng, “Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/) — the survey this repo is built from. [“I Improved 15 LLMs at Coding in One Afternoon. Only the Harness Changed.”](https://blog.can.ac/2026/02/12/the-harness-problem/) — a concrete harness-only gain. Background: [Recursive self-improvement](https://en.wikipedia.org/wiki/Recursive_self-improvement).
+
+### 2.2 Homework vs exam
+
+**Constraint.** If the improver can see every task you later grade it on, the score is fake.
+
+**How it works.** Twenty local tasks under [`harness/omp/evals/`](harness/omp/evals/). Twelve are **practice** (`held-in`): the improver may see failures and add a matching lesson. Eight are **hidden** (`held-out`): their names must never reach [`propose.ts`](harness/omp/drivers/propose.ts). A change is kept only if practice improved and hidden did not drop ([`self-harness.ts`](harness/omp/drivers/self-harness.ts)).
+
+Walk one task. [`gitignore-rule`](harness/omp/evals/held-in/gitignore-rule/) asks to ignore `node_modules`. The grader is `rg -q '^node_modules$' .gitignore`. The starter fails; the gold tree passes. Adding `recipe:gitignore` also unlocks hidden `gitignore-dist` (ignore `dist/`) without showing that name to the picker. That is transfer. `recipe:no-secrets` has **no** practice member, so those two hidden tasks stay failed — a leak brake, not a bug.
+
+**Analogy.** Studying past homework is allowed. Seeing tomorrow’s exam paper is not.
+
+**Limits.** Twenty synthetic tasks are a proxy. They prove the gate. They do not prove a live agent on Terminal-Bench.
+
+**Read next.** [Self-Harness (Zhang et al.)](https://arxiv.org/abs/2606.09498) — accept only after a hidden split. Background: [training, validation, and test sets](https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets).
+
+### 2.3 Evidence, not a silent install
+
+**Constraint.** If search can write the official extra files, it will eventually “improve” by deleting the grader. Oh My Pi’s own proposal on this is explicit: candidates are evidence for maintainers, not executable authority.
+
+**How it works.** [`search.ts`](harness/omp/drivers/search.ts) may write `staging/`, `archive/<id>/`, and a row in [`REVIEW_QUEUE.md`](harness/omp/REVIEW_QUEUE.md). It must not copy into `overlay/.omp/` or `oh-my-pi/packages/` (decision D12). A person installs.
+
+**Analogy.** A pull request that is never merged by a bot.
+
+**Limits.** The review list is a markdown table, not a UI. There is no helper yet that copies a waiting-room playbook onto the official extra files (see §12.2). That gap is intentional until a human owns the click.
+
+**Read next.** [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) — maintainer review, not self-evolution.
+
+### 2.4 Slogans are not lessons
+
+**Constraint.** A playbook that is rewritten into a shorter “system prompt” loses the details that actually help. A published ablation found prompt-only evolution **hurt** Terminal-Bench 2 by 2.3 points. The gain lived in tools, middleware, and memory.
+
+**How it works.** [`curate-playbook.ts`](harness/omp/drivers/curate-playbook.ts) only appends or increments counters. It rejects secrets and “edit SYSTEM.md” advice. [`playbook-solver.ts`](harness/omp/drivers/playbook-solver.ts) scores a playbook by tagged `recipe:*` families, not by vibe. The `ace-only` replay is a **passing** test of a **zero** score: empty advice must not look like a win.
+
+**Analogy.** A recipe card that says “cook well” vs one that says “salt the pasta water.”
+
+**Limits.** Unlocking every *practice* family reaches 12/12 and 6/8, still not 8/8 hidden, because secrets stay locked. That ceiling is the design.
+
+**Read next.** [Agentic Context Engineering](https://arxiv.org/abs/2510.04618) — playbooks that accumulate instead of collapsing. [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) — gain is not in the system prompt. Code: [china-qijizhifeng/agentic-harness-engineering](https://github.com/china-qijizhifeng/agentic-harness-engineering).
+
+### 2.5 Cheap writer, expensive doer
+
+**Constraint.** Frontier tokens are scarce. Using them to *write* extra files is a poor spend if a smaller model can write equally useful ones.
+
+**How it works.** Lin et al. split two skills: **updating** (produce a useful extra file) is flat from a 9B model to a frontier model; **benefit** (actually follow that file) is not. So the task agent can be expensive; the improver can be `@smol` (decision D6). Overlay agents pin that in [`evolver.md`](harness/omp/overlay/.omp/agents/evolver.md).
+
+**Analogy.** A junior writes the checklist. A senior uses it on the real job.
+
+**Limits.** This repo’s recorded scores do not call a live improver. The cheap-writer claim is taken from the paper and encoded as a role pin, not re-measured here.
+
+**Read next.** [Harness Updating Is Not Harness Benefit](https://arxiv.org/abs/2605.30621).
+
+### 2.6 Try the wiring before you buy tokens
+
+**Constraint.** Comparing “who may write, who may see the hidden set, whether install is automatic” on a live frontier run is slow and leaks the public set.
+
+**How it works.** [`simulate-architectures.ts`](harness/omp/drivers/simulate-architectures.ts) replays seven named designs against the frozen 20 tasks with no model. Unsafe designs must throw or refuse to install. Report: [`evals/simulations/latest/summary.md`](harness/omp/evals/simulations/latest/summary.md).
+
+| Id | What we wired | Must happen | Practice | Hidden |
+|----|---------------|-------------|----------|--------|
+| `ace-only` | Slogans, no recipes | stay at zero | 0/12 | 0/8 |
+| `self-harness-gated` | Five bounded steps | score goes up | 7/12 | 3/8 |
+| `ahe-surfaces` | All practice lessons | score goes up; secrets stay locked | 12/12 | 6/8 |
+| `held-out-leak` | Hidden name given to picker | refuse | — | — |
+| `kernel-write` | Edit the grader | refuse | — | — |
+| `unbounded-search` | 9 steps (cap is 8) | refuse | — | — |
+| `auto-promote` | Write official extra files | must not install | — | — |
+
+**Analogy.** A crash-test dummy for the *plumbing*, not a road test of the car.
+
+**Limits.** This does not replace a live agent run. It replaces “we think this architecture is safe.”
+
+**Read next.** This placement is local to `simulate-architectures.ts`. No external write-up yet; the table above is the source.
 
 ## 3. Architecture
 
-### 3.1 High-level loop
+### 3.1 The loop
 
 ```mermaid
 flowchart TD
-  playbook[PLAYBOOK_md] --> solver[Playbook_solver]
-  solver --> checker[FrozenChecker]
-  heldIn[held_in_12] --> checker
-  heldOut[held_out_8] --> checker
-  checker --> evolver[Evolver_held_in_only]
-  evolver --> decide[decideAccept]
-  decide -->|accept| staging[staging]
-  staging --> archive[archive]
-  staging --> queue[REVIEW_QUEUE]
-  human[Maintainer] --> queue
-  human -->|promote| overlay[overlay_.omp]
+  playbook[Playbook of lessons] --> solver[Score as if lessons were followed]
+  solver --> checker[Pass or fail scripts]
+  practice[12 practice tasks] --> checker
+  hidden[8 hidden tasks] --> checker
+  checker --> improver[Improver sees practice failures only]
+  improver --> decide[Keep or drop]
+  decide -->|keep| waiting[Waiting room]
+  waiting --> history[History folder]
+  waiting --> queue[Human review list]
+  person[A person] --> queue
+  person -->|install| official[Official extra files]
 ```
 
-### 3.2 One search turn
+### 3.2 One search step
 
 ```mermaid
 sequenceDiagram
-  participant S as runSearch
-  participant A as sampleParent
-  participant P as proposeNextRecipe
-  participant C as scorePlaybook
-  participant D as decideAccept
-  participant Q as REVIEW_QUEUE
-  S->>A: pick archive node
-  S->>C: score held-in and held-out
-  S->>P: failing held-in ids only
-  P-->>S: playbook delta or throw
-  S->>C: score after
-  S->>D: accept or reject
-  alt accept
-    S->>Q: evidence row apply=no
-  else reject
-    S->>S: write reports/search log
+  participant Search as Search script
+  participant History as History folder
+  participant Lessons as Next lesson
+  participant Score as Score both sets
+  participant Queue as Review list
+  Search->>History: pick a past playbook
+  Search->>Score: score practice and hidden
+  Search->>Lessons: only from failing practice tasks
+  Lessons-->>Search: a playbook edit, or stop
+  Search->>Score: score again
+  alt practice up and hidden not down
+    Search->>Queue: add a row, do not install
+  else no real gain
+    Search->>Search: write a reject log
   end
 ```
 
-### 3.3 Safety stack
+### 3.3 Safety checks
 
 ```mermaid
 flowchart TD
-  write[Proposed_write] --> kernel{isKernelRel}
-  kernel -->|yes| deny[throw]
-  kernel -->|no| allow{assertEvolverWrite}
+  write[Suggested write] --> locked{Locked path?}
+  locked -->|yes| deny[Refuse]
+  locked -->|no| allow{Allowed extra file?}
   allow -->|no| deny
-  allow -->|yes| ids{held_in_ids_only}
-  ids -->|held-out id| deny
-  ids -->|ok| cap{step_le_8}
+  allow -->|yes| peek{Names a hidden task?}
+  peek -->|yes| deny
+  peek -->|no| cap{Fewer than 9 steps?}
   cap -->|no| deny
-  cap -->|yes| gate{decideAccept}
-  gate -->|regress or no gain| reject[reject_log]
-  gate -->|gain| stage[stage_archive_queue]
-  stage --> human{human_promote}
-  human -->|no| stay[canonical_overlay_unchanged]
-  human -->|yes| overlay[overlay_.omp]
+  cap -->|yes| gate{Practice up, hidden not down?}
+  gate -->|no| reject[Log and drop]
+  gate -->|yes| stage[Waiting room plus history plus review list]
+  stage --> human{Person installs?}
+  human -->|no| stay[Official files unchanged]
+  human -->|yes| official[Official extra files]
 ```
 
-### 3.4 Key modules
+### 3.4 Concept to implementation
 
-| Path | Role |
-|------|------|
-| [`harness/omp/CACD.md`](harness/omp/CACD.md) | Operating model |
-| [`harness/omp/cacd/catalog.ts`](harness/omp/cacd/catalog.ts) | 12 QA-checked items |
-| [`harness/omp/KERNEL.md`](harness/omp/KERNEL.md) | Evolver-forbidden paths |
-| [`harness/omp/SURFACES.md`](harness/omp/SURFACES.md) | AHE component → file map |
-| [`harness/omp/drivers/`](harness/omp/drivers/) | 19 Bun drivers |
-| [`harness/omp/evals/`](harness/omp/evals/) | Checker, 20 fixtures, local-20, simulations |
-| [`oh-my-pi/`](oh-my-pi/) | Vendored seed; read-only unless a documented core patch |
+| Idea | Code | Test |
+|------|------|------|
+| Wrapper not brain | [`SURFACES.md`](harness/omp/SURFACES.md), [`KERNEL.md`](harness/omp/KERNEL.md) | `playbook-injection.test.ts` |
+| Homework vs exam | [`propose.ts`](harness/omp/drivers/propose.ts), [`self-harness.ts`](harness/omp/drivers/self-harness.ts) | `search.test.ts`, `checker.test.ts` |
+| Evidence not install | [`search.ts`](harness/omp/drivers/search.ts) | `search.test.ts` (no overlay write) |
+| Slogans ≠ lessons | [`playbook-solver.ts`](harness/omp/drivers/playbook-solver.ts), `ace-only` replay | `simulate-architectures.test.ts` |
+| Cheap writer | [`evolver.md`](harness/omp/overlay/.omp/agents/evolver.md) | `evolver-allowlist.test.ts` |
+| Try wiring first | [`simulate-architectures.ts`](harness/omp/drivers/simulate-architectures.ts) | `simulate-architectures.test.ts` |
 
-## 4. CACD
+The four-layer checklist (Contract, Architecture, Control, Delivery) is [`CACD.md`](harness/omp/CACD.md). QA opens 12 rows in [`cacd/catalog.ts`](harness/omp/cacd/catalog.ts) every run.
 
-**C**ontract · **A**rchitecture · **C**ontrol · **D**elivery. D13. Narrative: [`harness/omp/CACD.md`](harness/omp/CACD.md).
+## 4. Quickstart
 
-This is not a second plan file. It is the checklist `qa-repo.ts` opens every run. If you add a kernel path or a simulation id, add a catalog row in the same commit.
+### 4.1 Prerequisites
 
-| Id | Layer | Title | Path |
-|----|-------|-------|------|
-| `c-kernel` | contract | Frozen kernel | `harness/omp/KERNEL.md` |
-| `c-surfaces` | contract | Editable surfaces | `harness/omp/SURFACES.md` |
-| `c-plan` | contract | Execution contract | `IMPLEMENTATION_PLAN.md` |
-| `c-decisions` | contract | ADRs | `DECISIONS.md` |
-| `a-cacd` | architecture | CACD definition | `harness/omp/CACD.md` |
-| `a-agents` | architecture | Playbook is context | `harness/omp/overlay/.omp/AGENTS.md` |
-| `k-allowlist` | control | Evolver path policy | `harness/omp/drivers/allowlist.ts` |
-| `k-search-cap` | control | Hard search step cap | `harness/omp/drivers/search.ts` |
-| `k-propose` | control | Held-in-only proposer | `harness/omp/drivers/propose.ts` |
-| `d-queue` | delivery | Human review queue | `harness/omp/REVIEW_QUEUE.md` |
-| `d-ci` | delivery | Overlay CI | `.github/workflows/overlay.yml` |
-| `d-qa` | delivery | QA orchestrator | `harness/omp/scripts/qa.sh` |
-
-4 + 2 + 3 + 3 = **12**.
-
-## 5. Simulations
-
-The platform extension: **compare agentic architectures without a frontier run**.
-
-Driver: [`harness/omp/drivers/simulate-architectures.ts`](harness/omp/drivers/simulate-architectures.ts). Recorded report: [`harness/omp/evals/simulations/latest/summary.md`](harness/omp/evals/simulations/latest/summary.md).
-
-| Id | Architecture | Expected | Outcome | Held-in | Held-out |
-|----|--------------|----------|---------|---------|----------|
-| `ace-only` | ACE slogans, no `recipe:*` | stagnate | pass | 0/12 | 0/8 |
-| `self-harness-gated` | 5-step bounded search | improve | pass | 7/12 | 3/8 |
-| `ahe-surfaces` | All held-in families unlocked | improve | pass | 12/12 | 6/8 |
-| `held-out-leak` | Proposer sees `no-secrets` | throw | pass | — | — |
-| `kernel-write` | Evolver writes the checker | throw | pass | — | — |
-| `unbounded-search` | `stepCap = 9` | throw | pass | — | — |
-| `auto-promote` | Search writes `overlay/.omp` | no-promote | pass | — | — |
-
-| Wiring | Lesson |
-|--------|--------|
-| `ace-only` | AHE’s warning encoded as a passing test of *stagnation* |
-| `self-harness-gated` | The product loop: both splits move; canonical overlay does not |
-| `ahe-surfaces` | Tools/memory-style unlocks beat slogans; held-out secrets stay locked |
-| `held-out-leak` | An evolver that can see D_out is Control-illegal |
-| `kernel-write` | A topology that can silence the verifier never reaches Delivery |
-| `unbounded-search` | `MAX_STEP_CAP = 8` (default 3) is hard |
-| `auto-promote` | D12: search stages evidence; it does not promote |
-
-```text
-bun harness/omp/drivers/simulate-architectures.ts
-```
-
-## 6. Quickstart
-
-### 6.1 Prerequisites
-
-- [Bun 1.3.14](https://bun.sh) (OMP pin; overlay tests use the same)
-- `rg` (ripgrep) for `validate.sh` and several fixture `check.sh` scripts
+- [Bun 1.3.14](https://bun.sh)
+- [`rg`](https://github.com/BurntSushi/ripgrep) (every task grader calls it)
 - Git
-- LLM keys: **optional**. QA and simulations are keyless.
+- API keys: optional
 
-### 6.2 Clone and verify
+### 4.2 Clone and verify
 
 ```text
 git clone https://github.com/Vinayak-RZ/Improveness.git
@@ -235,206 +239,131 @@ cd Improveness
 bash harness/omp/scripts/qa.sh
 ```
 
-Expected: `qa.sh ok`. `bun test` reports 55 pass across 19 files. Seven architecture simulations pass.
+Expect `qa.sh ok`, 55 tests across 19 files, seven experiments pass.
 
-### 6.3 Overlay-only gate (faster, no second sim pass)
+### 4.3 Other useful commands
 
 ```text
 bash harness/omp/scripts/validate.sh
-```
-
-### 6.4 Install playbook context into in-tree OMP
-
-```text
 bash harness/omp/scripts/install-overlay.sh
-```
-
-Merges Improveness files into the existing `oh-my-pi/.omp/` tree. Do **not** replace that directory; OMP already ships commands and skills.
-
-### 6.5 Improvement cycle in a temp tree
-
-```text
 bun harness/omp/drivers/run-benchmark.ts 5 /tmp/improv-bench
+bun harness/omp/drivers/simulate-architectures.ts
 ```
 
-Uses a copy of the evals. Does not dirty canonical `overlay/.omp/playbook/PLAYBOOK.md`.
+`install-overlay.sh` **merges** into existing `oh-my-pi/.omp/`. Do not replace that directory. `run-benchmark.ts` uses a copy of the tasks and does not dirty the official playbook.
 
-## 7. Configuration
+## 5. Configuration
 
-Nothing is required for `qa.sh`. Values stay in the environment. The curator rejects secret-shaped playbook lines.
+Nothing is required for `qa.sh`. See [`.env.example`](.env.example). Do not commit OAuth secrets.
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `OMP_GOOGLE_ANTIGRAVITY_CLIENT_ID` | no | unset | OMP OAuth placeholder |
-| `OMP_GOOGLE_ANTIGRAVITY_CLIENT_SECRET` | no | unset | OMP OAuth placeholder |
-| `OMP_GOOGLE_GEMINI_CLI_CLIENT_ID` | no | unset | OMP OAuth placeholder |
-| `OMP_GOOGLE_GEMINI_CLI_CLIENT_SECRET` | no | unset | OMP OAuth placeholder |
-| `OMP_ANTHROPIC_OAUTH_CLIENT_ID` | no | unset | OMP OAuth placeholder |
-| `ANTHROPIC_API_KEY` | no | unset | Unlocks live smoke when `OMP_LIVE_SMOKE=1` |
-| `OPENAI_API_KEY` | no | unset | Same |
-| `OPENROUTER_API_KEY` | no | unset | Same |
-| `OMP_LIVE_SMOKE` | no | unset | Set `1` to attempt `createAgentSession` smoke |
-| `OMP_LIVE_SEARCH` | no | unset | Reserved; deterministic search is the CI gate |
+| Variable | Required | Default | What it does |
+|----------|----------|---------|--------------|
+| `OMP_GOOGLE_ANTIGRAVITY_CLIENT_ID` | no | unset | Oh My Pi OAuth placeholder |
+| `OMP_GOOGLE_ANTIGRAVITY_CLIENT_SECRET` | no | unset | Oh My Pi OAuth placeholder |
+| `OMP_GOOGLE_GEMINI_CLI_CLIENT_ID` | no | unset | Oh My Pi OAuth placeholder |
+| `OMP_GOOGLE_GEMINI_CLI_CLIENT_SECRET` | no | unset | Oh My Pi OAuth placeholder |
+| `OMP_ANTHROPIC_OAUTH_CLIENT_ID` | no | unset | Oh My Pi OAuth placeholder |
+| `ANTHROPIC_API_KEY` | no | unset | Optional live ping |
+| `OPENAI_API_KEY` | no | unset | Optional live ping |
+| `OPENROUTER_API_KEY` | no | unset | Optional live ping |
+| `OMP_LIVE_SMOKE` | no | unset | Set `1` to request a real session ping |
+| `OMP_LIVE_SEARCH` | no | unset | Reserved; CI uses the no-key search |
 
-See [`.env.example`](.env.example). Do not restore hardcoded OAuth client secrets (GitHub push protection).
+Cost: default checks spend zero tokens. Live ping stays green when keys are missing.
 
-**Cost model:** default QA and simulations spend zero API tokens. Live smoke is an optional CI job that exits 0 when keys are absent. A public TB2 campaign is P3 and must never become evolver fitness.
-
-## 8. Project structure
+## 6. Directory tree
 
 ```text
 .
 ├── README.md
-├── IMPLEMENTATION_PLAN.md       # live nawab P2 contract
+├── IMPLEMENTATION_PLAN.md
 ├── DECISIONS.md                 # D1–D13
-├── PROGRESS.md
-├── LEARNING.md
-├── PROJECT_OVERVIEW.md
-├── .env.example
-├── .github/workflows/overlay.yml
-├── docs/                        # Weng segments, methods, proposals, plans
+├── docs/                        # Weng segments, methods, proposals
 ├── harness/omp/                 # Improveness source of truth
 │   ├── CACD.md
-│   ├── cacd/catalog.ts
 │   ├── KERNEL.md
 │   ├── SURFACES.md
 │   ├── REVIEW_QUEUE.md
-│   ├── drivers/                 # 19 TypeScript/Bun drivers
-│   ├── evals/
-│   │   ├── checker/check.ts
-│   │   ├── held-in/             # 12 fixtures
-│   │   ├── held-out/            # 8 fixtures
-│   │   ├── tb-adapter/          # Harbor-shaped local tasks
-│   │   ├── benchmarks/local-20/
-│   │   └── simulations/latest/
-│   ├── overlay/.omp/            # playbook, agents, manifests
-│   ├── archive/                 # snapshot bodies gitignored
-│   ├── staging/                 # accepted candidates gitignored
-│   ├── scripts/validate.sh
+│   ├── drivers/                 # 19 Bun scripts
+│   ├── evals/held-in/           # 12 practice tasks
+│   ├── evals/held-out/          # 8 hidden tasks
+│   ├── evals/benchmarks/local-20/
+│   ├── evals/simulations/latest/
+│   ├── overlay/.omp/
 │   ├── scripts/qa.sh
-│   └── tests/                   # 19 bun test files
-├── oh-my-pi/                    # vendored OMP, no nested .git
-└── vendor/cursor-config-coding/ # nawab + extensive-readme skills
+│   └── tests/                   # 19 test files
+├── oh-my-pi/                    # seed agent, no nested .git
+└── vendor/cursor-config-coding/
 ```
 
-## 9. Drivers and interfaces
+Build-wave notes: [`LEARNING.md`](LEARNING.md).
 
-19 drivers. Evolver writes go through `assertEvolverWrite` in [`allowlist.ts`](harness/omp/drivers/allowlist.ts).
+## 7. Interfaces
 
-### 9.1 Memory and traces (4)
+19 scripts under [`harness/omp/drivers/`](harness/omp/drivers/). Improver writes go through [`allowlist.ts`](harness/omp/drivers/allowlist.ts).
 
-| Name | Approval | What it does |
-|------|----------|--------------|
-| `curate-playbook.ts` | `playbook/` only | Deterministic ACE delta; rejects secrets and SYSTEM.md lessons |
-| `export-session.ts` | traces append | OMP jsonl → `meta.json`, turns, tool I/O, `outcome.json` |
+### 7.1 Memory and traces (4)
+
+| Name | Gate | What it does |
+|------|------|--------------|
+| `curate-playbook.ts` | `playbook/` only | Adds a lesson; rejects secrets and SYSTEM.md advice |
+| `export-session.ts` | traces append | Oh My Pi session log → turns and tool I/O |
 | `write-diagnosis.ts` | `diagnosis.md` only | Debugger write under `traces/` or `reports/` |
-| `playbook-solver.ts` | read-only | Scores fixtures as if a task agent followed `recipe:*` families |
+| `playbook-solver.ts` | read-only | Scores tasks as if lessons were followed |
 
-### 9.2 Gate and review (5)
+### 7.2 Gate and review (5)
 
-| Name | Approval | What it does |
-|------|----------|--------------|
-| `run-eval.ts` | none | `scoreSplit` on `repo/` or `expected/` |
-| `self-harness.ts` | staging only | `decideAccept` + `stageCandidate` |
-| `manifest.ts` | n/a | Candidate JSON schema |
-| `apply-candidate.ts` | staging | Parent snapshot + manifest (library; no CLI apply-to-overlay) |
-| `rollback-candidate.ts` | staging snapshots | Restore parent bytes by id |
+| Name | Gate | What it does |
+|------|------|--------------|
+| `run-eval.ts` | none | Scores a split on starter or gold trees |
+| `self-harness.ts` | waiting room | Keep only if practice up and hidden not down |
+| `manifest.ts` | n/a | Candidate JSON shape |
+| `apply-candidate.ts` | waiting room | Snapshot + record; not an install-to-official command |
+| `rollback-candidate.ts` | snapshots | Restore by id |
 
-### 9.3 Search and runners (5)
+### 7.3 Search and runners (5)
 
-| Name | Approval | What it does |
-|------|----------|--------------|
-| `archive.ts` | archive only | `snapshotOverlay`, `listArchive`, `sampleParent`; kernel deny |
-| `propose.ts` | staging playbook | Next held-in-only `recipe:*`; throws on held-out ids |
-| `search.ts` | staging + archive + queue | Hard-capped loop; never promotes `overlay/.omp` |
-| `tb-export.ts` | adapter out dir | Harbor-shaped `instruction.md` + `tests/test.sh` |
-| `run-tb-local.ts` | none | Executes those tasks against fixture `repo/` or `expected/` |
+| Name | Gate | What it does |
+|------|------|--------------|
+| `archive.ts` | history folder | Save / list / pick a past playbook |
+| `propose.ts` | waiting-room playbook | Next practice lesson; throws on hidden names |
+| `search.ts` | waiting room, history, queue | Bounded loop; never writes official extra files |
+| `tb-export.ts` | output folder | Harbor-like `instruction.md` + `tests/test.sh` |
+| `run-tb-local.ts` | none | Runs those local tasks |
 
-### 9.4 Assurance (5)
+### 7.4 Checks (5)
 
-| Name | Approval | What it does |
-|------|----------|--------------|
-| `allowlist.ts` | n/a | Debugger/evolver tool + path policy |
-| `live-session-smoke.ts` | skip without keys | Optional `createAgentSession` pong |
-| `run-benchmark.ts` | temp worktree | 5-step local-20 report |
-| `qa-repo.ts` | none | CACD needles, relative links, fixture inventory |
-| `simulate-architectures.ts` | temp worktree | Seven architecture replays |
+| Name | Gate | What it does |
+|------|------|--------------|
+| `allowlist.ts` | n/a | Path and tool policy |
+| `live-session-smoke.ts` | skip without keys | Optional ping; CLI has no session factory yet (§12.4) |
+| `run-benchmark.ts` | temp folder | Five-step recorded-style run |
+| `qa-repo.ts` | none | 12 checklist rows + relative links |
+| `simulate-architectures.ts` | temp folder | Seven design replays |
 
 4 + 5 + 5 + 5 = **19**.
 
-Project agents: [`debugger.md`](harness/omp/overlay/.omp/agents/debugger.md) (read / grep / glob / find only) and [`evolver.md`](harness/omp/overlay/.omp/agents/evolver.md) (no bash; no kernel paths). Hidden OMP roles `@debugger` / `@evolver` (D10).
+Run with `bun harness/omp/drivers/<file>.ts`. Shell: `qa.sh`, `validate.sh`, `install-overlay.sh`.
 
-## 10. Data model
+## 8. Data model
 
-No database. Persistence is files.
+No database. Files only.
 
-### 10.1 Fixture
+| Thing | Where | What it stores |
+|-------|-------|----------------|
+| Coding task | `evals/{held-in,held-out}/<id>/` | `fixture.json`, locked `check.sh`, failing `repo/`, passing `expected/` |
+| Candidate | [`manifest.ts`](harness/omp/drivers/manifest.ts) | id, surface kind, files, parent hash, scores, rollback |
+| History node | [`archive.ts`](harness/omp/drivers/archive.ts) | parent, hidden-set score, file hashes (bodies gitignored) |
+| Checklist row | [`cacd/catalog.ts`](harness/omp/cacd/catalog.ts) | layer, path, required strings |
+| Experiment result | simulations report | expected `stagnate` / `improve` / `throw` / `no-promote` |
 
-`harness/omp/evals/{held-in,held-out}/<id>/`
+Practice ids: `default-export`, `gitignore-rule`, `greet-export`, `index-reexport`, `license-header`, `named-type-export`, `package-script`, `readme-section`, `readme-title`, `sum-fn`, `tsconfig-strict`, `unused-var-marker`.
 
-| File | Role |
-|------|------|
-| `fixture.json` | `{ id, split, prompt, check }` |
-| `check.sh` | Frozen verifier; exit 0 = pass |
-| `repo/` | Starter tree; must fail the check |
-| `expected/` | Gold tree; must pass the check |
+Hidden ids: `barrel-no-secrets`, `gitignore-dist`, `greet-types`, `no-implicit-any`, `no-secrets`, `package-test-script`, `readme-usage`, `typed-default-export`.
 
-### 10.2 Candidate manifest
+Recorded five-step run: [`evals/benchmarks/local-20/summary.md`](harness/omp/evals/benchmarks/local-20/summary.md) — practice 0/12→7/12, hidden 0/8→3/8.
 
-[`manifest.ts`](harness/omp/drivers/manifest.ts): `id`, `surface` (`tool` \| `hook` \| `memory` \| `skill` \| `playbook`), `files[]`, `parentHash` (sha256), `scores.heldIn` / `heldOut`, `rollback` command, optional `evidenceId` / `rootCause`.
-
-### 10.3 Archive node
-
-[`archive.ts`](harness/omp/drivers/archive.ts): `id`, `parentId`, `fitness` (held-out pass rate), `fileHashes`, `createdAt`. Bodies under `harness/omp/archive/<id>/` (gitignored). `sampleParent` weights `fitness / (1 + childCount)`.
-
-### 10.4 CACD item
-
-[`cacd/catalog.ts`](harness/omp/cacd/catalog.ts): `id`, `layer`, `title`, `path`, `mustContain[]`.
-
-### 10.5 Simulation result
-
-`id`, `title`, `sellingPoint`, `expected` (`stagnate` \| `improve` \| `throw` \| `no-promote`), `outcome` (`pass` \| `fail`), `detail`, optional scores.
-
-## 11. Eval suite
-
-### 11.1 Split
-
-| Split | Count | Role |
-|-------|-------|------|
-| Held-in | 12 | Proposer may see failures and unlock families |
-| Held-out | 8 | Regression brake; proposer must not receive these ids |
-
-Each fixture is `fixture.json` + `check.sh` + failing `repo/` + passing `expected/`.
-
-### 11.2 Held-in ids
-
-`default-export`, `gitignore-rule`, `greet-export`, `index-reexport`, `license-header`, `named-type-export`, `package-script`, `readme-section`, `readme-title`, `sum-fn`, `tsconfig-strict`, `unused-var-marker`.
-
-### 11.3 Held-out ids
-
-`barrel-no-secrets`, `gitignore-dist`, `greet-types`, `no-implicit-any`, `no-secrets`, `package-test-script`, `readme-usage`, `typed-default-export`.
-
-### 11.4 Recipe families
-
-A playbook line containing `recipe:gitignore` unlocks every fixture in that family. That is how held-out **generalization** is measured without showing D_out to the proposer.
-
-| Family | Held-in | Held-out |
-|--------|---------|----------|
-| `recipe:default-export` | default-export | typed-default-export |
-| `recipe:gitignore` | gitignore-rule | gitignore-dist |
-| `recipe:named-export` | greet-export, sum-fn, named-type-export | greet-types |
-| `recipe:index-reexport` | index-reexport | — |
-| `recipe:license-header` | license-header | — |
-| `recipe:package-script` | package-script | package-test-script |
-| `recipe:readme-h2` | readme-section | readme-usage |
-| `recipe:readme-h1` | readme-title | — |
-| `recipe:tsconfig` | tsconfig-strict | no-implicit-any |
-| `recipe:unused-prefix` | unused-var-marker | — |
-| `recipe:no-secrets` | — | no-secrets, barrel-no-secrets |
-
-`recipe:no-secrets` has **no held-in member**. The deterministic proposer never unlocks it. Those two held-out tasks staying failed is intentional.
-
-## 12. Testing, QA, and CI
+## 9. Testing
 
 ```text
 bun test harness/omp/tests/
@@ -444,219 +373,127 @@ bash harness/omp/scripts/qa.sh
 
 | Tier | What | Command |
 |------|------|---------|
-| Fast | 19 test files, 55 cases | `bun test harness/omp/tests/` |
-| Overlay | Kernel greps, ≥20 fixtures, no TB2 download URLs | `validate.sh` |
-| Repo QA | 12 CACD items, relative links, then 7 simulations | `qa.sh` |
-| Slow | Live `createAgentSession` | skip unless `OMP_LIVE_SMOKE=1` and a key |
-| Out of gate | OMP `coding-agent-heavy` | do not run as the overlay gate |
+| Fast | 19 files, 55 cases | `bun test harness/omp/tests/` |
+| Overlay | locked-path greps, ≥20 tasks, no public-bench download URLs | `validate.sh` |
+| Whole repo | 12 checklist rows, links, seven replays | `qa.sh` |
+| Slow | real agent session | only if `OMP_LIVE_SMOKE=1` and a key |
+| Not our gate | Oh My Pi’s heavy suite | do not run as the Improveness check |
 
-`qa.sh` = `validate.sh` + `qa-repo.ts` + `simulate-architectures.ts`. CI ([`.github/workflows/overlay.yml`](.github/workflows/overlay.yml)) installs ripgrep, then runs `qa.sh` on the `validate` job (Bun 1.3.14, `contents: read`). Every fixture `check.sh` calls `rg`; without it expected trees fail. The `live-smoke` job is skip-gated and must not redden a keyless PR.
+CI ([`.github/workflows/overlay.yml`](.github/workflows/overlay.yml)) installs ripgrep, then runs `qa.sh` (Bun 1.3.14). Without `rg`, gold trees fail.
 
-## 13. Safety kernel
+## 10. Further reading
 
-[`harness/omp/KERNEL.md`](harness/omp/KERNEL.md) · [`docs/proposals/04-safety.md`](docs/proposals/04-safety.md)
+Start here if you want the ideas, not the file tree.
 
-| Rule | Enforcement |
-|------|-------------|
-| No writes to checker, KERNEL, SURFACES, CACD, `qa.sh`, system-prompt, or `oh-my-pi/packages/` | `isKernelRel` / `assertEvolverWrite` |
-| Proposer cannot see held-out ids | `propose.ts` throws |
-| Hard step cap | `MAX_STEP_CAP = 8` |
-| Fitness is not an LLM judge | frozen `check.sh` |
-| Human promote | `REVIEW_QUEUE.md`; search sets `apply to project .omp? = no` |
-| Rejects are kept | `harness/omp/reports/search/` |
-| Unsafe wirings | simulations must `throw` or `no-promote` |
-| No public-set tuning | local fixtures only (proposal P5) |
+| Idea | Canonical source | What you will learn |
+|------|------------------|---------------------|
+| Harness vs weights | [Weng, Jul 2026](https://lilianweng.github.io/posts/2026-07-04-harness/) | Why near-term self-improvement is wrapper work |
+| Harness-only coding gains | [can.ac, Feb 2026](https://blog.can.ac/2026/02/12/the-harness-problem/) | Same models, better edit format, large pass@1 jumps |
+| Playbook memory | [ACE, arXiv:2510.04618](https://arxiv.org/abs/2510.04618) | Incremental context that does not collapse into slogans |
+| Practice / hidden gate | [Self-Harness, arXiv:2606.09498](https://arxiv.org/abs/2606.09498) | Accept only if both splits hold |
+| Tools not prompts | [AHE, arXiv:2604.25850](https://arxiv.org/abs/2604.25850) | 69.7→77.0 on Terminal-Bench 2; prompt-only −2.3 pp |
+| Cheap evolver | [Updating ≠ benefit, arXiv:2605.30621](https://arxiv.org/abs/2605.30621) | Updating is flat; spend budget on the task agent |
+| Maintainer evidence | [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) | Observe and propose; never auto-apply |
+| Holdout sets | [Wikipedia](https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets) | Why an exam the student already saw is worthless |
 
-Debugger tools allowed: `read`, `grep`, `find`, `glob`. Denied: `edit`, `write`, `bash`. Evolver may `edit` / `write` only under overlay playbook / skills / tools or `staging/`.
+Related systems this repo actually uses or cites:
 
-## 14. Deployment
+- [Oh My Pi](https://github.com/can1357/oh-my-pi) / [omp.sh](https://omp.sh/) — seed harness, snapshotted at `oh-my-pi/`
+- [agentic-harness-engineering](https://github.com/china-qijizhifeng/agentic-harness-engineering) — AHE surfaces we mapped, did not vendor
+- [Terminal-Bench](https://www.tbench.ai/) — public bench we refuse as improver fitness
+- In-repo map: [`docs/00-index.md`](docs/00-index.md), [`docs/references.md`](docs/references.md)
 
-There is no production service and no container image.
+## 11. Roadmap and changelog
 
-| Target | What happens |
-|--------|----------------|
-| Local | `qa.sh` / `validate.sh` / Bun CLIs |
-| GitHub Actions | [`.github/workflows/overlay.yml`](.github/workflows/overlay.yml) on push/PR path filters + `workflow_dispatch` |
-| Overlay install | `install-overlay.sh` merges into `oh-my-pi/.omp/` |
-| Candidate rollback | `rollback-candidate.ts --id <id>` |
-| npm / Harbor cloud / TB2 leaderboard | not shipped |
-
-Enabling CI for others is merging this branch to `main`. Disabling search is “do not run `search.ts`.”
-
-## 15. Cookbook
-
-**Full repo QA (do this first)**
-
-```text
-bash harness/omp/scripts/qa.sh
-```
-
-**Simulate every named architecture**
-
-```text
-bun harness/omp/drivers/simulate-architectures.ts
-```
-
-**Score starter repos vs gold trees**
-
-```text
-bun harness/omp/drivers/run-eval.ts harness/omp/evals held-in repo
-bun harness/omp/drivers/run-eval.ts harness/omp/evals held-out expected
-```
-
-**Bounded search in this checkout** (writes staging / archive / queue — prefer `run-benchmark.ts`)
-
-```text
-bun harness/omp/drivers/search.ts 3
-```
-
-**Harbor-shaped local tasks**
-
-```text
-bun harness/omp/drivers/tb-export.ts harness/omp/evals/held-out/no-secrets /tmp/tb
-bun harness/omp/drivers/run-tb-local.ts harness/omp/evals repo
-```
-
-**Curate a playbook lesson**
-
-```text
-bun harness/omp/drivers/curate-playbook.ts --playbook harness/omp/overlay/.omp/playbook/PLAYBOOK.md --lesson "Prefer named exports" --passed
-```
-
-**Export an OMP session jsonl**
-
-```text
-bun harness/omp/drivers/export-session.ts --jsonl path/to/session.jsonl --out harness/omp/traces
-```
-
-**Skip-gated live smoke**
-
-```text
-bun harness/omp/drivers/live-session-smoke.ts
-# {"skipped":true,"reason":"OMP_LIVE_SMOKE is not 1"}
-```
-
-## 16. Benchmarks
-
-### 16.1 Local-20 search cycle
-
-[`harness/omp/evals/benchmarks/local-20/summary.md`](harness/omp/evals/benchmarks/local-20/summary.md)
-
-| Split | Baseline | After 5 search steps | Δ |
-|-------|----------|----------------------|---|
-| Held-in | 0/12 | 7/12 | +7 |
-| Held-out | 0/8 | 3/8 | +3 |
-
-| Step | Family unlocked | Decision | Held-in | Held-out |
-|------|-----------------|----------|---------|----------|
-| 1 | `recipe:default-export` | accept | 1/12 | 1/8 |
-| 2 | `recipe:gitignore` | accept | 2/12 | 2/8 |
-| 3 | `recipe:named-export` | accept | 5/12 | 3/8 |
-| 4 | `recipe:index-reexport` | accept | 6/12 | 3/8 |
-| 5 | `recipe:license-header` | accept | 7/12 | 3/8 |
-
-Held-out +3 is generalization (`typed-default-export`, `gitignore-dist`, `greet-types`). `no-secrets` / `barrel-no-secrets` remain 0 because the proposer never saw them.
-
-This is a **harness-memory** benchmark, not a live-LLM coding-agent run. It is the honest keyless demonstration that the gate, archive, and held-out brake work.
-
-### 16.2 Architecture contrast
-
-From §5: ACE-only stays 0/20. Unlocking all held-in AHE families reaches 12/12 and 6/8. The gap between those two numbers *is* the product.
-
-## 17. Extending
-
-| You want to | Do this |
-|-------------|---------|
-| Add a fixture | New dir under `held-in/` or `held-out/` with `fixture.json`, `check.sh`, `repo/`, `expected/`. Map a `recipe:*` family in `playbook-solver.ts` if it should unlock. Keep held-out ids out of `HELD_IN_ID_TO_FAMILY`. |
-| Add a simulation | New id in `ARCHITECTURE_SIMULATIONS` + a runner in `simulate-architectures.ts` + a row in the recorded summary. |
-| Add a CACD item | Append to `CACD_ITEMS` with `path` + `mustContain`. QA will fail until the file matches. |
-| Add a kernel path | `KERNEL.md` + `KERNEL_PATH_MARKERS` in `allowlist.ts` in the same commit. |
-| Promote a candidate | Human edit via `REVIEW_QUEUE.md`. Do not add an auto-apply driver. |
-
-## 18. Roadmap and changelog
-
-### 18.1 Build phases (completed)
+### Build phases (completed)
 
 | Phase | Theme | Status |
 |-------|-------|--------|
 | Research | Weng segments, methods, proposals 00–05 | done |
-| P0 | Overlay loop: surfaces, ACE, traces, Self-Harness, manifests | done |
-| P1 | 20 fixtures, live-smoke skip-gate, hidden roles, TB adapter, archive | done |
-| P2 | Root CI, bounded search, local Harbor, local-20 | done |
-| CACD + QA + sims | Operating model, repo QA, 7 architecture replays | done |
+| First overlay | Surfaces, playbook, traces, accept/reject, records | done |
+| Twenty tasks | 12/8 split, optional ping, hidden roles, history folder | done |
+| Search + CI | Actions, bounded search, local runner, recorded 20-task run | done |
+| Checklist + replays | Four-layer checklist, repo QA, seven design experiments | done |
 
-### 18.2 Possible future directions
-
-- Public Terminal-Bench 2 / Harbor campaign (never as evolver fitness)
-- Required live-smoke (needs secrets on every PR)
-- Live `@evolver` behind `OMP_LIVE_SEARCH=1`
-- Spec Kit `.specify/` and Agent Patterns Catalog ids
-- Human promote of a staging playbook onto canonical `overlay/.omp`
-
-### 18.3 Changelog
+### Changelog
 
 | Date | Change |
 |------|--------|
-| 2026-08-16 | README rewritten as the extensive-readme reference manual (20 sections) |
-| 2026-08-15 | CACD (D13), repo QA, seven agentic-architecture simulations |
-| 2026-08-15 | P2: overlay CI, bounded search, local-20 (0/12→7/12, 0/8→3/8) |
-| 2026-08-15 | P1: 20 fixtures, hidden `@debugger`/`@evolver`, TB adapter, archive |
-| 2026-08-15 | P0 overlay; in-tree OMP; proposals corpus |
+| 2026-08-17 | README rewritten from the teaching-edition extensive-readme skill |
+| 2026-08-17 | extensive-readme skill updated (teaching blocks, citations, future advancements) |
+| 2026-08-16 | CI installs ripgrep so fixture graders run on Actions |
+| 2026-08-15 | Checklist, repo QA, seven design replays |
+| 2026-08-15 | Bounded search; recorded 0/12→7/12 and 0/8→3/8 |
+| 2026-08-15 | 20 tasks; debugger/improver roles; Oh My Pi snapshot |
 
-## 19. FAQ and glossary
+Shipped work stays here. What is still missing is §12, not a slogan list.
 
-**Why simulate instead of running a live agent on public TB2?**
-Proposal P5 and AHE: the proposer must not train on the public set it will be scored on. Simulations compare *wirings* (who may write, who may see held-out, whether promote is automatic) at CI speed.
+## 12. Future advancements
 
-**What does CACD add over DECISIONS.md?**
-ADRs are history. CACD is the live checklist QA opens every run. D13 names it.
+What can still be built in *this* repository.
 
-**Why can the evolver be small?**
-Lin et al. 2026: harness-updating is flat across mid and frontier models (D6). Spend the frontier budget on the task agent.
+### 12.1 A live improver that still cannot install
 
-**Why is ACE-only a passing simulation if it scores 0/20?**
-Because the *expected* outcome is stagnation. That is the AHE lesson, encoded so a later agent cannot “fix” it by treating slogans as the product.
+**Why now.** [`search.ts`](harness/omp/drivers/search.ts) is deterministic: it unlocks `recipe:*` tags. [`OMP_LIVE_SEARCH`](.env.example) is reserved and unused. A live `@evolver` session is the next honest test of D6 (cheap writer) without violating D12.
 
-**Where do I start reading?**
-This file. Then [`harness/omp/CACD.md`](harness/omp/CACD.md), [`harness/omp/evals/simulations/latest/summary.md`](harness/omp/evals/simulations/latest/summary.md), [`docs/00-index.md`](docs/00-index.md), [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
+**What would land.** A skip-gated driver that calls Oh My Pi `createAgentSession` with the evolver allowlist, still writing only `staging/`, `archive/`, and `REVIEW_QUEUE.md`.
 
-| Term | Meaning |
-|------|---------|
-| **Harness** | Tools, context, eval, permissions around a frozen model |
-| **CACD** | Contract · Architecture · Control · Delivery |
-| **Contract** | Editable vs frozen paths |
-| **Architecture** | How roles, memory, tools, and the evaluator are wired |
-| **Control** | What must throw or reject |
-| **Delivery** | How a gain becomes evidence, not authority |
-| **QA** | Repo-wide assurance beyond unit tests |
-| **Simulation** | Keyless replay of a named agentic wiring |
-| **ACE** | Playbook memory with a deterministic curator |
-| **AHE** | File-level evolution of tools / middleware / memory |
-| **Self-Harness** | Held-in / held-out accept rule around a frozen model |
-| **Kernel** | Paths the loop must not write |
-| **Promote** | Human copy from staging onto canonical overlay |
+**Done when.** `OMP_LIVE_SEARCH=1` plus a key runs one bounded live step in a temp tree; `qa.sh` still passes with the flag unset.
 
-**Authority**
+### 12.2 A human install helper
 
-[`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) · [`PROGRESS.md`](PROGRESS.md) · [`DECISIONS.md`](DECISIONS.md) · [`LEARNING.md`](LEARNING.md) · [`harness/omp/CACD.md`](harness/omp/CACD.md)
+**Why now.** [`REVIEW_QUEUE.md`](harness/omp/REVIEW_QUEUE.md) is a table. There is no script that copies a waiting-room playbook onto `overlay/.omp/` *after a person confirms*. Search must still never call that path.
 
-## 20. Appendix: CLI reference
+**What would land.** A maintainer command that requires an explicit `--i-am-installing <id>`, copies from `staging/`, and refuses kernel paths.
 
-Invoke with `bun harness/omp/drivers/<file>.ts`. Library-only drivers have no useful CLI.
+**Done when.** A documented dry-run plus a test that search still cannot reach that command.
 
-| Command | Arguments | Exit |
-|---------|-----------|------|
-| `qa-repo.ts` | none | 1 if any finding fails |
-| `simulate-architectures.ts` | `[outDir]` (default `harness/omp/evals/simulations/latest`) | 1 if any sim fails |
-| `run-benchmark.ts` | `[stepCap=3] [outDir]` | 0; prints summary |
-| `search.ts` | `[stepCap=3]` | throws on bad cap / kernel write |
-| `run-eval.ts` | `[evalsRoot] [held-in\|held-out] [repo\|expected]` | JSON scores |
-| `run-tb-local.ts` | `[evalsRoot] [repo\|expected]` | JSON per-task results |
-| `tb-export.ts` | `<fixtureDir> [adapterRoot]` | JSON export paths |
-| `curate-playbook.ts` | `--playbook PATH [--session PATH] [--lesson TEXT] [--passed\|--failed]` | JSON delta |
-| `export-session.ts` | `--jsonl PATH [--out tracesRoot]` | JSON session id |
-| `rollback-candidate.ts` | `--id <id>` | JSON restore |
-| `live-session-smoke.ts` | none (reads env) | 0 on skip; 1 if smoke requested without a factory |
-| `apply-candidate.ts` | none | always throws (library entry) |
+### 12.3 Public Terminal-Bench as a report, never as fitness
 
-Scripts: `bash harness/omp/scripts/qa.sh`, `validate.sh`, `install-overlay.sh`.
+**Why now.** [`run-tb-local.ts`](harness/omp/drivers/run-tb-local.ts) only runs in-repo Harbor-shaped tasks. Proposal P5 and D11 forbid using the public set as the improver’s score. A *separate* report job is still parked.
+
+**What would land.** An optional, non-required workflow that runs a public Terminal-Bench snapshot for humans to read, with fitness still the frozen 20 tasks.
+
+**Done when.** CI comments a TB2 number that `propose.ts` cannot see, and `validate.sh` still greps away public-set download URLs from search/fitness drivers.
+
+### 12.4 Wire the live ping to a real session
+
+**Why now.** [`live-session-smoke.ts`](harness/omp/drivers/live-session-smoke.ts) skips without keys, which is correct — but when `OMP_LIVE_SMOKE=1` *is* set, the CLI exits 1 because it never constructs `createAgentSession`. The GitHub job can go green on skip and still never ping.
+
+**What would land.** A thin wrapper that injects Oh My Pi’s session factory, still restricted to `read` / `grep` / `glob`, still skip-gated.
+
+**Done when.** With a key and the flag, the job prints a pong; without them, it still skips and stays green.
+
+## 13. FAQ
+
+**Why not just run a live agent on Terminal-Bench?**
+Because then the improver can practice on the public set you later score. Replays compare plumbing at CI speed. See §2.6.
+
+**What does the four-layer checklist add over `DECISIONS.md`?**
+Decisions are history. The checklist is what QA opens today. If a required sentence disappears, the check fails.
+
+**Why is “slogans only, 0/20” a passing test?**
+We want that setup to fail at scoring. The test passes when the score stays zero. See §2.4.
+
+**Where next?**
+This file, then [`CACD.md`](harness/omp/CACD.md), [`LEARNING.md`](LEARNING.md), [`evals/simulations/latest/summary.md`](harness/omp/evals/simulations/latest/summary.md), [`docs/00-index.md`](docs/00-index.md).
+
+## 14. Glossary
+
+| Term | Meaning in this repo | Why it matters |
+|------|----------------------|----------------|
+| Harness | Instructions, tools, tests, permissions around a frozen model | People hear “self-improvement” and think weights |
+| Playbook | Markdown lessons the agent should follow | Not the system prompt |
+| Practice / held-in | Tasks the improver may see | Homework |
+| Hidden / held-out | Tasks used only as a brake | Exam |
+| Improver / evolver | Role that suggests extra-file edits | Must not touch locked files |
+| Locked files / kernel | Paths that role must not write | Includes the grader |
+| Waiting room / staging | Where a kept suggestion sits | Not official yet |
+| Install / promote | A person copies a suggestion into official extra files | Scripts do not do this |
+| Checklist / CACD | Contract, Architecture, Control, Delivery | QA opens it every run |
+| ACE | Playbook memory with a picky curator | Slogans-only is a failing product and a passing test |
+| AHE | Improve tools and memory, not the system prompt | Why `system-prompt.md` is locked |
+| Self-Harness | Keep a change only if practice rose and hidden did not fall | The accept rule |
+| Oh My Pi / OMP | Seed coding agent at `oh-my-pi/` | We do not push upstream |
+
+Authority files: [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) · [`DECISIONS.md`](DECISIONS.md) · [`PROGRESS.md`](PROGRESS.md) · [`LEARNING.md`](LEARNING.md) · [`harness/omp/CACD.md`](harness/omp/CACD.md)
