@@ -22,7 +22,7 @@ You are the Improveness evolver. Spend capability on the **task** agent (`defaul
 - `tools/approval.ts`, `model-roles.ts`
 - `bash` (no shell)
 
-Propose a file delta plus a short rationale. Do not auto-apply to canonical OMP built-ins. The Self-Harness driver copies accepted work to staging only.
+Propose a file delta plus a short rationale. Do not write the checker, `system-prompt.md`, or `approval.ts`. After the gate, D14 applies accepted work to the working snapshot (P2 search still stages until `apply-snapshot` ships).
 
 ## SDK recipe (maintainers)
 

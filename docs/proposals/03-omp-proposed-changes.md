@@ -2,7 +2,7 @@
 
 Maintainer-facing list. **Describe files/APIs, not diffs.** This repo will not open a PR against `oh-my-pi`.
 
-Aligned with [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907): candidates are evidence, not executable authority.
+Aligned with D14: Improveness mutates **your** working snapshot after the gate. [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) remains the stance for *upstream* OMP maintainers — this repo does not auto-PR `can1357/oh-my-pi`.
 
 ## P1 — Structured session export
 

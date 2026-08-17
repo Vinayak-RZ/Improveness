@@ -2,20 +2,18 @@
 
 The evolver, curator, debugger, and Self-Harness driver **must not write** these paths. Maintainers may edit them; the loop may not.
 
-See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md) and [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907).
+See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md), [docs/proposals/06-snapshot-apply.md](../../docs/proposals/06-snapshot-apply.md), and [D14](../../DECISIONS.md).
 
-## OMP core (always frozen)
+## Always frozen (reward-hacking / AHE / permissions)
 
 | Path | Why |
 |------|-----|
-| `oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md` | AHE: prompt-only evolution missed the gain (−2.3 pp). Not an improvement surface. (There is no `system.md`; this is the file.) |
+| `oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md` | AHE: prompt-only evolution missed the gain (−2.3 pp). Not an improvement surface. |
 | `oh-my-pi/packages/coding-agent/src/system-prompt.ts` | Assembles the system prompt; rewriting it is a kernel change |
-| `oh-my-pi/packages/coding-agent/src/tools/approval.ts` | Permission kernel |
-| `oh-my-pi/packages/coding-agent/src/config/model-roles.ts` | Model-role union and defaults |
+| `oh-my-pi/packages/coding-agent/src/tools/approval.ts` | Permission kernel. Widening needs a human |
+| `oh-my-pi/packages/coding-agent/src/config/model-roles.ts` | Model-role union and defaults (cannot swap to a stronger model mid-loop) |
 | `oh-my-pi/packages/coding-agent/src/session/role-models.ts` | Role → model resolution |
 | `oh-my-pi/packages/coding-agent/src/config/settings-schema.ts` | Settings schema including `modelRoles` |
-| `oh-my-pi/packages/coding-agent/src/tools/*.ts` | Canonical built-in tools |
-| `oh-my-pi/packages/**` | Entire package tree unless a documented WS-B core patch is opened |
 
 ## Improveness kernel (always frozen)
 
@@ -38,11 +36,20 @@ See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md) and [oh-my-
 - Session tracer and run logs (`~/.omp/agent/sessions/`, `harness/omp/traces/` as evidence — append-only from exporters, not evolver edits)
 - OAuth / API secrets (`OMP_*` env vars). Curator must reject secret-shaped strings
 
-## Allowed after Phase C (project overlay only)
+## Open on the working snapshot after the gate (D14)
 
-- `harness/omp/overlay/.omp/playbook/**`
-- `harness/omp/overlay/.omp/skills/**`
-- `harness/omp/overlay/.omp/tools/**`
-- Staging copies under `harness/omp/staging/` of those same trees
+The apply target is **your working copy**: in-tree `oh-my-pi/` or a user-supplied agent snapshot. After held-in/held-out accept, Improveness may change that snapshot’s:
 
-Accept lands in **staging**. `drivers/search.ts` may also write `archive/<id>/` and a `REVIEW_QUEUE.md` row. Promote to the overlay (or any OMP package file) is a **human** action via [REVIEW_QUEUE.md](REVIEW_QUEUE.md) (D12).
+- Tool implementations and schemas (except `approval.ts`)
+- Skills
+- Orchestration / worker wiring
+- Core agentic loop (step machine, tool executor, middleware)
+- Project overlay playbook / extra tools / extra skills under `harness/omp/overlay/.omp/`
+
+Upstream `can1357/oh-my-pi` is never the apply target unless a human separately asks.
+
+Prefer **revertible plugins** so a live OMP session does not have to die on every self-mod ([spatiotemporal composability](../../docs/methods/spatiotemporal-composability.md)). Restart is the fallback when an edit is not unloadable.
+
+## Current driver behavior (until `apply-snapshot` ships)
+
+P2 `drivers/search.ts` still lands accepts in **staging**, `archive/<id>/`, and a [REVIEW_QUEUE.md](REVIEW_QUEUE.md) row (D12 as shipped). It does not yet copy into `overlay/.omp/` or `oh-my-pi/packages/`. That is a driver lag, not the product. KERNEL and allowlist stay conservative until Phase B of [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) opens snapshot paths **except** the frozen rows above.

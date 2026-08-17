@@ -1,6 +1,6 @@
 # Maintainer review queue
 
-Candidates are **evidence**. Applying them to project `.omp/` or any OMP package is a human action. There is no auto-apply script.
+Candidates are **evidence** until the Self-Harness gate accepts. D14 then applies ordinary accepts to the **working snapshot**. There is no auto-apply onto the checker, upstream Oh My Pi, or the permission kernel. Permission / network / destructive widening still waits here for a human.
 
 | id | surface | files | parentHash | held-in | held-out | rollback | apply to project .omp? |
 |----|---------|-------|------------|---------|----------|----------|------------------------|

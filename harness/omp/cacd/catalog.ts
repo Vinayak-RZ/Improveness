@@ -28,14 +28,14 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "Execution contract",
     path: "IMPLEMENTATION_PLAN.md",
-    mustContain: ["No public Terminal-Bench", "No auto-promote"],
+    mustContain: ["No public Terminal-Bench", "working snapshot"],
   },
   {
     id: "c-decisions",
     layer: "contract",
     title: "ADRs",
     path: "DECISIONS.md",
-    mustContain: ["D7", "D11", "D12", "D13"],
+    mustContain: ["D7", "D11", "D12", "D13", "D14"],
   },
   {
     id: "a-cacd",
@@ -92,6 +92,13 @@ export const CACD_ITEMS: CacdItem[] = [
     title: "Repository QA orchestrator",
     path: "harness/omp/scripts/qa.sh",
     mustContain: ["validate.sh", "qa-repo", "simulate-architectures"],
+  },
+  {
+    id: "c-snapshot",
+    layer: "contract",
+    title: "Working snapshot apply",
+    path: "docs/proposals/06-snapshot-apply.md",
+    mustContain: ["working snapshot", "D14"],
   },
 ];
 

@@ -51,18 +51,21 @@
 
 ## D7 — Auto-apply is forbidden
 
+> **Product status (D14):** Auto-apply onto the *checker*, *upstream Oh My Pi*, and *permission kernel* remains forbidden. Gated apply onto the **working snapshot** after Self-Harness accept is the product. The original “no writes to in-tree OMP packages” clause is superseded for that snapshot.
+
 - **Context:** Reward hacking if the loop can edit the evaluator or built-ins.
 - **Alternatives:** Closed auto-merge; maintainer review queue.
 - **Selected:** Held-out gate plus human promote; no writes to canonical OMP built-ins.
-- **Rationale:** Weng reward-hacking bottleneck; OMP maintainer stance.
+- **Rationale:** Weng reward-hacking bottleneck; OMP maintainer stance. D14 keeps the bottleneck (evaluator, permissions) and drops the overlay-only misread.
 
 ## D9 — Overlay-first; core patches only when a gate fails
+
+> **Product status (D14):** Overlay-first was the research path (ACE playbook, traces, Self-Harness drivers). The **working snapshot** (`oh-my-pi/` or a user-supplied agent tree) is now an intended mutation target after the gate — including tools, skills, orchestration, and the core loop. Overlay remains the Improveness-owned playbook/driver tree. Upstream PRs are still not the product.
 
 - **Context:** D8 put Oh My Pi in-tree. The question is where self-improvement code lives.
 - **Alternatives:** Patch `oh-my-pi/packages/coding-agent/` first; git submodule + upstream PRs; Improveness `harness/omp/` overlay + SDK drivers.
 - **Selected:** Overlay-first at `harness/omp/`. Touch OMP core only if a phase exit gate cannot be met from `.omp/` + `createAgentSession` + existing session jsonl.
 - **Rationale:** AHE surfaces are file-level. OMP already loads project agents, hooks, and custom tools. D7 forbids auto-apply to built-ins. [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) treats candidates as evidence.
-- **Core-patch triggers (not pre-scheduled):** unknown `modelRoles.debugger` rejected by schema; evolver path allowlist too coarse; jsonl missing tool I/O. Still never edit `system.md` as an improvement surface.
 
 ## D10 — First core patch is hidden debugger/evolver roles
 
@@ -80,6 +83,8 @@
 
 ## D12 — Archive search stages and queues; it does not promote
 
+> **Product status (D14):** This ADR describes **P2 `search.ts` as shipped**. Until `apply-snapshot` exists, search still writes `staging/` + `archive/` + `REVIEW_QUEUE.md` only. The product target is gated apply onto the working snapshot after accept — not a forever review queue. Kernel/upstream/permission-widening still never auto-promote.
+
 - **Context:** Wiring `sampleParent` to a propose → check loop could silently become auto-apply onto `overlay/.omp/` or OMP packages.
 - **Alternatives:** Closed loop that writes the canonical overlay; search that only logs without staging; human-only proposals with no driver.
 - **Selected:** `runSearch` may write `staging/`, `archive/<id>/`, manifests, and a `REVIEW_QUEUE.md` row. It must not copy into `overlay/.omp/` or `oh-my-pi/packages/`. Human promote remains the only path onto the project overlay (extends D7).
@@ -91,3 +96,10 @@
 - **Alternatives:** Treat CACD as CI/CD only; skip a named model and keep docs informal; require live-LLM architecture evals.
 - **Selected:** CACD means Contract, Architecture, Control, Delivery. QA verifies the catalog. Simulations replay named agentic wirings against the frozen suite without a live model.
 - **Rationale:** The selling point is comparing harness topologies (ACE-only vs gated Self-Harness vs leaked/held-out vs kernel-writing) before spending tokens. Keyless CI must stay green (D11).
+
+## D14 — Working snapshot is the apply target
+
+- **Context:** The vision is: you use Oh My Pi (or any agent snapshot) and run Improveness so that **that harness’s actual code changes** — tools, skills, orchestration, even the core agentic loop. D7/D9/D12 encoded a misunderstanding (overlay-only, never touch `oh-my-pi/packages/`, human-only promote forever). [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) is the stance for *upstream* OMP maintainers, not a ban on mutating *your* working copy. Self-evolving harnesses that must kill the runtime on every self-mod dump process-local state ([spatiotemporal composability](docs/methods/spatiotemporal-composability.md)).
+- **Alternatives:** Keep review-queue-only (mismatches the vision). Gated auto-apply onto the working snapshot, never onto checker/upstream (selected). Rewrite OMP onto a Cordis kernel in one pass (too large; research first).
+- **Selected:** After held-in/held-out accept, Improveness mutates the **working snapshot** (`oh-my-pi/` in this repo, or a user-supplied agent tree). Apply is gated, not silent. Prefer revertible plugins (Cordis-style temporal + spatial composability) over full process restart. Kernel remains: frozen checker, Improveness QA, secrets, prompt-only `system-prompt.md`, `approval.ts` for permission-widening (human checkpoint). P2 `search.ts` stays stage-only until the apply driver ships.
+- **Rationale:** User vision correction 2026-08-17. Evaluator-outside-the-loop still blocks reward hacking. Snapshot-apply is what “I am using OMP and Improveness changes it” means.

@@ -1,6 +1,6 @@
 # Target architecture (any harness)
 
-This is the loop to **specify**, not implement, in this repo. Patterns: Supervisor + workers, ReAct with a step cap, human-in-the-loop promote, episodic traces on disk (`agentic-system-design`).
+This is the loop to **specify**, then run against a working snapshot. Patterns: Supervisor + workers, ReAct with a step cap, gated apply to the snapshot, human-in-the-loop for permission-widening, episodic traces on disk (`agentic-system-design`).
 
 ```mermaid
 flowchart TD
@@ -9,16 +9,16 @@ flowchart TD
   orch --> ctx[Context builder playbook plus memory]
   ctx --> model[Task model]
   model --> tools[Tool executor schemas timeouts]
-  tools --> seed[Seed harness]
+  tools --> seed[Working snapshot]
   seed --> traces[Episodic trace store]
   traces --> debugger[Debugger role]
   debugger --> evolver[Evolve agent]
   evolver --> manifest[Change manifest]
   manifest --> gate[Held-in held-out verifier]
-  gate -->|accept| surface[Declared editable files]
+  gate -->|accept ordinary| apply[Apply to working snapshot]
+  apply --> seed
+  gate -->|permission widening| human[Human checkpoint]
   gate -->|reject| log[Rejected edit log]
-  surface --> seed
-  human[Human promote] -.-> gate
 ```
 
 ## Roles
@@ -29,7 +29,8 @@ flowchart TD
 | Debugger | Distill traces → per-task reports + overview | Mid/small (`smol`) |
 | Evolver | Propose bounded file edits + a manifest | Mid/small is enough ([updating ≠ benefit](../methods/updating-vs-benefit.md)) |
 | Verifier | Score held-in / held-out; never writable by evolver | Deterministic tests / harness-external judge |
-| Human | Promote permission/network/destructive changes | — |
+| Apply | Write accepted ordinary edits onto the working snapshot | Deterministic driver (D14) |
+| Human | Permission/network/destructive widening; never required for ordinary tool/skill/loop patches | — |
 
 ## Layers
 
@@ -40,12 +41,14 @@ flowchart TD
 | Context builder | ACE playbook + memory files + progressive disclosure |
 | Tool executor | Timeouts, schemas, audit log |
 | Trace store | One directory per rollout; messages + tool I/O + verifier outcome |
-| Editable surface | The seven AHE files only |
+| Working snapshot | The agent being improved (`oh-my-pi/` or a user-supplied tree) |
+| Editable surface | Snapshot tools/skills/orchestration/loop **except** kernel files; overlay playbook |
 
 ## What this is not
 
-- Not a fork of OMP, OpenCode, Codex, or Claude Code.
+- Not a fork that pushes to OMP, OpenCode, Codex, or Claude Code upstream.
 - Not a weight-update loop ([08](../08-joint-optimization.md)).
 - Not DGM/AlphaEvolve until fitness is cheap and objective ([05-adoption-order.md](05-adoption-order.md)).
+- Not “evidence forever in a review queue.” That was the P2 driver lag.
 
-OMP instantiation: [02-omp-gap-analysis.md](02-omp-gap-analysis.md). Generic capability list: [01-generic-harness.md](01-generic-harness.md). Safety: [04-safety.md](04-safety.md).
+OMP instantiation: [02-omp-gap-analysis.md](02-omp-gap-analysis.md). Product: [06-snapshot-apply.md](06-snapshot-apply.md). Generic capability list: [01-generic-harness.md](01-generic-harness.md). Safety: [04-safety.md](04-safety.md).

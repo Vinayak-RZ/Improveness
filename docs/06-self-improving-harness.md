@@ -45,6 +45,10 @@ Result: Terminal-Bench 2 69.7→77.0 over 10 iterations; beats Codex 71.9 and Op
 
 Code: [agentic-harness-engineering](https://github.com/china-qijizhifeng/agentic-harness-engineering).
 
+### Spatiotemporal composability (Shi et al. 2026)
+
+Self-evolving harnesses that **restart the process** on every self-mod dump caches, connections, and in-flight work. The paper names two missing axes: **temporal** (unload must reverse every effect) and **spatial** (components declare and react to dependencies). Cordis / DeepSeek Harness treat the model adapter, tools, session log, sandbox, **agent loop**, and UI as plugins with Fiber lifecycle and `ctx.effect()` disposers. Method note: [methods/spatiotemporal-composability.md](methods/spatiotemporal-composability.md). Improveness D14: mutate the working snapshot after the gate; prefer live unload over kill-the-runtime.
+
 ## What works / fails
 
 - **Works:** propose → held-out gate → accept; file-level components; manifests with next-round falsification; cheap evolver + strong task agent.
@@ -56,4 +60,4 @@ This segment **is** the v1 spec: AHE surfaces + Self-Harness gate + manifests. S
 
 ## OMP implication
 
-Reuse `learn` / managed-skills / memory as **write targets**, not as the optimizer. Add traces, debugger, allowlisted evolver, held-out driver, maintainer queue. Do not let the evolver stack extra closure-checks on top of TTSR + advisor.
+Reuse `learn` / managed-skills / memory as **write targets**, not as the optimizer. Add traces, debugger, allowlisted evolver, held-out driver. After the gate, apply to the **working snapshot** (tools, skills, orchestration, core loop) — not overlay-only. Human checkpoint remains for permission-widening. Prefer revertible extensions over process restart. Do not let the evolver stack extra closure-checks on top of TTSR + advisor.

@@ -2,7 +2,7 @@
 
 ## Current phase
 
-OMP overlay **P2 complete**. **CACD + repo QA + seven agentic-architecture simulations** added (D13). P3 remains parked.
+OMP overlay **P2 complete**. **P3 Phase 0 in progress:** D14 snapshot-apply vision, spatiotemporal composability research, catalog needles updated. Apply driver still pending (P2 `search.ts` stages).
 
 ## Latest
 
@@ -10,13 +10,15 @@ OMP overlay **P2 complete**. **CACD + repo QA + seven agentic-architecture simul
 |------|--------|
 | `.github/workflows/overlay.yml` | done |
 | Skip-gated live-smoke CI job | done |
-| `runSearch` + deterministic proposer | done |
+| `runSearch` + deterministic proposer | done (still stage-only) |
 | Local Harbor runner | done |
 | Local-20 benchmark (0/12→7/12, 0/8→3/8) | done |
-| Extensive README | done |
+| Extensive README | done; vision realigned D14 |
 | CACD (D13) + `qa.sh` | done |
 | 7 architecture simulations | done |
-| `validate.sh` P2 greps | done |
+| D14 working-snapshot apply contract | Phase 0 |
+| Spatiotemporal composability method note | Phase 0 |
+| `apply-snapshot` driver | pending Phase B |
 
 ## Completed phases
 
@@ -49,22 +51,32 @@ OMP overlay **P2 complete**. **CACD + repo QA + seven agentic-architecture simul
 | D | Local Harbor runner | done |
 | N | validate.sh greps + docs + local-20 | done |
 
+### Overlay P3
+
+| Phase | Objective | Status |
+|-------|-----------|--------|
+| 0 | D14 contract + paper note + README | in progress |
+| B | Gated apply onto working snapshot | pending |
+| C | OMP extension unload vs Cordis | pending |
+| N | qa.sh after driver | pending |
+
 ## Remaining phases
 
-**P3 (parked):** public TB2 / Harbor campaign; required live-smoke; Spec Kit; catalog ids; search that writes canonical overlay.
+**P3 live:** snapshot apply + composability research. **Parked:** public TB2 as report-only; required live-smoke; Spec Kit; catalog ids.
 
 Cutover is N/A.
 
 ## Active blockers
 
-None.
+Phase B apply driver — P2 search still stages (D12 as shipped). Product is D14.
 
 ## Gate evidence
 
 ```text
-harness/omp/scripts/validate.sh
+harness/omp/scripts/qa.sh
 # bun test harness/omp/tests/
 # overlay.yml calls validate.sh
 # search.ts has MAX_STEP_CAP + kernel guard
 # local-20: held-in 0/12 → 7/12, held-out 0/8 → 3/8 after 5 steps
+# IMPLEMENTATION_PLAN contains working snapshot + No public Terminal-Bench
 ```
