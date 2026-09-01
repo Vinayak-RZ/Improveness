@@ -2,41 +2,37 @@
 
 ## Purpose
 
-Improveness is a maintainer-readable corpus, a **CACD** operating model (Contract · Architecture · Control · Delivery), a **keyless simulator of agentic architectures**, and a loop that **mutates a working agent snapshot** after a Self-Harness gate.
+Improveness is a **DeepSeek Harness bundle plugin** (`dsh-improveness`) that improves the host at runtime: JIT session plugins plus durable generated siblings after a Self-Harness gate. The same loop is a **CACD** operating model and a **keyless simulator of agentic architectures**.
 
-You use Oh My Pi (in-tree [`oh-my-pi/`](oh-my-pi/), or another snapshot you point at). You run Improveness. After held-in/held-out accept, **that harness’s code changes**: tools, skills, orchestration, even the core agentic loop. Overlay-only review queues were a misread of this vision ([D14](DECISIONS.md)).
+You add the plugin to a live `improveness` profile (`dsh-base` + `dsh-web-app` + `dsh-improveness`). After held-in/held-out accept, **generated plugins** land in a profile-owned directory and HMR. The Oh My Pi tree is a **parked P1 HostPort**, not the default install path ([D15](DECISIONS.md)).
 
 1. Explains Lilian Weng’s [“Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/) by natural segment.
-2. Specifies what **any** coding harness must add to become self-improving.
-3. Implements those additions as [`harness/omp/`](harness/omp/SURFACES.md) (playbook, traces, debugger, Self-Harness, manifests) and, after the gate, applies them to the working snapshot — without rewriting `system-prompt.md` or silencing the checker.
+2. Specifies what **any** coding harness must add to become self-improving (HostPort).
+3. Implements those additions as [`plugins/dsh-improveness`](plugins/dsh-improveness) plus [`harness/omp/`](harness/omp/SURFACES.md) — without rewriting the checker or the Improveness bundle itself.
 
 ## System overview
 
-Research docs and proposals live at the repo root. The in-tree OMP source is [`oh-my-pi/`](oh-my-pi/) (upstream git history stripped). That directory is the default **working snapshot**, not a read-only museum.
-
 | Layer | What lives here |
 |-------|-----------------|
-| Human overview | [`README.md`](README.md) — readable; internals in [`docs/EXTENSIVE.md`](docs/EXTENSIVE.md) |
+| Product landing | [`README.md`](README.md) — plugin pitch; internals in [`docs/EXTENSIVE.md`](docs/EXTENSIVE.md) |
+| Claim ledger | [`docs/CLAIM_LEDGER.md`](docs/CLAIM_LEDGER.md) |
 | Research | [`docs/`](docs/00-index.md) segments and [`docs/methods/`](docs/methods/) |
-| Proposals | [`docs/proposals/`](docs/proposals/00-architecture.md) — generic + OMP + [snapshot apply](docs/proposals/06-snapshot-apply.md) |
-| Overlay / loop | [`harness/omp/`](harness/omp/SURFACES.md) — drivers, evals, staging, apply |
-| Working snapshot | [`oh-my-pi/`](oh-my-pi/) — apply target after the gate (D14) |
-| Skills authority | [`vendor/cursor-config-coding/`](vendor/cursor-config-coding/) and project [`.cursor/`](.cursor/skills/nawab-plans/SKILL.md) |
+| DSH bundle | [`plugins/dsh-improveness`](plugins/dsh-improveness) (`dsh.bundle`) |
+| Overlay / loop | [`harness/omp/`](harness/omp/SURFACES.md) — Bun checker, search, apply |
+| Parked snapshot | [`oh-my-pi/`](oh-my-pi/) — P1 OMP adapter target (D14 working snapshot) |
+| Skills authority | [`vendor/cursor-config-coding/`](vendor/cursor-config-coding/) |
 
 ## High-level architecture
 
-A seed harness runs tasks. Traces land on disk. A debugger distills them. An evolver proposes bounded edits. A held-in / held-out verifier accepts or rejects. Accepted ordinary edits **apply to the working snapshot**. Permission-widening still stops for a human. The evaluator, model-role map, and permission kernel stay read-only.
+A seed harness runs tasks. Traces land on disk. A debugger distills them. An evolver proposes bounded edits. A held-in / held-out verifier accepts or rejects. **JIT** mounts last for this session. **AOT** writes an immutable candidate, validates load/dispose/policy, atomically replaces the generated dir, then HMR. Permission-widening still stops for a human.
 
-Prefer revertible plugins so a live session does not die on every self-mod ([spatiotemporal composability](docs/methods/spatiotemporal-composability.md)). Restart is the fallback.
-
-See [docs/proposals/00-architecture.md](docs/proposals/00-architecture.md).
+See [docs/methods/host-port.md](docs/methods/host-port.md).
 
 ## Constraints
 
-- We do not push back to `can1357/oh-my-pi` unless explicitly asked. Improving *your* snapshot is the product; upstream PRs are not.
-- Frozen: checker, `system-prompt.md`, `approval.ts`, Improveness QA/CI, secrets.
-- Open after the gate: snapshot tools (except approval), skills, orchestration, core loop, overlay playbook.
-- P2 `search.ts` still stages until `apply-snapshot` ships (driver lag, not the vision).
-- No public Terminal-Bench 2 / SWE-bench campaign as evolver fitness. Local 20-fixture Harbor-shaped tasks are in-repo only.
-- Secrets stay in env. Live smoke/search are optional and skip-gated.
-- Spec Kit `.specify/` is out of scope.
+- MIT at repo root; `oh-my-pi/` keeps its own license.
+- Frozen: checker, approval, model routes, Cordis loader, Improveness QA/CI, `plugins/dsh-improveness/` bundle.
+- Durable plugins never land in `node_modules` or the installed bundle.
+- No public Terminal-Bench 2 / SWE-bench campaign as evolver fitness.
+- Secrets stay in env. Live DSH smoke is skip-gated (`DSH_LIVE_SMOKE`).
+- Node plugin ↔ Bun loop via JSONL subprocess (no sibling-checkout imports).
