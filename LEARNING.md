@@ -1,5 +1,12 @@
 # Learning log
 
+### D15 DSH plugin + two-speed apply — 2026-09-01
+
+- **Concept:** The product is a plugin you add to DeepSeek Harness, not a vendored DSH tree. JIT is session-owned; AOT is a profile-owned generated sibling after `decideAccept`. Frozen ids are namespaces/paths, not Fiber instance ids. Node (plugin) and Bun (loop) talk JSONL.
+- **Pattern:** Fake-`ctx` tests for disposer invertibility; skip-gated `DSH_LIVE_SMOKE`; playbook-class search still stages so existing 12/8 sims stay honest.
+- **Trade-off:** JSONL subprocess (chosen) vs extracting `packages/improveness-core` before a second host exists. Ceiling: hop latency. P1 OMP adapter shares HostPort types, still not a shared isolate.
+- **Files to study:** `plugins/dsh-improveness/src/apply.js`, `harness/omp/drivers/apply-snapshot.ts`, `docs/CLAIM_LEDGER.md`
+
 ### Readable + extensive README split — 2026-08-17
 
 - **Concept:** The `readme` skill is a router. Main `README.md` is a one-sitting human overview (`readable-readme`). Package/file maps go to `docs/EXTENSIVE.md` (`extensive-readme`). Putting the dump in README.md is now an anti-pattern.
