@@ -52,11 +52,12 @@ Improveness consequence (D14): mutating the working snapshot is the product, but
 
 ## Spec notes for Improveness
 
-- Do **not** vendor Cordis into Oh My Pi in P3 Phase 0. Research + contract first.
-- Apply target is the **working snapshot**, not upstream `can1357/oh-my-pi`.
-- Frozen kernel (checker, `system-prompt.md`, `approval.ts`, Improveness QA) is not a plugin the evolver may unload.
+- Do **not** vendor a full DeepSeek Harness tree. Ship `plugins/dsh-improveness` as a `dsh.bundle` (D15).
+- Apply target is **profile-owned generated plugins** (P0) or a P1 **working snapshot**, never upstream `can1357/oh-my-pi`.
+- Frozen kernel (checker, `system-prompt.md`, `approval.ts`, Cordis loader, Improveness QA, the Improveness bundle itself) is not a plugin the evolver may unload.
+- Stable ids are package namespaces / routes / owned paths, not Fiber instance ids.
 - Permission-widening stays a human checkpoint even if the rest of the loop hot-swaps.
-- A future `apply-snapshot` driver should prefer: (1) project `.omp/` plugins with disposers, (2) snapshot source that can be HMR’d, (3) restart only when (1)+(2) cannot restore a consistent Fiber.
+- `apply-snapshot` prefers: (1) generated sibling plugins with disposers, (2) HMR, (3) restart only when (1)+(2) cannot restore a consistent Fiber.
 
 ## Failure modes
 

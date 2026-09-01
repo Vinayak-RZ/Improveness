@@ -39,6 +39,13 @@ Citations used in this corpus. Dates and URLs as of 2026-08-17.
 - Shi, Zhang, Cui, et al. “A Programming Paradigm for Spatiotemporal Composability.” Draft of 13 August 2026. https://github.com/cordiverse/paper — [PDF](https://github.com/cordiverse/paper/blob/main/paper.pdf)
 - Cordis (runtime). https://github.com/cordiverse
 - DeepSeek Harness — plugins and lifecycle (Fiber states, `inject`, `ctx.effect`, HMR). https://deepseek-harness.github.io/deepseek-harness/en/develop/framework/
+- Self-Harness v2. https://arxiv.org/html/2606.09498v2
+- JIT-Agent. https://arxiv.org/abs/2608.25593
+- HELIX. https://arxiv.org/abs/2608.13951
+- Evo-Harness. https://arxiv.org/abs/2608.15071
+- Evo-Bench. https://arxiv.org/html/2608.09096
+- HSI. https://arxiv.org/html/2608.08466
+- Karpathy AutoResearch. https://github.com/karpathy/autoResearch
 
 ## Evolutionary search
 
@@ -86,3 +93,5 @@ Citations used in this corpus. Dates and URLs as of 2026-08-17.
 
 - Coding-config skills (vendored): [../vendor/cursor-config-coding/](../vendor/cursor-config-coding/)
 - Project nawab-plans: [../.cursor/skills/nawab-plans/SKILL.md](../.cursor/skills/nawab-plans/SKILL.md)
+- Claim ledger: [CLAIM_LEDGER.md](CLAIM_LEDGER.md)
+- HostPort: [methods/host-port.md](methods/host-port.md)
