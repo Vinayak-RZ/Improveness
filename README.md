@@ -1,196 +1,188 @@
-# Improveness — extra files that teach a coding agent, for people who want to understand how
+<p align="center">
+  <img src="assets/improveness-logo.svg" width="560" alt="Improveness — a plugin that improves the host without killing it">
+</p>
+
+<p align="center">
+  <a href="https://github.com/Vinayak-RZ/Improveness/actions/workflows/overlay.yml"><img src="https://github.com/Vinayak-RZ/Improveness/actions/workflows/overlay.yml/badge.svg" alt="Overlay QA"></a>
+  <a href="docs/EXTENSIVE.md"><img src="https://img.shields.io/badge/docs-extensive-1f6feb" alt="Extensive internals"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea043" alt="MIT license"></a>
+</p>
+
+<p align="center">
+  <a href="docs/EXTENSIVE.md"><b>Internals</b></a> ·
+  <a href="docs/CLAIM_LEDGER.md"><b>Claim ledger</b></a> ·
+  <a href="docs/00-index.md"><b>Paper map</b></a> ·
+  <a href="LICENSE"><b>License</b></a>
+</p>
 
 > Full internals (every package, file map, how the repo runs): [Extensive README](docs/EXTENSIVE.md)
 
-> **Improveness is a reference project for harness engineering.** A **harness** is everything around a language model: instructions, tools, memory, permissions, tests. This is not a new model and not a public leaderboard run. You use a coding agent (here, Oh My Pi). You run this repo. After a practice/hidden test, **that agent’s code can change**. Primary interface: `bash harness/omp/scripts/qa.sh`.
+**The interesting part of an agent is no longer the weights.** It is the *harness*: tools, memory, permissions, tests, and the loop that decides what to do next. Improveness is a plugin you add to [DeepSeek Harness](https://deepseek-harness.github.io/deepseek-harness/en/develop/framework/) so that harness can **rewrite its own non-kernel parts while it is still running**.
 
-Runtime: [Bun](https://bun.sh) 1.3.14 on the filesystem. No HTTP server. No Docker.
-
----
-
-## TL;DR
-
-- Improves the **wrapper** around the model, not the model. The system prompt stays locked.
-- Twenty tiny tasks: 12 practice (the improver may look) and 8 hidden (it must not see their names).
-- Recorded run: **0/12 and 0/8 → 7/12 and 3/8**. Two “no hardcoded secrets” hidden tasks stay failed on purpose.
-- After the gate, the target is the **working snapshot** you actually run (`oh-my-pi/` here). Not upstream GitHub. Today’s search still parks copies until the apply driver ships.
-- Seven designs replay with **no API key**. Slogans-only stays at 0/20. Cheating setups are refused.
-
----
-
-## Table of contents
-
-1. [Vision](#1-vision)
-2. [Ideas worth understanding](#2-ideas-worth-understanding)
-3. [How it works](#3-how-it-works)
-4. [Quickstart](#4-quickstart)
-5. [Configuration](#5-configuration)
-6. [Further reading](#6-further-reading)
-7. [Future advancements](#7-future-advancements)
-
-## 1. Vision
-
-### What it is
-
-You are using Oh My Pi (or another agent snapshot). You run Improveness. After tests pass, **that harness’s actual code changes** — tools, skills, orchestration, even the core loop — without retraining weights, without rewriting the system prompt, and without opening a PR against someone else’s GitHub.
-
-The copy in this repo at [`oh-my-pi/`](oh-my-pi/) is the default working snapshot. Paper notes live in [`docs/`](docs/00-index.md). The loop lives under [`harness/omp/`](harness/omp/SURFACES.md).
-
-It is for people who want to compare harness designs before spending tokens, and for anyone who has not read the papers.
-
-### What it is not
-
-- Not a fork that pushes to [Oh My Pi](https://github.com/can1357/oh-my-pi). Improving *this* copy is the point.
-- Not a weight trainer.
-- Not “write nicer slogans.” A slogans-only replay is a **passing** test of a **zero** score.
-- Not a loop that silences the grader or widens permissions by itself.
-- Not a run of public [Terminal-Bench](https://www.tbench.ai/) as the improver’s score.
-
-Success: `qa.sh` exits 0, and you can answer “what may the improver edit?” from [`KERNEL.md`](harness/omp/KERNEL.md) and [`SURFACES.md`](harness/omp/SURFACES.md).
-
-## 2. Ideas worth understanding
-
-Four bets. Internals and extra ideas: [Extensive README](docs/EXTENSIVE.md).
-
-### 2.1 Change the wrapper, not the brain
-
-**The problem.** Retraining a frontier model for every new habit is too expensive. Letting the agent rewrite its own grader lets it cheat.
-
-**How it works.** The model stays frozen. What changes is the harness: tools, skills, orchestration, the core loop, and a playbook of lessons. [`SURFACES.md`](harness/omp/SURFACES.md) lists what the improver may touch after the gate. [`KERNEL.md`](harness/omp/KERNEL.md) lists what it must not (grader, system prompt, permission kernel). Oh My Pi’s authors showed the same idea: swap the *edit format* and Grok Code Fast 1 went from 6.7% to 68.3% pass@1 with **zero** training compute.
-
-**Like.** You do not rewire a person’s brain to teach a house style. You give them a better checklist and better tools.
-
-**Limits.** The recorded scores check whether the playbook contains the right lessons, not whether a live model can code.
-
-**Read next.** [Weng, “Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/). [“I Improved 15 LLMs at Coding in One Afternoon. Only the Harness Changed.”](https://blog.can.ac/2026/02/12/the-harness-problem/). Background: [recursive self-improvement](https://en.wikipedia.org/wiki/Recursive_self-improvement).
-
-### 2.2 Homework vs exam
-
-**The problem.** If the improver can see every task you later grade it on, the score is fake.
-
-**How it works.** Twenty local tasks under [`harness/omp/evals/`](harness/omp/evals/). Twelve are **practice** (held-in): the improver may see failures. Eight are **hidden** (held-out): their names must never reach [`propose.ts`](harness/omp/drivers/propose.ts). A change is kept only if practice improved and hidden did not drop.
-
-Walk one task. [`gitignore-rule`](harness/omp/evals/held-in/gitignore-rule/) asks to ignore `node_modules`. Adding `recipe:gitignore` also unlocks hidden `gitignore-dist` without showing that name to the picker. That is transfer. `recipe:no-secrets` has **no** practice member, so those two hidden tasks stay failed — a leak brake, not a bug.
-
-**Like.** Studying past homework is allowed. Seeing tomorrow’s exam paper is not.
-
-**Limits.** Twenty synthetic tasks prove the gate. They do not prove a live agent on Terminal-Bench.
-
-**Read next.** [Self-Harness (Zhang et al.)](https://arxiv.org/abs/2606.09498). Background: [training / validation / test splits](https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets).
-
-### 2.3 Change the copy you are using
-
-**The problem.** If search can silence the grader, it will “improve” by deleting tests. If it can only ever write a review table, you are not using Improveness on Oh My Pi — you are filing tickets about it.
-
-**How it works.** Decision D14: after practice rose and hidden did not fall, Improveness should apply ordinary edits to the **working snapshot** (`oh-my-pi/` here, or another agent tree). Tools, skills, orchestration, core loop are in scope. The checker, `system-prompt.md`, and `approval.ts` are not. Permission-widening still waits for a person. [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) is the stance for *upstream* maintainers; this repo does not push there.
-
-Today’s [`search.ts`](harness/omp/drivers/search.ts) still writes a waiting room (P2). The apply driver is next.
-
-**Like.** Git-write on the checkout you actually run — not a bot that merges to `can1357/oh-my-pi`, and not a bot that never writes.
-
-**Limits.** Live Oh My Pi sessions still restart today when source changes. That is the next idea.
-
-**Read next.** [Snapshot apply](docs/proposals/06-snapshot-apply.md). [D14](DECISIONS.md).
-
-### 2.4 Do not kill the runtime to improve it
-
-**The problem.** If every self-mod requires stopping Oh My Pi, you dump session memory, open connections, and in-flight tasks. At the frequency a self-improving harness wants, that unavailability *is* the failure.
-
-**How it works.** [Spatiotemporal composability](docs/methods/spatiotemporal-composability.md) (Cordis / DeepSeek Harness): **temporal** = unload reverses every effect; **spatial** = plugins declare dependencies and reload when those change. DeepSeek Harness treats the model adapter, tools, session log, sandbox, **agent loop**, and UI as plugins. Oh My Pi can *load* extensions. It cannot *unload* one and guarantee cleanup.
-
-**Like.** Unplugging a lamp vs unscrewing the bulb. Process restart is pulling the house fuse.
-
-**Limits.** This repo has not vendored Cordis. Prefer revertible plugins when apply lands; restart stays the fallback.
-
-**Read next.** [cordiverse/paper](https://github.com/cordiverse/paper). [DeepSeek Harness plugins and lifecycle](https://deepseek-harness.github.io/deepseek-harness/en/develop/framework/).
-
-## 3. How it works
-
-```mermaid
-flowchart TD
-  practice[12 practice tasks] --> checker[Pass or fail scripts]
-  hidden[8 hidden tasks] --> checker
-  checker --> improver[Improver sees practice failures only]
-  improver --> decide[Keep or drop]
-  decide -->|ordinary accept| apply[Apply to working snapshot]
-  apply --> snapshot[oh-my-pi or user tree]
-  decide -->|widen permissions| human[Human review]
-```
-
-A playbook of lessons is scored as if followed. The frozen checker grades both splits. The improver may only see practice failures. Keep a change only if practice went up and hidden did not drop. Ordinary accepts should write the working snapshot (D14). Permission-widening still stops for a person. Search today still stages; that lag is listed under future advancements.
-
-Full driver list, file maps, and the seven no-key design replays: [Extensive README](docs/EXTENSIVE.md).
-
-## 4. Quickstart
+> **Improveness is an installable self-improving environment.** It is not a new model, not a public [Terminal-Bench](https://www.tbench.ai/) campaign, and not a second operating system stuffed inside the host.
+> Primary interface: `dsh plugin --profile improveness add ./plugins/dsh-improveness`.
+> Invariant: the **grader never writes itself**.
 
 ```text
-git clone https://github.com/Vinayak-RZ/Improveness.git
-cd Improveness
+$ bash harness/omp/scripts/qa.sh
+== overlay validate.sh ==
+== bun test harness/omp/tests ==
+== CACD / repo QA ==
+== agentic architecture simulations ==
+qa.sh ok
+```
+
+That command is the product check: 24 test files, a frozen 12/8 fixture split, seven keyless architecture simulations, and a catalog that fails CI if a kernel sentence disappears.
+
+## Why this exists
+
+2026 is the year people stopped arguing about “will agents self-improve?” and started arguing about **where**. Weights are expensive and slow to change. The wrapper around the model — the *harness* — is cheap, inspectable, and, if you are careless, easy to cheat.
+
+Lilian Weng’s survey, [Harness Engineering for Self-Improvement](https://lilianweng.github.io/posts/2026-07-04-harness/), is the map. This repo is one concrete answer: **put the improver in the host as a plugin**, freeze the physics that would let it lie, and prefer live unload over killing the process.
+
+Oh My Pi already showed the stakes at the product grain: change the *edit format*, leave the model alone, and Grok Code Fast 1 jumped from 6.7% to 68.3% pass@1 with **zero** training compute ([“Only the Harness Changed.”](https://blog.can.ac/2026/02/12/the-harness-problem/)). Improveness is the next question: if the harness is the thing that matters, **who is allowed to change it, and how do you know the change is real?**
+
+An agent that **grades its own homework** will always look brilliant. Most of the 2026 harness papers are that cheat in different clothes — and this repo is those papers turned into files you can `grep`:
+
+- **Self-Harness** — hide tomorrow’s exam *names* from the improver (held-in vs held-out).
+- **HSI** — freeze the judge; if the evolver can rewrite the checker, the score is fan fiction.
+- **Evo-Bench** — a public leaderboard is a *report*, not a loss function. We refuse public [Terminal-Bench](https://www.tbench.ai/) as fitness.
+- **AHE** — rewriting the slogan (system prompt) is not the same as adding a tool. Our `ace-only` sim is a **passing test of a zero**.
+- **Cordis / spatiotemporal composability** — if every self-mod kills the process, you dump the session that would recover a bad edit. Unload must invert.
+
+You do not need to install Improveness to steal the vocabulary. The rest of this page is the tour.
+
+## Core techniques
+
+These are the bets this codebase actually implements. Each one is a named idea from the current research wave, not a marketing feature list.
+
+- **Two-Speed Harness Evolution.** A session can *define a tool now* (JIT, ephemeral, gone when the session ends). A change that survives practice *and* hidden tests becomes a durable sibling plugin (AOT) and hot-reloads. We copy the split from [JIT-Agent](https://arxiv.org/abs/2608.25593); we do **not** train their 27B controller. Limit: live-model skill gains are not a README number until measured here.
+- **Live Ratchet.** Keep if better; unload if not. That is [Karpathy AutoResearch](https://github.com/karpathy/autoResearch) translated into Cordis: `prepare.py` is frozen physics, `train.py` is a sibling plugin, `git reset` is Fiber dispose. Limit: if a disposer is not invertible, we fail closed or ask for a restart — we do not pretend VS Code `deactivate` is unload.
+- **Frozen Physics.** Checker, permissions, model routes, Cordis loader, Improveness QA, and this plugin’s own bundle are kernel. [HSI](https://arxiv.org/html/2608.08466) calls this the frozen outer anchor. Stable ids are **package namespaces and paths**, not Cordis Fiber instance ids (`fiber-9f3` is a runtime handle, not a law). Limit: a human still has to widen network or destructive permissions.
+- **Harness Slots.** Four seats from HarnessFactory: `memory`, `planning`, `action`, `capability`. One occupant for the first three; capability is an ordered set. Two plugins claiming `memory` **fail before mount**. Limit: slots are a policy, not a type system inside DSH itself.
+- **Filesystem Evidence Plane.** Every candidate is a directory you can `grep`: source, scores, traces, rollback. That is [Meta-Harness](https://arxiv.org/abs/2603.28052) shape — coding-agent proposer, history on disk — **without** running their Terminal-Bench-2 search as our fitness. Limit: playbook-class accepts still *stage*; only plugin-class accepts with load/dispose/policy checks write the generated dir.
+
+## A field guide to ideas this repo is built on
+
+If you only remember five words from this README, remember these. They are the vocabulary of harness engineering right now.
+
+### Harness, not weights
+
+**Recursive self-improvement**, in the Good / Yudkowsky sense, sounded like a model rewriting its own parameters. Near-term RSI is almost never that. It is the *agent stack* rewriting tools, memory, and the loop. The model is the engine; the harness is the car. We freeze the engine during a comparable trial so you can tell whether the *car* got better.
+
+### Practice vs exam (Self-Harness)
+
+If the improver can see tomorrow’s test, the score is fan fiction. [Self-Harness](https://arxiv.org/abs/2606.09498) splits work into **held-in** (practice: the evolver may see failing ids) and **held-out** (exam: names never reach the proposer). Accept only if practice rose and hidden did not drop. This repo’s split is 12 / 8 synthetic Harbor-shaped tasks. Two hidden “no secrets” tasks have **no** practice twin on purpose — a leak brake, not a bug.
+
+This is the same idea as a train / validation / test split, applied to *agent scaffolding* instead of gradient steps.
+
+### Playbooks, not slogans (ACE + AHE)
+
+[ACE](https://arxiv.org/abs/2510.04618) stores lessons as an append-only playbook. [AHE](https://arxiv.org/abs/2604.25850) showed that evolving the *system prompt* missed the gain (−2.3 pp on their ablation) while tools and memory moved the needle. Our `ace-only` simulation is a **passing test of a zero score**: slogans without recipe families unlock 0/20. That is the lesson, encoded as CI.
+
+### Spatiotemporal composability (why “restart the agent” is the wrong grain)
+
+[Shi, Zhang, Cui et al.](https://github.com/cordiverse/paper) name the bottleneck: if every self-mod **kills the process**, you dump caches, TCP sessions, and the very context that would recover a bad edit. **Temporal** composability: every effect has an inverse; unload runs inverses in reverse order. **Spatial** composability: plugins declare what they need; when a service vanishes, dependents unload too. DeepSeek Harness already has this (Cordis Fibers, `ctx.effect`). Improveness is the improver *as one of those plugins*.
+
+### HostPort, not a second OS (HELIX)
+
+[HELIX](https://arxiv.org/abs/2608.13951) is useful here for one sentence: wrap a host with a **thin adapter**, do not reinvent process supervision, permissions, and model routing. `exportTrace`, `frozenIds`, `slots`, `mountEphemeral`, `applyDurable`, `hotReload`. P0 is DSH. P1 is Oh My Pi (parked `oh-my-pi/`, `needsRestart` because OMP still cannot unload extensions invertibly).
+
+### Node talks to Bun with JSONL
+
+DeepSeek plugins load under **Node**. This repo’s checker and search run under **Bun**. They are two processes on purpose. A JSONL RPC (`ping`, `decideAccept`, `applyDurable`, …) is the boring bridge. That is an engineering choice, not a paper: hop latency now, a shared `improveness-core` package later if a third host appears.
+
+### Pareto of harnesses, not a single champion
+
+Meta-Harness keeps a **frontier** (quality vs cost), not one blob. P1 `host-port/pareto.ts` does the same on the archive. [Evo-Harness](https://arxiv.org/abs/2608.15071) then *compiles* a working procedure into a skill. [Evo-Bench](https://arxiv.org/html/2608.09096) is the methodology reminder: held-out must be harness-sensitive — which is why we still refuse public Terminal-Bench as *fitness*, even though we cite it as a *report* others run.
+
+## How it works
+
+```text
+session log → traces
+       → debugger (read-only, small model)
+       → evolver (allowlisted files, mid/small model)
+       → frozen checker (held-in + held-out)
+       → decideAccept
+            ├─ reject: unload / log
+            ├─ JIT: mountEphemeral(sessionId, package, slot)
+            └─ AOT: immutable candidate → load/dispose/policy
+                    → atomic replace in profile-owned generated dir
+                    → HMR (drain in-flight or fail-closed)
+```
+
+Durable siblings never land in `node_modules` or inside `plugins/dsh-improveness/`. Uninstalling Improveness does not delete accepted siblings. Permission-widening still stops for a human.
+
+The loop you can run **without an API key** is the playbook solver plus `qa.sh`. The DSH plugin is the live host. Both share `decideAccept`.
+
+## What it achieves (honest)
+
+From [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.md) — only numbers this tree can reproduce:
+
+| What | Number | What it is *not* |
+|------|--------|------------------|
+| Fixtures | 12 practice + 8 hidden | Not Terminal-Bench |
+| Playbook search sim | **0/12 → 7/12**, **0/8 → 3/8** | Not a live coding agent |
+| Architecture sims | 7, no API key | Not a model bake-off |
+| Step cap | `MAX_STEP_CAP = 8` | Not “unbounded RSI” |
+
+Forbidden on this landing page: “first”, “SOTA”, live-model TB/SWE-bench gains, fake stars.
+
+## Get started
+
+You need **Bun** (overlay QA; CI pins 1.3.14) and, for a live host, **DeepSeek Harness**.
+
+### 1. Add the plugin
+
+```text
+dsh plugin --profile improveness add ./plugins/dsh-improveness
+```
+
+Profile `improveness` = `dsh-base` + `dsh-web-app` + `dsh-improveness`.
+
+### 2. Prove the gate
+
+```text
 bash harness/omp/scripts/qa.sh
 ```
 
-Need [Bun 1.3.14](https://bun.sh), [`rg`](https://github.com/BurntSushi/ripgrep), and Git. Expect `qa.sh ok`, 55 tests across 19 files, seven experiments pass.
+Generated plugins in checkout tests: `harness/omp/generated/<id>/`. Live: `$DSH_HOME/profiles/improveness/improveness-generated/<id>/`.
 
-Useful extras: `bun harness/omp/drivers/run-benchmark.ts 5 /tmp/improv-bench` and `bun harness/omp/drivers/simulate-architectures.ts`.
+## Repo layout
 
-## 5. Configuration
+| Path | What it is |
+|------|------------|
+| `plugins/dsh-improveness/` | The installable `dsh.bundle` |
+| `harness/omp/` | Frozen checker, search, HostPort, QA |
+| `oh-my-pi/` | Parked P1 snapshot (own license) |
+| `docs/methods/` | One page per cited system |
+| `docs/EXTENSIVE.md` | Package-by-package map |
 
-Nothing is required for `qa.sh`. Do not commit OAuth secrets. See [`.env.example`](.env.example).
+## Go deeper
 
-| Variable | Required | What it does |
-|----------|----------|--------------|
-| `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `OPENROUTER_API_KEY` | no | Optional live ping |
-| `OMP_LIVE_SMOKE` | no | Set `1` to request a real session ping |
-| `OMP_LIVE_SEARCH` | no | Reserved live improver |
-| `OMP_SNAPSHOT_ROOT` | no | Agent tree to mutate after the gate (default `oh-my-pi/`) |
+| If you want… | Read |
+|--------------|------|
+| Why a claim is allowed | [Claim ledger](docs/CLAIM_LEDGER.md) |
+| Kernel vs surfaces | [KERNEL.md](harness/omp/KERNEL.md), [SURFACES.md](harness/omp/SURFACES.md) |
+| Weng survey, taught | [docs/00-index.md](docs/00-index.md) |
+| HostPort / two-speed / JSONL | [methods/](docs/methods/README.md) |
+| Every file that matters | [Extensive README](docs/EXTENSIVE.md) |
+| Execution contract | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) |
 
-Default checks spend zero tokens. Live ping stays green when keys are missing.
+## Acknowledgements
 
-## 6. Further reading
+Systems this repo **uses or cites**, not a vanity wall:
 
-| Idea | Canonical source | What you will learn |
-|------|------------------|---------------------|
-| Harness vs weights | [Weng, Jul 2026](https://lilianweng.github.io/posts/2026-07-04-harness/) | Why near-term self-improvement is wrapper work |
-| Harness-only coding gains | [can.ac, Feb 2026](https://blog.can.ac/2026/02/12/the-harness-problem/) | Same models, better edit format, large pass@1 jumps |
-| Practice / hidden gate | [Self-Harness, arXiv:2606.09498](https://arxiv.org/abs/2606.09498) | Accept only if both splits hold |
-| Tools not prompts | [AHE, arXiv:2604.25850](https://arxiv.org/abs/2604.25850) | Gain lived in tools and memory; prompt-only hurt |
-| Live plugins | [Spatiotemporal composability](https://github.com/cordiverse/paper) | Unload must reverse effects |
-| Holdout sets | [Wikipedia](https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets) | Why an exam the student already saw is worthless |
+- [DeepSeek Harness](https://deepseek-harness.github.io/deepseek-harness/en/develop/framework/) — Fiber load/unload, Creator-mode, HMR
+- [Cordis](https://github.com/cordiverse) — spatiotemporal composability
+- [Weng, Harness Engineering](https://lilianweng.github.io/posts/2026-07-04-harness/) — the survey the `docs/` corpus teaches
+- [Self-Harness](https://arxiv.org/abs/2606.09498) — held-in / held-out accept
+- [ACE](https://arxiv.org/abs/2510.04618) / [AHE](https://arxiv.org/abs/2604.25850) — playbook vs prompt-only
+- [Meta-Harness](https://arxiv.org/abs/2603.28052) — filesystem candidates
+- [JIT-Agent](https://arxiv.org/abs/2608.25593), [HELIX](https://arxiv.org/abs/2608.13951), [HSI](https://arxiv.org/html/2608.08466), [Evo-Harness](https://arxiv.org/abs/2608.15071), [Evo-Bench](https://arxiv.org/html/2608.09096)
+- [Karpathy AutoResearch](https://github.com/karpathy/autoResearch) — frozen prepare vs sibling train
+- [Oh My Pi](https://github.com/can1357/oh-my-pi) — parked adapter; that tree keeps its own license
 
-Paper map: [`docs/00-index.md`](docs/00-index.md). Citations: [`docs/references.md`](docs/references.md). File-by-file: [Extensive README](docs/EXTENSIVE.md).
+## License
 
-## 7. Future advancements
-
-### 7.1 Apply accepted edits to the working snapshot
-
-**Why now.** D14 is the product. [`search.ts`](harness/omp/drivers/search.ts) still only stages.
-
-**What would land.** A driver (not named `auto-apply.ts`) that writes `oh-my-pi/` or `OMP_SNAPSHOT_ROOT` after accept, and still refuses the checker, `system-prompt.md`, and `approval.ts`.
-
-**Done when.** A test shows an accepted ordinary candidate as a diff on the snapshot, and a kernel path still throws.
-
-### 7.2 A live improver on a real session
-
-**Why now.** Search is deterministic `recipe:*` tags. [`OMP_LIVE_SEARCH`](.env.example) is unused.
-
-**What would land.** Skip-gated `createAgentSession` with the evolver allowlist, then the same gate.
-
-**Done when.** `OMP_LIVE_SEARCH=1` plus a key runs one bounded live step; `qa.sh` still passes with the flag unset.
-
-### 7.3 Revertible plugins (do not kill OMP to improve it)
-
-**Why now.** File apply still implies restart. [Spatiotemporal composability](docs/methods/spatiotemporal-composability.md) is the named bottleneck.
-
-**What would land.** Disposers on OMP `ExtensionAPI`, or a thin Fiber-like loader.
-
-**Done when.** One extension unload reverses its tools and listeners without restarting the host; KERNEL files still cannot unload.
-
-### 7.4 Public Terminal-Bench as a report, never as fitness
-
-**Why now.** [`run-tb-local.ts`](harness/omp/drivers/run-tb-local.ts) only runs in-repo tasks. Public Terminal-Bench must not become the improver’s score.
-
-**What would land.** An optional, non-required report job. Fitness stays the frozen 20 tasks.
-
-**Done when.** CI can comment a TB2 number that [`propose.ts`](harness/omp/drivers/propose.ts) cannot see.
-
-Authority files: [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) · [`DECISIONS.md`](DECISIONS.md) · [`PROGRESS.md`](PROGRESS.md) · [`LEARNING.md`](LEARNING.md) · [`harness/omp/CACD.md`](harness/omp/CACD.md)
+[MIT](LICENSE) for Improveness. Vendored `oh-my-pi/` is **not** re-licensed by the root MIT file.
