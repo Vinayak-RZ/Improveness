@@ -29,6 +29,7 @@ const EVOLVER_ALLOWED_PREFIXES = [
   "harness/omp/overlay/.omp/skills/",
   "harness/omp/overlay/.omp/tools/",
   "harness/omp/staging/",
+  "harness/omp/generated/",
 ];
 
 export const KERNEL_PATH_MARKERS = [
@@ -39,6 +40,7 @@ export const KERNEL_PATH_MARKERS = [
   "system-prompt.ts",
   "oh-my-pi/packages/coding-agent/",
   "oh-my-pi/packages/",
+  "plugins/dsh-improveness/",
 ];
 
 export function isKernelRel(rel: string): boolean {

@@ -90,6 +90,13 @@ function collectToolCalls(rows: JsonRecord[]): TraceToolCall[] {
 
   for (const row of rows) {
     const role = typeof row.role === "string" ? row.role : typeof row.type === "string" ? row.type : "";
+    if (role === "tool_call" || row.type === "tool_call" || row.type === "toolCall") {
+      unnamed.push({
+        name: typeof row.name === "string" ? row.name : "unknown",
+        input: row.arguments ?? row.input,
+        timestamp: typeof row.timestamp === "number" || typeof row.timestamp === "string" ? row.timestamp : undefined,
+      });
+    }
     if (role === "assistant" && Array.isArray(row.content)) {
       for (const block of row.content) {
         if (!isRecord(block) || block.type !== "toolCall") continue;

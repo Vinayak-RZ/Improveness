@@ -2,6 +2,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { posixBash } from "../evals/checker/posix-bash.ts";
 import { exportHarborTask } from "./tb-export.ts";
 import { listFixtures, type Split } from "./run-eval.ts";
 import { loadFixture } from "../evals/checker/check.ts";
@@ -15,7 +16,7 @@ export type HarborLocalResult = {
 };
 
 export function runHarborTask(testSh: string, workspaceDir: string): { passed: boolean; exitCode: number } {
-  const result = spawnSync("bash", [testSh], {
+  const result = spawnSync(posixBash(), [testSh], {
     cwd: resolve(workspaceDir),
     encoding: "utf8",
     timeout: 15_000,

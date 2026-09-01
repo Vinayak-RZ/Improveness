@@ -27,9 +27,13 @@ export function applyCandidate(input: {
   const parentParts: string[] = [];
   const destRels: string[] = [];
   for (const file of input.files) {
-    const destRel = file.relPath.startsWith("harness/omp/staging/")
-      ? file.relPath
-      : join("harness/omp/staging", file.relPath.replace(/^harness\/omp\/overlay\/\.omp\//, ""));
+    const destRel = (
+      file.relPath.startsWith("harness/omp/staging/")
+        ? file.relPath
+        : join("harness/omp/staging", file.relPath.replace(/^harness\/omp\/overlay\/\.omp\//, ""))
+    )
+      .split("\\")
+      .join("/");
     const destAbs = resolve(root, destRel);
     assertEvolverWrite(destAbs, root);
     const parentCopy = join(snap, "parent", destRel.replaceAll("/", "__"));

@@ -22,6 +22,7 @@ const ALLOWED_SOURCES = [
   "harness/omp/overlay/.omp/skills",
   "harness/omp/overlay/.omp/tools",
   "harness/omp/staging",
+  "harness/omp/generated",
 ];
 
 function walkFiles(dir: string): string[] {

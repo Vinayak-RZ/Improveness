@@ -1,4 +1,4 @@
-export type ManifestSurface = "tool" | "hook" | "memory" | "skill" | "playbook";
+export type ManifestSurface = "tool" | "hook" | "memory" | "skill" | "playbook" | "plugin";
 
 export type CandidateManifest = {
   id: string;
