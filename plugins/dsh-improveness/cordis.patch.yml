@@ -1,0 +1,4 @@
+$if:
+  - id: dsh-improveness
+    name: Improveness
+    apply: ./src/apply.js

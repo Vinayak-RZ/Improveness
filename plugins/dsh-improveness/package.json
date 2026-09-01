@@ -1,0 +1,24 @@
+{
+  "name": "dsh-improveness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Improveness as a DeepSeek Harness bundle plugin (dsh.bundle) — two-speed self-mod with a frozen checker.",
+  "license": "MIT",
+  "main": "src/apply.js",
+  "exports": {
+    ".": "./src/apply.js",
+    "./apply": "./src/apply.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "files": [
+    "src",
+    "runtime",
+    "cordis.patch.yml",
+    "profiles"
+  ]
+}
