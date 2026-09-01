@@ -20,13 +20,16 @@ describe("evolver allowlist", () => {
     ).toContain("PLAYBOOK.md");
     expect(
       assertEvolverWrite(join(repoRoot, "harness/omp/overlay/.omp/skills/example/SKILL.md"), repoRoot),
-    ).toContain("skills/");
+    ).toMatch(/skills[/\\]/);
     expect(
       assertEvolverWrite(join(repoRoot, "harness/omp/overlay/.omp/tools/note.md"), repoRoot),
-    ).toContain("tools/");
+    ).toMatch(/tools[/\\]/);
     expect(
       assertEvolverWrite(join(repoRoot, "harness/omp/staging/playbook/PLAYBOOK.md"), repoRoot),
-    ).toContain("staging/");
+    ).toMatch(/staging[/\\]/);
+    expect(
+      assertEvolverWrite(join(repoRoot, "harness/omp/generated/cap-echo/apply.js"), repoRoot),
+    ).toMatch(/generated[/\\]/);
   });
 
   test("denies checker, kernel, system prompt, and coding-agent packages", () => {
@@ -36,6 +39,7 @@ describe("evolver allowlist", () => {
       "oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md",
       "oh-my-pi/packages/coding-agent/src/system-prompt.ts",
       "oh-my-pi/packages/coding-agent/src/tools/approval.ts",
+      "plugins/dsh-improveness/src/apply.js",
     ];
     for (const rel of denied) {
       expect(() => assertEvolverWrite(join(repoRoot, rel), repoRoot)).toThrow(/denied/);

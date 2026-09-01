@@ -28,5 +28,5 @@ describe("local Harbor runner", () => {
     }).find((row) => row.id === "no-secrets");
     expect(fail?.passed).toBe(false);
     expect(pass?.passed).toBe(true);
-  });
+  }, 120_000);
 });

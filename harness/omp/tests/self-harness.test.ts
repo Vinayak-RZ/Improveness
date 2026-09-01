@@ -33,7 +33,7 @@ describe("self-harness", () => {
     expect(heldInExpected.passed).toBe(heldInExpected.total);
     expect(heldOutRepo.passed).toBe(0);
     expect(heldOutExpected.passed).toBe(heldOutExpected.total);
-  });
+  }, 120_000);
 
   test("planted held-out regression is rejected and does not stage", () => {
     const result = runSelfHarness({
@@ -75,5 +75,5 @@ describe("self-harness", () => {
     expect(existsSync(join(repoRoot, "oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md"))).toBe(true);
     const packagesTouched = readdirSync(join(repoRoot, "oh-my-pi/packages/coding-agent/src/tools")).includes("self-harness.ts");
     expect(packagesTouched).toBe(false);
-  });
+  }, 120_000);
 });

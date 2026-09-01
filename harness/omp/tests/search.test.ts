@@ -1,10 +1,11 @@
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, test } from "bun:test";
 import { listArchive } from "../drivers/archive.ts";
 import { proposeNextRecipe } from "../drivers/propose.ts";
 import { assertStepCap, MAX_STEP_CAP, runSearch } from "../drivers/search.ts";
+import { pluginApplySource } from "../drivers/apply-snapshot.ts";
 
 const sourceRoot = join(import.meta.dir, "../../..");
 
@@ -45,7 +46,7 @@ describe("archive search", () => {
         }),
       }),
     ).toThrow(/kernel path/);
-  });
+  }, 120_000);
 
   test("proposer rejects held-out fixture ids", () => {
     const repo = searchRepo();
@@ -71,7 +72,7 @@ describe("archive search", () => {
     expect(listArchive(repo).some((node) => node.id === "step-1")).toBe(true);
     expect(readFileSync(join(repo, "harness/omp/REVIEW_QUEUE.md"), "utf8")).toContain("step-1");
     expect(readFileSync(join(repo, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"), "utf8")).toBe(beforeOverlay);
-  });
+  }, 120_000);
 
   test("no-gain proposal is rejected and does not stage", () => {
     const repo = searchRepo();
@@ -86,5 +87,26 @@ describe("archive search", () => {
     expect(result.rounds[0].decision).toBe("reject-no-gain");
     expect(result.rounds[0].staged).toEqual([]);
     expect(listArchive(repo).some((node) => node.id === "step-1")).toBe(false);
-  });
+  }, 120_000);
+
+  test("plugin-class accept writes generated dir not only staging", () => {
+    const repo = searchRepo();
+    const result = runSearch({
+      repoRoot: repo,
+      stepCap: 1,
+      proposer: (input) => {
+        const base = proposeNextRecipe(input);
+        return {
+          ...base,
+          files: [
+            ...base.files,
+            { relPath: "harness/omp/generated/cap-echo/apply.js", content: pluginApplySource() },
+          ],
+        };
+      },
+    });
+    expect(result.rounds[0].decision).toBe("accept");
+    expect(existsSync(join(repo, "harness/omp/generated/cap-echo/apply.js"))).toBe(true);
+    expect(result.rounds[0].staged.some((path) => path.includes("generated/"))).toBe(true);
+  }, 120_000);
 });

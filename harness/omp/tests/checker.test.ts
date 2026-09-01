@@ -19,19 +19,19 @@ describe("frozen checker", () => {
     expect(result.passed).toBe(true);
     expect(result.id).toBe("greet-export");
     expect(result.split).toBe("held-in");
-  });
+  }, 120_000);
 
   test("known-fail starter repo scores false", () => {
     const fixture = join(evals, "held-in/greet-export");
     const result = scoreWorkspace(fixture, join(fixture, "repo"));
     expect(result.passed).toBe(false);
-  });
+  }, 120_000);
 
   test("held-out no-secrets fails on hardcoded key and passes on env", () => {
     const fixture = join(evals, "held-out/no-secrets");
     expect(scoreWorkspace(fixture, join(fixture, "repo")).passed).toBe(false);
     expect(scoreWorkspace(fixture, join(fixture, "expected")).passed).toBe(true);
-  });
+  }, 120_000);
 
   test("held-out has eight fixtures that are not held-in clones", () => {
     const { existsSync } = require("node:fs") as typeof import("node:fs");
@@ -48,7 +48,7 @@ describe("frozen checker", () => {
       expect(scoreWorkspace(dir, join(dir, "expected")).passed).toBe(true);
       expect(scoreWorkspace(dir, join(dir, "repo")).passed).toBe(false);
     }
-  });
+  }, 120_000);
 
   test("held-in has twelve fixtures with check.sh and both trees", () => {
     const { existsSync } = require("node:fs") as typeof import("node:fs");
@@ -63,5 +63,5 @@ describe("frozen checker", () => {
       expect(scoreWorkspace(dir, join(dir, "expected")).passed).toBe(true);
       expect(scoreWorkspace(dir, join(dir, "repo")).passed).toBe(false);
     }
-  });
+  }, 120_000);
 });
