@@ -1,6 +1,6 @@
 # Snapshot apply (product)
 
-Running Improveness on Oh My Pi — or on any agent snapshot you point at — must **change that snapshot’s code** after the Self-Harness gate. Overlay-only review queues were a misread of the vision (corrected as [D14](../../DECISIONS.md)).
+Running Improveness on DeepSeek Harness (D15) writes **generated sibling plugins**. On Oh My Pi — or any agent snapshot you point at — the P1 adapter still **changes that snapshot’s code** after the Self-Harness gate. Overlay-only review queues were a misread of the vision (corrected as [D14](../../DECISIONS.md); host default corrected as [D15](../../DECISIONS.md)).
 
 This is not a PR factory for [can1357/oh-my-pi](https://github.com/can1357/oh-my-pi). It is a **working-copy mutator**.
 

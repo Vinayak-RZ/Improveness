@@ -38,7 +38,7 @@ if rg -n 'sk-[A-Za-z0-9]{10,}|-----BEGIN [A-Z ]+PRIVATE KEY-----|OMP_[A-Z0-9_]+=
 fi
 
 echo "== git diff --check =="
-git diff --check -- harness/omp IMPLEMENTATION_PLAN.md DECISIONS.md PROGRESS.md LEARNING.md README.md
+git diff --check -- harness/omp plugins/dsh-improveness IMPLEMENTATION_PLAN.md DECISIONS.md PROGRESS.md LEARNING.md README.md LICENSE
 
 echo "== system-prompt files must be clean =="
 if [[ -n "$(git diff -- oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md oh-my-pi/packages/coding-agent/src/system-prompt.ts)" ]]; then

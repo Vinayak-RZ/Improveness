@@ -4,21 +4,25 @@ on:
   push:
     paths:
       - "harness/omp/**"
+      - "plugins/dsh-improveness/**"
       - ".github/workflows/overlay.yml"
       - "IMPLEMENTATION_PLAN.md"
       - "DECISIONS.md"
       - "PROGRESS.md"
       - "LEARNING.md"
       - "README.md"
+      - "LICENSE"
   pull_request:
     paths:
       - "harness/omp/**"
+      - "plugins/dsh-improveness/**"
       - ".github/workflows/overlay.yml"
       - "IMPLEMENTATION_PLAN.md"
       - "DECISIONS.md"
       - "PROGRESS.md"
       - "LEARNING.md"
       - "README.md"
+      - "LICENSE"
   workflow_dispatch:
 
 permissions:

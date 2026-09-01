@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { posixBash } from "./posix-bash.ts";
 
 export type FixtureSpec = {
   id: string;
@@ -33,7 +34,7 @@ export function scoreWorkspace(fixtureDir: string, workspaceDir: string): CheckR
   if (!existsSync(checkPath)) {
     throw new Error(`missing checker script: ${checkPath}`);
   }
-  const result = spawnSync("bash", [checkPath], {
+  const result = spawnSync(posixBash(), [checkPath], {
     cwd: resolve(workspaceDir),
     encoding: "utf8",
     timeout: 15_000,

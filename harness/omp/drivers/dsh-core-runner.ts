@@ -1,0 +1,63 @@
+import { createInterface } from "node:readline";
+import { applyDurablePlugin, defaultGeneratedRoot } from "./apply-snapshot.ts";
+import { exportSession } from "./export-session.ts";
+import { decideAccept } from "./self-harness.ts";
+import { scorePlaybook } from "./playbook-solver.ts";
+import { DSH_FROZEN_IDS } from "../../../plugins/dsh-improveness/src/frozen-ids.js";
+import { emptySlots } from "../../../plugins/dsh-improveness/src/slots.js";
+
+type Rpc = { id: number; method: string; params?: Record<string, unknown> };
+
+function handle(rpc: Rpc): unknown {
+  const p = rpc.params ?? {};
+  switch (rpc.method) {
+    case "ping":
+      return { pong: true };
+    case "frozenIds":
+      return [...DSH_FROZEN_IDS];
+    case "slots":
+      return emptySlots();
+    case "decideAccept":
+      return decideAccept(p.heldInBefore as never, p.heldInAfter as never, p.heldOutBefore as never, p.heldOutAfter as never);
+    case "scorePlaybook":
+      return scorePlaybook(String(p.evalsRoot), p.split as "held-in" | "held-out", String(p.playbook));
+    case "exportTrace":
+      return exportSession(String(p.jsonlPath), String(p.tracesRoot));
+    case "applyDurable": {
+      const repoRoot = String(p.repoRoot ?? process.cwd());
+      return applyDurablePlugin({
+        id: String(p.id),
+        slot: (p.slot as "capability") ?? "capability",
+        files: (p.files as Record<string, string>) ?? {},
+        repoRoot,
+        generatedRoot: typeof p.generatedRoot === "string" ? p.generatedRoot : defaultGeneratedRoot(repoRoot),
+      });
+    }
+    default:
+      throw new Error(`unknown method: ${rpc.method}`);
+  }
+}
+
+export async function serveStdin(): Promise<void> {
+  const rl = createInterface({ input: process.stdin, crlfDelay: Infinity });
+  for await (const line of rl) {
+    if (!line.trim()) continue;
+    let rpc: Rpc;
+    try {
+      rpc = JSON.parse(line) as Rpc;
+    } catch {
+      console.log(JSON.stringify({ id: 0, ok: false, error: "invalid json" }));
+      continue;
+    }
+    try {
+      const result = handle(rpc);
+      console.log(JSON.stringify({ id: rpc.id, ok: true, result }));
+    } catch (error) {
+      console.log(JSON.stringify({ id: rpc.id, ok: false, error: error instanceof Error ? error.message : String(error) }));
+    }
+  }
+}
+
+if (import.meta.main) {
+  await serveStdin();
+}

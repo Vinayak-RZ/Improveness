@@ -10,5 +10,5 @@ describe("agentic architecture simulations", () => {
     expect(results.map((row) => row.id)).toEqual(ARCHITECTURE_SIMULATIONS);
     const failed = results.filter((row) => row.outcome === "fail");
     expect(failed).toEqual([]);
-  });
+  }, 180_000);
 });

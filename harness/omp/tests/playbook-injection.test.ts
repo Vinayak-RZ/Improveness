@@ -68,7 +68,8 @@ describe("playbook injection", () => {
     const dest = mkdtempSync(join(tmpdir(), "omp-overlay-"));
     mkdirSync(join(dest, "commands"), { recursive: true });
     writeFileSync(join(dest, "commands", "keep.md"), "upstream\n");
-    const result = spawnSync("bash", [join(repoRoot, "harness/omp/scripts/install-overlay.sh")], {
+    const { posixBash } = require("../evals/checker/posix-bash.ts") as typeof import("../evals/checker/posix-bash.ts");
+    const result = spawnSync(posixBash(), [join(repoRoot, "harness/omp/scripts/install-overlay.sh")], {
       cwd: repoRoot,
       encoding: "utf8",
       env: { ...process.env, OMP_OVERLAY_DEST: dest },

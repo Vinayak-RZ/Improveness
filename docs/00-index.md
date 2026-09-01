@@ -14,7 +14,7 @@ Reading order for the research corpus. The working overlay lives at [`harness/om
    - safety: [04-safety.md](proposals/04-safety.md)
    - order: [05-adoption-order.md](proposals/05-adoption-order.md)
    - snapshot apply: [06-snapshot-apply.md](proposals/06-snapshot-apply.md)
-6. Overlay execution: live P3 contract in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); P2 snapshot in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md); P3 snapshot in [plans/p3-snapshot-apply.md](plans/p3-snapshot-apply.md).
+6. Overlay execution: live D15 contract in [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md); P2 snapshot in [plans/p2-omp-overlay.md](plans/p2-omp-overlay.md); P3 snapshot in [plans/p3-snapshot-apply.md](plans/p3-snapshot-apply.md).
 7. Sources: [references.md](references.md)
 
 ## Paper map
@@ -33,4 +33,4 @@ Reading order for the research corpus. The working overlay lives at [`harness/om
 
 ## Default recommendation
 
-Specify **AHE-style observability + Self-Harness validation**, starting with ACE-style memory, for any harness. Instantiate against OMP’s existing `learn` / `retain` / TTSR / SDK. After the gate, **apply to the working snapshot** (D14). Do not auto-apply to the checker, the system prompt, or upstream `can1357/oh-my-pi`. Prefer revertible plugins over killing the runtime ([spatiotemporal composability](methods/spatiotemporal-composability.md)).
+Specify **AHE-style observability + Self-Harness validation**, starting with ACE-style memory, as a **DeepSeek Harness plugin** (D15). OMP remains a HostPort adapter (P1). After the gate, **apply generated sibling plugins** (or a working snapshot on OMP). Do not auto-apply to the checker, the system prompt, or upstream `can1357/oh-my-pi`. Prefer revertible plugins over killing the runtime ([spatiotemporal composability](methods/spatiotemporal-composability.md)).

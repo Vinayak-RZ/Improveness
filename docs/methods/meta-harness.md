@@ -27,5 +27,6 @@ Gains on text classification (few iterations) and TerminalBench-2 from strong in
 
 ## Spec notes
 
-- v1 does not run Meta-Harness search.
+- Improveness **does not run** Meta-Harness’s Terminal-Bench-2 search campaign (no public Terminal-Bench as fitness).
+- Product **shape** (D15): filesystem candidates, coding-agent proposer, archive on disk. Pareto frontier of survivors is P1 (`host-port/pareto.ts`).
 - Do adopt: candidates as directories; history on disk; keep more than one survivor (Pareto), not a single blob.

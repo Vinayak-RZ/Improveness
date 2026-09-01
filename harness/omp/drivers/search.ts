@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { assertEvolverWrite, isKernelRel } from "./allowlist.ts";
 import { listArchive, loadSnapshotPlaybook, sampleParent, snapshotOverlay } from "./archive.ts";
+import { applyDurablePlugin, isGeneratedPluginPath } from "./apply-snapshot.ts";
 import { hashContents } from "./apply-candidate.ts";
 import type { CandidateManifest } from "./manifest.ts";
 import { scorePlaybook } from "./playbook-solver.ts";
@@ -147,11 +148,26 @@ export function runSearch(input: {
     };
 
     if (decision === "accept") {
-      const staged = stageCandidate(proposal.files, repoRoot);
+      const pluginFiles = proposal.files.filter((file) => isGeneratedPluginPath(file.relPath));
+      const playbookFiles = proposal.files.filter((file) => !isGeneratedPluginPath(file.relPath));
+      const staged = playbookFiles.length > 0 ? stageCandidate(playbookFiles, repoRoot) : [];
+      for (const file of pluginFiles) {
+        const posix = file.relPath.split("\\").join("/");
+        const match = posix.match(/generated\/([^/]+)\//) ?? posix.match(/improveness-generated\/([^/]+)\//);
+        const pluginId = match?.[1] ?? `step-${step}`;
+        const inner = posix.replace(/^.*generated\/[^/]+\//, "").replace(/^.*improveness-generated\/[^/]+\//, "");
+        applyDurablePlugin({
+          id: pluginId,
+          slot: "capability",
+          files: { [inner || "apply.js"]: file.content },
+          repoRoot,
+        });
+        staged.push(file.relPath);
+      }
       const snapshotId = `step-${step}`;
       const manifest: CandidateManifest = {
         id: snapshotId,
-        surface: "playbook",
+        surface: pluginFiles.length > 0 ? "plugin" : "playbook",
         files: staged,
         parentHash: hashContents([playbook]),
         scores: {
@@ -162,7 +178,7 @@ export function runSearch(input: {
         evidenceId: parentId,
         rootCause: proposal.family ?? "playbook-delta",
       };
-      writeStagingManifest(repoRoot, manifest);
+      if (playbookFiles.length > 0) writeStagingManifest(repoRoot, manifest);
       appendReviewRow(repoRoot, manifest);
       snapshotOverlay({
         id: snapshotId,

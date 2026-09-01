@@ -13,6 +13,8 @@ Companion to the main [README](../README.md). How the repo runs, every first-par
 - [7. Further reading](#7-further-reading)
 - [8. Future advancements](#8-future-advancements)
 
+This file is the **engineering companion**: how a request becomes a file write, why each module exists, and the same 2026 harness vocabulary as the landing [README](../README.md), at the grain of paths.
+
 ## 1. How this repository runs
 
 There is no HTTP server. A maintainer (or CI) runs a Bun script on the filesystem.
@@ -22,32 +24,57 @@ flowchart TD
   qa[qa.sh] --> validate[validate.sh bun test]
   qa --> catalog[qa-repo catalog plus links]
   qa --> sims[simulate-architectures]
-  search[search.ts] --> propose[propose held-in only]
+  plugin[dsh-improveness apply] --> jsonl[JSONL Bun runner]
+  jsonl --> search[search.ts]
+  search --> propose[propose held-in only]
   propose --> checker[evals/checker]
   checker --> decide[decideAccept]
-  decide -->|P2| staging[staging archive REVIEW_QUEUE]
-  decide -->|P3 D14| snapshot[oh-my-pi working copy]
+  decide -->|playbook| staging[staging archive REVIEW_QUEUE]
+  decide -->|plugin-class| generated[generated dir plus HMR]
 ```
 
-**Walkthrough.** `bash harness/omp/scripts/qa.sh` is the product check. It runs `validate.sh` (unit tests, KERNEL needles, no public-TB2 URLs), then `qa-repo.ts` (13 catalog rows, relative links, 12/8 fixtures), then `simulate-architectures.ts` (seven named wirings, no API key).
+**Walkthrough.** `bash harness/omp/scripts/qa.sh` is the product check. It runs `validate.sh` (unit tests, KERNEL needles, no public-TB2 URLs), then `qa-repo.ts` (catalog rows, relative links, 12/8 fixtures), then `simulate-architectures.ts` (seven named wirings, no API key).
 
-A search step: pick a past playbook from `archive/`, score practice and hidden, propose a lesson only from failing **practice** ids, score again, keep if practice rose and hidden did not drop. P2 writes `staging/` + `archive/` + `REVIEW_QUEUE.md`. D14 says ordinary accepts should then mutate [`oh-my-pi/`](../oh-my-pi/). That apply driver is not shipped yet.
+A search step: pick a past playbook from `archive/`, score practice and hidden, propose a lesson only from failing **practice** ids, score again, keep if practice rose and hidden did not drop. Playbook-class writes `staging/` + `archive/` + `REVIEW_QUEUE.md`. Plugin-class writes `harness/omp/generated/<id>/` after load/dispose/policy. Live DSH installs those siblings under `$DSH_HOME/profiles/improveness/improveness-generated/`.
 
-Optional live paths (`OMP_LIVE_SMOKE`, `OMP_LIVE_SEARCH`) skip without keys so forks stay green.
+Optional live paths (`OMP_LIVE_SMOKE`, `DSH_LIVE_SMOKE`) skip without keys so forks stay green.
 
 ## 2. Package map
 
 | Package | Path | Role | Entry |
 |---------|------|------|-------|
+| DSH bundle | `plugins/dsh-improveness/` | Installable `dsh.bundle` (JIT + HostPort) | `src/apply.js` |
 | Improveness overlay | `harness/omp/` | Loop, checker, overlay files, QA | `bash harness/omp/scripts/qa.sh` |
-| Working snapshot | `oh-my-pi/` | Agent being improved (D14) | Oh My Pi CLI / `createAgentSession` |
+| Parked snapshot | `oh-my-pi/` | P1 OMP HostPort working snapshot (D14) | Oh My Pi CLI / `createAgentSession` |
 | Research corpus | `docs/` | Weng segments, methods, proposals | [`docs/00-index.md`](00-index.md) |
 | Coding-config vendor | `vendor/cursor-config-coding/` | Skills/rules source; copied into `.cursor/` | [vendor README](../vendor/cursor-config-coding/README.md) |
-| Root authority | repo root | Plan, ADRs, progress, human README | [`IMPLEMENTATION_PLAN.md`](../IMPLEMENTATION_PLAN.md) |
+| Root authority | repo root | Plan, ADRs, progress, product README | [`IMPLEMENTATION_PLAN.md`](../IMPLEMENTATION_PLAN.md) |
 
 Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed below.
 
 ## 3. Packages
+
+### 3.0 DSH bundle (`plugins/dsh-improveness/`)
+
+**What it is for.** The installable product: a DeepSeek Harness `dsh.bundle` that JIT-mounts session plugins and promotes durable siblings after the frozen checker.
+
+**How it is used.** `dsh plugin --profile improveness add ./plugins/dsh-improveness`. QA stays `bash harness/omp/scripts/qa.sh`.
+
+**How it works.** `src/apply.js` registers Creator-like tools. Ephemeral mounts are session-owned and fail-closed while in-flight. Durable files go to a profile-owned generated directory, never this package and never `node_modules`. The Bun loop is reached over JSONL.
+
+#### File map
+
+| File | Why it is here | What it does |
+|------|----------------|--------------|
+| `package.json` | `dsh.bundle` marker | Cordis patch pointer |
+| `src/apply.js` | Plugin entry | Register tools + disposer |
+| `src/jit.js` | Fast path | define/run/stop + drain |
+| `src/frozen-ids.js` | Kernel ids | Namespaces, not Fiber ids |
+| `src/slots.js` | HarnessFactory | Collision-before-mount |
+| `src/policy-fence.js` | AOT gate | Isolated load/dispose/policy before durable write |
+| `src/host-port-dsh.js` | DSH HostPort | Session log, HMR, generated dir |
+| `src/core-client.js` | Node→Bun | JSONL spawn |
+| `runtime/runner.ts` | Packaged runner | `serveStdin` |
 
 ### 3.1 Improveness overlay (`harness/omp/`)
 
@@ -64,7 +91,7 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | [`KERNEL.md`](../harness/omp/KERNEL.md) | Evolver-forbidden paths | Lists checker, `system-prompt.md`, `approval.ts`, Improveness QA |
 | [`SURFACES.md`](../harness/omp/SURFACES.md) | Evolver-allowed paths | Playbook, tools, skills, snapshot loop after D14 |
 | [`CACD.md`](../harness/omp/CACD.md) | Operating model | Contract · Architecture · Control · Delivery |
-| [`cacd/catalog.ts`](../harness/omp/cacd/catalog.ts) | Machine checklist | 13 rows QA greps; includes `working snapshot` and `D14` |
+| [`cacd/catalog.ts`](../harness/omp/cacd/catalog.ts) | Machine checklist | Catalog rows QA greps; includes `working snapshot`, `D15`, `dsh.bundle` |
 | [`REVIEW_QUEUE.md`](../harness/omp/REVIEW_QUEUE.md) | Human checkpoint | Permission-widening; “no auto-apply” onto checker/upstream |
 | [`archive/README.md`](../harness/omp/archive/README.md) | DGM-lite parent sampling | Snapshots + fitness; never archives the checker |
 
@@ -77,7 +104,7 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | [`overlay/.omp/agents/debugger.md`](../harness/omp/overlay/.omp/agents/debugger.md) | Read-only diagnosis role | Pins `smol` + read/grep/glob |
 | [`overlay/.omp/agents/evolver.md`](../harness/omp/overlay/.omp/agents/evolver.md) | Cheap writer role | Allowlisted edits; D14 apply after gate |
 
-#### File map — drivers (19)
+#### File map — drivers and HostPort
 
 | File | Why it is here | What it does |
 |------|----------------|--------------|
@@ -93,7 +120,13 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `drivers/rollback-candidate.ts` | Undo | Restore parent hash |
 | `drivers/archive.ts` | Parent sampling | Snapshot + `sampleParent`; `isKernelRel` |
 | `drivers/propose.ts` | Held-in-only | Throws if a hidden id is named |
-| `drivers/search.ts` | Bounded loop | `MAX_STEP_CAP = 8`; stages (D12 as shipped) |
+| `drivers/search.ts` | Bounded loop | `MAX_STEP_CAP = 8`; playbook stages; plugin-class applies |
+| `drivers/apply-snapshot.ts` | Durable plugins | Immutable candidate → validate disposer → atomic generated dir |
+| `drivers/dsh-core-runner.ts` | JSONL RPC | Node plugin ↔ Bun loop |
+| `host-port/omp-port.ts` | P1 OMP adapter | Overlay + generated apply; `needsRestart` for snapshot source |
+| `host-port/pareto.ts` | Archive survivors | Quality vs cost front |
+| `host-port/skill-compile.ts` | Evo-Harness P1 | Playbook family → `SKILL.md` |
+| `host-port/retrieve-prior.ts` | JIT retrieve | Sample archive parents into session |
 | `drivers/tb-export.ts` | Harbor shape | `instruction.md` + `tests/test.sh` |
 | `drivers/run-tb-local.ts` | Local Harbor | Not a public TB2 download |
 | `drivers/run-benchmark.ts` | Recorded 20-task run | 0/12→7/12, 0/8→3/8 after 5 steps |
@@ -108,13 +141,14 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `evals/held-in/` (12) | Practice set | Improver may see these ids |
 | `evals/held-out/` (8) | Hidden set | Leakage brake; `no-secrets` has no held-in member |
 | `evals/checker/` | Frozen verifier | `check.sh` + gold trees; evolver must not write |
+| `evals/checker/posix-bash.ts` | Windows scoring | Prefer Git bash over the WSL launcher |
 | `evals/tb-adapter/` | Local Harbor layout | Not public Terminal-Bench |
 | `evals/benchmarks/local-20/` | Recorded report | Held-in/held-out after search |
 | `evals/simulations/latest/` | Last sim report | Seven-row table |
 | `scripts/validate.sh` | Fast gate | bun test + KERNEL greps + ripgrep |
 | `scripts/qa.sh` | Full gate | validate + qa-repo + sims |
 | `scripts/install-overlay.sh` | Merge overlay | Into existing `oh-my-pi/.omp/` |
-| `tests/` (19 files, 55 cases) | Unit + contract | Includes CACD, search, allowlist, sims |
+| `tests/` (24 files) | Unit + contract | Includes plugin JIT, apply-snapshot, JSONL, P1 HostPort |
 
 ### 3.2 Working snapshot (`oh-my-pi/`)
 
@@ -150,7 +184,11 @@ Do not file-list the rest of `oh-my-pi/packages/`. It is a vendored snapshot, no
 |------|----------------|--------------|
 | [`00-index.md`](00-index.md) | Reading order | Paper map + default recommendation |
 | [`01-rsi-and-harness.md`](01-rsi-and-harness.md) … [`09-challenges-and-evals.md`](09-challenges-and-evals.md) | Survey segments | One Weng topic each |
-| [`methods/README.md`](methods/README.md) | Method index | ACE, AHE, Self-Harness, Cordis, … |
+| [`methods/README.md`](methods/README.md) | Method index | ACE, AHE, Self-Harness, Cordis, HostPort, JIT, HELIX, … |
+| [`CLAIM_LEDGER.md`](CLAIM_LEDGER.md) | Allowed README claims | Proven vs forbidden |
+| [`methods/host-port.md`](methods/host-port.md) | Thin adapter | HELIX-inspired surface |
+| [`methods/two-speed.md`](methods/two-speed.md) | JIT vs AOT | Session vs durable |
+| [`methods/node-bun-protocol.md`](methods/node-bun-protocol.md) | Dual runtime | JSONL RPC |
 | [`methods/spatiotemporal-composability.md`](methods/spatiotemporal-composability.md) | Live self-mod | Temporal + spatial composability |
 | [`proposals/06-snapshot-apply.md`](proposals/06-snapshot-apply.md) | D14 product spec | Mutate the agent you are using |
 | [`proposals/04-safety.md`](proposals/04-safety.md) | Kernel rules | Evaluator outside the loop |
@@ -163,15 +201,15 @@ Do not file-list the rest of `oh-my-pi/packages/`. It is a vendored snapshot, no
 
 **What it is for.** Portable Cursor skills/rules (D4). Project copies live under [`.cursor/skills/`](../.cursor/skills/nawab-plans/SKILL.md) so agents load them without replacing the git root.
 
-**How it is used.** Agents read `.cursor/skills`. README work routes through [`readme`](../.cursor/skills/readme/SKILL.md) → `readable-readme` / `product-readme` / `extensive-readme`.
+**How it is used.** Agents read `.cursor/skills`. README work routes through [`readme`](../.cursor/skills/readme/SKILL.md) → `product-readme` (landing) / `readable-readme` / `extensive-readme` (this file).
 
-**How it works.** Upstream: [Vinayak-RZ/cursor-config-coding](https://github.com/Vinayak-RZ/cursor-config-coding). New README skills: `readme` (router), `readable-readme` (main human README), `extensive-readme` (this file), `product-readme` (landing page, unused here).
+**How it works.** Upstream: [Vinayak-RZ/cursor-config-coding](https://github.com/Vinayak-RZ/cursor-config-coding). Landing page: `product-readme`. Internals: this file.
 
 One line, not a file list: do not dump every GSAP/Spec Kit skill here.
 
 ### 3.5 Root authority (repo root)
 
-**What it is for.** Nawab contract, ADRs, live status, human README.
+**What it is for.** Nawab contract, ADRs, live status, product README.
 
 **How it is used.** QA opens `IMPLEMENTATION_PLAN.md` and `DECISIONS.md` for catalog needles. Humans read [`README.md`](../README.md) first.
 
@@ -179,12 +217,13 @@ One line, not a file list: do not dump every GSAP/Spec Kit skill here.
 
 | File | Why it is here | What it does |
 |------|----------------|--------------|
-| [`README.md`](../README.md) | Human overview | Readable-readme; links here |
-| [`IMPLEMENTATION_PLAN.md`](../IMPLEMENTATION_PLAN.md) | Live P3 contract | Must contain `No public Terminal-Bench` and `working snapshot` |
-| [`DECISIONS.md`](../DECISIONS.md) | ADRs D1–D14 | Catalog requires D7, D11–D14 |
-| [`PROGRESS.md`](../PROGRESS.md) | Phase status | P3 Phase 0 done; apply driver pending |
-| [`LEARNING.md`](../LEARNING.md) | Phase learnings | Including D14 + README split |
-| [`PROJECT_OVERVIEW.md`](../PROJECT_OVERVIEW.md) | Scope one-pager | Snapshot apply vision |
+| [`README.md`](../README.md) | Product landing | Teaching README; links here |
+| [`LICENSE`](../LICENSE) | Improveness MIT | Does not re-license `oh-my-pi/` |
+| [`IMPLEMENTATION_PLAN.md`](../IMPLEMENTATION_PLAN.md) | Live D15 contract | Must contain `No public Terminal-Bench` and `working snapshot` |
+| [`DECISIONS.md`](../DECISIONS.md) | ADRs D1–D15 | Catalog requires D7, D11–D15, `dsh.bundle`, `HostPort` |
+| [`PROGRESS.md`](../PROGRESS.md) | Phase status | D15 P0 + P1 HostPort |
+| [`LEARNING.md`](../LEARNING.md) | Phase learnings | Including D15 JSONL vs shared package |
+| [`PROJECT_OVERVIEW.md`](../PROJECT_OVERVIEW.md) | Scope one-pager | Plugin-first vision |
 | [`.env.example`](../.env.example) | Env inventory | Comments only; no secrets |
 | [`.github/workflows/overlay.yml`](../.github/workflows/overlay.yml) | Improveness CI | Bun 1.3.14, ripgrep, `validate.sh` |
 
@@ -198,16 +237,18 @@ Nothing is required for `qa.sh`. Full list: [`.env.example`](../.env.example).
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `OPENROUTER_API_KEY` | no | unset | Optional live ping |
 | `OMP_LIVE_SMOKE` | no | unset | Set `1` to request a real session ping |
 | `OMP_LIVE_SEARCH` | no | unset | Reserved live improver |
-| `OMP_SNAPSHOT_ROOT` | no | `oh-my-pi/` | Working snapshot to mutate after the gate |
+| `DSH_LIVE_SMOKE` | no | unset | Set `1` for a live DSH profile smoke |
+| `IMPROVENESS_CORE_RUNNER` | no | checkout runner | Override JSONL Bun entry |
+| `DSH_HOME` / `IMPROVENESS_GENERATED` | no | `harness/omp/generated/` | Durable plugin root |
 
 ## 5. Tests and CI
 
 | Tier | What | Command |
 |------|------|---------|
-| Fast | 19 files, 55 cases | `bun test harness/omp/tests/` |
+| Fast | 24 test files | `bun test harness/omp/tests/` |
 | Overlay | locked-path greps, ≥20 tasks, no public-bench download URLs | `harness/omp/scripts/validate.sh` |
-| Whole repo | 13 catalog rows, links, seven replays | `harness/omp/scripts/qa.sh` |
-| Slow | real agent session | only if `OMP_LIVE_SMOKE=1` and a key |
+| Whole repo | catalog rows (incl. `dsh.bundle`), links, seven replays | `harness/omp/scripts/qa.sh` |
+| Slow | real DSH or OMP session | `DSH_LIVE_SMOKE=1` / `OMP_LIVE_SMOKE=1` plus keys |
 | Not our gate | Oh My Pi’s heavy suite | do not run as the Improveness check |
 
 CI ([`.github/workflows/overlay.yml`](../.github/workflows/overlay.yml)) installs ripgrep, then runs `qa.sh` (Bun 1.3.14). Without `rg`, gold trees fail.
@@ -224,11 +265,11 @@ Seven architecture sims (`simulate-architectures.ts`):
 | `unbounded-search` | 9 steps (cap is 8) | refuse | — | — |
 | `auto-promote` | Write the grader or skip the gate | must refuse | — | — |
 
-`auto-promote` means “no kernel / no skip-gate,” not a ban on gated snapshot apply (D14).
+`auto-promote` means “no kernel / no skip-gate,” not a ban on gated generated-plugin apply (D15).
 
 ## 6. Ideas worth understanding
 
-Main README teaches four ideas (wrapper, homework/exam, working snapshot, live unload). These extras live here.
+Main README teaches five named techniques. This section is the **engineering ideology**: why those bets show up as files.
 
 ### 6.1 Slogans are not lessons
 
@@ -262,7 +303,67 @@ Main README teaches four ideas (wrapper, homework/exam, working snapshot, live u
 
 **Like.** A crash-test dummy for the plumbing.
 
-**Limits.** Does not replace a live agent run. This placement is local to `simulate-architectures.ts`. No external write-up yet.
+**Limits.** Does not replace a live agent run.
+
+### 6.4 Unload must invert (spatiotemporal composability)
+
+**The problem.** Restart-as-deploy dumps process-local state. At high self-mod frequency, unavailability *is* the product.
+
+**How it works.** Cordis tracks effects and runs inverses on Fiber unload. Improveness JIT `apply()` **must return a disposer**; `validateGeneratedPlugin` fails if tools stay registered. In-flight `run()` increments a counter; `stop` drains then **fail-closes**.
+
+**Like.** `try/finally`, except the `try` lasts a whole session and the `finally` is scheduled by the runtime.
+
+**Read next.** [Cordis paper](https://github.com/cordiverse/paper). Code: [`plugins/dsh-improveness/src/jit.js`](../plugins/dsh-improveness/src/jit.js).
+
+### 6.5 Frozen ids are laws, Fiber ids are handles
+
+**The problem.** If the evolver can name a Fiber instance (`fiber-9f3`) as “kernel”, every reload invents a new kernel. If it can write the checker, the score is whatever it wants ([HSI](https://arxiv.org/html/2608.08466)).
+
+**How it works.** [`frozen-ids.js`](../plugins/dsh-improveness/src/frozen-ids.js) lists namespaces (`dsh.approval`, `dsh-improveness`, …). [`allowlist.ts`](../harness/omp/drivers/allowlist.ts) lists paths. Tests assert `fiber-9f3a` is **not** frozen.
+
+**Like.** A constitution (stable) vs a session id (ephemeral).
+
+### 6.6 Two clocks: JIT and AOT
+
+**The problem.** Waiting for a full Self-Harness gate before the agent can use a one-off tool makes the session stupid. Promoting every ephemeral tool makes the profile a junk drawer.
+
+**How it works.** JIT: `mountEphemeral(sessionId, pkg, slot)`. AOT: `decideAccept` → [`apply-snapshot.ts`](../harness/omp/drivers/apply-snapshot.ts) → generated dir → HMR. [JIT-Agent](https://arxiv.org/abs/2608.25593) named the split; we did not train the 27B.
+
+**Like.** A REPL vs installing a package.
+
+### 6.7 Evidence lives on disk (Meta-Harness shape)
+
+**The problem.** A one-prompt “memory” cannot be grepped, rolled back, or Pareto-ranked.
+
+**How it works.** Candidates are directories. Archive snapshots hash overlay files. P1 [`pareto.ts`](../harness/omp/host-port/pareto.ts) keeps non-dominated (quality, cost) nodes. [`retrieve-prior.ts`](../harness/omp/host-port/retrieve-prior.ts) pulls parents into the next JIT context.
+
+**Like.** An experiment folder in a lab notebook, not a vibes paragraph in chat.
+
+**Read next.** [Meta-Harness](https://arxiv.org/abs/2603.28052). [AutoResearch](https://github.com/karpathy/autoResearch).
+
+### 6.8 Thin HostPort, two runtimes
+
+**The problem.** Node (DSH) cannot import this Bun loop. Wrapping DSH in a second supervisor would violate [HELIX](https://arxiv.org/abs/2608.13951).
+
+**How it works.** HostPort methods only. JSONL [`dsh-core-runner.ts`](../harness/omp/drivers/dsh-core-runner.ts). P1 [`omp-port.ts`](../harness/omp/host-port/omp-port.ts) sets `needsRestart` because OMP extensions still do not invert.
+
+**Like.** A USB-C port vs designing a new computer around each phone.
+
+### 6.9 Public benches are reports, not the loss function
+
+**The problem.** Using public Terminal-Bench as evolver fitness leaks the exam into the improver ([Evo-Bench](https://arxiv.org/html/2608.09096)).
+
+**How it works.** `propose.ts` throws if a held-out id is named. `run-tb-local.ts` has no public TB download URL. Catalog needle: `No public Terminal-Bench`.
+
+**Like.** Publishing a paper with a public test set, then training on it.
+
+### 6.10 Slots prevent silent overwrite
+
+**The problem.** Two “memory” plugins both loading is a Heisenbug.
+
+**How it works.** [`slots.js`](../plugins/dsh-improveness/src/slots.js): one `memory` / `planning` / `action`; `capability` is an ordered set. Collision throws **before** `apply()`.
+
+**Like.** One driver for the steering wheel; many optional accessories.
 
 ## 7. Further reading
 
@@ -274,8 +375,15 @@ Main README teaches four ideas (wrapper, homework/exam, working snapshot, live u
 | Practice / hidden gate | [Self-Harness, arXiv:2606.09498](https://arxiv.org/abs/2606.09498) | Accept only if both splits hold |
 | Tools not prompts | [AHE, arXiv:2604.25850](https://arxiv.org/abs/2604.25850) | 69.7→77.0; prompt-only −2.3 pp |
 | Cheap evolver | [Updating ≠ benefit, arXiv:2605.30621](https://arxiv.org/abs/2605.30621) | Updating is flat; spend budget on the task agent |
-| Snapshot vs upstream | [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) | Upstream review; *your* copy is D14 |
-| Live plugins | [Spatiotemporal composability](https://github.com/cordiverse/paper) | Unload must reverse effects |
+| Snapshot vs upstream | [oh-my-pi#7907](https://github.com/can1357/oh-my-pi/issues/7907) | Upstream review; *your* copy is D14/P1 |
+| Live unload | [Cordis paper](https://github.com/cordiverse/paper) | Temporal + spatial composability |
+| Filesystem search | [Meta-Harness](https://arxiv.org/abs/2603.28052) | Candidates as directories; Pareto |
+| JIT vs AOT skills | [JIT-Agent](https://arxiv.org/abs/2608.25593) | Session tools vs durable skills |
+| Thin host adapter | [HELIX](https://arxiv.org/abs/2608.13951) | Do not wrap the host in a second OS |
+| Frozen outer loop | [HSI](https://arxiv.org/html/2608.08466) | Improver cannot silence the judge |
+| Skill compilation | [Evo-Harness](https://arxiv.org/abs/2608.15071) | Procedure → SKILL.md |
+| Held-out methodology | [Evo-Bench](https://arxiv.org/html/2608.09096) | Harness-sensitive hidden sets |
+| Frozen prepare | [AutoResearch](https://github.com/karpathy/autoResearch) | Kernel vs sibling experiment files |
 | Holdout sets | [Wikipedia](https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets) | Why a seen exam is worthless |
 
 Related systems this repo uses or cites: [Oh My Pi](https://github.com/can1357/oh-my-pi), [agentic-harness-engineering](https://github.com/china-qijizhifeng/agentic-harness-engineering), [Cordis paper](https://github.com/cordiverse/paper), [DeepSeek Harness plugins](https://deepseek-harness.github.io/deepseek-harness/en/develop/framework/), [Terminal-Bench](https://www.tbench.ai/) (refused as fitness).
@@ -284,29 +392,25 @@ Related systems this repo uses or cites: [Oh My Pi](https://github.com/can1357/o
 
 Same four bets as the main README, with extra operational detail.
 
-### 8.1 Apply accepted edits to the working snapshot
+### 8.1 Apply accepted plugin-class edits (done for P0)
 
-**Why now.** [`search.ts`](../harness/omp/drivers/search.ts) still stages. [`apply-candidate.ts`](../harness/omp/drivers/apply-candidate.ts) writes staging only. D14 is the product.
+**Shipped.** [`apply-snapshot.ts`](../harness/omp/drivers/apply-snapshot.ts) writes `harness/omp/generated/<id>/` after load/dispose/policy. Playbook-class search still stages. Live DSH uses `$DSH_HOME/profiles/improveness/improveness-generated/`.
 
-**What would land.** `apply-snapshot.ts` (never `auto-apply.ts`) plus allowlist prefixes for snapshot tools/loop except frozen kernel rows.
-
-**Done when.** Accept appears as a diff under `oh-my-pi/` (or `OMP_SNAPSHOT_ROOT`); kernel paths still throw; `qa.sh` green.
+**Still open.** Packaged `prepare` copy of the Bun runner into a tarball; live-model gains (not claimed).
 
 ### 8.2 Live improver on a real session
 
-**Why now.** [`OMP_LIVE_SEARCH`](../.env.example) is reserved. Need an honest D6 test.
+**Why now.** `DSH_LIVE_SMOKE` / [`OMP_LIVE_SEARCH`](../.env.example) are skip-gated.
 
-**What would land.** Skip-gated `createAgentSession` with evolver allowlist.
+**What would land.** A real DSH profile session that define/run/stop a JIT plugin.
 
 **Done when.** One bounded live step with a key; `qa.sh` still passes with the flag unset.
 
-### 8.3 Revertible plugins
+### 8.3 Revertible plugins (P0 shipped on DSH; OMP still needs restart)
 
-**Why now.** OMP extensions load; they do not unload with invertibility ([`oh-my-pi/docs/extensions.md`](../oh-my-pi/docs/extensions.md)).
+**Why now.** DSH Fibers unload. OMP extensions still do not ([`oh-my-pi/docs/extensions.md`](../oh-my-pi/docs/extensions.md)). P1 OMP HostPort sets `needsRestart` for snapshot source.
 
-**What would land.** `ctx.effect`-style disposers or a thin Fiber loader. HMR: unload → load → apply.
-
-**Done when.** One extension unload reverses tools and listeners without host restart; KERNEL files cannot unload.
+**Done when.** One OMP extension unload reverses tools without host restart; KERNEL files cannot unload.
 
 ### 8.4 Public Terminal-Bench as a report; wire live ping
 

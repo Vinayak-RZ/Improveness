@@ -1,0 +1,3 @@
+# Fixture checkers use `rg -q '^line$'`. CRLF checkouts break those anchors.
+harness/omp/evals/** text eol=lf
+*.sh text eol=lf

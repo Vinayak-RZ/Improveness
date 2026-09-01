@@ -2,24 +2,23 @@
 
 ## Current phase
 
-OMP overlay **P2 complete**. **P3 Phase 0 in progress:** D14 snapshot-apply vision, spatiotemporal composability research, catalog needles updated. Apply driver still pending (P2 `search.ts` stages).
+D15 **P0 complete** (Improveness as a DeepSeek Harness `dsh.bundle` plugin) plus **P1 HostPort** (OMP adapter, Pareto archive, skill compile, JIT retrieve-prior, Evo-Bench construction notes).
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| `.github/workflows/overlay.yml` | done |
-| Skip-gated live-smoke CI job | done |
-| `runSearch` + deterministic proposer | done (still stage-only) |
-| Local Harbor runner | done |
-| Local-20 benchmark (0/12→7/12, 0/8→3/8) | done |
-| Extensive README | done; split to `docs/EXTENSIVE.md` |
-| Readable README | done (readme-router: readable + extensive) |
-| CACD (D13) + `qa.sh` | done |
-| 7 architecture simulations | done |
-| D14 working-snapshot apply contract | Phase 0 |
-| Spatiotemporal composability method note | Phase 0 |
-| `apply-snapshot` driver | pending Phase B |
+| MIT `LICENSE` | done |
+| D15 ADR + KERNEL/SURFACES remap | done |
+| `plugins/dsh-improveness` (`dsh.bundle`) | done |
+| HostPort + four slots + frozen ids | done |
+| JSONL Node↔Bun runner | done |
+| JIT mount/unmount + fail-closed drain | done |
+| Durable apply + atomic rollback + HMR fence | done |
+| Plugin-class search applies generated dir | done |
+| Product README + claim ledger + SVG wordmark | done |
+| P1 OMP adapter / Pareto / skill compile / retrieve-prior | done |
+| `qa.sh` | overlay tests + catalog; live DSH smoke skip-gated |
 
 ## Completed phases
 
@@ -29,55 +28,31 @@ OMP overlay **P2 complete**. **P3 Phase 0 in progress:** D14 snapshot-apply visi
 |-------|-----------|--------|
 | Research + proposals + in-tree OMP | done | done |
 
-### Overlay P0
+### Overlay P0–P2
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
 | 0–D + N | Surfaces through manifests + validate | done |
+| P2 search / local-20 / CACD | done | done |
 
-### Overlay P1
-
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| A–N | 20 fixtures, smoke, roles, TB adapter, archive | done |
-
-### Overlay P2
+### D15 plugin (this wave)
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| 0 | Adopt P2 contract + D11/D12 | done |
-| A | Root validate.sh CI | done |
-| B | Optional live-smoke job | done |
-| C | Bounded archive search | done |
-| D | Local Harbor runner | done |
-| N | validate.sh greps + docs + local-20 | done |
+| 0 | D15, HostPort contracts, method notes, MIT | done |
+| A | Bundle scaffold, no DSH vendor | done |
+| B | DSH traces, frozen ids, generated apply, allowlist | done |
+| C | JIT + kernel fence + drain | done |
+| D | decideAccept → durable plugin + HMR | done |
+| N | Product README, EXTENSIVE, qa | done |
+| P1 | OMP HostPort + Pareto + skills + retrieve-prior + Evo-Bench notes | done |
 
-### Overlay P3
+## Remaining
 
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| 0 | D14 contract + paper note + README | in progress |
-| B | Gated apply onto working snapshot | pending |
-| C | OMP extension unload vs Cordis | pending |
-| N | qa.sh after driver | pending |
+- Live DSH profile-session smoke when `DSH_LIVE_SMOKE=1` and a DSH install exist
+- Packaged tarball `prepare` that copies the Bun runner into the bundle (checkout JSONL path works)
+- Measured live-model gains (not claimed)
 
-## Remaining phases
+## Blockers
 
-**P3 live:** snapshot apply + composability research. **Parked:** public TB2 as report-only; required live-smoke; Spec Kit; catalog ids.
-
-Cutover is N/A.
-
-## Active blockers
-
-Phase B apply driver — P2 search still stages (D12 as shipped). Product is D14.
-
-## Gate evidence
-
-```text
-harness/omp/scripts/qa.sh
-# bun test harness/omp/tests/
-# overlay.yml calls validate.sh
-# search.ts has MAX_STEP_CAP + kernel guard
-# local-20: held-in 0/12 → 7/12, held-out 0/8 → 3/8 after 5 steps
-# IMPLEMENTATION_PLAN contains working snapshot + No public Terminal-Bench
-```
+None for P0/P1 code. Commits only when asked.

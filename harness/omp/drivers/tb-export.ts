@@ -1,5 +1,5 @@
-import { chmodSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { chmodSync, mkdirSync, writeFileSync } from "node:fs";
+import { join, resolve, sep } from "node:path";
 import { loadFixture } from "../evals/checker/check.ts";
 
 export type TbExportResult = {
@@ -9,13 +9,20 @@ export type TbExportResult = {
   testPath: string;
 };
 
+function toGitBashPath(abs: string): string {
+  const posix = abs.split(sep).join("/");
+  const drive = /^([A-Za-z]):\/(.*)$/.exec(posix);
+  if (drive) return `/${drive[1].toLowerCase()}/${drive[2]}`;
+  return posix;
+}
+
 export function exportHarborTask(fixtureDir: string, adapterRoot: string): TbExportResult {
   const spec = loadFixture(fixtureDir);
   const outDir = join(adapterRoot, spec.id);
   mkdirSync(join(outDir, "tests"), { recursive: true });
   const instructionPath = join(outDir, "instruction.md");
   const testPath = join(outDir, "tests/test.sh");
-  const checkRel = relative(dirname(testPath), resolve(fixtureDir, spec.check));
+  const checkAbs = toGitBashPath(resolve(fixtureDir, spec.check));
 
   writeFileSync(
     instructionPath,
@@ -26,9 +33,7 @@ export function exportHarborTask(fixtureDir: string, adapterRoot: string): TbExp
     `#!/usr/bin/env bash
 set -euo pipefail
 # Runs the frozen Improveness checker for this fixture against the current workspace.
-root="$(cd "$(dirname "$0")/.." && pwd)"
-check="$(cd "$(dirname "$0")" && pwd)/${checkRel}"
-bash "$check"
+bash ${JSON.stringify(checkAbs)}
 `,
   );
   chmodSync(testPath, 0o755);
