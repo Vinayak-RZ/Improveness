@@ -1,0 +1,3 @@
+[test]
+# Windows Git-bash fixture scoring is slower than Ubuntu CI.
+timeout = 180000
