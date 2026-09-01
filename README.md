@@ -1,20 +1,19 @@
-<div align="center">
-  <h1>
-    <img src="assets/improveness-logo.svg" width="48" height="48" align="absmiddle" alt="">
-    Improveness
-  </h1>
-  <p>
-    <a href="https://github.com/Vinayak-RZ/Improveness/actions/workflows/overlay.yml"><img src="https://github.com/Vinayak-RZ/Improveness/actions/workflows/overlay.yml/badge.svg" alt="Overlay QA"></a>
-    <a href="docs/EXTENSIVE.md"><img src="https://img.shields.io/badge/docs-extensive-1f6feb" alt="Extensive internals"></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea043" alt="MIT license"></a>
-  </p>
-  <p>
-    <a href="docs/EXTENSIVE.md"><b>Internals</b></a> ·
-    <a href="docs/CLAIM_LEDGER.md"><b>Claim ledger</b></a> ·
-    <a href="docs/00-index.md"><b>Paper map</b></a> ·
-    <a href="LICENSE"><b>License</b></a>
-  </p>
-</div>
+<p align="center">
+  <img src="assets/improveness-header.png" width="325" alt="Improveness">
+</p>
+
+<p align="center">
+  <a href="https://github.com/Vinayak-RZ/Improveness/actions/workflows/overlay.yml"><img src="https://github.com/Vinayak-RZ/Improveness/actions/workflows/overlay.yml/badge.svg" alt="Overlay QA"></a>
+  <a href="docs/EXTENSIVE.md"><img src="https://img.shields.io/badge/docs-extensive-1f6feb" alt="Extensive internals"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea043" alt="MIT license"></a>
+</p>
+
+<p align="center">
+  <a href="docs/EXTENSIVE.md"><b>Internals</b></a> ·
+  <a href="docs/CLAIM_LEDGER.md"><b>Claim ledger</b></a> ·
+  <a href="docs/00-index.md"><b>Paper map</b></a> ·
+  <a href="LICENSE"><b>License</b></a>
+</p>
 
 > Full internals (every package, file map, how the repo runs): [Extensive README](docs/EXTENSIVE.md)
 
