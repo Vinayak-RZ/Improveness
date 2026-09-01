@@ -1,8 +1,10 @@
 # Frozen kernel
 
-The evolver, curator, debugger, and Self-Harness driver **must not write** these paths. Maintainers may edit them; the loop may not.
+The evolver, curator, debugger, Self-Harness driver, and generated plugins **must not write** these paths or **unload** these ids. Maintainers may edit them; the loop may not.
 
-See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md), [docs/proposals/06-snapshot-apply.md](../../docs/proposals/06-snapshot-apply.md), and [D14](../../DECISIONS.md).
+See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md), [D14](../../DECISIONS.md), [D15](../../DECISIONS.md).
+
+Stable kernel ids are **row ids / package namespaces / routes / owned paths**, not Cordis Fiber instance ids.
 
 ## Always frozen (reward-hacking / AHE / permissions)
 
@@ -28,28 +30,30 @@ See [docs/proposals/04-safety.md](../../docs/proposals/04-safety.md), [docs/prop
 | `.github/workflows/overlay.yml` | Improveness CI; evolver cannot edit the gate |
 | `IMPLEMENTATION_PLAN.md` | Execution contract |
 | `DECISIONS.md` | ADRs |
+| `plugins/dsh-improveness/` | The Improveness plugin **is** the kernel for DSH; siblings go in generated dirs |
 
 ## Runtime / config the evolver cannot change
 
 - `modelRoles` in any `config.yml` / settings (task agent stays `default`; evolver/debugger may *use* `smol` / `advisor`, not redefine the map)
 - Token / reasoning budget
-- Session tracer and run logs (`~/.omp/agent/sessions/`, `harness/omp/traces/` as evidence — append-only from exporters, not evolver edits)
-- OAuth / API secrets (`OMP_*` env vars). Curator must reject secret-shaped strings
+- Session tracer and run logs (`~/.omp/agent/sessions/`, DSH session-log, `harness/omp/traces/` as evidence — append-only from exporters, not evolver edits)
+- OAuth / API secrets (`OMP_*` / `DSH_*` env vars). Curator must reject secret-shaped strings
+- DSH Cordis loader, approval/permissions routes, default model routes
+- Frozen ids: `dsh-improveness`, `improveness.checker`, `improveness.qa`, `dsh.approval`, `dsh.permissions`, `dsh.model-routes`, `dsh.cordis-loader`
 
-## Open on the working snapshot after the gate (D14)
+## Open after the gate (D15)
 
-The apply target is **your working copy**: in-tree `oh-my-pi/` or a user-supplied agent snapshot. After held-in/held-out accept, Improveness may change that snapshot’s:
+Durable apply target is **profile-owned generated plugins**, never `node_modules` and never this bundle:
 
-- Tool implementations and schemas (except `approval.ts`)
-- Skills
-- Orchestration / worker wiring
-- Core agentic loop (step machine, tool executor, middleware)
-- Project overlay playbook / extra tools / extra skills under `harness/omp/overlay/.omp/`
+- Live: `$DSH_HOME/profiles/improveness/improveness-generated/<id>/`
+- Checkout tests: `harness/omp/generated/<id>/`
 
-Upstream `can1357/oh-my-pi` is never the apply target unless a human separately asks.
+Plus overlay playbook / extra tools / extra skills under `harness/omp/overlay/.omp/` (still staged for playbook-class candidates).
 
-Prefer **revertible plugins** so a live OMP session does not have to die on every self-mod ([spatiotemporal composability](../../docs/methods/spatiotemporal-composability.md)). Restart is the fallback when an edit is not unloadable.
+P1 OMP HostPort may mutate a **working snapshot** (`oh-my-pi/` or a user-supplied tree) except the frozen rows above. Upstream `can1357/oh-my-pi` is never the apply target unless a human separately asks.
 
-## Current driver behavior (until `apply-snapshot` ships)
+Prefer **revertible plugins** so a live session does not have to die on every self-mod ([spatiotemporal composability](../../docs/methods/spatiotemporal-composability.md)). Restart is the fallback when an edit is not unloadable.
 
-P2 `drivers/search.ts` still lands accepts in **staging**, `archive/<id>/`, and a [REVIEW_QUEUE.md](REVIEW_QUEUE.md) row (D12 as shipped). It does not yet copy into `overlay/.omp/` or `oh-my-pi/packages/`. That is a driver lag, not the product. KERNEL and allowlist stay conservative until Phase B of [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) opens snapshot paths **except** the frozen rows above.
+## Current driver behavior
+
+Playbook-class accepts still land in **staging**, `archive/<id>/`, and a [REVIEW_QUEUE.md](REVIEW_QUEUE.md) row. Plugin-class accepts that pass isolated load/dispose/policy checks write the generated dir and can HMR. That split is intentional: playbook files are not Cordis packages.

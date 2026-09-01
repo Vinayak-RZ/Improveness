@@ -14,28 +14,28 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "Frozen kernel",
     path: "harness/omp/KERNEL.md",
-    mustContain: ["evals/checker", "system-prompt.md", "approval.ts"],
+    mustContain: ["evals/checker", "system-prompt.md", "approval.ts", "plugins/dsh-improveness"],
   },
   {
     id: "c-surfaces",
     layer: "contract",
     title: "Editable surfaces",
     path: "harness/omp/SURFACES.md",
-    mustContain: ["playbook", "evolver"],
+    mustContain: ["playbook", "evolver", "dsh.bundle", "generated"],
   },
   {
     id: "c-plan",
     layer: "contract",
     title: "Execution contract",
     path: "IMPLEMENTATION_PLAN.md",
-    mustContain: ["No public Terminal-Bench", "working snapshot"],
+    mustContain: ["No public Terminal-Bench", "working snapshot", "dsh.bundle", "HostPort"],
   },
   {
     id: "c-decisions",
     layer: "contract",
     title: "ADRs",
     path: "DECISIONS.md",
-    mustContain: ["D7", "D11", "D12", "D13", "D14"],
+    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "dsh.bundle", "HostPort"],
   },
   {
     id: "a-cacd",
@@ -99,6 +99,20 @@ export const CACD_ITEMS: CacdItem[] = [
     title: "Working snapshot apply",
     path: "docs/proposals/06-snapshot-apply.md",
     mustContain: ["working snapshot", "D14"],
+  },
+  {
+    id: "d-bundle",
+    layer: "delivery",
+    title: "DSH bundle plugin",
+    path: "plugins/dsh-improveness/package.json",
+    mustContain: ["dsh.bundle", "dsh-improveness"],
+  },
+  {
+    id: "c-host-port",
+    layer: "contract",
+    title: "HostPort surface",
+    path: "docs/methods/host-port.md",
+    mustContain: ["HostPort", "frozenIds", "mountEphemeral"],
   },
 ];
 

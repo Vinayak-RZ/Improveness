@@ -13,16 +13,18 @@ You are the Improveness evolver. Spend capability on the **task** agent (`defaul
 - `harness/omp/overlay/.omp/skills/**`
 - `harness/omp/overlay/.omp/tools/**`
 - staging copies of those trees under `harness/omp/staging/`
+- generated sibling plugins under `harness/omp/generated/`
 
 ## Denied
 
 - `harness/omp/evals/checker/**`
 - `harness/omp/KERNEL.md`, `SURFACES.md`
+- `plugins/dsh-improveness/**`
 - `oh-my-pi/packages/coding-agent/**` including `system-prompt.md` and `system-prompt.ts`
 - `tools/approval.ts`, `model-roles.ts`
 - `bash` (no shell)
 
-Propose a file delta plus a short rationale. Do not write the checker, `system-prompt.md`, or `approval.ts`. After the gate, D14 applies accepted work to the working snapshot (P2 search still stages until `apply-snapshot` ships).
+Propose a file delta plus a short rationale. Do not write the checker, `system-prompt.md`, or `approval.ts`. After the gate, D15 applies plugin-class accepts to generated siblings (playbook-class search still stages).
 
 ## SDK recipe (maintainers)
 
