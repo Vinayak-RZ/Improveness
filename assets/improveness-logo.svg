@@ -1,6 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 120" role="img" aria-label="Improveness — two-speed harness improver">
-  <rect width="560" height="120" fill="none"/>
-  <circle cx="48" cy="60" r="28" fill="#1f6feb"/>
-  <path d="M40 60h16M48 52v16" stroke="#ffffff" stroke-width="4" stroke-linecap="square"/>
-  <text x="92" y="72" font-family="ui-sans-serif, system-ui, sans-serif" font-size="36" font-weight="700" fill="#1f2328">Improveness</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 12 104 104" width="128" height="128" role="img" aria-label="Improveness">
+  <defs>
+    <mask id="mark">
+      <rect width="128" height="128" fill="#000"/>
+      <rect x="18" y="22" width="70" height="70" rx="22" fill="#fff"/>
+      <rect x="40" y="36" width="70" height="70" rx="22" fill="#fff"/>
+      <rect x="51" y="51" width="26" height="26" rx="6" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="128" height="128" fill="#1f6feb" mask="url(#mark)"/>
 </svg>
