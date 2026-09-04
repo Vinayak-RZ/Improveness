@@ -2,57 +2,46 @@
 
 ## Current phase
 
-D15 **P0 complete** (Improveness as a DeepSeek Harness `dsh.bundle` plugin) plus **P1 HostPort** (OMP adapter, Pareto archive, skill compile, JIT retrieve-prior, Evo-Bench construction notes).
+D16 **two-section split** (JIT vs Improvement) — Phase 0 in progress.
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| MIT `LICENSE` | done |
-| D15 ADR + KERNEL/SURFACES remap | done |
-| `plugins/dsh-improveness` (`dsh.bundle`) | done |
-| HostPort + four slots + frozen ids | done |
-| JSONL Node↔Bun runner | done |
-| JIT mount/unmount + fail-closed drain | done |
-| Durable apply + atomic rollback + HMR fence | done |
-| Plugin-class search applies generated dir | done |
-| Product README + claim ledger + SVG wordmark | done |
-| P1 OMP adapter / Pareto / skill compile / retrieve-prior | done |
-| `qa.sh` | overlay tests + catalog; live DSH smoke skip-gated |
+| D15 P0 + P1 HostPort | done |
+| D16 ADR + sections method stub | in progress |
+| Section flags + ToolCatalog | pending |
+| Event inject | pending |
+| JIT task synthesizer | pending |
+| Short/long improve drivers | pending |
+| README + EXTENSIVE + CI green | pending |
 
 ## Completed phases
 
-### Docs / proposals pass
+### D15 plugin
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| Research + proposals + in-tree OMP | done | done |
+| 0–N + P1 | DSH plugin + OMP HostPort | done |
 
-### Overlay P0–P2
-
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| 0–D + N | Surfaces through manifests + validate | done |
-| P2 search / local-20 / CACD | done | done |
-
-### D15 plugin (this wave)
+### D16 two-section (this wave)
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| 0 | D15, HostPort contracts, method notes, MIT | done |
-| A | Bundle scaffold, no DSH vendor | done |
-| B | DSH traces, frozen ids, generated apply, allowlist | done |
-| C | JIT + kernel fence + drain | done |
-| D | decideAccept → durable plugin + HMR | done |
-| N | Product README, EXTENSIVE, qa | done |
-| P1 | OMP HostPort + Pareto + skills + retrieve-prior + Evo-Bench notes | done |
+| 0 | D16 ADR, sections.md, flag contract | in progress |
+| A | Flags + hierarchical catalog + inspect | pending |
+| B | SessionEventBus + tool inject | pending |
+| C | JitTaskSynthesizer M/P/A/C | pending |
+| D | Short + long improve drivers | pending |
+| V | README, EXTENSIVE, qa.sh, CI green | pending |
 
 ## Remaining
 
-- Live DSH profile-session smoke when `DSH_LIVE_SMOKE=1` and a DSH install exist
-- Packaged tarball `prepare` that copies the Bun runner into the bundle (checkout JSONL path works)
+- Live DSH smoke (`DSH_LIVE_SMOKE=1`)
+- Packaged Bun runner copy into bundle
 - Measured live-model gains (not claimed)
+- D16 P1: runtime section toggle, OMP catalog parity
 
 ## Blockers
 
-None for P0/P1 code. Commits only when asked.
+None.
