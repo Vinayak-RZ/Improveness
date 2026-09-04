@@ -15,6 +15,9 @@ Thin adapter between Improveness (decide, score, archive, apply) and a plugin ho
 | `applyDurable` | AOT after `decideAccept` |
 | `hotReload` / `needsRestart` | Live ratchet |
 | `runEval` (optional) | Held-in / held-out |
+| catalog / emit (D16) | Hierarchical tool discovery + event inject |
+| synthesize (D16) | JIT task harness from M/P/A/C templates |
+| improveShort / improveLong (D16) | Dual-horizon improve RPC |
 
 ## P0 / P1
 

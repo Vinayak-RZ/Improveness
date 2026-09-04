@@ -35,7 +35,7 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "ADRs",
     path: "DECISIONS.md",
-    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "dsh.bundle", "HostPort"],
+    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "D16", "dsh.bundle", "HostPort"],
   },
   {
     id: "a-cacd",

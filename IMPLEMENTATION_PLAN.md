@@ -148,4 +148,13 @@ D14 still applies when the host is Oh My Pi: the **working snapshot** is the app
 
 ## Named techniques (README)
 
-Two-Speed · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
+Two-Speed · Sections (JIT / Improve) · Tool Catalog · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
+
+
+## D16 — Two-section split (approved)
+
+See [DECISIONS.md](DECISIONS.md) D16 and [docs/methods/sections.md](docs/methods/sections.md). Feature branch `cursor/two-section-jit-improve-35d0`.
+
+**In:** Load-time section flags; hierarchical ToolCatalog; event-driven tool inject; JIT M/P/A/C template synthesizer; short-term + long-term improve drivers; README/EXTENSIVE sync; CI green.
+
+**Out:** JIT-Agent 27B training; free-form JIT `apply()` codegen; OMP TTSR rewrite; runtime section toggle (P1).

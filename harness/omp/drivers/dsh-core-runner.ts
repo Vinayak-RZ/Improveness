@@ -3,12 +3,14 @@ import { applyDurablePlugin, defaultGeneratedRoot } from "./apply-snapshot.ts";
 import { exportSession } from "./export-session.ts";
 import { decideAccept } from "./self-harness.ts";
 import { scorePlaybook } from "./playbook-solver.ts";
+import { improveShort } from "./improve-short.ts";
+import { improveLong } from "./improve-long.ts";
 import { DSH_FROZEN_IDS } from "../../../plugins/dsh-improveness/src/frozen-ids.js";
 import { emptySlots } from "../../../plugins/dsh-improveness/src/slots.js";
 
 type Rpc = { id: number; method: string; params?: Record<string, unknown> };
 
-function handle(rpc: Rpc): unknown {
+async function handle(rpc: Rpc): Promise<unknown> {
   const p = rpc.params ?? {};
   switch (rpc.method) {
     case "ping":
@@ -33,6 +35,22 @@ function handle(rpc: Rpc): unknown {
         generatedRoot: typeof p.generatedRoot === "string" ? p.generatedRoot : defaultGeneratedRoot(repoRoot),
       });
     }
+    case "improveShort":
+      return improveShort({
+        repoRoot: String(p.repoRoot ?? process.cwd()),
+        playbookPath: typeof p.playbookPath === "string" ? p.playbookPath : undefined,
+        trajectoryPath: typeof p.trajectoryPath === "string" ? p.trajectoryPath : undefined,
+        lesson: typeof p.lesson === "string" ? p.lesson : undefined,
+        passed: typeof p.passed === "boolean" ? p.passed : undefined,
+      });
+    case "improveLong":
+      return improveLong({
+        repoRoot: String(p.repoRoot ?? process.cwd()),
+        archiveRoot: typeof p.archiveRoot === "string" ? p.archiveRoot : undefined,
+        minParents: typeof p.minParents === "number" ? p.minParents : undefined,
+        stepCap: typeof p.stepCap === "number" ? p.stepCap : undefined,
+        dryRun: p.dryRun === true,
+      });
     default:
       throw new Error(`unknown method: ${rpc.method}`);
   }
@@ -50,7 +68,7 @@ export async function serveStdin(): Promise<void> {
       continue;
     }
     try {
-      const result = handle(rpc);
+      const result = await handle(rpc);
       console.log(JSON.stringify({ id: rpc.id, ok: true, result }));
     } catch (error) {
       console.log(JSON.stringify({ id: rpc.id, ok: false, error: error instanceof Error ? error.message : String(error) }));
