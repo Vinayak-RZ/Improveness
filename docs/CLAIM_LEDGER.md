@@ -21,6 +21,10 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 | JIT session mount/unmount with disposer invertibility | fake-`ctx` tests |
 | Atomic durable install + HMR drain/fail-closed | HostPort tests |
 | Uninstall Improveness does not delete accepted siblings | generated dir is outside the bundle |
+| Two independently disableable sections (JIT / Improvement) | `sections.js` + `dsh-plugin.test.ts` flag matrix |
+| Hierarchical catalog + event inject | `catalog.js`, `events.js` tests |
+| JIT M/P/A/C template synthesize (no free-form codegen) | `synthesize.js` tests |
+| Short-term / long-term improve drivers (still gated for durable) | `improve.test.ts` |
 
 ## Forbidden (do not put in README)
 

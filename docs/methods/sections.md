@@ -15,7 +15,7 @@ Defaults: **all on**. Flags are **load-time** (P0); mid-session toggle is P1.
 
 Inspired by [JIT-Agent](https://arxiv.org/abs/2608.25593) four-module synthesis — **templates + priors**, not trained weights and not free-form `apply()` codegen on the hot path. Durable free-form siblings still go through `decideAccept` + validate (AOT).
 
-See [two-speed.md](two-speed.md), [tool-catalog.md](tool-catalog.md) (when present).
+See [two-speed.md](two-speed.md), [tool-catalog.md](tool-catalog.md).
 
 ## Improvement (two horizons)
 

@@ -45,6 +45,18 @@ One occupant for `memory`, `planning`, `action`. `capability` is an ordered set.
 | CACD / QA / sims | Unchanged product check: `qa.sh` |
 | Spatiotemporal composability | [method note](../../docs/methods/spatiotemporal-composability.md) |
 
+## D16 sections (editable product surface)
+
+| Item | Path |
+|------|------|
+| Section flags | `plugins/dsh-improveness/src/sections.js` |
+| ToolCatalog | `plugins/dsh-improveness/src/catalog.js` |
+| Event inject | `plugins/dsh-improveness/src/events.js` |
+| JIT synthesizer | `plugins/dsh-improveness/src/synthesize.js` + `modules/templates.js` |
+| Short/long improve | `harness/omp/drivers/improve-short.ts`, `improve-long.ts` |
+
+Flags are load-time env; durable promote still gated by `decideAccept`.
+
 ## What already exists — do not re-propose
 
 The Bun loop, frozen checker, 12/8 fixtures, and seven keyless sims stay. DSH is a **plugin host**, not a second checker. OMP `learn` / TTSR stay OMP primitives for the P1 adapter.
