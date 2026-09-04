@@ -26,7 +26,19 @@ export function createDshHostPort(options = {}) {
       return callCore("exportTrace", { jsonlPath, tracesRoot });
     },
     listCapabilities() {
-      return ["inspect", "define", "run", "stop", "promote", "playbook-search"];
+      return [
+        "inspect",
+        "catalog",
+        "define",
+        "run",
+        "stop",
+        "synthesize",
+        "promote",
+        "improveShort",
+        "improveLong",
+        "emit",
+        "playbook-search",
+      ];
     },
     frozenIds() {
       return [...DSH_FROZEN_IDS];
