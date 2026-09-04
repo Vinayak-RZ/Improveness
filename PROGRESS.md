@@ -2,7 +2,7 @@
 
 ## Current phase
 
-D16 **two-section split** — Phase V CI / PR.
+D16 **two-section split** — **complete** (local qa + CI green).
 
 ## Latest
 
@@ -16,7 +16,10 @@ D16 **two-section split** — Phase V CI / PR.
 | Method docs + claim ledger + SURFACES | done |
 | README + EXTENSIVE | done |
 | `qa.sh` | green (94 tests) |
-| CI overlay.yml on feature branch | pending |
+| CI `overlay.yml` | green — [push run](https://github.com/Vinayak-RZ/Improveness/actions/runs/33897801595) · [PR run](https://github.com/Vinayak-RZ/Improveness/actions/runs/33897819029) |
+| Draft PR | [#9](https://github.com/Vinayak-RZ/Improveness/pull/9) |
+
+Earlier mid-branch push failed on broken link to `tool-catalog.md` before that file landed; fixed by docs commit.
 
 ## Completed phases
 
@@ -35,7 +38,7 @@ D16 **two-section split** — Phase V CI / PR.
 | B | SessionEventBus + tool inject | done |
 | C | JitTaskSynthesizer M/P/A/C | done |
 | D | Short + long improve drivers | done |
-| V | README, EXTENSIVE, qa.sh | done (CI pending) |
+| V | README, EXTENSIVE, qa.sh, CI | done |
 
 ## Remaining
 
