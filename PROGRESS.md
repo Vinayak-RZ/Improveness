@@ -2,7 +2,7 @@
 
 ## Current phase
 
-D16 **two-section split** — Phase V (hardening / README / CI).
+D16 **two-section split** — Phase V CI / PR.
 
 ## Latest
 
@@ -13,9 +13,10 @@ D16 **two-section split** — Phase V (hardening / README / CI).
 | Event inject | done |
 | JIT M/P/A/C synthesizer | done |
 | Short/long improve drivers + RPC | done |
-| Method docs + claim ledger + SURFACES | in progress |
-| README + EXTENSIVE | in progress |
-| `qa.sh` + CI green | pending |
+| Method docs + claim ledger + SURFACES | done |
+| README + EXTENSIVE | done |
+| `qa.sh` | green (94 tests) |
+| CI overlay.yml on feature branch | pending |
 
 ## Completed phases
 
@@ -34,7 +35,7 @@ D16 **two-section split** — Phase V (hardening / README / CI).
 | B | SessionEventBus + tool inject | done |
 | C | JitTaskSynthesizer M/P/A/C | done |
 | D | Short + long improve drivers | done |
-| V | README, EXTENSIVE, qa.sh, CI | in progress |
+| V | README, EXTENSIVE, qa.sh | done (CI pending) |
 
 ## Remaining
 
