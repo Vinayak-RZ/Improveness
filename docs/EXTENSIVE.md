@@ -67,7 +67,12 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | File | Why it is here | What it does |
 |------|----------------|--------------|
 | `package.json` | `dsh.bundle` marker | Cordis patch pointer |
-| `src/apply.js` | Plugin entry | Register tools + disposer |
+| `src/apply.js` | Plugin entry | Register tools + disposer (section-gated) |
+| `src/sections.js` | D16 flags | JIT / improve / eventInject parse |
+| `src/catalog.js` | Discovery | Hierarchical namespace → group → tool |
+| `src/events.js` | Inject | need_tool reminder + optional hint mount |
+| `src/synthesize.js` | JIT assemble | Task harness from M/P/A/C templates |
+| `src/modules/templates.js` | Slot modules | Invertible memory/planning/action/capability |
 | `src/jit.js` | Fast path | define/run/stop + drain |
 | `src/frozen-ids.js` | Kernel ids | Namespaces, not Fiber ids |
 | `src/slots.js` | HarnessFactory | Collision-before-mount |
@@ -121,8 +126,10 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `drivers/archive.ts` | Parent sampling | Snapshot + `sampleParent`; `isKernelRel` |
 | `drivers/propose.ts` | Held-in-only | Throws if a hidden id is named |
 | `drivers/search.ts` | Bounded loop | `MAX_STEP_CAP = 8`; playbook stages; plugin-class applies |
+| `drivers/improve-short.ts` | D16 short-term | Post-trajectory playbook candidates |
+| `drivers/improve-long.ts` | D16 long-term | Archive cadence → bounded search |
 | `drivers/apply-snapshot.ts` | Durable plugins | Immutable candidate → validate disposer → atomic generated dir |
-| `drivers/dsh-core-runner.ts` | JSONL RPC | Node plugin ↔ Bun loop |
+| `drivers/dsh-core-runner.ts` | JSONL RPC | Node plugin ↔ Bun loop (`improveShort` / `improveLong`) |
 | `host-port/omp-port.ts` | P1 OMP adapter | Overlay + generated apply; `needsRestart` for snapshot source |
 | `host-port/pareto.ts` | Archive survivors | Quality vs cost front |
 | `host-port/skill-compile.ts` | Evo-Harness P1 | Playbook family → `SKILL.md` |

@@ -148,7 +148,7 @@ D14 still applies when the host is Oh My Pi: the **working snapshot** is the app
 
 ## Named techniques (README)
 
-Two-Speed · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
+Two-Speed · Sections (JIT / Improve) · Tool Catalog · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
 
 
 ## D16 — Two-section split (approved)
