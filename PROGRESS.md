@@ -2,26 +2,25 @@
 
 ## Current phase
 
-D16 **two-section split** — **complete** (local qa + CI green).
+**ModelTaste + Hardening + Strong Release** — Phase 0 docs done; next: OMP snapshot refresh (WS-0).
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| D16 ADR + sections method | done |
-| Section flags + ToolCatalog + apply wiring | done |
-| Event inject | done |
-| JIT M/P/A/C synthesizer | done |
-| Short/long improve drivers + RPC | done |
-| Method docs + claim ledger + SURFACES | done |
-| README + EXTENSIVE | done |
-| `qa.sh` | green (94 tests) |
-| CI `overlay.yml` | green — [push run](https://github.com/Vinayak-RZ/Improveness/actions/runs/33897801595) · [PR run](https://github.com/Vinayak-RZ/Improveness/actions/runs/33897819029) |
-| Draft PR | [#9](https://github.com/Vinayak-RZ/Improveness/pull/9) |
+| D17 ModelTaste ADR | done |
+| D18 Modularity / composability ADR | done |
+| D19 OMP snapshot refresh policy ADR | done |
+| `docs/STRONG_RELEASE.md` | stubbed (P0 RED) |
+| `docs/PROJECT_HARDENING.md` | stubbed (P0 RED) |
+| `docs/methods/modeltaste.md` + `composability.md` | done |
+| OMP snapshot refresh | pending |
+| `packages/improveness-modeltaste` | pending |
+| DSH/OMP Taste straps | pending |
+| Fit-suite + live measure | pending |
+| Strong release P0 | RED |
 
-Earlier mid-branch push failed on broken link to `tool-catalog.md` before that file landed; fixed by docs commit.
-
-## Completed phases
+## Completed earlier
 
 ### D15 plugin
 
@@ -33,20 +32,18 @@ Earlier mid-branch push failed on broken link to `tool-catalog.md` before that f
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
-| 0 | D16 ADR, sections.md | done |
-| A | Flags + hierarchical catalog + inspect | done |
-| B | SessionEventBus + tool inject | done |
-| C | JitTaskSynthesizer M/P/A/C | done |
-| D | Short + long improve drivers | done |
-| V | README, EXTENSIVE, qa.sh, CI | done |
+| 0–V | JIT / Improve sections, catalog, CI | done |
 
-## Remaining
+## Remaining (this wave)
 
-- Live DSH smoke (`DSH_LIVE_SMOKE=1`)
-- Packaged Bun runner copy into bundle
-- Measured live-model gains (not claimed)
-- D16 P1: runtime section toggle, OMP catalog parity
+1. Refresh `oh-my-pi/` to latest upstream + `SNAPSHOT.md`
+2. Project hardening checklist execution
+3. Pure ModelTaste package + repairs + profiles
+4. Thin DSH + OMP straps + unstrap tests
+5. Private fit-suite + live ledger row
+6. Packaged runner, un-private package, STRONG_RELEASE P0 green
 
 ## Blockers
 
-None.
+- Live API keys for measured DeepSeek-class row (env); CI stays keyless
+- Network clone of `can1357/oh-my-pi` for WS-0

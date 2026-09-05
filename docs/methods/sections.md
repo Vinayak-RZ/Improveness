@@ -1,15 +1,16 @@
-# Improveness sections (JIT vs Improvement)
+# Improveness sections (JIT vs Improvement vs ModelTaste)
 
-Two independently disableable product sections on the DeepSeek Harness path ([D16](../../DECISIONS.md)).
+Independently disableable product sections on the DeepSeek Harness path ([D16](../../DECISIONS.md), [D17](../../DECISIONS.md)).
 
 | Section | Job | Disable |
 |---------|-----|---------|
 | **JIT** | Task-specialized harness: assemble M/P/A/C module templates, mount session-owned plugins | `IMPROVENESS_JIT=0` |
 | **Improvement** | Dual-horizon self-mod: short-term post-trajectory candidates; long-term archive/curator cadence | `IMPROVENESS_IMPROVE=0` (both), or `IMPROVENESS_IMPROVE_SHORT=0` / `IMPROVENESS_IMPROVE_LONG=0` |
+| **ModelTaste** | Model×harness fit: profiles, validate-then-repair, dialect hints, teach-back ([modeltaste.md](modeltaste.md)) | `IMPROVENESS_TASTE=0` |
 
 Event-driven tool inject (hierarchical catalog → reminder / optional capability mount): `IMPROVENESS_EVENT_INJECT=0`.
 
-Defaults: **all on**. Flags are **load-time** (P0); mid-session toggle is P1.
+Defaults: **all on**. Flags are **load-time** (P0); mid-session toggle is P1. ModelTaste business logic lives in `packages/improveness-modeltaste` ([composability.md](composability.md)).
 
 ## JIT (task harness)
 
