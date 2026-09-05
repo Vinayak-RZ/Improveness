@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { CACD_ITEMS } from "../cacd/catalog.ts";
+import { checkClaimHonesty, checkNoSecretsInTasteArtifacts } from "./claim-honesty.ts";
 
 export type QaFinding = {
   id: string;
@@ -107,6 +108,8 @@ export function runRepoQa(repoRoot: string): { ok: boolean; findings: QaFinding[
     ...checkCacdCatalog(root),
     ...checkRelativeLinks(root, md),
     checkFixtureInventory(root),
+    ...checkClaimHonesty(root),
+    checkNoSecretsInTasteArtifacts(root),
   ];
   return { ok: findings.every((item) => item.ok), findings };
 }
