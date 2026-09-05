@@ -18,6 +18,7 @@ export function parseSections(env = process.env) {
   const shortTerm = parentImprove && envOn(env, "IMPROVENESS_IMPROVE_SHORT", true);
   const longTerm = parentImprove && envOn(env, "IMPROVENESS_IMPROVE_LONG", true);
   const eventInject = envOn(env, "IMPROVENESS_EVENT_INJECT", true);
+  const taste = envOn(env, "IMPROVENESS_TASTE", true);
   return {
     jit,
     improvement: {
@@ -26,6 +27,7 @@ export function parseSections(env = process.env) {
       longTerm,
     },
     eventInject,
+    taste,
   };
 }
 
@@ -55,6 +57,16 @@ export function enabledToolNames(sections) {
   }
   if (sections.eventInject) {
     names.push("improveness.emit");
+  }
+  if (sections.taste) {
+    names.push(
+      "improveness.taste.inspect",
+      "improveness.taste.analyze",
+      "improveness.taste.proposeRepair",
+      "improveness.taste.applyEphemeral",
+      "improveness.taste.attach",
+      "improveness.taste.detach",
+    );
   }
   return names;
 }

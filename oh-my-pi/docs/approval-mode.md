@@ -33,8 +33,14 @@ tools:
   approval:
     bash: prompt
     read: allow
-    mcp__filesystem__delete: deny
+    mcp__filesystem_delete: deny
 ```
+
+For MCP tools, key the policy by the exact final registered name. The ordinary form is
+`mcp__<sanitized_server>_<sanitized_tool>`. A redundant `<server>_` prefix is removed from the tool name,
+so server `echo` tool `echo_it` is registered as `mcp__echo_it`. Names longer than 64 characters are
+capped with a deterministic hash suffix; use the final capped name rather than the uncapped pattern. See
+[MCP tool naming](./mcp-server-tool-authoring.md#naming-and-collision-domain).
 
 Resolution per tool call:
 
@@ -57,16 +63,18 @@ approval: { tier: "exec", override: true, reason: "Critical pattern detected" }
 
 `bash` uses this for critical destructive patterns such as `rm -rf /`, fork bombs, remote-fetch-then-execute, writes to `/etc/passwd`, and host shutdown commands. It also supports configured `bash.patterns` rules: `deny` is absolute, `prompt` forces a prompt, and `allow` explicitly allows the matching call at the `write` tier. Reasons appear in the approval prompt. In `yolo`, a bare critical override is ignored, but an explicit tool/user `prompt` or `deny` policy is still enforced.
 
+`bash.patterns` only feeds the `bash` tool's approval decision. The `eval` tool declares the `exec` tier and can spawn a shell via subprocess, so a `bash.patterns` `deny` rule does not apply to the same command run through `eval` — under `yolo`, that `exec` call resolves to `allow`. To gate the shell `eval` can reach, add a `tools.approval.eval` policy (`prompt` or `deny`) alongside `bash.patterns`.
+
 ### Computer safety
 
-The disabled-by-default [`computer` tool](./computer-use.md) chooses its tier from the call's `read_only` declaration:
+The disabled-by-default Eval [`computer` API](./computer-use.md) chooses its tier per call:
 
-- `read_only: true` uses `read`;
-- `read_only: false`, a missing field, malformed arguments, or any other value uses `exec`.
+- direct helpers (`computer.windows()`, `win.screenshot()`, `win.ax()`, `el.bounds()`, `computer.clipboard.read()`, …) use `read` when the invoked method is inspection-only and `exec` for input, focus, mutation, and `clipboard.write`; read calls also run under the worker's read-only guard;
+- `computer.run(fnOrCode, options)` uses `read` only for `read_only: true` (JavaScript trailing option or Python keyword); `read_only: false`, a missing field, malformed arguments, or any other value uses `exec`.
 
-The approval prompt shows `read-only` when applicable, followed by the submitted JavaScript (truncated to 2,000 characters by the standard formatter). `read_only` is a trust declaration enforced by the approval tier, not static analysis of the script.
+The approval prompt shows `read-only` when applicable, followed by the resolved JavaScript (truncated to 2,000 characters by the standard formatter). For `computer.run`, `read_only` is a trust declaration enforced by the approval tier, not static analysis of the script.
 
-Separately, provider-originated computer-use calls may carry `pendingSafetyChecks` metadata. Any pending check forces an interactive prompt regardless of yolo, per-tool `allow`, or an already approved `xd://` dispatch. The prompt lists each safety-check code, message, and sanitized/truncated data. Without an interactive UI, the call fails closed with `pending provider safety checks but no interactive UI is available`.
+Separately, provider-originated computer-use calls may carry `pendingSafetyChecks` metadata. Any pending check forces an interactive prompt regardless of yolo or per-tool `allow`. The prompt lists each safety-check code, message, and sanitized/truncated data. Without an interactive UI, the call fails closed with `pending provider safety checks but no interactive UI is available`.
 
 Tool approval does not authorize the underlying real-world action. On-screen text is untrusted and cannot override direct user instructions. Consequential actions still require point-of-risk confirmation of the exact target, scope, and values unless the user's direct message already authorized them.
 

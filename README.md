@@ -58,6 +58,7 @@ These are the bets this codebase actually implements. Each one is a named idea f
 
 - **Two-Speed Harness Evolution.** A session can *define a tool now* (JIT, ephemeral, gone when the session ends). A change that survives practice *and* hidden tests becomes a durable sibling plugin (AOT) and hot-reloads. We copy the split from [JIT-Agent](https://arxiv.org/abs/2608.25593); we do **not** train their 27B controller. Limit: live-model skill gains are not a README number until measured here.
 - **Two Independently Disableable Sections (D16).** **JIT** synthesizes a task-specialized harness from typed memory / planning / action / capability module templates (session-owned). **Improvement** runs on two horizons: short-term post-trajectory playbook candidates, and long-term archive cadence — both still pass Self-Harness before durable promote. Turn either off at load time: `IMPROVENESS_JIT=0`, `IMPROVENESS_IMPROVE=0`, or `IMPROVENESS_IMPROVE_SHORT` / `_LONG`. Defaults all on. Limit: flags are load-time in P0; mid-session toggle is P1.
+- **ModelTaste (D17/D18).** Host-agnostic validate-then-repair for model×tool contracts (`packages/improveness-modeltaste`). Strap via HostPort; DeepSeek + Qwen3 profiles; `IMPROVENESS_TASTE=0` fully unstraps. Inspired by Taste-style harness fixes — not a preference-product port. Live DeepSeek-class before/after still pending ledger row.
 - **Hierarchical Tool Catalog + Event Inject.** Tools are discoverable as namespace → group → tool (`improveness.catalog`). When the agent signals need (`improveness.emit` / `need_tool`), Improveness injects a tool reminder — TTSR-inspired, not a port of Oh My Pi TTSR. Optional capability hint mount only if JIT is on. Disable inject with `IMPROVENESS_EVENT_INJECT=0`.
 - **Live Ratchet.** Keep if better; unload if not. That is [Karpathy AutoResearch](https://github.com/karpathy/autoResearch) translated into Cordis: `prepare.py` is frozen physics, `train.py` is a sibling plugin, `git reset` is Fiber dispose. Limit: if a disposer is not invertible, we fail closed or ask for a restart — we do not pretend VS Code `deactivate` is unload.
 - **Frozen Physics.** Checker, permissions, model routes, Cordis loader, Improveness QA, and this plugin’s own bundle are kernel. [HSI](https://arxiv.org/html/2608.08466) calls this the frozen outer anchor. Stable ids are **package namespaces and paths**, not Cordis Fiber instance ids (`fiber-9f3` is a runtime handle, not a law). Limit: a human still has to widen network or destructive permissions.
@@ -150,6 +151,7 @@ IMPROVENESS_IMPROVE=0          # disable both improve horizons + promote
 IMPROVENESS_IMPROVE_SHORT=0    # post-trajectory only
 IMPROVENESS_IMPROVE_LONG=0     # archive cadence only
 IMPROVENESS_EVENT_INJECT=0     # no tool-reminder inject
+IMPROVENESS_TASTE=0            # disable ModelTaste repairs / agent RPC
 ```
 
 Details: [docs/methods/sections.md](docs/methods/sections.md) · [docs/methods/tool-catalog.md](docs/methods/tool-catalog.md).

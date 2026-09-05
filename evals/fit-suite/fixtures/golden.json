@@ -1,0 +1,72 @@
+[
+  {
+    "id": "string-array-paths",
+    "rawValid": false,
+    "trace": {
+      "tool": "read_many",
+      "args": {
+        "paths": "src/a.ts"
+      },
+      "schema": {
+        "properties": {
+          "paths": {
+            "type": "array"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "md-autolink-path",
+    "rawValid": false,
+    "trace": {
+      "tool": "read",
+      "args": {
+        "path": "[README.md](README.md)"
+      }
+    }
+  },
+  {
+    "id": "null-extra",
+    "rawValid": false,
+    "trace": {
+      "tool": "read",
+      "args": {
+        "path": "a.ts",
+        "extra": null
+      }
+    }
+  },
+  {
+    "id": "limit-without-offset",
+    "rawValid": false,
+    "trace": {
+      "tool": "read",
+      "args": {
+        "path": "a.ts",
+        "limit": 40
+      }
+    }
+  },
+  {
+    "id": "already-valid",
+    "rawValid": true,
+    "trace": {
+      "tool": "read",
+      "args": {
+        "path": "ok.ts"
+      }
+    }
+  },
+  {
+    "id": "validator-dump",
+    "rawValid": false,
+    "trace": {
+      "tool": "write",
+      "args": {
+        "path": "a.ts"
+      },
+      "validationError": "ZodError: expected string at path [\"content\"], received undefined"
+    }
+  }
+]

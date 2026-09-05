@@ -1,5 +1,11 @@
 # Implementation plan — Improveness as a DeepSeek Harness plugin
 
+Approved product contract (D15). Active wave: **ModelTaste + Hardening + Strong Release** (D17–D19).
+
+Authority gates: [`docs/STRONG_RELEASE.md`](docs/STRONG_RELEASE.md) · [`docs/PROJECT_HARDENING.md`](docs/PROJECT_HARDENING.md).
+
+**In this wave:** refresh parked OMP snapshot; ship `packages/improveness-modeltaste` (host-agnostic); thin DSH/OMP HostPort straps; private fit-suite + ≥1 live measured row; unstrap tests; no soft launch.
+
 Approved product contract (D15). Cursor plan files are not edited from here.
 
 ## Goal / north star

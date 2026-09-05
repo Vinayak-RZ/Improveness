@@ -12,6 +12,9 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 | Search step cap is 8 | `MAX_STEP_CAP = 8` in `search.ts` |
 | Playbook accepts still **stage** (do not silently rewrite overlay) | `search.test.ts` |
 | Plugin accepts apply to generated dir with rollback | `apply-snapshot` tests |
+| ModelTaste keyless fit-suite: repairs raise accept rate on golden tool-contract fixtures | `evals/fit-suite/`; `packages/improveness-modeltaste` |
+| ModelTaste is host-agnostic (no `plugins/` / `oh-my-pi/packages` imports) | import-graph fence in `qa.sh` |
+| `IMPROVENESS_TASTE=0` registers zero Taste tools/hooks | `dsh-plugin.test.ts` unstrap |
 
 ## After gates (code exists; live DSH optional)
 
@@ -25,6 +28,9 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 | Hierarchical catalog + event inject | `catalog.js`, `events.js` tests |
 | JIT M/P/A/C template synthesize (no free-form codegen) | `synthesize.js` tests |
 | Short-term / long-term improve drivers (still gated for durable) | `improve.test.ts` |
+| ModelTaste third section + agent RPC (inspect/analyze/propose/applyEphemeral) | `taste.js` + `dsh-plugin.test.ts` |
+| OMP HostPort attach/detach ModelProfile without writing `oh-my-pi/packages` | `p1-host-port.test.ts` |
+| Live ModelTaste before/after on DeepSeek-class via DSH | `IMPROVENESS_FIT_LIVE=1` + `CLAIM_LEDGER` live row (not yet filled) |
 
 ## Forbidden (do not put in README)
 

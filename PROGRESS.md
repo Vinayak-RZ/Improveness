@@ -2,51 +2,32 @@
 
 ## Current phase
 
-D16 **two-section split** — **complete** (local qa + CI green).
+**ModelTaste + Hardening + Strong Release** — package, straps, fit-suite, and keyless hardening gates are green. Live DeepSeek-class measured row and live DSH smoke remain open (need API keys).
 
 ## Latest
 
 | Item | Status |
 |------|--------|
-| D16 ADR + sections method | done |
-| Section flags + ToolCatalog + apply wiring | done |
-| Event inject | done |
-| JIT M/P/A/C synthesizer | done |
-| Short/long improve drivers + RPC | done |
-| Method docs + claim ledger + SURFACES | done |
-| README + EXTENSIVE | done |
-| `qa.sh` | green (94 tests) |
-| CI `overlay.yml` | green — [push run](https://github.com/Vinayak-RZ/Improveness/actions/runs/33897801595) · [PR run](https://github.com/Vinayak-RZ/Improveness/actions/runs/33897819029) |
-| Draft PR | [#9](https://github.com/Vinayak-RZ/Improveness/pull/9) |
+| D17–D19 ADRs + STRONG_RELEASE / PROJECT_HARDENING | done |
+| OMP snapshot refresh + SNAPSHOT.md | done |
+| `packages/improveness-modeltaste` (profiles, repairs, dialects, import fence) | done |
+| DSH `IMPROVENESS_TASTE` thin strap + agent RPC + unstrap / dispose tests | done |
+| OMP HostPort attach/detach + Qwen3 strap test | done |
+| Private fit-suite keyless + demo.sh | done |
+| Packaged runner + `private: false` | done |
+| Claim-honesty + taste-secrets qa findings | done |
+| Skip-gated `DSH_LIVE_SMOKE` driver + CI step + `.env.example` | done |
+| Live DSH smoke green once | **open** (env keys) |
+| Live fit ledger row (`IMPROVENESS_FIT_LIVE=1`) | **open** (env keys) |
+| STRONG_RELEASE P0 | **RED** until live row |
 
-Earlier mid-branch push failed on broken link to `tool-catalog.md` before that file landed; fixed by docs commit.
+## Remaining for strong release
 
-## Completed phases
-
-### D15 plugin
-
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| 0–N + P1 | DSH plugin + OMP HostPort | done |
-
-### D16 two-section
-
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| 0 | D16 ADR, sections.md | done |
-| A | Flags + hierarchical catalog + inspect | done |
-| B | SessionEventBus + tool inject | done |
-| C | JitTaskSynthesizer M/P/A/C | done |
-| D | Short + long improve drivers | done |
-| V | README, EXTENSIVE, qa.sh, CI | done |
-
-## Remaining
-
-- Live DSH smoke (`DSH_LIVE_SMOKE=1`)
-- Packaged Bun runner copy into bundle
-- Measured live-model gains (not claimed)
-- D16 P1: runtime section toggle, OMP catalog parity
+1. `DSH_LIVE_SMOKE=1` green once with real credentials
+2. `IMPROVENESS_FIT_LIVE=1` before/after → CLAIM_LEDGER live row with delta > 0
+3. Human sign-off on STRONG_RELEASE.md
+4. Marketing only after P0 green
 
 ## Blockers
 
-None.
+- Live API credentials for DeepSeek-class fit campaign (and optional DSH smoke)

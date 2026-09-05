@@ -1,19 +1,34 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "bun:test";
 
-const modelRoles = readFileSync(
-  join(import.meta.dir, "../../../oh-my-pi/packages/coding-agent/src/config/model-roles.ts"),
-  "utf8",
+const repoRoot = join(import.meta.dir, "../../..");
+const modelRolesPath = join(
+  repoRoot,
+  "oh-my-pi/packages/coding-agent/src/config/model-roles.ts",
 );
+const debuggerAgent = join(repoRoot, "harness/omp/overlay/.omp/agents/debugger.md");
+const evolverAgent = join(repoRoot, "harness/omp/overlay/.omp/agents/evolver.md");
 
-describe("OMP model roles", () => {
-  test("ModelRole union and MODEL_ROLE_IDS include hidden debugger and evolver", () => {
-    expect(modelRoles).toMatch(/\|\s*"debugger"/);
-    expect(modelRoles).toMatch(/\|\s*"evolver"/);
-    expect(modelRoles).toContain('"debugger"');
-    expect(modelRoles).toContain('"evolver"');
-    expect(modelRoles).toMatch(/debugger:[\s\S]*hidden:\s*true/);
-    expect(modelRoles).toMatch(/evolver:[\s\S]*hidden:\s*true/);
+describe("OMP model roles + Improveness agents", () => {
+  test("parked OMP still ships model-roles.ts as a frozen surface", () => {
+    expect(existsSync(modelRolesPath)).toBe(true);
+    const modelRoles = readFileSync(modelRolesPath, "utf8");
+    expect(modelRoles).toContain("export type ModelRole");
+    expect(modelRoles).toContain("MODEL_ROLE_IDS");
+    // Upstream OMP 18.x dropped built-in debugger/evolver roles; Improveness must not require them.
+    expect(modelRoles).not.toMatch(/\|\s*"debugger"/);
+    expect(modelRoles).not.toMatch(/\|\s*"evolver"/);
+  });
+
+  test("Improveness overlay still defines debugger and evolver agents", () => {
+    expect(existsSync(debuggerAgent)).toBe(true);
+    expect(existsSync(evolverAgent)).toBe(true);
+    const debuggerMd = readFileSync(debuggerAgent, "utf8");
+    const evolverMd = readFileSync(evolverAgent, "utf8");
+    expect(debuggerMd).toMatch(/name:\s*debugger/);
+    expect(evolverMd).toMatch(/name:\s*evolver/);
+    expect(debuggerMd).toContain("@debugger");
+    expect(evolverMd).toContain("@evolver");
   });
 });

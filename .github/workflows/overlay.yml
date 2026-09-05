@@ -5,6 +5,9 @@ on:
     paths:
       - "harness/omp/**"
       - "plugins/dsh-improveness/**"
+      - "packages/improveness-modeltaste/**"
+      - "evals/fit-suite/**"
+      - "docs/**"
       - ".github/workflows/overlay.yml"
       - "IMPLEMENTATION_PLAN.md"
       - "DECISIONS.md"
@@ -16,6 +19,9 @@ on:
     paths:
       - "harness/omp/**"
       - "plugins/dsh-improveness/**"
+      - "packages/improveness-modeltaste/**"
+      - "evals/fit-suite/**"
+      - "docs/**"
       - ".github/workflows/overlay.yml"
       - "IMPLEMENTATION_PLAN.md"
       - "DECISIONS.md"
@@ -66,3 +72,10 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OMP_ANTHROPIC_OAUTH_CLIENT_ID: ${{ secrets.OMP_ANTHROPIC_OAUTH_CLIENT_ID }}
         run: bun harness/omp/drivers/live-session-smoke.ts
+      - name: Skip-gated DSH profile smoke
+        env:
+          DSH_LIVE_SMOKE: ${{ vars.DSH_LIVE_SMOKE }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: bun harness/omp/drivers/dsh-live-smoke.ts
