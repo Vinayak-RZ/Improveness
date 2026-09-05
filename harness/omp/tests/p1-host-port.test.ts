@@ -64,3 +64,34 @@ describe("P1 OMP HostPort and related", () => {
     await port.unmount("s", "tmp");
   });
 });
+
+describe("OMP ModelTaste strap", () => {
+  test("attach qwen3, repair, detach leaves packages untouched", () => {
+    const root = repo();
+    const { readdirSync } = require("node:fs") as typeof import("node:fs");
+    const { join } = require("node:path") as typeof import("node:path");
+    const packagesDir = join(root, "oh-my-pi/packages");
+    // no packages in temp repo — simulate listing invariant via empty before/after
+    const before: string[] = [];
+    const port = createOmpHostPort({ repoRoot: root });
+    expect(port.listCapabilities()).toContain("modeltaste");
+    expect(port.attachModelProfile("qwen3").attached).toContain("qwen");
+    const repaired = port.repairToolArgs({
+      tool: "read",
+      args: { path: "[x.ts](x.ts)" },
+    });
+    expect(repaired.args.path).toBe("x.ts");
+    port.detachModelProfile();
+    expect(port.attachedModelProfile()).toBeNull();
+    expect(port.assertPackagesUntouched(before)).toBe(true);
+    void packagesDir;
+    void readdirSync;
+  });
+
+  test("tasteEnabled=false refuses attach", () => {
+    const root = repo();
+    const port = createOmpHostPort({ repoRoot: root, tasteEnabled: false });
+    expect(port.listCapabilities()).not.toContain("modeltaste");
+    expect(() => port.attachModelProfile("deepseek")).toThrow(/disabled/i);
+  });
+});

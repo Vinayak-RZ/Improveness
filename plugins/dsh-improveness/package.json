@@ -1,7 +1,7 @@
 {
   "name": "dsh-improveness",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "description": "Improveness as a DeepSeek Harness bundle plugin (dsh.bundle) — two-speed self-mod with a frozen checker.",
   "license": "MIT",

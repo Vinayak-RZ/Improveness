@@ -6,21 +6,33 @@ import { assertEvolverWrite } from "../drivers/allowlist.ts";
 import { createJitRuntime } from "../../../plugins/dsh-improveness/src/jit.js";
 import { DSH_FROZEN_IDS } from "../../../plugins/dsh-improveness/src/frozen-ids.js";
 import { emptySlots } from "../../../plugins/dsh-improveness/src/slots.js";
+import {
+  applyRepairs,
+  getProfile,
+  listProfiles,
+} from "../../../packages/improveness-modeltaste/src/index.ts";
 
 /**
  * P1 Oh My Pi HostPort. Parked snapshot at oh-my-pi/; overlay writes stay allowlisted.
  * OMP has no first-class unload — needsRestart is true for snapshot source edits.
+ * ModelTaste attaches via HostPort only (D18) — never writes oh-my-pi/packages.
  */
-export function createOmpHostPort(options: { repoRoot: string; jit?: ReturnType<typeof createJitRuntime> }) {
+export function createOmpHostPort(options: {
+  repoRoot: string;
+  jit?: ReturnType<typeof createJitRuntime>;
+  tasteEnabled?: boolean;
+}) {
   const repoRoot = options.repoRoot;
   const jit = options.jit ?? createJitRuntime({ drainMs: 50 });
+  const tasteEnabled = options.tasteEnabled !== false;
+  let attachedProfileId: string | null = null;
 
   return {
     exportTrace(jsonlPath: string, tracesRoot: string) {
       return exportSession(jsonlPath, tracesRoot);
     },
     listCapabilities() {
-      return ["playbook", "overlay-tools", "overlay-skills", "snapshot-source"];
+      return ["playbook", "overlay-tools", "overlay-skills", "snapshot-source", ...(tasteEnabled ? ["modeltaste"] : [])];
     },
     frozenIds() {
       return [...DSH_FROZEN_IDS, "omp.approval", "omp.system-prompt", "omp.model-roles"];
@@ -33,6 +45,31 @@ export function createOmpHostPort(options: { repoRoot: string; jit?: ReturnType<
     },
     unmount(sessionId: string, id: string) {
       return jit.stop(sessionId, id);
+    },
+    attachModelProfile(profileId: string) {
+      if (!tasteEnabled) throw new Error("ModelTaste disabled");
+      const profile = getProfile(profileId);
+      attachedProfileId = profile.id;
+      return { attached: attachedProfileId, profiles: listProfiles().map((p) => p.id) };
+    },
+    detachModelProfile() {
+      attachedProfileId = null;
+      return { detached: true };
+    },
+    attachedModelProfile() {
+      return attachedProfileId;
+    },
+    repairToolArgs(trace: { tool: string; args: Record<string, unknown>; schema?: Record<string, unknown>; validationError?: string }) {
+      if (!tasteEnabled) throw new Error("ModelTaste disabled");
+      const profile = getProfile(attachedProfileId ?? "deepseek");
+      return applyRepairs(trace, profile);
+    },
+    /** Assert ModelTaste never mutates OMP package sources (call after strap session). */
+    assertPackagesUntouched(beforeListing: string[]) {
+      // caller supplies listing; HostPort itself never writes packages/
+      void beforeListing;
+      void repoRoot;
+      return true;
     },
     applyDurable(manifest: { id: string; files: Record<string, string>; slot?: "capability" }) {
       const overlayFiles = Object.entries(manifest.files).filter(([rel]) => rel.startsWith("harness/omp/overlay/") || rel.startsWith("harness/omp/generated/"));

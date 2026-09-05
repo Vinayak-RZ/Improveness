@@ -1,0 +1,12 @@
+{
+  "name": "@improveness/modeltaste",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Host-agnostic ModelTaste: profiles, validate-then-repair, dialects (D17/D18)",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": ["src", "README.md"]
+}

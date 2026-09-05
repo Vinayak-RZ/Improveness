@@ -6,6 +6,7 @@ import { createCatalog } from "./catalog.js";
 import { createEventBus } from "./events.js";
 import { createSynthesizer } from "./synthesize.js";
 import { callCore } from "./core-client.js";
+import { createTasteRuntime, TasteError } from "./taste.js";
 
 /**
  * Cordis apply for dsh-improveness.
@@ -34,6 +35,7 @@ export function apply(ctx = {}) {
         }
       : undefined,
   });
+  const taste = createTasteRuntime({ enabled: sections.taste });
 
   const tools = new Map();
 
@@ -79,7 +81,17 @@ export function apply(ctx = {}) {
     register("improveness.emit", (event) => bus.emit(event ?? {}));
   }
 
+  if (sections.taste) {
+    register("improveness.taste.inspect", () => taste.inspect());
+    register("improveness.taste.analyze", (trace) => taste.analyze(trace ?? {}));
+    register("improveness.taste.proposeRepair", (trace) => taste.proposeRepair(trace ?? {}));
+    register("improveness.taste.applyEphemeral", (trace) => taste.applyEphemeral(trace ?? {}));
+    register("improveness.taste.attach", (p = {}) => taste.attach(p.profileId ?? p.id ?? "deepseek"));
+    register("improveness.taste.detach", () => taste.detach());
+  }
+
   const dispose = () => {
+    taste.detach();
     jit.disposeAll(sessionId);
     for (const name of tools.keys()) ctx.tools?.unregister?.(name);
     tools.clear();
@@ -91,4 +103,13 @@ export function apply(ctx = {}) {
   return dispose;
 }
 
-export { createDshHostPort, createJitRuntime, parseSections, createCatalog, createEventBus, createSynthesizer };
+export {
+  createDshHostPort,
+  createJitRuntime,
+  parseSections,
+  createCatalog,
+  createEventBus,
+  createSynthesizer,
+  createTasteRuntime,
+  TasteError,
+};

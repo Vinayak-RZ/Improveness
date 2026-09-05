@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { apply } from "../../../plugins/dsh-improveness/src/apply.js";
+import { createTasteRuntime, TasteError } from "../../../plugins/dsh-improveness/src/taste.js";
 import { createJitRuntime } from "../../../plugins/dsh-improveness/src/jit.js";
 import { isFrozenId, looksLikeFiberInstanceId } from "../../../plugins/dsh-improveness/src/frozen-ids.js";
 import { claimSlot, emptySlots } from "../../../plugins/dsh-improveness/src/slots.js";
@@ -104,6 +105,7 @@ describe("sections flags", () => {
     expect(s.improvement.shortTerm).toBe(true);
     expect(s.improvement.longTerm).toBe(true);
     expect(s.eventInject).toBe(true);
+    expect(s.taste).toBe(true);
   });
 
   test("IMPROVENESS_JIT=0 disables jit tools", () => {
@@ -253,5 +255,62 @@ describe("JIT synthesizer", () => {
     apply(ctx);
     const result = await ctx.tools.get("improveness.synthesize")({ taskId: "via-tool" });
     expect(result.mounted.length).toBe(4);
+  });
+});
+
+describe("ModelTaste section", () => {
+  test("IMPROVENESS_TASTE=0 unstraps — no taste tools or hooks", () => {
+    const s = parseSections({ IMPROVENESS_TASTE: "0" });
+    expect(s.taste).toBe(false);
+    expect(enabledToolNames(s).some((n) => n.startsWith("improveness.taste."))).toBe(false);
+    const ctx = fakeCtx({ IMPROVENESS_TASTE: "0" });
+    apply(ctx);
+    expect(ctx.tools.names().some((n) => n.includes("taste"))).toBe(false);
+  });
+
+  test("agent RPC attach analyze propose applyEphemeral detach", () => {
+    const ctx = fakeCtx();
+    apply(ctx);
+    const attach = ctx.tools.get("improveness.taste.attach");
+    const analyze = ctx.tools.get("improveness.taste.analyze");
+    const propose = ctx.tools.get("improveness.taste.proposeRepair");
+    const ephemeral = ctx.tools.get("improveness.taste.applyEphemeral");
+    const detach = ctx.tools.get("improveness.taste.detach");
+    const inspect = ctx.tools.get("improveness.taste.inspect");
+    expect(attach).toBeTruthy();
+    expect(attach({ profileId: "qwen3" }).attached).toContain("qwen");
+    const trace = {
+      tool: "read_many",
+      args: { paths: "a.ts" },
+      schema: { properties: { paths: { type: "array" } } },
+    };
+    expect(analyze(trace).failures.length).toBeGreaterThan(0);
+    const repaired = propose(trace);
+    expect(repaired.args.paths).toEqual(["a.ts"]);
+    expect(ephemeral(trace).teachback.length).toBeGreaterThan(0);
+    expect(inspect().hooksRegistered).toBe(1);
+    expect(detach().detached).toBe(true);
+    expect(inspect().hooksRegistered).toBe(0);
+  });
+
+  test("TasteError is structured when Taste is disabled", () => {
+    const taste = createTasteRuntime({ enabled: false });
+    try {
+      taste.attach("deepseek");
+      throw new Error("expected TasteError");
+    } catch (err) {
+      expect(err).toBeInstanceOf(TasteError);
+      expect(err.code).toBe("TASTE_DISABLED");
+      expect(err.toJSON().ok).toBe(false);
+    }
+  });
+
+  test("dispose clears Taste tools — no Cordis residue", () => {
+    const ctx = fakeCtx();
+    const dispose = apply(ctx);
+    expect(ctx.tools.names().some((n) => n.startsWith("improveness.taste."))).toBe(true);
+    dispose();
+    expect(ctx.tools.names().some((n) => n.includes("taste"))).toBe(false);
+    expect(ctx.tools.names()).toEqual([]);
   });
 });
