@@ -74,7 +74,7 @@ Authority: [DECISIONS.md](../DECISIONS.md) D17–D19 · [CLAIM_LEDGER.md](CLAIM_
 ## 11. Launch checklist (only after P0 above)
 
 - [x] README + topics updated
-- [ ] Draft → ready PR
+- [x] Draft PR opened (ready only after live ledger row)
 - [ ] Awesome-list / HN / Reddit **only after** this file’s P0 sign-off
 
 ## 12. Kill criteria
