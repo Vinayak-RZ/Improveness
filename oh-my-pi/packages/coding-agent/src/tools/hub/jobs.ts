@@ -7,12 +7,14 @@
 import type { AgentToolResult } from "@oh-my-pi/pi-agent-core";
 import type { Component } from "@oh-my-pi/pi-tui";
 import { Text } from "@oh-my-pi/pi-tui";
-import type { AsyncJob, AsyncJobManager } from "../../async";
+import type { AsyncJob, AsyncJobManager, AsyncJobType } from "../../async";
 import { settings } from "../../config/settings";
 import type { RenderResultOptions } from "../../extensibility/custom-tools/types";
 import { shimmerEnabled, shimmerText } from "../../modes/theme/shimmer";
 import type { Theme } from "../../modes/theme/theme";
+import { renderStructuredJson } from "../../session/async-job-delivery";
 import { USER_INTERRUPT_LABEL } from "../../session/messages";
+import type { StructuredSubagentOutput } from "../../task/types";
 import { Ellipsis, Hasher, type RenderCache, renderStatusLine, renderTreeList, truncateToWidth } from "../../tui";
 import type { ToolSession } from "..";
 import {
@@ -87,6 +89,12 @@ export function visibleJobs(manager: AsyncJobManager, ids: string[], ownerId: st
  * that activity instead of implying the system is quiet. Existence is
  * already public via the peer roster, so listing ids here leaks nothing new;
  * job *control* stays owner-scoped.
+ *
+ * Reporting deliberately uses the claimed `status`, not the session-corroborated
+ * `registry.isRunning` used by the wait-sustaining gates: a ref that claims
+ * `running` with no live turn is exactly the stale entry an operator must see
+ * here to cancel it (#8634). Hiding it would match the badge count to nothing
+ * and remove the only discovery path for the id.
  */
 export function runningAgentsOutsideJobs(session: ToolSession): AgentActivitySnapshot[] {
 	const registry = session.agentRegistry;
@@ -113,6 +121,7 @@ export function runningAgentsOutsideJobs(session: ToolSession): AgentActivitySna
 			...(ref.parentId ? { parentId: ref.parentId } : {}),
 			...(ref.activity ? { activity: ref.activity } : {}),
 			ageMs: Math.max(0, now - ref.createdAt),
+			live: registry.isRunning(ref),
 		});
 	}
 	return out;
@@ -124,21 +133,28 @@ function describeAgents(agents: AgentActivitySnapshot[]): string[] {
 	for (const agent of agents) {
 		const parent = agent.parentId ? ` (spawned by \`${agent.parentId}\`)` : "";
 		const activity = agent.activity ? ` — ${agent.activity}` : "";
-		lines.push(`- \`${agent.id}\`${parent} — up ${formatDuration(agent.ageMs)}${activity}`);
+		const stale = agent.live ? "" : " — no turn in flight (stale registration?)";
+		lines.push(`- \`${agent.id}\`${parent} — up ${formatDuration(agent.ageMs)}${activity}${stale}`);
 	}
 	lines.push("", "These agents have no job entry; message them via `hub` send, transcripts at `history://<id>`.");
+	if (agents.some(agent => !agent.live)) {
+		lines.push(
+			"An agent with no turn in flight cannot answer a message and never satisfies a bare `wait`; clear it with `hub` cancel.",
+		);
+	}
 	return lines;
 }
 
 interface TrackedJobLike {
 	id: string;
-	type: "bash" | "task";
+	type: AsyncJobType;
 	status: string;
 	label: string;
 	startTime: number;
 	latestDetails?: Record<string, unknown>;
 	resultText?: string;
 	errorText?: string;
+	structured?: StructuredSubagentOutput;
 }
 
 export function snapshotJobs(session: ToolSession, jobs: TrackedJobLike[]): JobSnapshot[] {
@@ -146,6 +162,7 @@ export function snapshotJobs(session: ToolSession, jobs: TrackedJobLike[]): JobS
 	return jobs.map(j => {
 		const current = session.asyncJobManager?.getJob(j.id);
 		const latest = current ?? j;
+		const resultConsumed = session.asyncJobManager?.isJobResultConsumed(latest.id) === true;
 		let resolvedModel: string | undefined;
 		if (latest.type === "task") {
 			const progressValue = latest.latestDetails?.progress;
@@ -174,8 +191,11 @@ export function snapshotJobs(session: ToolSession, jobs: TrackedJobLike[]): JobS
 			label: latest.label,
 			durationMs: Math.max(0, now - latest.startTime),
 			...(resolvedModel ? { resolvedModel } : {}),
-			...(latest.resultText ? { resultText: latest.resultText } : {}),
-			...(latest.errorText ? { errorText: latest.errorText } : {}),
+			...(!resultConsumed && latest.resultText ? { resultText: latest.resultText } : {}),
+			...(!resultConsumed && latest.errorText ? { errorText: latest.errorText } : {}),
+			...(!resultConsumed && latest.structured
+				? { structured: latest.structured, agentUrlId: current?.agentId ?? latest.id }
+				: {}),
 		};
 	});
 }
@@ -196,8 +216,9 @@ export function buildJobResult(
 		return true;
 	});
 	const jobResults = snapshotJobs(session, uniqueJobs);
+	const alreadyConsumed = new Set(jobResults.filter(job => manager.isJobResultConsumed(job.id)).map(job => job.id));
 
-	manager.acknowledgeDeliveries(jobResults.filter(j => j.status !== "running").map(j => j.id));
+	manager.consumeJobResults(jobResults.filter(j => j.status !== "running").map(j => j.id));
 
 	const completed = jobResults.filter(j => j.status !== "running");
 	const running = jobResults.filter(j => j.status === "running");
@@ -215,11 +236,34 @@ export function buildJobResult(
 		for (const j of completed) {
 			lines.push(`### ${j.id} [${j.type}] — ${j.status}`);
 			lines.push(`Label: ${j.label}`);
+			if (j.status !== "cancelled") {
+				lines.push(
+					alreadyConsumed.has(j.id)
+						? "Delivery: already delivered or recovered."
+						: "Delivery: not auto-delivered; recovered by this snapshot.",
+				);
+			}
 			if (j.resultText) {
 				lines.push("```", j.resultText, "```");
 			}
 			if (j.errorText) {
 				lines.push(`Error: ${j.errorText}`);
+			}
+			if (j.structured) {
+				const hasData = Object.hasOwn(j.structured, "data");
+				let header = `Structured output: schema ${j.structured.status}`;
+				if (j.structured.error) header += `: ${j.structured.error}`;
+				// Valid results never inline the JSON here — it duplicates the
+				// `<output>` block above (or breaks mid-JSON once truncated at
+				// 4k), which contradicts async-result.md's contract of pointing
+				// to `agent://<id>` instead (PR #10625 review).
+				if (hasData)
+					header += `; full payload at agent://${j.agentUrlId}, fields via agent://${j.agentUrlId}?q=.<field>`;
+				lines.push(header);
+				if (j.structured.status !== "valid") {
+					const block = renderStructuredJson(j.structured);
+					if (block) lines.push("```json", block, "```");
+				}
 			}
 			lines.push("");
 		}
@@ -690,8 +734,12 @@ export function jobsRenderResult(
 								maxCollapsed: COLLAPSED_LIST_LIMIT,
 								itemType: "agent",
 								renderItem: agent => {
-									const icon = formatStatusIcon("running", uiTheme, options.spinnerFrame);
-									const badge = formatBadge("agent", "accent", uiTheme);
+									const icon = agent.live
+										? formatStatusIcon("running", uiTheme, options.spinnerFrame)
+										: formatStatusIcon("warning", uiTheme);
+									const badge = agent.live
+										? formatBadge("agent", "accent", uiTheme)
+										: formatBadge("agent · no turn", "warning", uiTheme);
 									const gist = agent.activity
 										? ` ${uiTheme.fg("toolOutput", truncateToWidth(replaceTabs(agent.activity), LABEL_MAX_WIDTH, Ellipsis.Unicode))}`
 										: "";

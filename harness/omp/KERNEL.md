@@ -13,7 +13,7 @@ Stable kernel ids are **row ids / package namespaces / routes / owned paths**, n
 | `oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md` | AHE: prompt-only evolution missed the gain (−2.3 pp). Not an improvement surface. |
 | `oh-my-pi/packages/coding-agent/src/system-prompt.ts` | Assembles the system prompt; rewriting it is a kernel change |
 | `oh-my-pi/packages/coding-agent/src/tools/approval.ts` | Permission kernel. Widening needs a human |
-| `oh-my-pi/packages/coding-agent/src/config/model-roles.ts` | Model-role union and defaults (cannot swap to a stronger model mid-loop) |
+| `oh-my-pi/packages/coding-agent/src/config/model-roles.ts` | Model-role union and defaults (cannot swap to a stronger model mid-loop). OMP 18+ has no built-in `debugger`/`evolver` roles — Improveness agents live under `harness/omp/overlay/.omp/agents/` |
 | `oh-my-pi/packages/coding-agent/src/session/role-models.ts` | Role → model resolution |
 | `oh-my-pi/packages/coding-agent/src/config/settings-schema.ts` | Settings schema including `modelRoles` |
 

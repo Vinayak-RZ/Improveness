@@ -8,6 +8,7 @@ import { ModelRegistry } from "@oh-my-pi/pi-coding-agent/config/model-registry";
 import { Settings } from "@oh-my-pi/pi-coding-agent/config/settings";
 import { AgentSession } from "@oh-my-pi/pi-coding-agent/session/agent-session";
 import { AuthStorage } from "@oh-my-pi/pi-coding-agent/session/auth-storage";
+import { SKILL_PROMPT_MESSAGE_TYPE } from "@oh-my-pi/pi-coding-agent/session/messages";
 import { SessionManager } from "@oh-my-pi/pi-coding-agent/session/session-manager";
 import {
 	AUTO_THINKING,
@@ -372,6 +373,105 @@ describe("AgentSession role model thinking behavior", () => {
 		expect(session.thinkingLevel).toBe(Effort.Medium);
 		expect(session.autoResolvedThinkingLevel()).toBe(Effort.Medium);
 		expect(session.agent.state.thinkingLevel).toBe(Effort.Medium);
+	});
+
+	it("does not record late classifier usage in a replacement session after abort", async () => {
+		const model = getAnthropicModelOrThrow("claude-sonnet-4-5");
+		await createSession({
+			initialModelId: model.id,
+			initialThinkingLevel: Effort.High,
+			modelRoles: { default: `${model.provider}/${model.id}` },
+		});
+		vi.spyOn(session.agent, "prompt").mockResolvedValue(undefined);
+		const classifierStarted = Promise.withResolvers<void>();
+		const releaseClassifier = Promise.withResolvers<void>();
+		vi.spyOn(autoThinkingClassifier, "classifyDifficulty").mockImplementation(async (_prompt, options) => {
+			classifierStarted.resolve();
+			await releaseClassifier.promise;
+			options.onUsage?.({
+				role: "smol",
+				api: model.api,
+				provider: model.provider,
+				model: model.id,
+				stopReason: "stop",
+				usage: {
+					input: 3,
+					output: 1,
+					cacheRead: 0,
+					cacheWrite: 0,
+					totalTokens: 4,
+					cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
+				},
+			});
+			return Effort.Low;
+		});
+
+		session.setThinkingLevel(AUTO_THINKING);
+		const prompt = session.prompt("Classify this turn");
+		await classifierStarted.promise;
+		await session.abort();
+		await session.newSession();
+		releaseClassifier.resolve();
+		await prompt;
+
+		expect(session.sessionManager.getEntries().some(entry => entry.type === "model_usage")).toBe(false);
+	});
+
+	it("classifies a user-invoked /skill turn under auto (resolves concrete effort)", async () => {
+		const model = getAnthropicModelOrThrow("claude-sonnet-4-5");
+		await createSession({
+			initialModelId: model.id,
+			initialThinkingLevel: Effort.High,
+			modelRoles: { default: `${model.provider}/${model.id}` },
+		});
+		const promptSpy = vi.spyOn(session.agent, "prompt").mockResolvedValue(undefined);
+		const classifierSpy = vi.spyOn(autoThinkingClassifier, "classifyDifficulty").mockResolvedValue(Effort.Medium);
+
+		session.setThinkingLevel(AUTO_THINKING);
+		expect(session.autoResolvedThinkingLevel()).toBeUndefined();
+
+		// A /skill:<name> invocation reaches the session as a user-attributed
+		// custom message, not a `user` role. It is still a real user turn.
+		await session.promptCustomMessage({
+			customType: SKILL_PROMPT_MESSAGE_TYPE,
+			content: "Expanded SKILL.md body: implement the focused parser fix",
+			display: true,
+			details: { name: "implement", path: "/skills/implement/SKILL.md", args: "the parser" },
+			attribution: "user",
+		});
+
+		expect(classifierSpy).toHaveBeenCalledTimes(1);
+		expect(classifierSpy.mock.calls[0]?.[0]).toContain("implement the focused parser fix");
+		expect(promptSpy).toHaveBeenCalledTimes(1);
+		expect(session.configuredThinkingLevel()).toBe(AUTO_THINKING);
+		expect(session.thinkingLevel).toBe(Effort.Medium);
+		expect(session.autoResolvedThinkingLevel()).toBe(Effort.Medium);
+		expect(session.agent.state.thinkingLevel).toBe(Effort.Medium);
+	});
+
+	it("does not classify an agent-originated skill custom message under auto", async () => {
+		const model = getAnthropicModelOrThrow("claude-sonnet-4-5");
+		await createSession({
+			initialModelId: model.id,
+			initialThinkingLevel: Effort.High,
+			modelRoles: { default: `${model.provider}/${model.id}` },
+		});
+		vi.spyOn(session.agent, "prompt").mockResolvedValue(undefined);
+		const classifierSpy = vi.spyOn(autoThinkingClassifier, "classifyDifficulty").mockResolvedValue(Effort.Medium);
+
+		session.setThinkingLevel(AUTO_THINKING);
+
+		// Autoloaded / agent-originated skill injections must stay excluded.
+		await session.promptCustomMessage({
+			customType: SKILL_PROMPT_MESSAGE_TYPE,
+			content: "Autoloaded skill body",
+			display: false,
+			details: { name: "autoload", path: "/skills/autoload/SKILL.md" },
+			attribution: "agent",
+		});
+
+		expect(classifierSpy).not.toHaveBeenCalled();
+		expect(session.autoResolvedThinkingLevel()).toBeUndefined();
 	});
 
 	it("keeps auto active on resume (pending until the next turn reclassifies)", async () => {

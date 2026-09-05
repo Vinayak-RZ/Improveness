@@ -40,10 +40,28 @@ fi
 echo "== git diff --check =="
 git diff --check -- harness/omp plugins/dsh-improveness IMPLEMENTATION_PLAN.md DECISIONS.md PROGRESS.md LEARNING.md README.md LICENSE
 
-echo "== system-prompt files must be clean =="
-if [[ -n "$(git diff -- oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md oh-my-pi/packages/coding-agent/src/system-prompt.ts)" ]]; then
-  echo "system prompt files are dirty" >&2
-  exit 1
+echo "== system-prompt files must stay Improveness-free =="
+# D19: OMP snapshot refresh rewrites oh-my-pi/ wholesale, so empty `git diff` is the
+# wrong fence mid-refresh. Kernel rule: Improveness must never author these files.
+for rel in \
+  oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md \
+  oh-my-pi/packages/coding-agent/src/system-prompt.ts
+do
+  if [[ ! -f "$rel" ]]; then
+    echo "missing kernel file: $rel" >&2
+    exit 1
+  fi
+  if rg -qi 'improveness' "$rel"; then
+    echo "Improveness must not edit system prompt: $rel" >&2
+    exit 1
+  fi
+done
+# On a clean tree (CI after commit), still require no local drift vs HEAD.
+if [[ -z "$(git status --porcelain -- oh-my-pi/SNAPSHOT.md)" ]]; then
+  if [[ -n "$(git diff -- oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md oh-my-pi/packages/coding-agent/src/system-prompt.ts)" ]]; then
+    echo "system prompt files are dirty without a SNAPSHOT.md refresh in progress" >&2
+    exit 1
+  fi
 fi
 
 echo "== at least 20 eval fixtures =="

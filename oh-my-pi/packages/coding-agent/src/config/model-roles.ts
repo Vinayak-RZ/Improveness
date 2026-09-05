@@ -19,19 +19,7 @@ export function formatModelRoleAlias(role: string): string {
 	return `${MODEL_ROLE_ALIAS_PREFIX}${role}`;
 }
 
-export type ModelRole =
-	| "default"
-	| "smol"
-	| "slow"
-	| "vision"
-	| "plan"
-	| "designer"
-	| "commit"
-	| "tiny"
-	| "task"
-	| "advisor"
-	| "debugger"
-	| "evolver";
+export type ModelRole = "default" | "smol" | "slow" | "vision" | "plan" | "commit" | "tiny" | "task" | "advisor";
 
 export interface ModelRoleInfo {
 	tag?: string;
@@ -47,13 +35,10 @@ export const MODEL_ROLES: Record<ModelRole, ModelRoleInfo> = {
 	slow: { tag: "SLOW", name: "Thinking", color: "accent" },
 	vision: { tag: "VISION", name: "Vision", color: "error" },
 	plan: { tag: "PLAN", name: "Architect", color: "muted" },
-	designer: { tag: "DESIGNER", name: "Designer", color: "muted" },
 	commit: { tag: "COMMIT", name: "Commit", color: "dim" },
 	tiny: { tag: "TINY", name: "Tiny", color: "dim" },
 	task: { tag: "TASK", name: "Subtask", color: "muted" },
 	advisor: { tag: "ADVISOR", name: "Advisor", color: "accent" },
-	debugger: { tag: "DEBUGGER", name: "Debugger", color: "muted", hidden: true },
-	evolver: { tag: "EVOLVER", name: "Evolver", color: "muted", hidden: true },
 };
 
 export const MODEL_ROLE_IDS: ModelRole[] = [
@@ -62,13 +47,10 @@ export const MODEL_ROLE_IDS: ModelRole[] = [
 	"slow",
 	"vision",
 	"plan",
-	"designer",
 	"commit",
 	"tiny",
 	"task",
 	"advisor",
-	"debugger",
-	"evolver",
 ];
 
 export type RoleInfo = ModelRoleInfo;
