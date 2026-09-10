@@ -1,7 +1,11 @@
-import { resolve } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { assertEvolverWrite } from "./allowlist.ts";
 import { HELD_IN_ID_TO_FAMILY, RECIPE_BLURBS, unlockedFamilies } from "./playbook-solver.ts";
 import type { CandidateFile } from "./self-harness.ts";
+import { applyEdits, emptyGraph, parseGraph } from "../../../plugins/dsh-improveness/src/procedure-graph.js";
+
+export const GRAPH_REL = "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json";
 
 export type ProposeInput = {
   playbook: string;
@@ -37,14 +41,34 @@ export function appendRecipe(playbook: string, family: string): string {
   return playbook.endsWith("\n") ? `${playbook}${line}\n` : `${playbook}\n${line}\n`;
 }
 
+export function loadProcedureGraph(repoRoot: string) {
+  const abs = join(repoRoot, GRAPH_REL);
+  if (!existsSync(abs)) return emptyGraph();
+  return parseGraph(readFileSync(abs, "utf8"));
+}
+
 export function proposeNextRecipe(input: ProposeInput): { family: string | null; files: CandidateFile[] } {
   assertHeldInOnly(input);
   const family = nextHeldInFamily(input.playbook, input.failingHeldInIds);
   const relPath = "harness/omp/overlay/.omp/playbook/PLAYBOOK.md";
   const dest = resolve(input.repoRoot, "harness/omp/staging/playbook/PLAYBOOK.md");
   assertEvolverWrite(dest, input.repoRoot);
+  const graphDest = resolve(input.repoRoot, "harness/omp/staging/playbook/PROCEDURE_GRAPH.json");
+  assertEvolverWrite(graphDest, input.repoRoot);
+  const graph = loadProcedureGraph(input.repoRoot);
+  const graphFile = (g: ReturnType<typeof emptyGraph>): CandidateFile => ({
+    relPath: GRAPH_REL,
+    content: `${JSON.stringify(g, null, 2)}\n`,
+  });
   if (!family) {
-    return { family: null, files: [{ relPath, content: input.playbook }] };
+    return { family: null, files: [{ relPath, content: input.playbook }, graphFile(graph)] };
   }
-  return { family, files: [{ relPath, content: appendRecipe(input.playbook, family) }] };
+  const { graph: nextGraph } = applyEdits(graph, [{ op: "add-node", node: { id: family, kind: "procedure" } }]);
+  return {
+    family,
+    files: [
+      { relPath, content: appendRecipe(input.playbook, family) },
+      graphFile(nextGraph),
+    ],
+  };
 }

@@ -20,6 +20,10 @@ function searchRepo(): string {
     join(sourceRoot, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"),
     join(dir, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"),
   );
+  cpSync(
+    join(sourceRoot, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"),
+    join(dir, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"),
+  );
   writeFileSync(
     join(dir, "harness/omp/REVIEW_QUEUE.md"),
     "# Maintainer review queue\n\nCandidates are **evidence**.\n\n| id | surface | files | parentHash | held-in | held-out | rollback | apply to project .omp? |\n|----|---------|-------|------------|---------|----------|----------|------------------------|\n",
@@ -48,6 +52,22 @@ describe("archive search", () => {
     ).toThrow(/kernel path/);
   }, 120_000);
 
+  test("proposeNextRecipe emits a sibling procedure graph without changing decideAccept", () => {
+    const repo = searchRepo();
+    const playbook = readFileSync(join(repo, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"), "utf8");
+    const out = proposeNextRecipe({
+      playbook,
+      failingHeldInIds: ["default-export"],
+      heldInOnly: true,
+      repoRoot: repo,
+    });
+    expect(out.family).toBe("recipe:default-export");
+    const graphFile = out.files.find((file) => file.relPath.endsWith("PROCEDURE_GRAPH.json"));
+    expect(graphFile).toBeTruthy();
+    const graph = JSON.parse(graphFile!.content);
+    expect(graph.nodes.some((n: { id: string }) => n.id === out.family)).toBe(true);
+  });
+
   test("proposer rejects held-out fixture ids", () => {
     const repo = searchRepo();
     expect(() =>
@@ -68,7 +88,8 @@ describe("archive search", () => {
     expect(result.rounds[0].decision).toBe("accept");
     expect(result.rounds[0].family).toBe("recipe:default-export");
     expect(result.rounds[0].heldInAfter.passed).toBeGreaterThan(result.rounds[0].heldInBefore.passed);
-    expect(result.rounds[0].staged.some((path) => path.startsWith("harness/omp/staging/"))).toBe(true);
+    expect(result.rounds[0].staged).toContain("harness/omp/staging/playbook/PLAYBOOK.md");
+    expect(result.rounds[0].staged).toContain("harness/omp/staging/playbook/PROCEDURE_GRAPH.json");
     expect(listArchive(repo).some((node) => node.id === "step-1")).toBe(true);
     expect(readFileSync(join(repo, "harness/omp/REVIEW_QUEUE.md"), "utf8")).toContain("step-1");
     expect(readFileSync(join(repo, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"), "utf8")).toBe(beforeOverlay);
