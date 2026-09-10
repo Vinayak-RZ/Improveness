@@ -29,6 +29,7 @@ Do not copy evolved files into `oh-my-pi/packages/`. Do not edit `system.md` fro
 | File | Job | May write |
 |------|-----|-----------|
 | `playbook/PLAYBOOK.md` | Growing strategies / failure modes / conventions | Deterministic curator; later evolver (allowlisted) |
+| `playbook/PROCEDURE_GRAPH.json` | Typed order and conditions (sibling, not a section) | Same playbook-class staging as PLAYBOOK.md |
 | `agents/debugger.md` | Read traces, write `diagnosis.md` | diagnosis only (read-only tools) |
 | `agents/evolver.md` | Propose overlay deltas | playbook / skills / tools — never kernel |
 

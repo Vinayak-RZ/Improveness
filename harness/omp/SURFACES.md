@@ -57,9 +57,18 @@ One occupant for `memory`, `planning`, `action`. `capability` is an ordered set.
 
 Flags are load-time env; durable promote still gated by `decideAccept`.
 
+## Playbook directory (not a D16 section)
+
+| File | Job |
+|------|-----|
+| `PLAYBOOK.md` | ACE bullets (what we learned) |
+| `PROCEDURE_GRAPH.json` | Typed order/conditions; 2-hop localize; same `decideAccept` |
+
+Do **not** add an `IMPROVENESS_PG` flag. Empty graph = today’s behavior.
+
 ## What already exists — do not re-propose
 
-The Bun loop, frozen checker, 12/8 fixtures, and seven keyless sims stay. DSH is a **plugin host**, not a second checker. OMP `learn` / TTSR stay OMP primitives for the P1 adapter.
+The Bun loop, frozen checker, 12/8 fixtures, and eight keyless sims stay. DSH is a **plugin host**, not a second checker. OMP `learn` / TTSR stay OMP primitives for the P1 adapter.
 
 ## Install
 

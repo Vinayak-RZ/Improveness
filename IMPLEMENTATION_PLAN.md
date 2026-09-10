@@ -1,6 +1,6 @@
 # Implementation plan — Improveness as a DeepSeek Harness plugin
 
-Approved product contract (D15). Active wave: **ModelTaste + Hardening + Strong Release** (D17–D19).
+Approved product contract (D15). Active waves: **ModelTaste + Hardening + Strong Release** (D17–D19, live rows still open) and **ingrained procedural order** (D20; [docs/plans/p4-procedural-graph.md](docs/plans/p4-procedural-graph.md)).
 
 Authority gates: [`docs/STRONG_RELEASE.md`](docs/STRONG_RELEASE.md) · [`docs/PROJECT_HARDENING.md`](docs/PROJECT_HARDENING.md).
 
@@ -154,7 +154,7 @@ D14 still applies when the host is Oh My Pi: the **working snapshot** is the app
 
 ## Named techniques (README)
 
-Two-Speed · Sections (JIT / Improve) · Tool Catalog · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
+Two-Speed · Sections (JIT / Improve) · Procedural order (ingrained) · Tool Catalog · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
 
 
 ## D16 — Two-section split (approved)
@@ -164,3 +164,11 @@ See [DECISIONS.md](DECISIONS.md) D16 and [docs/methods/sections.md](docs/methods
 **In:** Load-time section flags; hierarchical ToolCatalog; event-driven tool inject; JIT M/P/A/C template synthesizer; short-term + long-term improve drivers; README/EXTENSIVE sync; CI green.
 
 **Out:** JIT-Agent 27B training; free-form JIT `apply()` codegen; OMP TTSR rewrite; runtime section toggle (P1).
+
+## D20 — Ingrained procedural order (approved)
+
+See [DECISIONS.md](DECISIONS.md) D20 and [docs/plans/p4-procedural-graph.md](docs/plans/p4-procedural-graph.md). Execution graph: [docs/plans/EXECUTION_GRAPH.md](docs/plans/EXECUTION_GRAPH.md).
+
+**In:** Sibling `PROCEDURE_GRAPH.json`; 2-hop localize/render on `plan_step`; improve/propose graph deltas; eighth sim `procedural-order`; README Core-techniques bullet. No new section flag.
+
+**Out:** `IMPROVENESS_PG`; guidance LLM in P0; paper BFCL/EnterpriseArena/ALFWorld numbers; touching the frozen 12/8 inventory.
