@@ -60,5 +60,15 @@
     "expected": "no-promote",
     "outcome": "pass",
     "detail": "overlay playbook unchanged after search"
+  },
+  {
+    "id": "procedural-order",
+    "title": "Procedural order (empty graph vs typed edges)",
+    "sellingPoint": "Slogans and an empty Start graph cannot unlock an ordered trajectory; typed leads_to edges can. Frozen 12/8 playbook scores stay a separate number.",
+    "expected": "improve",
+    "outcome": "pass",
+    "detail": "empty=0 ordered=1 skip=0.5",
+    "heldIn": "0/12",
+    "heldOut": "0/8"
   }
 ]

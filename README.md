@@ -32,7 +32,7 @@ $ bash harness/omp/scripts/qa.sh
 qa.sh ok
 ```
 
-That command is the product check: 24 test files, a frozen 12/8 fixture split, seven keyless architecture simulations, and a catalog that fails CI if a kernel sentence disappears.
+That command is the product check: overlay tests, a frozen 12/8 fixture split, eight keyless architecture simulations, and a catalog that fails CI if a kernel sentence disappears.
 
 ## Why this exists
 
@@ -58,6 +58,7 @@ These are the bets this codebase actually implements. Each one is a named idea f
 
 - **Two-Speed Harness Evolution.** A session can *define a tool now* (JIT, ephemeral, gone when the session ends). A change that survives practice *and* hidden tests becomes a durable sibling plugin (AOT) and hot-reloads. We copy the split from [JIT-Agent](https://arxiv.org/abs/2608.25593); we do **not** train their 27B controller. Limit: live-model skill gains are not a README number until measured here.
 - **Two Independently Disableable Sections (D16).** **JIT** synthesizes a task-specialized harness from typed memory / planning / action / capability module templates (session-owned). **Improvement** runs on two horizons: short-term post-trajectory playbook candidates, and long-term archive cadence — both still pass Self-Harness before durable promote. Turn either off at load time: `IMPROVENESS_JIT=0`, `IMPROVENESS_IMPROVE=0`, or `IMPROVENESS_IMPROVE_SHORT` / `_LONG`. Defaults all on. Limit: flags are load-time in P0; mid-session toggle is P1.
+- **Procedural order (ingrained).** ACE bullets say *what we learned*. A sibling procedure graph says *what is admissible next, under which condition, and what usually fails*. Same improve loop, same Self-Harness gate — not a fourth section. Inspired by [Procedural Graphs](https://arxiv.org/abs/2609.09153); we do not run their guidance model or their benches. Limit: keyless order sim only until a live coding row exists.
 - **ModelTaste (D17/D18).** Host-agnostic validate-then-repair for model×tool contracts (`packages/improveness-modeltaste`). Strap via HostPort; DeepSeek + Qwen3 profiles; `IMPROVENESS_TASTE=0` fully unstraps. Inspired by Taste-style harness fixes — not a preference-product port. Live DeepSeek-class before/after still pending ledger row.
 - **Hierarchical Tool Catalog + Event Inject.** Tools are discoverable as namespace → group → tool (`improveness.catalog`). When the agent signals need (`improveness.emit` / `need_tool`), Improveness injects a tool reminder — TTSR-inspired, not a port of Oh My Pi TTSR. Optional capability hint mount only if JIT is on. Disable inject with `IMPROVENESS_EVENT_INJECT=0`.
 - **Live Ratchet.** Keep if better; unload if not. That is [Karpathy AutoResearch](https://github.com/karpathy/autoResearch) translated into Cordis: `prepare.py` is frozen physics, `train.py` is a sibling plugin, `git reset` is Fiber dispose. Limit: if a disposer is not invertible, we fail closed or ask for a restart — we do not pretend VS Code `deactivate` is unload.
@@ -81,7 +82,7 @@ This is the same idea as a train / validation / test split, applied to *agent sc
 
 ### Playbooks, not slogans (ACE + AHE)
 
-[ACE](https://arxiv.org/abs/2510.04618) stores lessons as an append-only playbook. [AHE](https://arxiv.org/abs/2604.25850) showed that evolving the *system prompt* missed the gain (−2.3 pp on their ablation) while tools and memory moved the needle. Our `ace-only` simulation is a **passing test of a zero score**: slogans without recipe families unlock 0/20. That is the lesson, encoded as CI.
+[ACE](https://arxiv.org/abs/2510.04618) stores lessons as an append-only playbook. [AHE](https://arxiv.org/abs/2604.25850) showed that evolving the *system prompt* missed the gain (−2.3 pp on their ablation) while tools and memory moved the needle. Our `ace-only` simulation is a **passing test of a zero score**: slogans without recipe families unlock 0/20. That is the lesson, encoded as CI. Order is a sibling graph next to that playbook, not another slogan list.
 
 ### Spatiotemporal composability (why “restart the agent” is the wrong grain)
 
@@ -126,7 +127,7 @@ From [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.md) — only numbers this tree can
 |------|--------|------------------|
 | Fixtures | 12 practice + 8 hidden | Not Terminal-Bench |
 | Playbook search sim | **0/12 → 7/12**, **0/8 → 3/8** | Not a live coding agent |
-| Architecture sims | 7, no API key | Not a model bake-off |
+| Architecture sims | 8, no API key | Not a model bake-off |
 | Step cap | `MAX_STEP_CAP = 8` | Not “unbounded RSI” |
 
 Forbidden on this landing page: “first”, “SOTA”, live-model TB/SWE-bench gains, fake stars.
@@ -194,6 +195,7 @@ Systems this repo **uses or cites**, not a vanity wall:
 - [Weng, Harness Engineering](https://lilianweng.github.io/posts/2026-07-04-harness/) — the survey the `docs/` corpus teaches
 - [Self-Harness](https://arxiv.org/abs/2606.09498) — held-in / held-out accept
 - [ACE](https://arxiv.org/abs/2510.04618) / [AHE](https://arxiv.org/abs/2604.25850) — playbook vs prompt-only
+- [Procedural Graphs](https://arxiv.org/abs/2609.09153) — typed order/conditions; we ingrain the idea, we do not run their benches
 - [Meta-Harness](https://arxiv.org/abs/2603.28052) — filesystem candidates
 - [JIT-Agent](https://arxiv.org/abs/2608.25593), [HELIX](https://arxiv.org/abs/2608.13951), [HSI](https://arxiv.org/html/2608.08466), [Evo-Harness](https://arxiv.org/abs/2608.15071), [Evo-Bench](https://arxiv.org/html/2608.09096)
 - [Karpathy AutoResearch](https://github.com/karpathy/autoResearch) — frozen prepare vs sibling train

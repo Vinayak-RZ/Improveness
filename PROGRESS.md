@@ -4,6 +4,8 @@
 
 **ModelTaste + Hardening + Strong Release** — package, straps, fit-suite, and keyless hardening gates are green. Live DeepSeek-class measured row and live DSH smoke remain open (need API keys).
 
+**Procedural order (D20)** — sibling graph, `plan_step` inject, improve deltas, and eighth sim `procedural-order` are in. Frozen 12/8 search numbers unchanged.
+
 ## Latest
 
 | Item | Status |
@@ -20,6 +22,7 @@
 | Live DSH smoke green once | **open** (env keys) |
 | Live fit ledger row (`IMPROVENESS_FIT_LIVE=1`) | **open** (env keys) |
 | STRONG_RELEASE P0 | **RED** until live row |
+| Procedural order (D20) eighth sim + README claim | **done** (keyless) |
 
 ## Remaining for strong release
 

@@ -31,7 +31,13 @@ export function planningModule(taskId, params = {}) {
     slot: "planning",
     params,
     apply(ctx = {}) {
-      const plan = { taskId, steps: params.steps ?? [], budget: params.budget ?? 8 };
+      const plan = {
+        taskId,
+        steps: params.steps ?? [],
+        budget: params.budget ?? 8,
+        active: params.active ?? null,
+        guidance: params.guidance ?? "",
+      };
       ctx.__jitPlanning = plan;
       return () => {
         delete ctx.__jitPlanning;

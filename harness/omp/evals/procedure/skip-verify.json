@@ -1,0 +1,4 @@
+{
+  "id": "skip-verify",
+  "steps": ["Start", "search", "edit"]
+}

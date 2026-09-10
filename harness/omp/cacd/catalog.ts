@@ -21,7 +21,7 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "Editable surfaces",
     path: "harness/omp/SURFACES.md",
-    mustContain: ["playbook", "evolver", "dsh.bundle", "generated"],
+    mustContain: ["playbook", "evolver", "dsh.bundle", "generated", "PROCEDURE_GRAPH"],
   },
   {
     id: "c-plan",
@@ -35,7 +35,7 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "ADRs",
     path: "DECISIONS.md",
-    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "D16", "dsh.bundle", "HostPort"],
+    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "D16", "D20", "dsh.bundle", "HostPort"],
   },
   {
     id: "a-cacd",

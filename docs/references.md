@@ -33,6 +33,7 @@ Citations used in this corpus. Dates and URLs as of 2026-08-17.
 - Lin et al. “Harness Updating Is Not Harness Benefit.” https://arxiv.org/abs/2605.30621
 - Zhang et al. “Self-Harness: Harnesses That Improve Themselves.” https://arxiv.org/abs/2606.09498
 - Lin et al. “Agentic Harness Engineering.” https://arxiv.org/abs/2604.25850 — [china-qijizhifeng/agentic-harness-engineering](https://github.com/china-qijizhifeng/agentic-harness-engineering)
+- Lu, Chen, Wu, and Arık. “Procedural Graphs: Self-Evolving Execution Structures for LLM Agents.” 8 Sep 2026. https://arxiv.org/abs/2609.09153
 
 ## Dynamic composition (live self-mod without killing the runtime)
 

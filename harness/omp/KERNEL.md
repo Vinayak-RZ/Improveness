@@ -48,7 +48,7 @@ Durable apply target is **profile-owned generated plugins**, never `node_modules
 - Live: `$DSH_HOME/profiles/improveness/improveness-generated/<id>/`
 - Checkout tests: `harness/omp/generated/<id>/`
 
-Plus overlay playbook / extra tools / extra skills under `harness/omp/overlay/.omp/` (still staged for playbook-class candidates).
+Plus overlay playbook / extra tools / extra skills under `harness/omp/overlay/.omp/` (still staged for playbook-class candidates). Sibling `PROCEDURE_GRAPH.json` is playbook-class, not kernel.
 
 P1 OMP HostPort may mutate a **working snapshot** (`oh-my-pi/` or a user-supplied tree) except the frozen rows above. Upstream `can1357/oh-my-pi` is never the apply target unless a human separately asks.
 

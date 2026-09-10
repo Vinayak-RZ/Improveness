@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "nodes": [
+    { "id": "Start", "kind": "state" },
+    { "id": "search", "kind": "procedure" },
+    { "id": "read_evidence", "kind": "procedure" },
+    { "id": "edit", "kind": "procedure" },
+    { "id": "verify", "kind": "procedure" }
+  ],
+  "edges": [
+    {
+      "from": "Start",
+      "rel": "leads_to",
+      "to": "search",
+      "condition": "task opened",
+      "guidance": "search first",
+      "pitfalls": "do not edit blindly"
+    },
+    {
+      "from": "search",
+      "rel": "leads_to",
+      "to": "read_evidence",
+      "condition": "hits exist",
+      "guidance": "read the hits",
+      "pitfalls": "do not write before the read lands"
+    },
+    {
+      "from": "read_evidence",
+      "rel": "leads_to",
+      "to": "edit",
+      "condition": "evidence in context",
+      "guidance": "edit the named file",
+      "pitfalls": "do not skip verify"
+    },
+    {
+      "from": "edit",
+      "rel": "leads_to",
+      "to": "verify",
+      "condition": "edit returned",
+      "guidance": "run the check",
+      "pitfalls": "do not submit on red"
+    }
+  ]
+}

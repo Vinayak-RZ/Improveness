@@ -10,7 +10,7 @@ This is not a second nawab plan. It is the checklist a simulation or QA run can 
 |------|----------------------|
 | **CACD** | Four layers that must stay consistent: **C**ontract (what may change), **A**rchitecture (how the loop is wired), **C**ontrol (what the loop is forbidden to do), **D**elivery (how a candidate becomes a generated plugin or snapshot mutation, not silent kernel authority). |
 | **QA** | Repository-wide assurance: authority files exist, relative links resolve, the kernel list is complete, fixtures are intact, the CACD catalog matches the tree, and every named architecture simulation passes. Broader than `bun test` on one folder. |
-| **Simulation** | A deterministic, keyless replay of a *named agentic architecture* against the frozen 20-fixture suite and the CACD controls. No live LLM. Used to compare topologies (ACE-only, Self-Harness-gated, leaked held-out, kernel-writing evolver, unbounded loop, auto-promote). |
+| **Simulation** | A deterministic, keyless replay of a *named agentic architecture* against the frozen 20-fixture suite, the procedure-order eval, and the CACD controls. No live LLM. Used to compare topologies (ACE-only, Self-Harness-gated, leaked held-out, kernel-writing evolver, unbounded loop, auto-promote, procedural-order). |
 | **Agentic architecture** | How roles, memory, tools, evaluators, and promote rights are wired — not the model weights. Improveness’s selling point is that these wirings can be **simulated** before anyone spends tokens. |
 | **Working snapshot** | P1 OMP apply target: in-tree `oh-my-pi/` or a user-supplied harness (D14). P0 DSH apply target is profile-owned generated plugins (D15). |
 

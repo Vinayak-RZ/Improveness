@@ -138,3 +138,10 @@
 - **Alternatives:** (1) Git submodule (rejected: D8 owns history in Improveness). (2) Leave stale (rejected: user asked for latest). (3) Selected: replace tree from upstream tip, strip `.git`, record pin in `oh-my-pi/SNAPSHOT.md`, re-merge overlay, one chore commit.
 - **Selected:** Refresh procedure: clone upstream `main` → strip `.git` → replace `oh-my-pi/` → write `SNAPSHOT.md` (URL, SHA, date, packageManager, refresh commands) → `install-overlay.sh` → HostPort/qa green. **ModelTaste must not patch `oh-my-pi/packages/*`.** Snapshot refresh commits stay separate from feature commits. MIT root does not re-license OMP.
 - **Rationale:** User request; D8 ownership; dialect docs stay accurate; clear pin for reproducibility.
+
+## D20 — Procedural order is ingrained, not a fourth section
+
+- **Context:** Lu, Chen, Wu, and Arık ([arXiv:2609.09153](https://arxiv.org/abs/2609.09153)) evolve a typed procedure graph around frozen ReAct. Improveness already has ACE playbook, JIT planning, `plan_step` inject, and Self-Harness. A fourth `IMPROVENESS_PG` flag would imply a product surface we do not need to unstrap independently of Improve.
+- **Alternatives:** (1) Fourth D16/D17 section (rejected: product law). (2) Encode edges as ACE bullets (rejected: two merge semantics in one regex). (3) Guidance LLM on every step (deferred P1; not keyless). (4) Selected: sibling `PROCEDURE_GRAPH.json` in the playbook directory.
+- **Selected:** Order and conditions live in the existing playbook, planning, `plan_step`, and improve loop. Planning carries `active` + rendered 2-hop guidance. `improveShort` / `proposeNextRecipe` may emit graph deltas. **Same** `decideAccept`. Empty graph = today’s behavior. Soft bias only. Nodes are procedure ids, never raw Cordis tool names as the only key. Frozen 12/8 inventory and `0/12 → 7/12`, `0/8 → 3/8` stay. Keyless `evals/procedure/` plus eighth sim `procedural-order`.
+- **Rationale:** One loop, one gate; absence-of-file unstrap; claim-honest versus the paper’s benches.

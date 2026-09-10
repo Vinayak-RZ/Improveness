@@ -1,17 +1,20 @@
 /**
- * Session event bus for TTSR-inspired tool inject (D16).
+ * Session event bus for TTSR-inspired tool inject (D16) plus procedure guidance.
  * Events: need_tool | tool_fail | plan_step
  */
 
+import { localize, parseGraph, renderGuidance } from "./procedure-graph.js";
+
 /**
  * @typedef {"need_tool" | "tool_fail" | "plan_step"} EventKind
- * @typedef {{ kind: EventKind, toolId?: string, detail?: string, planStep?: string }} SessionEvent
- * @typedef {{ type: "reminder" | "mount", toolId: string, content: string, mounted?: boolean }} InjectResult
+ * @typedef {{ kind: EventKind, toolId?: string, detail?: string, planStep?: string, procedureId?: string }} SessionEvent
+ * @typedef {{ type: "reminder" | "mount" | "procedure", toolId: string, content: string, mounted?: boolean }} InjectResult
  */
 
 export function createEventBus(options = {}) {
   const catalog = options.catalog;
   const sections = options.sections;
+  const graph = options.graph ?? parseGraph(options.graphJson ?? "");
   /** @type {Set<string>} */
   const injectedOnce = new Set();
   /** @type {InjectResult[]} */
@@ -26,6 +29,13 @@ export function createEventBus(options = {}) {
     if (!sections?.eventInject) return [];
     /** @type {InjectResult[]} */
     const out = [];
+
+    const procedure = procedureInject(event, graph, injectedOnce);
+    if (procedure) {
+      out.push(procedure);
+      log.push(procedure);
+    }
+
     const toolId = resolveToolId(event, catalog);
     if (!toolId) return out;
     if (injectedOnce.has(toolId)) return out;
@@ -83,4 +93,20 @@ function resolveToolId(event, catalog) {
     return hit?.tool?.id ?? null;
   }
   return null;
+}
+
+function procedureInject(event, graph, injectedOnce) {
+  const activeId = event?.procedureId ?? (event?.kind === "plan_step" ? event.planStep : null);
+  if (!activeId) return null;
+  const nb = localize(graph, activeId, 2);
+  const text = renderGuidance(nb);
+  if (!text) return null;
+  const key = `proc:${nb.active}`;
+  if (injectedOnce.has(key)) return null;
+  injectedOnce.add(key);
+  return {
+    type: "procedure",
+    toolId: nb.active,
+    content: `<improveness-procedure-guidance>\n${text}\n</improveness-procedure-guidance>`,
+  };
 }

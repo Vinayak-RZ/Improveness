@@ -1,4 +1,7 @@
 import { describe, expect, test } from "bun:test";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { apply } from "../../../plugins/dsh-improveness/src/apply.js";
 import { createTasteRuntime, TasteError } from "../../../plugins/dsh-improveness/src/taste.js";
 import { createJitRuntime } from "../../../plugins/dsh-improveness/src/jit.js";
@@ -205,6 +208,69 @@ describe("event inject", () => {
     expect(bus.emit({ kind: "need_tool", toolId: "improveness.define" })).toEqual([]);
   });
 
+  test("plan_step injects procedure guidance from the graph", () => {
+    const sections = parseSections({});
+    const catalog = createCatalog(sections);
+    const graphJson = JSON.stringify({
+      version: 1,
+      nodes: [
+        { id: "search", kind: "procedure" },
+        { id: "read_evidence", kind: "procedure" },
+      ],
+      edges: [
+        {
+          from: "search",
+          rel: "leads_to",
+          to: "read_evidence",
+          condition: "hits exist",
+          guidance: "read the hits",
+          pitfalls: "do not write before the read lands",
+        },
+      ],
+    });
+    const bus = createEventBus({ catalog, sections, graphJson });
+    const out = bus.emit({ kind: "plan_step", planStep: "search" });
+    expect(out.some((r) => r.type === "procedure")).toBe(true);
+    expect(out.find((r) => r.type === "procedure")?.content).toContain("improveness-procedure-guidance");
+    expect(out.find((r) => r.type === "procedure")?.content).toContain("read_evidence");
+  });
+
+  test("eventInject=0 suppresses procedure guidance", () => {
+    const sections = parseSections({ IMPROVENESS_EVENT_INJECT: "0" });
+    const catalog = createCatalog(sections);
+    const bus = createEventBus({
+      catalog,
+      sections,
+      graphJson: JSON.stringify({
+        version: 1,
+        nodes: [{ id: "search", kind: "procedure" }],
+        edges: [],
+      }),
+    });
+    expect(bus.emit({ kind: "plan_step", planStep: "search" })).toEqual([]);
+  });
+
+  test("apply loads overlay PROCEDURE_GRAPH.json for plan_step inject", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pg-apply-"));
+    mkdirSync(join(dir, "harness/omp/overlay/.omp/playbook"), { recursive: true });
+    writeFileSync(
+      join(dir, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"),
+      JSON.stringify({
+        version: 1,
+        nodes: [
+          { id: "search", kind: "procedure" },
+          { id: "read_evidence", kind: "procedure" },
+        ],
+        edges: [{ from: "search", rel: "leads_to", to: "read_evidence", condition: "hits exist", guidance: "", pitfalls: "" }],
+      }),
+    );
+    const ctx = fakeCtx();
+    ctx.repoRoot = dir;
+    apply(ctx);
+    const out = ctx.tools.get("improveness.emit")({ kind: "plan_step", planStep: "search" });
+    expect(out.some((r) => r.type === "procedure")).toBe(true);
+  });
+
   test("apply emit tool mounts hint when jit on", () => {
     const ctx = fakeCtx();
     apply(ctx);
@@ -214,11 +280,19 @@ describe("event inject", () => {
 });
 
 describe("JIT synthesizer", () => {
+  test("planning module stores active procedure and rendered guidance", () => {
+    const ctx = {};
+    const dispose = planningModule("t1", { active: "search", guidance: "read next" }).apply(ctx);
+    expect(ctx.__jitPlanning.active).toBe("search");
+    expect(ctx.__jitPlanning.guidance).toBe("read next");
+    dispose();
+  });
+
   test("module templates invert dispose", () => {
     const ctx = {};
     for (const mod of [
       memoryModule("t1"),
-      planningModule("t1"),
+      planningModule("t1", { active: "search", guidance: "read next" }),
       actionModule("t1"),
       capabilityModule("t1"),
     ]) {

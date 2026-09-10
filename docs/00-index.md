@@ -7,7 +7,7 @@ Reading order for the research corpus. The working overlay lives at [`harness/om
 1. Start with [PROJECT_OVERVIEW.md](../PROJECT_OVERVIEW.md) for scope and constraints.
 2. Human overview: [README.md](../README.md). Internals: [EXTENSIVE.md](EXTENSIVE.md).
 3. Read segments 01–09 in order (Weng’s natural structure).
-4. Use [methods/](methods/) when you need one system in enough detail to specify from.
+4. Use [methods/](methods/) when you need one system in enough detail to specify from. Procedural order (not a fourth section): [methods/procedural-graph.md](methods/procedural-graph.md).
 5. Use [proposals/](proposals/00-architecture.md) when you want the “what would we add” answer:
    - generic harness: [01-generic-harness.md](proposals/01-generic-harness.md)
    - OMP: [02-omp-gap-analysis.md](proposals/02-omp-gap-analysis.md) then [03-omp-proposed-changes.md](proposals/03-omp-proposed-changes.md)

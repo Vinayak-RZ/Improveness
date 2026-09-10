@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, test } from "bun:test";
@@ -42,6 +42,26 @@ describe("improve short-term", () => {
     writeFileSync(traj, "LESSON: Use invertible disposers for JIT mounts\n");
     const out = improveShort({ repoRoot: repo, trajectoryPath: traj });
     expect(out.action).toBe("candidate");
+  });
+
+  test("failed PROCEDURE steps add a graph edge", () => {
+    const repo = tmpRepo();
+    writeFileSync(
+      join(repo, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"),
+      `${JSON.stringify({ version: 1, nodes: [{ id: "Start", kind: "state" }], edges: [] }, null, 2)}\n`,
+    );
+    const traj = join(repo, "traj.jsonl");
+    writeFileSync(
+      traj,
+      "PROCEDURE: search\nPROCEDURE: edit\nLESSON: read before edit\n",
+    );
+    const out = improveShort({ repoRoot: repo, trajectoryPath: traj, passed: false });
+    expect(out.action).toBe("candidate");
+    expect(out.graphEdits).toBe(1);
+    const g = JSON.parse(
+      readFileSync(join(repo, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"), "utf8"),
+    );
+    expect(g.edges.some((e: { from: string; to: string }) => e.from === "search" && e.to === "edit")).toBe(true);
   });
 });
 

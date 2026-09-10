@@ -8,7 +8,8 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 |-------|----------|
 | Frozen 12 held-in / 8 held-out fixtures | `harness/omp/evals/held-in`, `held-out`; `qa-repo` inventory |
 | Playbook search sim 0/12 → 7/12 held-in, 0/8 → 3/8 held-out | `harness/omp/evals/benchmarks/local-20/` |
-| Seven named architecture simulations pass without an API key | `simulate-architectures.ts`; `qa.sh` |
+| Eight named architecture simulations pass without an API key | `simulate-architectures.ts`; `qa.sh` |
+| Procedural-order sim: empty graph scores 0 on the success path; ordered `leads_to` graph scores 1 vs skip-verify below 1 | `evals/procedure/`; `procedural-order` row in `evals/simulations/latest/` |
 | Search step cap is 8 | `MAX_STEP_CAP = 8` in `search.ts` |
 | Playbook accepts still **stage** (do not silently rewrite overlay) | `search.test.ts` |
 | Plugin accepts apply to generated dir with rollback | `apply-snapshot` tests |
@@ -38,4 +39,5 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 - Multi-host proven (OMP adapter is P1; not a second measured campaign)
 - Live-model Terminal-Bench / SWE-bench gains
 - Public Terminal-Bench as fitness (policy: **No public Terminal-Bench**)
+- Paper Procedural Graph bench numbers (BFCL, EnterpriseArena, ALFWorld) as Improveness results
 - Fake GitHub stars, “trusted by”, invented latency numbers
