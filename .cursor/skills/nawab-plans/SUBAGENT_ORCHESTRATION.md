@@ -1,7 +1,11 @@
 # Subagent orchestration — nawab plans
 
-Reference for **§6 Agent orchestration** in nawab plans. The lead agent writes
-this section into the plan; this file defines the patterns.
+**When:** project profile, or standard with parallel workstreams.
+
+Lite / lead-only: write `§6 N/A — lead executes §9 sequentially` in the plan.
+Do not copy this file into lite plans.
+
+The spawn-prompt contract below is the appendix for real parallel work.
 
 ---
 
@@ -43,7 +47,8 @@ the plan explicitly delegates a workstream branch with merge-back at a named gat
 Launch multiple subagents in **one message** when tasks are independent.
 
 When the user named `graph-engineering`, compile this spawn map into nawab
-**§19** (node contracts, real edges, waves). Default remains this table.
+**§19** as a **graph of plans**: one node plan per spawn (`plans/nodes/<id>.md`),
+linked from the graph. Default remains this table.
 See `.cursor/skills/graph-engineering/SKILL.md`. Do not load that skill
 unless the user named it.
 
@@ -132,8 +137,8 @@ plan delegates a long-running WS branch.
 
 | ID | Phase | Type | Task | Sync |
 |----|-------|------|------|------|
-| S1 | 0 | explore | Map `external/handoff/*` vs repo | Before §9 commit 1 |
-| S2 | B | generalPurpose | Scaffold `packages/console` shell | Commit 16 |
+| S1 | 0 | explore | Map `docs/specs/*` vs the tree | Before §9 commit 1 |
+| S2 | B | generalPurpose | Scaffold `packages/app` shell | Commit 16 |
 | S3 | N | security-review | Full branch diff | Before cutover |
 | S4 | N | explore | Repo walkthrough for untested paths | Hardening commits |
 

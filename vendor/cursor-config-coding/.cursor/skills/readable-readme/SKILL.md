@@ -1,82 +1,89 @@
 ---
 name: readable-readme
 description: >-
-  Authors a long, human-readable README.md: plain language, one-sitting depth,
-  simple explanations with blog/wiki links for hard ideas, and 3–4 future
-  advancements. Use when the user asks for a readable README, general README,
-  human overview, or a simpler long-form README.md. Do not use for a product
-  landing page (product-readme) or a package-by-package internals dump
-  (extensive-readme). Unspecified "make a README" goes to the readme skill.
+  Authors a long, human-readable README.md for internal platform layers: concept
+  brief first, then a 7-section overview (vision, ≤5 ideas, how it works,
+  quickstart, config, further reading, short futures). Use for monorepo services
+  and platform packages. Do not use for installable OSS/agent landings
+  (product-readme) or package maps (extensive-readme). Unspecified "make a README"
+  goes to the readme skill.
 ---
 
 # Readable README Authoring
 
-Write `README.md` as something a **curious human finishes**. Long enough to understand
-the repo in depth; short enough they are not discouraged. This is the usual **main
-README.md**.
+Write `README.md` as something a **platform engineer finishes in one sitting**.
+This skill is for **internal services** in a multi-package platform (ingest,
+storage, shared libraries) — not for installable public products.
 
-It is a simpler sibling of the old "one giant manual" style: teach the ideas, show
-how to run it, skip the file-by-file dump. That dump is `extensive-readme`.
+**Portable:** name the layer’s job, not a named company or sibling product
+unless that sibling lives in *this* tree.
 
 ## When to apply
 
-- User asks for a readable / general / human README
-- Main `README.md` should be an overview people actually read
+- Internal platform layer / sibling service in a multi-repo platform
+- User asks for a readable / general / human README **and** the repo is not an
+  installable OSS/agent product
 - The `readme` skill routed here
 
 **Not this skill**
 
 | Want | Use |
-|------|-----|
-| Logo, tagline, tiny install, OSS landing | `product-readme` |
-| Every package, every important file, full workflow internals | `extensive-readme` → `docs/EXTENSIVE.md` |
-| "Make a README" with no type | `readme` (ask, then route) |
+|------|------|
+| Installable OSS, CLI, library, agent landing | `product-readme` |
+| Every package, file map, domain concepts + how it runs | `extensive-readme` |
+| "Make a README" with no type | `readme` (ask, naming both shapes) |
+
+Do **not** force the 7-section numbered skeleton onto a product repo. If the user
+wants a hybrid (logo then readable TOC), they must say so.
 
 ## Output
 
 - **File:** `README.md` at repo root (unless the user named another path)
-- **If an extensive companion was requested or already exists:** put this banner
-  **at the top**, under the title:
+- **If an extensive companion was requested or already exists:** banner at the top:
 
 ```markdown
 > Full internals (every package, file map, how the repo runs): [Extensive README](docs/EXTENSIVE.md)
 ```
 
-Do not write `docs/EXTENSIVE.md` from this skill. Load `extensive-readme` for that.
+Do not write `docs/EXTENSIVE.md` from this skill. Do not copy Future advancements
+into the extensive file.
 
 ## Workflow
+
+### Phase 0 — Concept brief (required)
+
+Before listing files, write (for yourself, then fold into §1 / §2):
+
+- Audience (who operates this layer)
+- 3–5 **nouns** the reader must hold (what this layer is *about*)
+- One sentence of what it is not (sibling repos)
+
+Do not start the README with a package dump.
 
 ### Phase 1 — Discover
 
 Do not invent features.
 
-1. What the project is, who it is for, how you run it
-2. Architecture at **module** grain (not every file)
-3. 2–5 ideas worth understanding
-4. Config that a newcomer must set
-5. Gaps for **Future advancements** (at least 3–4)
+1. What the layer is, who it is for, how you run it
+2. Architecture at **module** grain
+3. **At most 5** ideas worth understanding
+4. Config a newcomer must set
+5. 3 short, grounded futures (no slogans)
 
 ### Phase 2 — Draft
 
-Follow [templates.md](templates.md). Skip empty sections. **Never skip** Future
-advancements (3–4 items).
+Follow [templates.md](templates.md). Skip empty sections. Cap ideas at **5**.
+Analogy is **optional** — omit when it adds fluff.
 
 ### Phase 3 — Write
 
-**Length.** Narrative (vision, ideas, how it works, future) finishable in **one
-sitting (~10–20 minutes)**. Tables for catalogs. No novel.
+**Length.** One sitting (~10–15 minutes). Tables for catalogs.
 
-**Jargon.** Ordinary words. Required term: one plain sentence on first use.
+**Jargon.** Ordinary words; one plain sentence on first use.
 
-**Simple first.** Smart-friend explanation. Hard mechanism: short paragraph +
-**verified** blog or wiki (Wikipedia is fine for background). Never invent URLs.
-Citation rules: [further-reading.md](../extensive-readme/further-reading.md).
+**Hard mechanism.** Short paragraph + **verified** blog/wiki, or omit the link.
 
-**Teach.** 2–5 ideas (not 8). Each: name, simple how, analogy, constraint, limits,
-1–3 verified links.
-
-**Future advancements.** At least 3, prefer 4. Grounded in this repo. Name, why,
-what would land, done-when.
+**Futures.** Short. Name, why, done-when. Do not duplicate into EXTENSIVE.
 
 ### Phase 4 — Validate
 
@@ -84,10 +91,11 @@ Run [checklist.md](checklist.md).
 
 ## Anti-patterns
 
-- File-by-file internals (that is `extensive-readme`)
-- Product landing (logo/badges-first) — that is `product-readme`
-- Jargon wall; novel-length dump; slogan future ("add AI")
-- Invented URLs
+- Using this skeleton on an installable product (that is `product-readme`)
+- File-by-file internals
+- More than 5 teaching ideas
+- Required analogy on every idea
+- Invented URLs; slogan futures ("add AI")
 
 ## Additional resources
 

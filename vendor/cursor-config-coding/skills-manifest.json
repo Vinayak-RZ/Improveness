@@ -1,6 +1,6 @@
 ﻿{
   "version": 7,
-  "description": "Coding Cursor config — 40 skills, 21 rules, agent-patterns MCP, nawab-plans + opt-in graph-engineering + ponytail + Spec Kit, learn-while-building, auto conventional commits",
+  "description": "Coding Cursor config — 40 skills, 21 rules, 3 always-on stubs, agent-patterns MCP, nawab-plans profiles + opt-in graph-engineering + ponytail + Spec Kit v1.0.6",
   "mcp": {
     "default_server": "agent-patterns",
     "url": "https://mcp.agentpatternscatalog.org/mcp",
@@ -9,7 +9,7 @@
   },
   "spec_kit": {
     "source": "https://github.com/github/spec-kit",
-    "pinned_version": "v0.12.11",
+    "pinned_version": "v1.0.6",
     "install_script": "scripts/install-spec-kit.ps1",
     "docs": "docs/SPEC_KIT.md",
     "rule": "speckit"
@@ -67,15 +67,10 @@
     "always_apply": [
       "rule-awareness",
       "ponytail",
-      "core-engineering",
-      "architecture-boundaries",
-      "ai-anti-patterns",
-      "planning",
-      "communication",
-      "documentation",
-      "learn-and-research"
+      "ai-anti-patterns"
     ],
     "contextual": [
+      "planning",
       "execution",
       "quality-gates",
       "git-commit-discipline",
@@ -91,12 +86,24 @@
     ]
   },
   "workflows": {
-    "implementation": "nawab-plans → (opt-in graph-engineering in §19) → approve plan → EXECUTION_GRAPH.md + run",
+    "implementation": "nawab-plans (lite default) → approve → implement; opt-in graph-engineering in §19",
     "spec_driven": "constitution → specify → plan → tasks → implement (ponytail on code)",
     "learning": "docs/LEARNING_AND_RESEARCH.md",
     "commits": "conventional commits after milestones; auto-push at 10 unpushed or when user asks"
   },
   "optional_catalog": [
+    {
+      "name": "frontend-design",
+      "installs": null,
+      "command": "npx skills add anthropics/skills@frontend-design -y --copy",
+      "when": "High-craft UI from a blank canvas — catalog only, not pre-installed"
+    },
+    {
+      "name": "agent-browser",
+      "installs": null,
+      "command": "npx skills add vercel-labs/agent-browser@agent-browser -y --copy",
+      "when": "Browser automation for agents — catalog only, not pre-installed"
+    },
     {
       "name": "vercel-react-best-practices",
       "installs": 467600,

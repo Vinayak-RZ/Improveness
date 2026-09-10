@@ -1,6 +1,7 @@
 # Readable README — templates
 
-Human main `README.md`. Skip empty sections. Keep numbering sequential.
+Internal platform-layer `README.md`. Skip empty sections. Keep numbering
+sequential. **Do not use this skeleton for installable products.**
 
 ## Skeleton
 
@@ -9,7 +10,7 @@ Human main `README.md`. Skip empty sections. Keep numbering sequential.
 
 > Full internals: [Extensive README](docs/EXTENSIVE.md)
 
-> {What it is}. {What it is not}. Primary interface: {CLI / API / UI}.
+> {What it is}. {What it is not}. Primary interface: {CLI / API / config}.
 
 ---
 
@@ -35,7 +36,7 @@ Human main `README.md`. Skip empty sections. Keep numbering sequential.
 
 ## 2. Ideas worth understanding
 
-{2–5 teaching blocks. See below.}
+{At most 5 teaching blocks.}
 
 ## 3. How it works
 
@@ -45,13 +46,13 @@ One mermaid diagram (≤15 nodes). A few paragraphs. No file-by-file dump.
 
 ## 5. Configuration
 
-Only variables a newcomer must set. Full inventory belongs in extensive or `docs/`.
+Only variables a newcomer must set.
 
 ## 6. Further reading
 
 ## 7. Future advancements
 
-{Mandatory. At least 3, prefer 4.}
+{3 short items. Do not copy into EXTENSIVE.}
 ```
 
 Omit the extensive banner if `docs/EXTENSIVE.md` was not requested and does not exist.
@@ -61,26 +62,12 @@ Omit the extensive banner if `docs/EXTENSIVE.md` was not requested and does not 
 ```markdown
 ### N.M {Plain-language name}
 
-**The problem.** {What would go wrong without this.}
-
-**How it works.** {Short sentences. Cite `{path}`. If hard: one paragraph + verified blog or wiki.}
-
-**Like.** {One analogy.}
+**How it works.** {Short sentences. Cite `{path}`.}
 
 **Limits.** {When it wins / loses.}
 
-**Read next.** [{Title}]({verified-url})
+**Read next.** [{Title}]({verified-url})   <!-- omit if no URL -->
 ```
 
-## Future advancements
-
-```markdown
-## N. Future advancements
-
-### N.1 {Named next bet}
-**Why now.** {Gap in `{path}`.}
-**What would land.** {Modules / docs.}
-**Done when.** {Observable outcome.}
-```
-
-Repeat for N.2–N.4.
+Analogy (`**Like.**`) is optional. Skip The-problem headers when the how/limits
+pair is enough.

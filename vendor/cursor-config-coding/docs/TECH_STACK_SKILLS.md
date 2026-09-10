@@ -98,3 +98,5 @@ From a project linked to this coding config:
 ```
 
 Installs into the **current project's** `.cursor/skills/` (not global).
+
+**Catalog only (do not pre-install into this config):** `vercel-react-best-practices`, `frontend-design`, `agent-browser`. Use `install-catalog-skill.ps1` in the app that needs them.

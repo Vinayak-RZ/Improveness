@@ -1,5 +1,6 @@
-# Generated from github/spec-kit @ v0.12.11
+# Generated from github/spec-kit @ v1.0.6
 # Integration: cursor-agent (skills under .cursor/skills/speckit-*/SKILL.md)
-# Do not hand-edit to match upstream â€” re-run specify init and re-copy, or:
-#   .\scripts\install-spec-kit.ps1 -Target <app> -Tag vX.Y.Z
+# Do not hand-edit to match upstream — regenerate in a temp dir and copy speckit-* only.
+# Target apps: .\scripts\install-spec-kit.ps1 -Target <app>
+# speckit-taskstoissues remains vendored (legacy; may leave upstream core later).
 # See docs/SPEC_KIT.md

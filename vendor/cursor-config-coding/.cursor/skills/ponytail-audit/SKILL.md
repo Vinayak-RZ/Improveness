@@ -1,5 +1,6 @@
 ---
 name: ponytail-audit
+disable-model-invocation: true
 description: >
  Whole-repo audit for over-engineering. Like ponytail-review, but scans the
  entire codebase instead of a diff: a ranked list of what to delete, simplify,

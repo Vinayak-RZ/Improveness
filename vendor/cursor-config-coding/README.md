@@ -49,9 +49,9 @@ This repository is a **portable engineering workspace** — link it into any cod
 When linked into a code project, the agent:
 
 - Requires planning and **user approval** before large implementations
-- **Ponytail-first** — always-on `ponytail.mdc` requires reading the `ponytail` skill before any code change (minimal diff, production-grade)
-- **Nawab plans** — Plan mode **must** use `nawab-plans` for master execution plans (`planning.mdc`)
-- **Spec Kit** — Spec-Driven Development skills for greenfield / multi-phase features ([docs/SPEC_KIT.md](docs/SPEC_KIT.md))
+- **Ponytail-first** — always-on `ponytail.mdc` requires reading the `ponytail` skill before any code change
+- **Nawab plans** — Plan mode loads `nawab-plans` at **lite** unless you ask for standard/project
+- **Spec Kit** — Spec-Driven Development for greenfield / multi-phase features ([docs/SPEC_KIT.md](docs/SPEC_KIT.md); pin **v1.0.6**)
 - **Researches and explains** unfamiliar tech before architectural choices
 - **Teaches while building** — phase learning summaries, optional `LEARNING.md`
 - **Commits proactively** with conventional commits after validated milestones
@@ -78,8 +78,8 @@ This config follows the **three-layer model** used in professional Cursor setups
 
 | Layer | This repo |
 |-------|-----------|
-| **Rules** | Short invariants + scoped conventions (`.cursor/rules/`) |
-| **Skills** | Deep architecture and stack workflows (`.cursor/skills/`) |
+| **Rules** | Short invariants + scoped conventions (`.cursor/rules/`). **Always-on:** three stubs (`rule-awareness`, `ponytail`, `ai-anti-patterns`). |
+| **Skills** | Deep workflows. **Portable** — they describe a job (plan, README, architecture), never a named customer or private gold repo. |
 | **Hooks** | Optional per project (not included — add when you need deterministic enforcement) |
 
 Detailed rationale: [docs/INDUSTRY_PRACTICES.md](docs/INDUSTRY_PRACTICES.md)
@@ -93,8 +93,8 @@ Inspired by: [Cursor Rules docs](https://cursor.com/docs/rules), [awesome-cursor
 | Spec | Value |
 |------|-------|
 | Pre-installed skills | 40 |
-| Planning | `nawab-plans` — **mandatory in Plan mode** (`planning.mdc`); opt-in `graph-engineering` (graph in §19; approve plan runs it; **not** graphify) |
-| Spec Kit (SDD) | 10 `speckit-*` skills + `speckit.mdc` + `install-spec-kit.ps1` |
+| Planning | `nawab-plans` — Plan mode **lite** by default; **standard** / **project** when you ask or the work is multi-package. Opt-in `graph-engineering` (not graphify) |
+| Spec Kit (SDD) | 10 `speckit-*` skills + `speckit.mdc` + `install-spec-kit.ps1` (pinned **v1.0.6**) |
 | Ponytail (minimal code) | 6 skills + `ponytail.mdc` always-on rule |
 | Architecture skills | 4 (`frontend-architecture`, `backend-architecture`, `agentic-system-design`, `system-design-tradeoffs`) |
 | Documentation skills | `readme`, `product-readme`, `readable-readme`, `extensive-readme` |
@@ -104,21 +104,21 @@ Inspired by: [Cursor Rules docs](https://cursor.com/docs/rules), [awesome-cursor
 | UI skill | `impeccable` |
 | Exploration | `graphify` |
 | Rules (total) | 21 |
-| Always-on rules | 9 (+ `ponytail`, `learn-and-research`) |
+| Always-on rules | **3** (`rule-awareness`, `ponytail`, `ai-anti-patterns`) |
 | Commit rule | `git-commit-discipline` — conventional commits + push at 10 unpushed |
 | Learning guide | [docs/LEARNING_AND_RESEARCH.md](docs/LEARNING_AND_RESEARCH.md) |
-| Optional catalog skills | 6+ (see `skills-manifest.json`) |
-| Workflow origin | Stamped Energy Main_Website phased rules |
+| Optional catalog skills | Vercel React BP, frontend-design, agent-browser, others — **not** pre-installed (see `skills-manifest.json`) |
+| Skill portability | Skills name a **job**, not a product. Gold READMEs/plans taught the shape; they are not baked in. |
 
 ---
 
-## Nawab Plans — master execution plans (pre-installed, **mandatory in Plan mode**)
+## Nawab Plans — master execution plans (pre-installed)
 
-Skill: `nawab-plans` · Template: `PLAN.template.md` · Subagents: `SUBAGENT_ORCHESTRATION.md`
+Skill: `nawab-plans` · Templates: `PLAN.template.lite.md` (Cursor Plan default) · `PLAN.template.md` (standard/project)
 
-Enforced by always-on `planning.mdc`: any Plan mode session or implementation plan **must** load this skill. Collapse unused sections as `N/A` — do not invent a thinner format.
+Load the **chosen profile**. Lite is §0 §1 §9 §16 §18. Do not pad lite to 18 sections. Ask commit budget before §9 if missing.
 
-**Opt-in:** `graph-engineering` — only when you name it (`/graph-engineering`, “graph this plan”). Fills **§19** in the plan. Approving the nawab plan writes `EXECUTION_GRAPH.md` and **runs the graph immediately**. Not `graphify`.
+**Opt-in:** `graph-engineering` — only when you name it. Not `graphify`.
 
 ## Ponytail — minimal code (pre-installed)
 
@@ -135,7 +135,7 @@ From [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail). **Ma
 
 ## Spec Kit — Spec-Driven Development (pre-installed)
 
-From [github/spec-kit](https://github.com/github/spec-kit) (pinned **v0.12.11**). For greenfield / multi-phase features.
+From [github/spec-kit](https://github.com/github/spec-kit) (pinned **v1.0.6**). For greenfield / multi-phase features.
 
 | Asset | Role |
 |-------|------|
@@ -195,7 +195,7 @@ Each skill includes a `references/patterns.md` pattern catalog.
 | Skill | When to use |
 |-------|-------------|
 | `nawab-plans` | **Every Plan mode / implementation plan** — mandatory (`planning.mdc`) |
-| `graph-engineering` | **Only when named** (`/graph-engineering`, “graph this plan”). Graph in nawab §19; approve the plan → write `EXECUTION_GRAPH.md` and run. **Not** `graphify`. |
+| `graph-engineering` | **Only when named**. Questions first; graph is the plan (docs → build → run → trials → README). Linked node plans. Approve → run. **Not** `graphify`. |
 
 ### Spec-driven (10) — pre-installed
 
@@ -245,10 +245,10 @@ Guide: [docs/SPEC_KIT.md](docs/SPEC_KIT.md) · Install `.specify/`: `.\scripts\i
 
 | Skill | When to use |
 |-------|-------------|
-| `readme` | "Make a README" with no type — asks product vs readable, and whether extensive is also needed |
-| `product-readme` | Public product landing README (logo, tagline, demo, tiny quickstart) — Colibri / LangChain / vLLM shape |
-| `readable-readme` | Long human `README.md` people can actually finish |
-| `extensive-readme` | Package-by-package internals companion (`docs/EXTENSIVE.md`), linked from the main README |
+| `readme` | "Make a README" with no type — product landing vs internal-service overview |
+| `product-readme` | Installable/OSS landing: is/isn’t, interface, invariant, proof, named techniques with limits |
+| `readable-readme` | One-sitting overview for an internal platform service |
+| `extensive-readme` | Internals companion: domain concepts then how it runs then package maps (`docs/EXTENSIVE.md`) |
 | `learn-while-building` | Research briefs, explain decisions, phase learning summaries |
 
 Guide: [docs/LEARNING_AND_RESEARCH.md](docs/LEARNING_AND_RESEARCH.md)
@@ -263,37 +263,43 @@ Full manifest: [skills-manifest.json](skills-manifest.json)
 
 ## Rules inventory
 
-### Workflow (from Stamped Energy)
+Always-on is **three stubs**. Everything else is glob- or description-gated.
 
-| Rule | Always | Purpose |
-|------|--------|---------|
-| `rule-awareness` | Yes | Load all rules + AGENTS.md |
-| `planning` | Yes | Plans via **nawab-plans** (mandatory) + approval gate |
-| `ponytail` | Yes | Minimal code — lazy senior dev ladder (always before coding) |
-| `speckit` | Context | Spec-Driven Development for features / greenfield |
-| `planning` | Yes | Plan before implement |
-| `communication` | Yes | Risks, tradeoffs, structured updates |
-| `documentation` | Yes | Keep project docs in sync |
-| `learn-and-research` | Yes | Research, explain, learning summaries, keep user in loop |
-| `execution` | Context | Phase-based implementation |
-| `quality-gates` | Context | Validate before done |
-| `git-commit-discipline` | Context | Conventional commits after milestones |
+### Always-on
 
-### Engineering (new)
+| Rule | Purpose |
+|------|---------|
+| `rule-awareness` | Load AGENTS.md; route to skills |
+| `ponytail` | Read ponytail skill before any code edit |
+| `ai-anti-patterns` | Block common AI code smells |
 
-| Rule | Always | Purpose |
-|------|--------|---------|
-| `core-engineering` | Yes | Minimal diff, read-before-write, trade-offs |
-| `architecture-boundaries` | Yes | Layer separation |
-| `ai-anti-patterns` | Yes | Block AI code smells |
-| `trade-offs` | Context | Explicit decision framework |
-| `frontend-architecture` | Globs | UI files |
-| `backend-architecture` | Globs | Server/API files |
-| `agentic-systems` | Globs | Agent/LLM code |
-| `security-baseline` | Globs | Auth/API paths |
-| `testing-discipline` | Globs | Test files |
-| `tech-stack-skills` | Context | Points to stack catalog |
-| `mcp-architecture` | Context | Agent Patterns Catalog MCP usage |
+### Workflow (on request / Plan mode)
+
+| Rule | When | Purpose |
+|------|------|---------|
+| `planning` | Plan mode | Load `nawab-plans` at the chosen profile (lite default) |
+| `speckit` | Greenfield | Spec-Driven Development |
+| `communication` | Substantial tasks | Risks, tradeoffs, structured updates |
+| `documentation` | App-repo docs | IMPLEMENTATION_PLAN / DECISIONS / PROGRESS |
+| `learn-and-research` | Unfamiliar tech | Research brief, explain, learn |
+| `execution` | Implementing | Phase-based work |
+| `quality-gates` | Completing | Validate before done |
+| `git-commit-discipline` | After milestones | Conventional commits |
+
+### Engineering (scoped)
+
+| Rule | When | Purpose |
+|------|------|---------|
+| `core-engineering` | Coding | Minimal diff, read-before-write |
+| `architecture-boundaries` | Globs | Layer separation |
+| `trade-offs` | Architectural choice | Explicit decision framework |
+| `frontend-architecture` | UI globs | UI files |
+| `backend-architecture` | API globs | Server/API files |
+| `agentic-systems` | Agent globs | Agent/LLM code |
+| `security-baseline` | Auth/API globs | Security baseline |
+| `testing-discipline` | Test globs | Tests |
+| `tech-stack-skills` | Stack files | Points to catalog |
+| `mcp-architecture` | Agent design | Agent Patterns Catalog MCP |
 
 ---
 
@@ -305,7 +311,7 @@ cursor-config-coding/
 ├── AGENTS.md
 ├── skills-manifest.json
 ├── .cursor/
-│   ├── rules/                    # 19 .mdc files
+│   ├── rules/                    # 21 .mdc files (3 always-on stubs)
 │   ├── skills/                   # 40 pre-installed skills
 │   │   ├── nawab-plans/
 │   │   ├── graph-engineering/   # opt-in; not graphify
@@ -333,7 +339,9 @@ cursor-config-coding/
 │   └── mcp-catalog.json
 └── scripts/
     ├── link-to-project.ps1
-    └── install-catalog-skill.ps1
+    ├── install-spec-kit.ps1
+    ├── install-catalog-skill.ps1
+    └── validate-config.ps1
 ```
 
 ---
@@ -346,12 +354,10 @@ One-time junction per project:
 
 ```powershell
 cd D:\Startups\cursor-config-coding
-.\scripts\link-to-project.ps1 -Target "D:\Startups\Stamped_Energy\Main_Website"
+.\scripts\link-to-project.ps1 -Target "D:\Startups\YourApp"
 ```
 
-Creates: `Main_Website\.cursor` → this repo's `.cursor`
-
-Keep project-specific notes in the target repo's `AGENTS.md`.
+Creates: `YourApp\.cursor` → this repo's `.cursor`. Seeds `AGENTS.md` from `templates/AGENTS.overlay.md` **only if missing**.
 
 ---
 
@@ -383,7 +389,7 @@ Into a **project's** `.cursor/skills/` (not global):
 ```powershell
 .\scripts\install-catalog-skill.ps1 `
   -Package "vercel-labs/agent-skills@vercel-react-best-practices" `
-  -ProjectRoot "D:\Startups\Stamped_Energy\Main_Website"
+  -ProjectRoot "D:\Startups\YourApp"
 ```
 
 ---
@@ -477,8 +483,7 @@ Link it from the top of README.md.
 ### Product README
 
 ```text
-Use product-readme skill to write a public landing README like Colibri / LangChain.
-If there is no logo, add a basic SVG wordmark under assets/.
+Use product-readme for an installable/OSS landing: what it is/isn’t, proof command, named techniques with limits.
 ```
 
 ### Implementation (existing workflow)
@@ -509,7 +514,7 @@ Compare ReAct vs plan-and-execute via catalog edges. Cite pattern ids in the pla
 
 **Backup:** Existing `.cursor` is renamed to `.cursor.backup.<timestamp>`.
 
-**First project:** `D:\Startups\Stamped_Energy\Main_Website`
+Do not run `specify init --force` against a junctioned `.cursor` — use `install-spec-kit.ps1`.
 
 ---
 
@@ -555,7 +560,7 @@ cd cursor-config-coding
 1. **Agent repeats a mistake** → add/tighten a rule (keep <200 lines per file)
 2. **Reusable multi-step workflow** → add a skill
 3. **New stack you use often** → add row to `stacks.json` + TECH_STACK_SKILLS.md
-4. **Optional skill proves valuable** → install in a project, then vendor into repo if universal
+4. **Optional skill proves valuable** → install in a project, then vendor into repo if **universal** (a job any repo can use). Never bake a named customer or private gold README into a skill.
 
 ```text
 one agent mistake = one rule PR
@@ -593,8 +598,8 @@ After editing `mcp.json`, reload Cursor. Full guide: [MCP_SETUP.md](docs/MCP_SET
 | I want to… | Do this |
 |------------|---------|
 | Wire into a code repo | `.\scripts\link-to-project.ps1 -Target "..."` |
-| Draft / Plan mode plan | `nawab-plans` skill (mandatory) + `PLAN.template.md` |
-| Graph a plan (fan-out, not a queue) | Name `graph-engineering` — fills §19; approve nawab plan to run. Not `graphify` |
+| Draft / Plan mode plan | `nawab-plans` at **lite** (or standard/project if you ask) |
+| Graph a large project (not a queue) | Name `graph-engineering` — graph is the plan; node plans are linked from it; approve to run. Not `graphify` |
 | Spec-Driven feature | `speckit-*` skills + [SPEC_KIT.md](docs/SPEC_KIT.md) |
 | Minimal production-grade code | `ponytail` skill + `ponytail.mdc` (automatic) |
 | Frontend architecture | "Use frontend-architecture skill" |

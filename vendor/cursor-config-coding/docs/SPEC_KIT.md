@@ -2,7 +2,9 @@
 
 This coding config vendors **[GitHub Spec Kit](https://github.com/github/spec-kit)** Cursor skills (`speckit-*`) so agents can run Spec-Driven Development when linked into a code project.
 
-Pinned CLI version used to generate skills / recommended for project install: **v0.12.11**.
+Pinned CLI version: **v1.0.6**.
+
+`speckit-taskstoissues` is still vendored (legacy). Prefer converting tasks to GitHub issues from the tasks artifact if upstream drops that skill from core.
 
 ## What lives where
 
@@ -30,11 +32,7 @@ cd D:\Startups\Cursor\cursor-config-coding
 .\scripts\install-spec-kit.ps1 -Target "D:\Startups\YourApp"
 ```
 
-That runs:
-
-```text
-specify init . --here --force --integration cursor-agent --script ps --ignore-agent-tools
-```
+That installs `specify-cli@v1.0.6` if needed, then inits in a **temp directory** and copies **`.specify/` only**. It will not `specify init --force` into a junctioned `.cursor` (that would write into this config repo).
 
 ## Workflow
 
@@ -49,36 +47,25 @@ specify init . --here --force --integration cursor-agent --script ps --ignore-ag
 | 7 | `/speckit-analyze` | Optional — artifact consistency |
 | 8 | `/speckit-implement` | Build from tasks |
 | 9 | `/speckit-converge` | Gap assessment vs codebase |
-| — | `/speckit-taskstoissues` | Tasks → GitHub issues |
-
-Example:
-
-```text
-/speckit-constitution Focus on code quality, testing, UX consistency, and performance.
-/speckit-specify Build a photo album organizer with date-grouped albums and tile previews.
-/speckit-plan Vite + vanilla HTML/CSS/JS; local SQLite for metadata; no image uploads.
-/speckit-tasks
-/speckit-implement
-```
+| — | `/speckit-taskstoissues` | Tasks → GitHub issues (legacy) |
 
 ## Precedence with this config
 
 1. **`ponytail`** — every code change still uses the minimal-diff ladder.
 2. **Spec Kit** — owns the spec → plan → tasks → implement chain for features / greenfield.
-3. **`planning.mdc`** — approval before non-trivial coding unless user overrides.
+3. **`nawab-plans`** — Plan mode lite default; approval before non-trivial coding unless you override.
 4. Architecture skills apply inside plan/implement as usual.
 
 Do **not** force Spec Kit for one-line fixes.
 
 ## Upgrade
 
+Regenerate vendored skills in a **temp app dir**, copy `speckit-*` only into this config. Then:
+
 ```powershell
-# Upgrade specify CLI, then refresh project scaffold + skills
 uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
 .\scripts\install-spec-kit.ps1 -Target "D:\Startups\YourApp" -Tag "vX.Y.Z"
 ```
-
-After upgrading, re-copy skills into this config if you want the repo to stay pinned (or re-run install so the junctioned `.cursor/skills` refresh).
 
 ## Upstream
 

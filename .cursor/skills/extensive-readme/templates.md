@@ -1,40 +1,47 @@
 # Extensive README — templates
 
-Default file: `docs/EXTENSIVE.md`. Number sections sequentially. One subsection
-per first-party package — do not skip.
+Default file: `docs/EXTENSIVE.md`. Number sections sequentially.
+
+**Order rule:** domain concepts and how-it-runs **before** the package map.
+Do not open with a package table.
 
 ## Skeleton
 
 ```markdown
 # {Project} — extensive internals
 
-Companion to the main [README](../README.md). How the repo runs, every package,
-and why the important files exist. Do not invent paths.
+Companion to the main [README](../README.md). Concepts first, then how the repo
+runs, then every package. Do not invent paths.
 
 ## Table of contents
 
-- [1. How this repository runs](#1-how-this-repository-runs)
-- [2. Package map](#2-package-map)
-- [3. Packages](#3-packages)
-- [4. Configuration](#4-configuration)
-- [5. Tests and CI](#5-tests-and-ci)
-- [6. Ideas worth understanding](#6-ideas-worth-understanding)
+- [1. Domain concepts](#1-domain-concepts)
+- [2. How this repository runs](#2-how-this-repository-runs)
+- [3. Package map](#3-package-map)
+- [4. Packages](#4-packages)
+- [5. Configuration](#5-configuration)
+- [6. Tests and CI](#6-tests-and-ci)
 - [7. Further reading](#7-further-reading)
 - [8. Future advancements](#8-future-advancements)
 
-## 1. How this repository runs
+## 1. Domain concepts
+
+{3–8 ideas this tree actually implements. Invariants, seams, protocols.
+Cite paths. Honest limits. Not a marketing recap of the landing README.}
+
+## 2. How this repository runs
 
 {Mermaid: user/action → entry → packages → result. Then a short walkthrough.}
 
-## 2. Package map
+## 3. Package map
 
 | Package | Path | Role | Entry |
 |---------|------|------|-------|
 | `{name}` | `{dir}` | {one line} | `{file or command}` |
 
-## 3. Packages
+## 4. Packages
 
-### 3.1 `{package name}`
+### 4.1 `{package name}`
 
 **What it is for.** {Plain sentence.}
 
@@ -48,18 +55,19 @@ and why the important files exist. Do not invent paths.
 |------|----------------|--------------|
 | `{path}` | {reason this file exists} | {one line} |
 
-{Repeat 3.2, 3.3, … for every first-party package.}
+{Repeat 4.2, 4.3, … for every first-party package.}
 
-## 4. Configuration
+## 5. Configuration
 
-## 5. Tests and CI
-
-## 6. Ideas worth understanding
+## 6. Tests and CI
 
 ## 7. Further reading
 
 ## 8. Future advancements
 ```
+
+Tiny repos: treat top-level folders (`src/`, `lib/`, `app/`) as packages.
+Domain-heavy internals may insert extra concept sections **before** §3.
 
 ## Package section (copy per package)
 
@@ -78,16 +86,3 @@ and why the important files exist. Do not invent paths.
 |------|----------------|--------------|
 | `{path}` | {why} | {what} |
 ```
-
-Include: entry files, public API, core logic, package-local config, that package's
-tests. Exclude: generated output, vendored deps.
-
-## Workflow diagram
-
-Use mermaid `sequenceDiagram` or `flowchart TD`, ≤15 nodes per diagram; split if
-the runtime has more stages.
-
-## Future advancements
-
-At least 3, prefer 4. Same shape as readable-readme: Why now / What would land /
-Done when. Cite `{path}`.

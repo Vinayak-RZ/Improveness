@@ -1,8 +1,10 @@
 # Execution graph
 
-> Fill this shape in nawab **§19** (in-plan preview) and copy it to
-> `EXECUTION_GRAPH.md` on nawab-plan approval (or when graph-engineering
-> is named against an already-approved plan). Then **run immediately**.
+> **This is the plan you read.** Node plans are separate files; every one
+> must appear as a markdown link in [Node plans](#node-plans).
+>
+> Fill this shape in nawab **§19** and write it to `EXECUTION_GRAPH.md`.
+> On approval, **run immediately**.
 
 ---
 
@@ -10,40 +12,75 @@
 
 | Field | Value |
 |-------|-------|
-| **Source plan** | [path to IMPLEMENTATION_PLAN.md] |
-| **Objective** | [one sentence from nawab §1] |
+| **Scope plan** | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) (nawab §0–§18) |
+| **Objective** | [one sentence] |
 | **Topology mix** | chain / diamond / pipeline / conditional / cycle / mix |
-| **Graph-engineering** | named — approving the nawab plan writes this file and starts execution |
+| **Depth** | 2 (graph → node plans). No nested graphs unless re-invoked. |
+| **Graph-engineering** | named — approving this graph starts execution |
+
+---
+
+## Node plans
+
+**Required.** Every node has a row. Links must resolve (write the files
+before asking for approval).
+
+| ID | Name | Plan |
+|----|------|------|
+| N1 | ingest core | [plans/nodes/N1.md](plans/nodes/N1.md) |
+| N2 | API | [plans/nodes/N2.md](plans/nodes/N2.md) |
+| M1 | merge / harden | [plans/nodes/M1.md](plans/nodes/M1.md) |
+
+Default directory: `plans/nodes/<id>.md` next to `EXECUTION_GRAPH.md`.
+
+---
+
+## Lifecycle
+
+Every full one-shot lists these stages. `N/A` needs a reason. See
+`.cursor/skills/graph-engineering/LIFECYCLE.md`.
+
+| Stage | Node id(s) | Plan / N/A |
+|-------|------------|------------|
+| Research + questions | R0 | lead (Gate 0 done) |
+| Docs-in | D0 | [plans/nodes/D0.md](plans/nodes/D0.md) |
+| Architecture | A1 | [plans/nodes/A1.md](plans/nodes/A1.md) |
+| Design / UI UX | U1 | [plans/nodes/U1.md](plans/nodes/U1.md) or `N/A — …` |
+| Build | B* | links |
+| Integrate | M1 | [plans/nodes/M1.md](plans/nodes/M1.md) |
+| Evaluate | E1 | [plans/nodes/E1.md](plans/nodes/E1.md) |
+| Run | R1 | [plans/nodes/R1.md](plans/nodes/R1.md) |
+| Trials | T1 | [plans/nodes/T1.md](plans/nodes/T1.md) |
+| Docs-out | D1 | [plans/nodes/D1.md](plans/nodes/D1.md) |
 
 ---
 
 ## Mermaid
 
-Draw **only real edges** (data actually crosses). Independent nodes have no arrow between them.
+Draw **only real edges**. Independent nodes have no arrow between them.
 
 ```mermaid
 flowchart LR
-  N1[node_id]
-  N2[node_id]
-  N1 -->|"data_name"| Merge[merge_id]
-  N2 -->|"data_name"| Merge
+  N1[N1_ingest]
+  N2[N2_API]
+  N1 -->|"schema"| Merge[M1_merge]
+  N2 -->|"schema"| Merge
 ```
 
 ---
 
 ## Nodes
 
-| ID | Job (one sentence) | Input schema | Output schema | subagent_type | Model | Write paths | Isolation |
-|----|---------------------|--------------|---------------|---------------|-------|-------------|-----------|
-| N1 | … | `{ ... }` or `none` | `{ ... }` | explore / generalPurpose / lead | cheap / inherit | none / globs | path-ownership |
+| ID | Job | Plan | Input schema | Output schema | Type | Model | Write paths |
+|----|-----|------|--------------|---------------|------|-------|-------------|
+| N1 | … | [N1](plans/nodes/N1.md) | `{ … }` | `{ … }` | generalPurpose | inherit | `packages/ingest/**` |
 
 Rules:
 
-- One job per node. Bounded in, bounded out.
-- Inputs passed explicitly — never assumed from a shared window.
-- `cheap` = extract/classify (`composer-2.5-fast`). Merge/judge = `inherit`.
-- Parallel writers: disjoint write paths. Overlap → sequence, do not fan out.
-- Isolation default: nawab one-writer-per-path. Cloud worktree only if the user asked.
+- One job per node. The node agent loads **its plan only**.
+- Inputs passed explicitly.
+- Cheap = extract/classify (`composer-2.5-fast`). Merge/judge = `inherit`.
+- Parallel writers: disjoint write paths.
 
 ---
 
@@ -51,13 +88,11 @@ Rules:
 
 | From | To | Data name | Kind |
 |------|----|-----------|------|
-| N1 | Merge | `items[]` | plumbing / agent / verify |
+| N1 | M1 | `schema` | plumbing / agent / verify |
 
-Kind:
-
-- **plumbing** — lead code (flatten, dedupe, filter). No Task.
-- **agent** — judgment or synthesis. Spawn a Task.
-- **verify** — must survive a checker before it may flow downstream.
+- **plumbing** — lead code. No Task, no node plan.
+- **agent** — judgment. The downstream **node plan** consumes the artifact.
+- **verify** — must survive a checker before it may flow on.
 
 If you cannot name the data, there is no edge. Cut it.
 
@@ -65,35 +100,37 @@ If you cannot name the data, there is no edge. Cut it.
 
 ## Waves
 
-| Wave | Nodes | Fan-out? | Barrier? | Lead plumbing |
-|------|-------|----------|----------|---------------|
-| 0 | N1, N2, N3 | yes — one message, N Tasks | no | — |
-| 1 | Merge | no | yes — needs whole set | `flatMap` + dedupe by `url` |
-| 2 | Verify* | yes — one Task per finding | no | drop failed / null |
+| Wave | Nodes | Fan-out? | Barrier? | Status | Lead plumbing |
+|------|-------|----------|----------|--------|---------------|
+| 0 | [N1](plans/nodes/N1.md), [N2](plans/nodes/N2.md) | yes | no | pending | — |
+| 1 | [M1](plans/nodes/M1.md) | no | yes — whole set | pending | `flatMap` + dedupe |
 
-Same-wave nodes are independent. Do not wait across a fake "and then".
+`Status` is the checkpoint: `pending` / `running` / `done` / `partial`.
+Resume at the first non-`done` wave.
 
 ---
 
 ## Failure
 
-- A Task that throws or returns empty → treat as **null**, drop it, continue the wave.
-- Fan-in **tolerates missing inputs**. Do not assume a full set.
-- Cycle `seen` keys: `[stable key formula, e.g. title+url]`. Dedupe against **everything seen**, not only confirmed.
-- Dry stop: **2** consecutive rounds with no fresh keys vs `seen`.
+- Task throw/empty → **null**, drop, continue the wave.
+- Fan-in tolerates missing inputs.
+- Cycle `seen` keys: `[formula]`. Dedupe against **seen**, not only confirmed.
+- Dry stop: **2** consecutive rounds with no fresh keys.
 
 ---
 
 ## Commit mapping
 
-| Node(s) | §9 row | Gate |
-|---------|--------|------|
-| N1 | # | `[repo command]` |
+| Node | Plan | §9 rows | Gate |
+|------|------|---------|------|
+| N1 | [N1](plans/nodes/N1.md) | #–# | `[command]` |
 
-Git discipline is unchanged: one matrix row per commit, lead commits, ponytail on every write.
+Lead commits. Ponytail on every write. One matrix row per commit.
 
 ---
 
 ## Approval implication
 
-Approving the **nawab plan** (this graph lives in §19) writes `EXECUTION_GRAPH.md` and **starts graph execution immediately**. There is no second wait.
+Approving **this graph** (nawab plan with §19 filled) starts graph execution
+immediately. Node plans are already written and linked. No second wait, and
+no wait per node unless a node plan marks a human checkpoint (prod / freeze).

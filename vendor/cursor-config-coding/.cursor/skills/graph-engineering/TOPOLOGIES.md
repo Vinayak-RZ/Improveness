@@ -1,8 +1,9 @@
 # Topologies
 
-Read this while compiling nawab §19 **when the shape is not a simple diamond**.
-Pick the cheapest shape that matches **real data dependencies**. Default:
-per-item pipeline. Barrier only when a stage needs the whole set.
+Read this while compiling the **graph of plans** when the shape is not a
+simple diamond. Each node still gets its own `plans/nodes/<id>.md`. Pick the
+cheapest shape that matches **real data dependencies**. Default: per-item
+pipeline. Barrier only when a stage needs the whole set.
 
 | Need | Section |
 |------|---------|

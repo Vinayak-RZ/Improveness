@@ -2,40 +2,28 @@
 
 ## Routing
 
-- [ ] This is a public product landing page, not a readable overview or internals dump
-- [ ] Readable human README → `readable-readme`; package-by-package → `extensive-readme`
-- [ ] If an extensive companion was requested: top banner links to `docs/EXTENSIVE.md`
+- [ ] Installable / OSS / agent landing — not a platform-layer numbered overview
+- [ ] Platform service → `readable-readme`; package map → `extensive-readme`
+- [ ] If extensive companion: top banner links to `docs/EXTENSIVE.md`
 
-## First screen
+## First screen (required)
 
-- [ ] Logo centered (existing brand, or new `assets/{product}-logo.svg`)
-- [ ] Tagline + pitch answer what it is and who it is for
-- [ ] A stranger can see how to try it (install or "Get started" nearby)
+- [ ] What it is and what it is not
+- [ ] Primary interface named
+- [ ] One invariant
+- [ ] Proof command or recorded demo (not only “see Get started”)
 - [ ] Badges/nav only include URLs that exist
-
-## Logo
-
-- [ ] Did not overwrite an existing logo
-- [ ] New SVG is flat, 1–2 colors, no gradients/3D/emoji-as-logo
-- [ ] `alt` text is the product name or tagline
-
-## Truth
-
-- [ ] No invented features, benchmarks, "trusted by", or star counts
-- [ ] Numbers come from this repo (benchmarks, issues, docs) or are omitted
-- [ ] Terminal demo matches this project's CLI
-- [ ] Screenshot captions teach something (not "the UI")
+- [ ] Logo reused if present; new SVG is flat if added
 
 ## Teaching
 
-- [ ] 1–5 named techniques, not a generic Features list
-- [ ] Each has mechanism + honest limit
-- [ ] Citation URLs verified (WebSearch/WebFetch) or omitted
-- [ ] Acknowledgements only name systems this repo uses or cites
+- [ ] 1–5 named techniques, each with mechanism + **limit**
+- [ ] Citation URLs verified or omitted
+- [ ] No slogan claims or invented benchmarks
+- [ ] Field guide optional; no `## 1. Vision` numbering
 
 ## Shape
 
-- [ ] Colibri section order, empty sections skipped
-- [ ] Full env/API catalogs live in `docs/` or were left to `extensive-readme`
-- [ ] Get started is pasteable (one install + one run)
+- [ ] Get started comes after teaching
+- [ ] Catalogs live in `docs/` or `extensive-readme`
 - [ ] License stated if the repo has one

@@ -1,66 +1,18 @@
 ---
-description: Project documentation requirements
-alwaysApply: true
+description: App-repo docs sync — IMPLEMENTATION_PLAN, DECISIONS, PROGRESS after milestones
+alwaysApply: false
+globs: "**/IMPLEMENTATION_PLAN.md,**/DECISIONS.md,**/PROGRESS.md,**/docs/**/*.md"
 ---
 
-# Documentation Rules
+# Documentation (application repos)
 
-Documentation is a required deliverable.
+Keep docs in sync with shipped behavior.
 
-Documentation must remain synchronized with implementation.
+When the **target is an application repo** (not this config distro):
 
-## Required Documents
+- `IMPLEMENTATION_PLAN.md` after plan approval
+- `DECISIONS.md` for significant choices
+- `PROGRESS.md` during phased work
 
-### PROJECT_OVERVIEW.md
-
-Maintain:
-
-- Project purpose
-- System overview
-- High-level architecture
-- Constraints
-
-### IMPLEMENTATION_PLAN.md
-
-Create after plan approval.
-
-Maintain:
-
-- Approved requirements
-- Architecture decisions
-- Phase breakdown
-- Deliverables
-- Risks
-
-### DECISIONS.md
-
-Maintain continuously.
-
-For every significant decision record:
-
-- Context
-- Alternatives
-- Selected solution
-- Rationale
-
-### PROGRESS.md
-
-Maintain continuously.
-
-Track:
-
-- Current phase
-- Completed phases
-- Remaining phases
-- Active blockers
-
-## Documentation Updates
-
-Documentation must be updated whenever:
-
-- Requirements change
-- Architecture changes
-- Scope changes
-- Major implementation decisions occur
-
-Documentation must reflect current project state.
+This config repo’s overview is `README.md`. Do not invent `PROJECT_OVERVIEW.md` here.
+Skills stay portable: never require a named customer repo to use them.

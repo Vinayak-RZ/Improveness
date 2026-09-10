@@ -1,5 +1,10 @@
 ---
 name: frontend-architecture
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/*.vue"
+  - "**/*.svelte"
 description: Guides frontend architecture decisions for React, Next.js, and modern SPAs — component boundaries, state, data fetching, rendering strategy, and design-system structure. Use when designing or refactoring UI architecture, choosing state management, planning folder structure, or evaluating SSR/CSR/ISR trade-offs.
 ---
 

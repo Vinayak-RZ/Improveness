@@ -2,35 +2,38 @@
 name: product-readme
 description: >-
   Authors public product README.md files for software people can install and use:
-  centered logo, badges, tagline, demo, mission, named techniques, tiny quickstart,
-  and a docs index. Colibri / LangChain / vLLM / llama.cpp shape. Use when showcasing
-  an OSS product, library, or engine as a landing page. Do not use for a human
-  readable overview (readable-readme) or a package-by-package internals dump
-  (extensive-readme). Unspecified "make a README" goes to the readme skill.
+  first screen answers what it is / is not, primary interface, invariant, and a
+  proof command or demo; then named techniques with limits. Use for OSS, libraries,
+  engines, and agent products. Do not use for internal platform-layer overviews
+  (readable-readme) or package maps (extensive-readme). Unspecified "make a README"
+  goes to the readme skill.
 ---
 
 # Product README Authoring
 
-Write the README as a **product landing page**, not a reference manual. A stranger on
-GitHub should know what this is, why it exists, the clever idea, and how to try it —
-in the first screen — then be sent to `docs/` for catalogs.
+Write a **product landing that teaches**. A stranger on GitHub should, **in the
+first screen**, know what this is, what it is not, the primary interface, one
+invariant, and how to prove it works. Then they learn the named bets (with limits)
+and how to install.
 
-Primary structure authority: **Colibri**. Also steal from LangChain (tiny install +
-ecosystem), vLLM (named technique + real blog link), llama.cpp (badges + quick start).
+Write for **any** installable product: library, CLI, engine, or agent harness.
+Steal density from well-known public OSS (short install, named technique + real
+link). Do not invent a fourth README type — teaching lives here.
+
+**Portable:** never name a customer, private repo, or local disk path. Describe
+the job (what a stranger on GitHub must learn), not a source README.
 
 ## When to apply
 
-- User asks for a **product README**, OSS landing page, or "README like Colibri / LangChain / vLLM"
-- The repo is something people **install and run**, not an internal notes dump
-- User wants a logo, tagline, demo, and "get started" — not every env var
+- Installable product, OSS library, CLI, engine, or agent harness
+- User asks for a product README, OSS landing page, or installable-library README
+- Router default for installable / OSS / agent
 
-**Use `readable-readme` instead** for a long human `README.md` people finish in one
-sitting. **Use `extensive-readme`** for `docs/EXTENSIVE.md` (every package and file
-map). **Use `readme`** when the user did not name a type — that skill asks first.
+**Not this skill:** internal platform layer / monorepo service → `readable-readme`.
+Package maps → `extensive-readme`. Unknown type → `readme` (asks first).
 
-If this run also requested an extensive companion: write `README.md` here, then load
-`extensive-readme`. Put this banner **at the top** of `README.md` (after the logo is
-fine, before the pitch):
+If an extensive companion was requested, write `README.md` here, then load
+`extensive-readme`. Banner (after logo, before the pitch):
 
 ```markdown
 > Full internals (every package, file map, how the repo runs): [Extensive README](docs/EXTENSIVE.md)
@@ -42,111 +45,89 @@ fine, before the pitch):
 
 Do not invent features, numbers, or URLs.
 
-1. What people install and the one command that proves it works
-2. Positioning: what it is, what it is not, who it is for
-3. The 1–5 **named techniques** (not a feature laundry list)
-4. Proof: screenshots, terminal recordings, measured numbers already in the repo
-5. Existing logo / cover art
-6. Real links: docs, Discord, website, license, papers/blogs the code cites
-7. Sibling products / ecosystem
+1. What people install; the **one command or recorded demo** that proves it
+2. Positioning: is / is not / who it is for
+3. **Primary interface** (CLI, HTTP path, plugin add)
+4. **One invariant** (a rule the product will not break)
+5. 1–5 **named techniques**, each with an honest limit
+6. Existing logo / cover; real docs / license / papers the tree cites
 
 ### Phase 2 — Length
 
-| Product shape | README length |
-|---------------|----------------|
-| Small SDK / library (LangChain-like) | Short: logo, pitch, install, why, ecosystem, links |
-| Engine / research product (Colibri-like) | Longer: mission, idea, how it works, results, get started, docs index |
-| Default | **Colibri-shaped**, skip empty sections |
+| Shape | Length |
+|-------|--------|
+| Small SDK | Short: first screen + 1–3 techniques + install |
+| Research / engine / agent | Longer: era context, field guide, honest claims, Go deeper |
+| Default | First-screen contract, skip empty sections |
 
 ### Phase 3 — Write
 
-Follow [templates.md](templates.md). Skip sections with nothing true to say.
+Follow [templates.md](templates.md). No `## 1. Vision` numbering. No slogan claims.
 
 ### Phase 4 — Validate
 
 Run [checklist.md](checklist.md).
 
+## First screen (required)
+
+Before the fold, in this order (logo/badges optional if none exist):
+
+1. Centered logo if the repo has one (or a new flat SVG — see Logo)
+2. Real badges / nav only
+3. Pitch: what it does in 1–2 paragraphs
+4. Blockquote: **is / is not**, **primary interface**, **invariant**
+5. Proof: fenced terminal of a real command, or a screenshot whose caption teaches
+
+Get started comes **after** teaching, not in place of the proof command.
+
 ## Logo
 
-Search before drawing: `assets/`, `docs/`, `docs/media/`, `public/`, `static/`,
-`brand/`, images already in README.
+Search `assets/`, `docs/`, `docs/media/`, `public/`, `static/`, `brand/`.
 
-**If a real logo exists:** reuse it. Do not replace it.
+**If a real logo exists:** reuse it. **If none:** `assets/{product}-logo.svg` —
+flat, 1–2 colors, no gradients/3D/emoji. Width ~220–560. Do not invent favicons.
 
-**If none exists:** write a **basic SVG wordmark** to `assets/{product}-logo.svg`.
+## Teaching
 
-- Geometric mark (circle, bird-like chevron, simple letterform) + product name
-- One or two flat colors; no gradients, no 3D, no drop shadows, no emoji-as-logo
-- Readable on GitHub light and dark (dark fill, or a version that works on both)
-- `width` ~480–560 in the README; `alt` is the tagline or product name
-- Center with the same HTML as Colibri (see templates)
+Each named technique:
 
-Use GenerateImage for a PNG **only** if the user asks for a raster mark. SVG is the
-default (GitHub-native, matches Colibri).
+- Memorable name
+- Mechanism in plain language
+- Honest **limit** (when it wins / loses)
+- 1 verified link or omit
 
-Do not generate favicons, OG images, or a media kit unless asked.
+Optional **field guide**: vocabulary the reader can reuse on other systems. Not a
+`### The problem / Like / Limits` numbered school essay. Cap at ~5 ideas.
 
-## Teaching (light, mandatory)
+**Honest claims:** only numbers this tree can reproduce. Point at a ledger or
+omit. Never invent tok/s, “trusted by”, or public-bench scores as fitness.
 
-Name the clever bets so a newcomer **learns** them from the README:
+## Section order
 
-- Memorable name ("JIT for weights", "PagedAttention")
-- Mechanism in plain language + one analogy
-- Honest limits (when it wins / loses)
-- 1–3 **verified** links (blog, paper, related system)
-
-Never invent URLs. WebSearch/WebFetch, or omit the link. Same citation bar as
-`extensive-readme` / [further-reading.md](../extensive-readme/further-reading.md).
-
-Screenshots need captions that teach, not "screenshot of the UI".
-
-## Section order (Colibri default)
-
-1. Centered logo
-2. Badges + nav (website, Discord, docs, languages, license) — only real URLs
-3. Tagline + 1–2 paragraph pitch
-4. Positioning blockquote (is / is not / invariant)
-5. Proof: terminal demo and/or screenshot with a teaching caption
-6. Why it exists / mission
-7. Core techniques (named, measured, honest)
-8. The idea (one conceptual explanation)
-9. How it works (short; diagrams; details in `docs/`)
-10. What it achieves (real numbers only)
-11. Get started (install + one run command)
-12. Go deeper (doc index table)
-13. Repo layout (brief)
-14. Community / contributing
-15. Acknowledgements (systems this repo actually uses)
-16. License
-
-## Quality bar
-
-- First screen answers: what it is, who it is for, how to try it
-- One install snippet a newcomer can paste (LangChain-short)
-- Named technique linked to a **real** source (vLLM × PagedAttention blog)
-- Catalogs, env inventories, and full API tables belong in `docs/` or `extensive-readme`
-- Present tense; no engagement bait; no fake benchmarks
-- Terminal demos show actual CLI output from this project (or clearly marked as illustrative if you cannot run it)
+1. Logo / badges / nav (skip if nothing true)
+2. Extensive banner if companion exists
+3. Pitch
+4. Positioning blockquote (is / isn’t / interface / invariant)
+5. Proof command or demo
+6. Why it exists (era context only if true)
+7. Core techniques (named + limit + link)
+8. Optional field guide
+9. How it works (short diagram)
+10. What it achieves (honest / omit)
+11. Get started
+12. Go deeper (docs index)
+13. License / contributing
 
 ## Anti-patterns
 
-- Exhaustive numbered manual in the product README
-- Generic "Features" bullets with no idea behind them
-- Invented logos over an existing brand
-- Gradient/3D/slop logos
-- Fake stars, fake "trusted by", fake tok/s
-- Invented citation URLs
-- Empty sections left as placeholders
-
-## Output
-
-- `README.md` at repo root (or the package the user named)
-- Banner to `docs/EXTENSIVE.md` when an extensive companion was requested
-- `assets/{product}-logo.svg` only when no logo existed
-- Do not write the extensive dump yourself — load `extensive-readme`
+- Numbered Vision / Ideas skeleton on a product repo
+- Generic Features with no idea
+- Proof missing; install dumped before the reader knows what they installed
+- Invented URLs, fake benchmarks, empty placeholders
+- File maps in `README.md`
 
 ## Additional resources
 
-- Skeleton and HTML snippets: [templates.md](templates.md)
-- Annotated OSS patterns: [examples.md](examples.md)
-- Pre-ship checklist: [checklist.md](checklist.md)
+- [templates.md](templates.md)
+- [examples.md](examples.md)
+- [checklist.md](checklist.md)

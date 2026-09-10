@@ -1,72 +1,85 @@
 # Product README — templates
 
-Colibri-shaped default. Delete any block you cannot make true.
+First-screen contract, then teaching, then install. Delete any block you cannot
+make true. No numbered Vision sections.
 
 ## Logo + badges + nav
 
 ```markdown
 <p align="center">
-  <img src="assets/{product}-logo.svg" width="560" alt="{product} — {tagline}">
+  <img src="assets/{product}-logo.svg" width="420" alt="{product} — {tagline}">
 </p>
 
 <p align="center">
-  <a href="{docs-url}"><img src="https://img.shields.io/badge/docs-{label}-1f6feb" alt="Docs"></a>
-  <a href="{releases-url}"><img src="https://img.shields.io/github/v/release/{owner}/{repo}?color=2ea043" alt="Latest release"></a>
+  <a href="docs/EXTENSIVE.md"><img src="https://img.shields.io/badge/docs-extensive-1f6feb" alt="Extensive internals"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea043" alt="License"></a>
 </p>
 
 <p align="center">
-  <a href="{website}"><b>Website</b></a> ·
-  <a href="{discord}"><b>Discord</b></a> ·
-  <a href="{docs}"><b>Docs</b></a>
+  <a href="docs/EXTENSIVE.md"><b>Internals</b></a> ·
+  <a href="LICENSE"><b>License</b></a>
 </p>
 ```
 
-Omit a badge or nav link when the URL does not exist.
+Omit a badge or nav link when the URL does not exist. Logo is optional.
 
-## Pitch + positioning
+## Extensive banner
 
 ```markdown
-**{Tagline.}** {One or two sentences: what it does, on what hardware/runtime, the
-bet that makes it possible.}
+> Full internals (every package, file map, how the repo runs): [Extensive README](docs/EXTENSIVE.md)
+```
+
+## Pitch + positioning (required)
+
+```markdown
+**{What it does.}** {One or two sentences. The bet that makes it possible.}
 
 > **{Product} is {category} you can run today.** It is not {nearby-wrong-thing}.
-> Primary interface: `{command}`. {One invariant — e.g. placement changes speed,
-> not semantics.}
+> Primary interface: `{command or route}`.
+> Invariant: **{the rule you will not break}**.
 ```
 
-## Terminal proof
+## Proof (required)
 
-Fenced `text` or bare block, real CLI:
+Fenced `text`, real CLI — or a recorded demo with a teaching caption.
 
-    $ {actual-command}
-      {actual or faithfully reconstructed output}
+Example shape (do not nest fences in the README you write):
 
-## Screenshot with a teaching caption
+- Language: `text`
+- First line: `$ {actual-command}`
+- Following lines: actual or faithfully reconstructed output
 
-```markdown
-## See it running
+That command is the product check. Say what it proves (tests, health, a named
+fixture). If you cannot run it, mark the block illustrative.
 
-<p align="center">
-  <img src="docs/media/{file}.png" width="900" alt="{what the image shows}">
-</p>
-<p align="center"><em>{What to notice: metric, invariant, or UI that teaches the idea.}</em></p>
-```
+## Why it exists
+
+A few paragraphs of **era context** only if true. Named papers/posts the code
+cites. Nearby-wrong products get one sentence, not a roast.
 
 ## Core techniques
 
 ```markdown
 ## Core techniques
 
-- **{Named idea}.** {Mechanism.} {Honest limit.} [{Source}]({verified-url})
+- **{Named idea}.** {Mechanism.} Limit: {when it loses}. [{Source}]({verified-url})
 - **{Named idea}.** …
 ```
 
-## The idea
+## Optional field guide
 
-One conceptual explanation a newcomer can learn from. Analogy + invariant + where
-it lives in the tree. Optional diagram. Not a second feature list.
+Vocabulary a reader can steal without installing. Short subsections, not
+school-essay blocks. Cap ~5. Skip on a tiny SDK.
 
-## Get started
+## Honest claims
+
+```markdown
+## What it achieves (honest)
+
+Only numbers this tree can reproduce. See [{ledger}]({path}) or omit the section.
+```
+
+## Get started (after teaching)
 
 ```markdown
 ## Get started
@@ -79,39 +92,10 @@ You need {N} things: **{the program}** and **{the model / account / env}**.
 
 ### 2. Run
 
-    {one command that does the interesting thing}
+    {the proof command or the smallest live command}
 ```
-
-Link a Quick Start doc for platforms; do not paste every OS matrix here.
 
 ## Go deeper
 
-```markdown
-## Go deeper
-
-| Topic | Doc |
-|-------|-----|
-| {topic} | [{path}]({path}) |
-```
-
-## Basic SVG wordmark
-
-Write `assets/{product}-logo.svg` when no logo exists. Keep it tiny.
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 120" role="img" aria-label="{product}">
-  <rect width="560" height="120" fill="none"/>
-  <circle cx="48" cy="60" r="28" fill="#1f6feb"/>
-  <text x="92" y="72" font-family="ui-sans-serif, system-ui, sans-serif"
-        font-size="36" font-weight="700" fill="#1f2328">{Product}</text>
-</svg>
-```
-
-Swap the circle for a simple geometric mark that fits the name (chevron, bar,
-double-dot). Two colors maximum. No gradients.
-
-## Acknowledgements row
-
-```markdown
-- [{system}]({verified-url}) — {how this repo uses it: reimplemented, compared, format adopted}
-```
+A table of real docs. Catalogs, env inventories, and file maps stay in `docs/`
+or `extensive-readme`.

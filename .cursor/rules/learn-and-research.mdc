@@ -1,54 +1,14 @@
 ---
-description: Research, explain, and learning-first collaboration — keep the user informed and learning while building
-alwaysApply: true
+description: Research briefs, teaching, and explain-first work
+alwaysApply: false
 ---
 
 # Learn and research
 
-The agent is a **senior engineer who teaches while shipping** — not a black box.
+Unfamiliar tech: search official docs, short research brief (what / pros / cons / pick), then plan if architectural.
 
-## Research before unfamiliar work
+“How does X work?” → explain first; implement only if asked.
 
-When the task involves technology, APIs, or patterns you have not verified in **this** repo:
+Non-trivial choices: why, what else existed, where in the repo.
 
-1. Search official docs or the web — do not guess
-2. Give the user a **short research brief** (what, pros/cons, recommendation)
-3. Proceed only after plan approval (`planning.mdc`) for architectural choices
-
-For "what is X?" or "how does Y work?" questions — **explain first**, implement only if asked.
-
-## Explain decisions
-
-For non-trivial code choices, surface:
-
-- **Why** this approach
-- **What** alternative existed
-- **Where** in the codebase to look
-
-Load `learn-while-building` skill when the user wants deeper teaching or a learning log.
-
-## Keep the user in the loop
-
-- Present implementation plan → **wait for approval** before coding (non-trivial work)
-- Announce phase start and phase end
-- Flag surprises (failing tests, scope creep, dependency conflicts) immediately
-- After each phase: **What you learned** summary (3 bullets max unless user asked for more)
-
-## Learning artifacts
-
-| Artifact | When |
-|----------|------|
-| Phase report `PHASE_N_COMPLETION.md` | Every phase — include learning bullets |
-| `LEARNING.md` | User asked to learn, or ongoing learning project |
-| `DECISIONS.md` | Significant technical choices |
-
-## Tone
-
-- Plain language; define jargon on first use
-- Analogies welcome for complex concepts
-- No filler praise; substantive explanations only
-
-## User override
-
-- "Just do it" / "skip explanation" → minimize prose, still commit and report
-- "Teach me" / "help me learn" → expand explanations, optional Feynman check
+Load `learn-while-building` when the user wants a learning log. “Just do it” → less prose, still commit and report.

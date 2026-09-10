@@ -1,35 +1,15 @@
 ---
-description: Load and follow all project rules before acting
+description: Load AGENTS.md and route to matching skills; always on
 alwaysApply: true
 ---
 
 # Rule Awareness
 
-Before starting any task in this repository:
+1. Read root `AGENTS.md`.
+2. **Code:** read `.cursor/skills/ponytail/SKILL.md` before any edit.
+3. **Plan mode:** load `nawab-plans` at the matching **profile** (lite default). See `planning.mdc`.
+4. **graph-engineering:** only if the user named it. Never auto-chain. Not graphify.
+5. Apply other rules when their description or globs match. Do not read every `.mdc` up front.
+6. If a user request conflicts with these rules, stop and ask which wins.
 
-1. Read `AGENTS.md` at the project root.
-2. Check `.cursor/rules/` for all project rules.
-3. Always follow rules with `alwaysApply: true` (including `ponytail.mdc`).
-4. **Coding tasks:** read and apply the `ponytail` skill (`.cursor/skills/ponytail/SKILL.md`) **before** any plan that writes code or any file edit.
-5. **Plan mode / any implementation plan:** read and apply the `nawab-plans` skill (`.cursor/skills/nawab-plans/SKILL.md`) **compulsorily** — use `PLAN.template.md`. See `planning.mdc`.
-6. For `alwaysApply: false` rules, include them when the task matches their description:
-   - **Any coding task (write, fix, refactor, add dependency)** → `ponytail` skill first, then execution rules
-   - **Plan mode / drafting IMPLEMENTATION_PLAN** → `nawab-plans` skill (mandatory) + `planning.mdc`
-   - **User names graph-engineering / "graph this plan" / /graph-engineering** → **read** `.cursor/skills/graph-engineering/SKILL.md` **only then** (it is `disable-model-invocation`, so it will not auto-load — open the file). Never auto-chain from nawab. Fill §19; on nawab-plan approval write `EXECUTION_GRAPH.md` and run the graph immediately.
-   - Implementation or file changes → execution rules + ponytail ladder on every edit
-   - Validation, completion, or phase reports → quality-gates + git-commit-discipline rules
-   - Over-engineering review → `ponytail-review` or `ponytail-audit` skills
-   - **Greenfield / new feature / specs-first** → `speckit.mdc` + `speckit-*` skills (after ponytail for code); structure delivery with `nawab-plans`
-   - Research, explain, learning → learn-and-research rule + `learn-while-building` skill
-   - "Make a README" with no type → `readme` skill (asks product vs readable, and whether extensive is also needed)
-   - Readable / general README.md → `readable-readme` skill
-   - Public product / OSS landing README → `product-readme` skill
-   - Package-by-package internals (`docs/EXTENSIVE.md`) → `extensive-readme` skill
-   - UI / React / Next.js files → frontend-architecture rule + skill
-   - API / services / server code → backend-architecture rule + skill
-   - Agents / LLM / MCP / automations → agentic-systems + mcp-architecture rules + skills
-   - Architectural choices → trade-offs rule + system-design-tradeoffs skill
-   - Test files → testing-discipline rule
-   - Auth / API security paths → security-baseline rule
-7. If project rules conflict with a user request, stop and ask which takes priority.
-8. Do not begin implementation until planning and approval requirements are satisfied.
+Ponytail first. Minimal correct diff. No secrets in git. Architecture: frontend / backend / agentic skills when that work starts.

@@ -20,7 +20,7 @@ Rules are hints; hooks are enforcement. This repo uses rules + skills; add hooks
 4. **Architecture skills** — frontend, backend, agentic (pre-installed here)
 5. **Stack catalog** — optional skills per tech ([TECH_STACK_SKILLS.md](TECH_STACK_SKILLS.md))
 6. **AGENTS.md** — orchestration entry for the agent
-7. **Phased workflow** — planning → execution → quality gates (from Stamped Energy)
+7. **Phased workflow** — plan → execute → quality gates
 
 ## References
 
@@ -34,4 +34,4 @@ Rules are hints; hooks are enforcement. This repo uses rules + skills; add hooks
 
 ## Evolving this config
 
-When the agent makes the same mistake twice → add or tighten a rule. When a workflow is multi-step and reusable → add a skill. Keep always-on rules minimal to save context tokens.
+When the agent makes the same mistake twice → add or tighten a rule. When a workflow is multi-step and reusable **on any repo** → add a skill. Skills describe jobs, not named products. Keep always-on rules minimal to save context tokens.

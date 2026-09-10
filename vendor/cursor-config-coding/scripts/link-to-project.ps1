@@ -1,5 +1,5 @@
 # Junction a code project's .cursor to this coding config (one-time per project)
-# Usage: .\link-to-project.ps1 -Target "D:\Startups\Stamped_Energy\Main_Website"
+# Usage: .\link-to-project.ps1 -Target "D:\Startups\YourApp"
 
 param(
     [Parameter(Mandatory = $true)]
@@ -10,6 +10,8 @@ $ErrorActionPreference = "Stop"
 $configRoot = Split-Path $PSScriptRoot -Parent
 $cursorSource = Join-Path $configRoot ".cursor"
 $cursorTarget = Join-Path $Target ".cursor"
+$agentsTarget = Join-Path $Target "AGENTS.md"
+$overlay = Join-Path $configRoot "templates\AGENTS.overlay.md"
 
 if (-not (Test-Path $Target)) {
     Write-Error "Target path does not exist: $Target"
@@ -22,9 +24,22 @@ if (Test-Path $cursorTarget) {
 }
 
 cmd /c mklink /J "$cursorTarget" "$cursorSource"
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "Linked $cursorTarget -> $cursorSource"
-    Write-Host "Keep project-specific notes in $Target\AGENTS.md (thin override)."
-} else {
+if ($LASTEXITCODE -ne 0) {
     Write-Error "mklink failed. Run PowerShell as Administrator or enable Developer Mode."
 }
+
+Write-Host "Linked $cursorTarget -> $cursorSource"
+
+if (-not (Test-Path $overlay)) {
+    Write-Host "No templates/AGENTS.overlay.md — skip AGENTS.md seed."
+    return
+}
+
+if (-not (Test-Path $agentsTarget)) {
+    Copy-Item $overlay $agentsTarget
+    Write-Host "Seeded $agentsTarget from templates/AGENTS.overlay.md — fill in this-repo notes."
+    return
+}
+
+$existing = Get-Content $agentsTarget -Raw
+Write-Host "Left existing AGENTS.md in place (never overwrite)."

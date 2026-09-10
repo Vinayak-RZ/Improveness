@@ -1,5 +1,11 @@
 ---
 name: backend-architecture
+paths:
+  - "**/api/**"
+  - "**/services/**"
+  - "**/server/**"
+  - "**/*route*.ts"
+  - "**/*handler*.ts"
 description: Guides backend and API architecture — service layers, REST/GraphQL design, databases, caching, async jobs, and scalability trade-offs. Use when designing APIs, microservices vs monolith boundaries, data models, authentication flows, or infrastructure-facing code.
 ---
 

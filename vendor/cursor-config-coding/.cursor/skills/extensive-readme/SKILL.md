@@ -1,28 +1,29 @@
 ---
 name: extensive-readme
 description: >-
-  Authors a separate extensive internals document covering every package, how the
-  repo actually runs, high-level source workflow, and why each important file
-  exists. Default output docs/EXTENSIVE.md, linked from the main README. Use when
-  the user asks for an extensive README, internals dump, package-by-package map,
-  or a companion to a readable or product README. Do not use for the human main
-  README.md (readable-readme) or a product landing page (product-readme).
+  Authors a separate internals companion: how the repo runs, domain concepts,
+  then every first-party package and why important files exist. Default output
+  docs/EXTENSIVE.md, linked from the main README. Use when the user asks for an
+  extensive README, internals dump, or package-by-package map. Do not use for
+  the human main README.md (readable-readme) or a product landing (product-readme).
 ---
 
 # Extensive README Authoring
 
-Write the **deep companion**, not the main GitHub landing page. A reader who opens
-this file should be able to understand **the whole repository**: how a request or
-build actually flows, what every package is for, and why the important files exist.
+Write the **deep companion**, not the GitHub landing page. A reader should
+understand how the system runs, the domain ideas the code encodes, then every
+first-party package and why important files exist.
 
-Default output: **`docs/EXTENSIVE.md`**. Do **not** overwrite `README.md` unless the
-user explicitly said the main file should be this dump.
+**Portable:** walk *this* tree. Do not assume a named platform, industry, or
+sibling org. Domain concepts come from the code and docs in front of you.
+
+Default output: **`docs/EXTENSIVE.md`**. Do **not** overwrite `README.md` unless
+the user said the main file should be this dump.
 
 ## When to apply
 
 - User asks for an extensive README, internals, or package-by-package documentation
 - The `readme` skill asked for an extensive companion
-- Someone needs to understand source layout without opening every file
 
 **Not this skill:** human main `README.md` → `readable-readme`. Product landing →
 `product-readme`. Unspecified "make a README" → `readme`.
@@ -34,12 +35,7 @@ user explicitly said the main file should be this dump.
 | `docs/EXTENSIVE.md` | This document (create `docs/` if needed) |
 | `README.md` | Unchanged unless the user said otherwise |
 
-If the main README is being written in the same turn (`readable-readme` or
-`product-readme`), that skill puts a **top banner** linking here. If you only write
-the extensive file, add or keep that banner on the existing `README.md` (one short
-blockquote; do not rewrite the rest).
-
-Banner:
+Banner on the main README:
 
 ```markdown
 > Full internals (every package, file map, how the repo runs): [Extensive README](docs/EXTENSIVE.md)
@@ -49,47 +45,37 @@ Banner:
 
 ### Phase 1 — Discover (walk the tree)
 
-Do not invent packages or files. List what exists.
+Do not invent packages or files.
 
 1. **Repo kind** — app, library, monorepo, config, mixed
-2. **Packages / top-level modules** — workspaces, `src/*`, `packages/*`, apps, services, `cmd/`, crates
-3. **Entry points** — `main`, CLI, server, scripts in package.json / Makefile / pyproject
-4. **Runtime path** — what happens from "user runs X" to "result comes back"
-5. **Config, persistence, tests, CI, deploy**
-6. **Per package:** purpose, public API, important files (skip generated noise: `dist/`, `.next/`, `__pycache__`, lockfile internals)
-
-Capture a **package inventory** (every first-party package) and a **file map** of
-files that matter (entry, config, core logic, tests). Generated and vendor trees:
-one line each, not a file list.
+2. **Domain concepts** — 3–8 nouns the code actually implements (protocols, invariants, seams). These go **before** the package map.
+3. **Runtime path** — what happens from "user runs X" to "result comes back"
+4. **Packages / top-level modules**
+5. **Entry points, config, tests, CI**
+6. **Per package:** purpose, public API, important files (skip `dist/`, `.next/`, `__pycache__`, lockfile internals)
 
 ### Phase 2 — Draft
 
-Follow [templates.md](templates.md). **Every first-party package gets its own
-section.** Tiny repos: treat top-level folders (`src/`, `lib/`, `app/`) as packages.
+Follow [templates.md](templates.md). **Concepts and how-it-runs before the package catalog.** Every first-party package still gets its own section.
 
 ### Phase 3 — Write
 
 **Coverage (mandatory)**
 
-- **How the repository runs** — end-to-end workflow (mermaid sequence or flowchart)
-- **Package catalog** — one subsection per package:
-  - What it is for
-  - How it is invoked / who depends on it
-  - High-level how it works
-  - **File map:** each important file — path, what it does, **why it is there**
-- **Cross-package edges** — imports, APIs, events, shared types
-- **Config, tests, CI** in enough detail to operate, not a paste of every flag
+- **Domain concepts** — the ideas this tree encodes, with limits
+- **How the repository runs** — end-to-end (mermaid sequence or flowchart)
+- **Package catalog** — one subsection per package: what for, who calls it, how it works, file map (path, why it exists, what it does)
+- **Cross-package edges** — imports, APIs, events
+- **Config, tests, CI** enough to operate
 
-**Teaching.** Still explain non-obvious bets (simple paragraph + verified blog/wiki
-when hard). Citation rules: [further-reading.md](further-reading.md).
+**Teaching.** Non-obvious bets: short paragraph + verified blog/wiki when hard.
+Citation rules: [further-reading.md](further-reading.md).
 
-**Future advancements.** At least 3, prefer 4, grounded in this repo.
+**Future advancements.** At least 3, grounded in this repo. Do not paste the
+readable README’s futures verbatim if both exist — internals futures are
+engineering follow-ups.
 
-**Length.** This file is **allowed to be long**. Skip noise (generated dirs, copy-paste
-lockfiles). Prefer tables for file maps. Do not skip a first-party package because
-the file is getting large.
-
-**Accuracy.** Every path in the doc must exist. Counts must match the tree.
+**Accuracy.** Every path must exist. Counts match the tree.
 
 ### Phase 4 — Validate
 
@@ -97,11 +83,13 @@ Run [checklist.md](checklist.md).
 
 ## Anti-patterns
 
-- Writing this content into `README.md` as the main landing page
-- Skipping packages or saying "and other utils"
+- Leading with a package table before the reader knows what the domain *is*
+- Writing this into `README.md` as the main landing
+- Skipping packages or "and other utils"
 - File lists with no "why this file exists"
 - Invented files, packages, or URLs
 - Dumping `node_modules` or build output
+- Baking a named customer or private path
 
 ## Additional resources
 

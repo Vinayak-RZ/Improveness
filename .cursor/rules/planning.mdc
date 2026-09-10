@@ -1,80 +1,18 @@
 ---
-description: Planning and requirements gathering — mandatory nawab-plans skill in Plan mode
-alwaysApply: true
+description: Planning — load nawab-plans at the chosen profile (lite default in Cursor Plan)
+alwaysApply: false
 ---
 
-# Planning Rules
+# Planning
 
-## Mandatory skill — nawab-plans
+Non-trivial work: read `.cursor/skills/nawab-plans/SKILL.md` and use the
+**chosen profile** (Cursor Plan → **lite** unless the user says full/project).
 
-**Whenever you are in Plan mode, drafting an implementation plan, or the task requires planning before coding**, you MUST:
+- Lite: §0 §1 §9 §16 §18 — [PLAN.template.lite.md](../skills/nawab-plans/PLAN.template.lite.md)
+- Standard / project: [PLAN.template.md](../skills/nawab-plans/PLAN.template.md)
+- Do not invent a thinner format inside the chosen profile
+- Ask commit budget before §9 if missing
+- Skip-plan / one-line hotfix: ponytail only
+- graph-engineering only if named; graphify is not §19
 
-1. Read and follow `.cursor/skills/nawab-plans/SKILL.md`
-2. Use `.cursor/skills/nawab-plans/PLAN.template.md` as the plan structure
-3. Consult `.cursor/skills/nawab-plans/SUBAGENT_ORCHESTRATION.md` when the plan involves subagents
-
-Do **not** load `graph-engineering` during plan drafting unless the user
-named it (`/graph-engineering`, “graph this plan”). When it **was** named:
-fill nawab §19; on nawab-plan approval write `EXECUTION_GRAPH.md` and start
-graph execution immediately (no second wait).
-
-This is compulsory — do not invent a thinner plan format. Scale depth with **project** vs **feature** mode; collapse unused sections as `N/A — [reason]` rather than skipping the skill.
-
-Trivial one-line / typo fixes the user marked as skip-plan may skip a full nawab document — still do not invent an alternate planning skill.
-
-## No Immediate Implementation
-
-- Never begin implementation immediately.
-- Never modify code before planning is completed.
-- Never assume requirements are complete.
-
-## Requirement Analysis
-
-Before proposing implementation:
-
-- Analyze the request.
-- Identify objectives.
-- Identify scope.
-- Identify constraints.
-- Identify dependencies.
-- Identify risks.
-
-## Clarification Requirements
-
-- Never guess requirements.
-- Never infer missing business logic.
-- Never assume desired behavior.
-- Never assume architecture.
-- Never assume edge-case handling.
-
-If any ambiguity exists:
-
-- Stop.
-- Ask clarifying questions.
-- Wait for answers before planning.
-
-## Implementation Plans
-
-Every non-trivial task requires an implementation plan via **nawab-plans** (all required sections from the skill / template).
-
-At minimum the plan must cover nawab sections for:
-
-- Goal / north star & scope boundary
-- Non-goals
-- Prerequisites & blockers
-- Dependencies / authority map
-- Risks
-- Deliverables
-- Workstreams / phases
-- Commit matrix & test gates
-- Agent orchestration (when multi-agent)
-
-Phase sizing still applies (small 2–3 · medium 3–5 · large 5–10), expressed inside the nawab phase structure.
-
-## Approval Gate
-
-After creating the implementation plan:
-
-- Present the plan.
-- Request approval.
-- Do not begin implementation until approval is received.
+Present the plan and wait for approval before implementation.
