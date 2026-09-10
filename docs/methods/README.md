@@ -11,6 +11,7 @@ One page per cited system, enough to specify from. Parent survey: [../00-index.m
 | Updating ≠ Benefit | [updating-vs-benefit.md](updating-vs-benefit.md) |
 | Self-Harness | [self-harness.md](self-harness.md) |
 | AHE | [ahe.md](ahe.md) |
+| Procedural Graph | [procedural-graph.md](procedural-graph.md) |
 | ADAS | [adas.md](adas.md) |
 | AFlow | [aflow.md](aflow.md) |
 | AlphaEvolve | [alphaevolve.md](alphaevolve.md) |
