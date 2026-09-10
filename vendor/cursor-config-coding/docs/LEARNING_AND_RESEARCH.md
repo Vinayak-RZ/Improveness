@@ -27,7 +27,10 @@ Requirement → research brief (if unfamiliar)
 | Skill | Role |
 |-------|------|
 | `learn-while-building` | Research, explain, learning summaries, LEARNING.md |
-| `extensive-readme` | Exhaustive README when documenting a repo |
+| `readme` | "Make a README" — asks product vs readable, and whether extensive is also needed |
+| `readable-readme` | Human main README.md (finishable in one sitting) |
+| `product-readme` | Public product landing README (logo, tagline, tiny quickstart) |
+| `extensive-readme` | Internals companion (`docs/EXTENSIVE.md`) — every package and file map |
 
 ## Rules
 
@@ -67,5 +70,5 @@ Explain why we used server actions here instead of a REST route. Use an analogy.
 
 **README:**
 ```text
-Use extensive-readme skill to rewrite this repo's README as a reference manual.
+Use the readme skill. Ask which type (product / readable) and whether extensive is also needed.
 ```

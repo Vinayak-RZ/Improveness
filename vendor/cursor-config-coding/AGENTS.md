@@ -24,11 +24,23 @@ Intensity: `full` (default). User can say `/ponytail ultra` for stricter YAGNI o
 
 | Asset | Role |
 |-------|------|
-| `nawab-plans` skill | Master execution plan structure (18 sections) |
+| `nawab-plans` skill | Master execution plan structure (18 sections + optional §19) |
 | `PLAN.template.md` | Copy into `IMPLEMENTATION_PLAN.md` |
 | `SUBAGENT_ORCHESTRATION.md` | Spawn map / lead vs subagent roles |
 
 Do not invent a thinner plan format. Collapse unused sections as `N/A` — do not skip the skill.
+
+## Graph engineering — opt-in companion (not automatic)
+
+**Do not load** with nawab-plans. Load `graph-engineering` (`.cursor/skills/graph-engineering/SKILL.md`) only when the user names it (`/graph-engineering`, “graph this plan”).
+
+| Asset | Role |
+|-------|------|
+| `graph-engineering` skill | Compile the plan into a graph (real edges, fan-out, contracts) |
+| `GRAPH.template.md` | Shape for nawab **§19** and `EXECUTION_GRAPH.md` |
+| `TOPOLOGIES.md` | Diamond, pipeline vs barrier, cycle, verifiers |
+
+When named: fill **§19** in the nawab plan. **Approving the nawab plan** writes `EXECUTION_GRAPH.md` and **runs the graph immediately** (no second wait). Not `graphify`.
 
 ## Spec Kit — Spec-Driven Development (features / greenfield)
 
@@ -109,7 +121,7 @@ Reload Cursor after changing `mcp.json`.
 
 11. Apply `quality-gates.mdc` — validate, report, update progress docs, **commit**.
 
-## Pre-installed skills (39)
+## Pre-installed skills (40)
 
 See [skills-manifest.json](skills-manifest.json) for the full list.
 

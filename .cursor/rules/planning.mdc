@@ -13,6 +13,11 @@ alwaysApply: true
 2. Use `.cursor/skills/nawab-plans/PLAN.template.md` as the plan structure
 3. Consult `.cursor/skills/nawab-plans/SUBAGENT_ORCHESTRATION.md` when the plan involves subagents
 
+Do **not** load `graph-engineering` during plan drafting unless the user
+named it (`/graph-engineering`, “graph this plan”). When it **was** named:
+fill nawab §19; on nawab-plan approval write `EXECUTION_GRAPH.md` and start
+graph execution immediately (no second wait).
+
 This is compulsory — do not invent a thinner plan format. Scale depth with **project** vs **feature** mode; collapse unused sections as `N/A — [reason]` rather than skipping the skill.
 
 Trivial one-line / typo fixes the user marked as skip-plan may skip a full nawab document — still do not invent an alternate planning skill.

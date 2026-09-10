@@ -376,6 +376,24 @@ _or:_
 7. Verify §16 P0 → draft PR with evidence
 ```
 
+If **§19 is filled**, do not run this linear protocol as the primary loop.
+On approval: write `EXECUTION_GRAPH.md` from §19 and execute graph waves
+immediately (`graph-engineering` skill). Keep §9 commits, gates, and
+lead-owned git.
+
+---
+
+## §19 Execution graph
+
+`N/A — graph-engineering not requested`
+
+When `graph-engineering` was named, replace N/A with the full shape from
+`.cursor/skills/graph-engineering/GRAPH.template.md` (metadata, mermaid,
+nodes, edges, waves, failure, commit mapping).
+
+**If this section is filled:** approving this plan writes `EXECUTION_GRAPH.md`
+and **starts graph execution immediately**. No second wait.
+
 ---
 
 ## Open questions
@@ -388,4 +406,5 @@ _or:_
 
 **Mode:** [project | feature]  
 Plan ready for review. Approve to begin **Phase [0/A]**.  
-Lead agent follows **§18 Execution protocol**.
+Lead agent follows **§18 Execution protocol**.  
+If §19 is filled: approving writes `EXECUTION_GRAPH.md` and **starts graph execution immediately**.
