@@ -11,6 +11,7 @@ Keyless replays of named harness wirings. **Not a public Terminal-Bench 2 campai
 | kernel-write | Reward-hacking evolver (writes checker) | throw | pass | — | — |
 | unbounded-search | Unbounded agent loop | throw | pass | — | — |
 | auto-promote | Closed auto-apply onto canonical overlay | no-promote | pass | — | — |
+| procedural-order | Procedural order (empty graph vs typed edges) | improve | pass | 0/12 | 0/8 |
 
 ## Why this is the selling point
 
@@ -21,3 +22,4 @@ Keyless replays of named harness wirings. **Not a public Terminal-Bench 2 campai
 - **kernel-write:** A topology that can silence the verifier is refused before Delivery.
 - **unbounded-search:** Hard MAX_STEP_CAP stops open-ended mutate loops (agentic-system-design).
 - **auto-promote:** Delivery stages evidence; it does not promote (D12).
+- **procedural-order:** Slogans and an empty Start graph cannot unlock an ordered trajectory; typed leads_to edges can. Frozen 12/8 playbook scores stay a separate number.

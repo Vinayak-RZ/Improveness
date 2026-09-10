@@ -1,6 +1,7 @@
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { emptyGraph, parseGraph, scoreTrajectory } from "../../../plugins/dsh-improveness/src/procedure-graph.js";
 import { HELD_IN_ID_TO_FAMILY, RECIPE_FAMILY_TO_FIXTURES, scorePlaybook } from "./playbook-solver.ts";
 import { proposeNextRecipe } from "./propose.ts";
 import { runSearch } from "./search.ts";
@@ -12,7 +13,8 @@ export type ArchitectureId =
   | "held-out-leak"
   | "kernel-write"
   | "unbounded-search"
-  | "auto-promote";
+  | "auto-promote"
+  | "procedural-order";
 
 export type SimulationResult = {
   id: ArchitectureId;
@@ -41,6 +43,10 @@ function searchWorktree(sourceRoot: string): string {
   mkdirSync(join(work, "harness/omp/reports/search"), { recursive: true });
   cpSync(join(sourceRoot, "harness/omp/evals"), join(work, "harness/omp/evals"), { recursive: true });
   writeFileSync(join(work, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"), seedPlaybook(sourceRoot));
+  cpSync(
+    join(sourceRoot, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"),
+    join(work, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"),
+  );
   writeFileSync(
     join(work, "harness/omp/REVIEW_QUEUE.md"),
     "# Maintainer review queue\n\nCandidates are **evidence**.\n\n| id | surface | files | parentHash | held-in | held-out | rollback | apply to project .omp? |\n|----|---------|-------|------------|---------|----------|----------|------------------------|\n",
@@ -169,6 +175,41 @@ function simUnbounded(sourceRoot: string): SimulationResult {
   };
 }
 
+function simProceduralOrder(sourceRoot: string): SimulationResult {
+  const dir = join(sourceRoot, "harness/omp/evals/procedure");
+  const success = JSON.parse(readFileSync(join(dir, "success.json"), "utf8")) as { steps: string[] };
+  const skip = JSON.parse(readFileSync(join(dir, "skip-verify.json"), "utf8")) as { steps: string[] };
+  const ordered = parseGraph(readFileSync(join(dir, "ordered-graph.json"), "utf8"));
+  const seedGraph = parseGraph(
+    readFileSync(join(sourceRoot, "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json"), "utf8"),
+  );
+  const emptyScore = scoreTrajectory(emptyGraph(), success.steps);
+  const seedScore = scoreTrajectory(seedGraph, success.steps);
+  const orderedSuccess = scoreTrajectory(ordered, success.steps);
+  const orderedSkip = scoreTrajectory(ordered, skip.steps);
+
+  const playbook = seedPlaybook(sourceRoot);
+  const heldIn = scorePlaybook(evalsRoot(sourceRoot), "held-in", playbook);
+  const heldOut = scorePlaybook(evalsRoot(sourceRoot), "held-out", playbook);
+  const searchUnchanged = heldIn.passed === 0 && heldIn.total === 12 && heldOut.passed === 0 && heldOut.total === 8;
+  const orderOk = emptyScore === 0 && seedScore === 0 && orderedSuccess === 1 && orderedSkip < 1;
+  const ok = orderOk && searchUnchanged;
+
+  return {
+    id: "procedural-order",
+    title: "Procedural order (empty graph vs typed edges)",
+    sellingPoint:
+      "Slogans and an empty Start graph cannot unlock an ordered trajectory; typed leads_to edges can. Frozen 12/8 playbook scores stay a separate number.",
+    expected: "improve",
+    outcome: ok ? "pass" : "fail",
+    detail: ok
+      ? `empty=${emptyScore} ordered=${orderedSuccess} skip=${orderedSkip}`
+      : "order score or 12/8 seed drifted",
+    heldIn: `${heldIn.passed}/${heldIn.total}`,
+    heldOut: `${heldOut.passed}/${heldOut.total}`,
+  };
+}
+
 function simAutoPromote(sourceRoot: string): SimulationResult {
   const work = searchWorktree(sourceRoot);
   const before = readFileSync(join(work, "harness/omp/overlay/.omp/playbook/PLAYBOOK.md"), "utf8");
@@ -193,6 +234,7 @@ export const ARCHITECTURE_SIMULATIONS: ArchitectureId[] = [
   "kernel-write",
   "unbounded-search",
   "auto-promote",
+  "procedural-order",
 ];
 
 export function runArchitectureSimulations(sourceRoot: string): SimulationResult[] {
@@ -205,6 +247,7 @@ export function runArchitectureSimulations(sourceRoot: string): SimulationResult
     simKernelWrite(root),
     simUnbounded(root),
     simAutoPromote(root),
+    simProceduralOrder(root),
   ];
 }
 
