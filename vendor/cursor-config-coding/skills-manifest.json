@@ -1,6 +1,6 @@
 ﻿{
   "version": 7,
-  "description": "Coding Cursor config — 39 skills, 21 rules, agent-patterns MCP, nawab-plans + ponytail + Spec Kit, learn-while-building, auto conventional commits",
+  "description": "Coding Cursor config — 40 skills, 21 rules, agent-patterns MCP, nawab-plans + opt-in graph-engineering + ponytail + Spec Kit, learn-while-building, auto conventional commits",
   "mcp": {
     "default_server": "agent-patterns",
     "url": "https://mcp.agentpatternscatalog.org/mcp",
@@ -15,9 +15,9 @@
     "rule": "speckit"
   },
   "preinstalled": {
-    "count": 39,
+    "count": 40,
     "categories": {
-      "planning": ["nawab-plans"],
+      "planning": ["nawab-plans", "graph-engineering"],
       "minimal-code": [
         "ponytail",
         "ponytail-review",
@@ -91,7 +91,7 @@
     ]
   },
   "workflows": {
-    "implementation": "nawab-plans → approve → phase → validate → commit",
+    "implementation": "nawab-plans → (opt-in graph-engineering in §19) → approve plan → EXECUTION_GRAPH.md + run",
     "spec_driven": "constitution → specify → plan → tasks → implement (ponytail on code)",
     "learning": "docs/LEARNING_AND_RESEARCH.md",
     "commits": "conventional commits after milestones; auto-push at 10 unpushed or when user asks"
