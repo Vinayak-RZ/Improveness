@@ -3,7 +3,10 @@ import { createJitRuntime } from "./jit.js";
 import { DSH_FROZEN_IDS } from "./frozen-ids.js";
 import { parseSections } from "./sections.js";
 import { createCatalog } from "./catalog.js";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { createEventBus } from "./events.js";
+import { parseGraph } from "./procedure-graph.js";
 import { createSynthesizer } from "./synthesize.js";
 import { callCore } from "./core-client.js";
 import { createTasteRuntime, TasteError } from "./taste.js";
@@ -23,6 +26,7 @@ export function apply(ctx = {}) {
   const bus = createEventBus({
     catalog,
     sections,
+    graph: loadOverlayGraph(ctx.repoRoot),
     mountCapability: sections.jit
       ? (toolId) => {
           // ponytail: hint-only capability mount keyed by tool id; full packages via synthesize
@@ -101,6 +105,16 @@ export function apply(ctx = {}) {
   ctx.plugin?.collect?.("dsh-improveness", () => ({ frozenIds: DSH_FROZEN_IDS, sections }));
 
   return dispose;
+}
+
+function loadOverlayGraph(repoRoot) {
+  const p = join(repoRoot ?? process.cwd(), "harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json");
+  if (!existsSync(p)) return parseGraph("");
+  try {
+    return parseGraph(readFileSync(p, "utf8"));
+  } catch {
+    return parseGraph("");
+  }
 }
 
 export {
