@@ -16,6 +16,7 @@ const LEDGER_PAIRS: Array<{ readme: string; ledger: string }> = [
   { readme: "0/8 → 3/8", ledger: "0/8 → 3/8" },
   { readme: "MAX_STEP_CAP = 8", ledger: "MAX_STEP_CAP = 8" },
   { readme: "12 practice + 8 hidden", ledger: "12 held-in / 8 held-out" },
+  { readme: "8, no API key", ledger: "Eight named architecture simulations" },
 ];
 
 export function checkClaimHonesty(repoRoot: string): QaFinding[] {
