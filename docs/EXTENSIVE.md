@@ -33,7 +33,7 @@ flowchart TD
   decide -->|plugin-class| generated[generated dir plus HMR]
 ```
 
-**Walkthrough.** `bash harness/omp/scripts/qa.sh` is the product check. It runs `validate.sh` (unit tests, KERNEL needles, no public-TB2 URLs), then `qa-repo.ts` (catalog rows, relative links, 12/8 fixtures), then `simulate-architectures.ts` (seven named wirings, no API key).
+**Walkthrough.** `bash harness/omp/scripts/qa.sh` is the product check. It runs `validate.sh` (unit tests, KERNEL needles, no public-TB2 URLs), then `qa-repo.ts` (catalog rows, relative links, 12/8 fixtures), then `simulate-architectures.ts` (eight named wirings, no API key).
 
 A search step: pick a past playbook from `archive/`, score practice and hidden, propose a lesson only from failing **practice** ids, score again, keep if practice rose and hidden did not drop. Playbook-class writes `staging/` + `archive/` + `REVIEW_QUEUE.md`. Plugin-class writes `harness/omp/generated/<id>/` after load/dispose/policy. Live DSH installs those siblings under `$DSH_HOME/profiles/improveness/improveness-generated/`.
 
@@ -70,7 +70,8 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `src/apply.js` | Plugin entry | Register tools + disposer (section-gated) |
 | `src/sections.js` | D16 flags | JIT / improve / eventInject parse |
 | `src/catalog.js` | Discovery | Hierarchical namespace → group → tool |
-| `src/events.js` | Inject | need_tool reminder + optional hint mount |
+| `src/events.js` | Inject | need_tool reminder + procedure guidance on `plan_step` |
+| `src/procedure-graph.js` | Ingrained order | parse, 2-hop localize, render, applyEdits, score |
 | `src/synthesize.js` | JIT assemble | Task harness from M/P/A/C templates |
 | `src/modules/templates.js` | Slot modules | Invertible memory/planning/action/capability |
 | `src/jit.js` | Fast path | define/run/stop + drain |
@@ -106,6 +107,7 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 |------|----------------|--------------|
 | [`overlay/.omp/AGENTS.md`](../harness/omp/overlay/.omp/AGENTS.md) | Context, not kernel prompt | Points at PLAYBOOK.md; forbids `system-prompt` edits |
 | [`overlay/.omp/playbook/PLAYBOOK.md`](../harness/omp/overlay/.omp/playbook/PLAYBOOK.md) | ACE memory | Lessons the solver scores |
+| [`overlay/.omp/playbook/PROCEDURE_GRAPH.json`](../harness/omp/overlay/.omp/playbook/PROCEDURE_GRAPH.json) | Ingrained order | Typed `leads_to` edges; 2-hop localize |
 | [`overlay/.omp/agents/debugger.md`](../harness/omp/overlay/.omp/agents/debugger.md) | Read-only diagnosis role | Pins `smol` + read/grep/glob |
 | [`overlay/.omp/agents/evolver.md`](../harness/omp/overlay/.omp/agents/evolver.md) | Cheap writer role | Allowlisted edits; D14 apply after gate |
 
@@ -138,7 +140,7 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `drivers/run-tb-local.ts` | Local Harbor | Not a public TB2 download |
 | `drivers/run-benchmark.ts` | Recorded 20-task run | 0/12→7/12, 0/8→3/8 after 5 steps |
 | `drivers/qa-repo.ts` | Repo QA | Catalog + links + fixture counts |
-| `drivers/simulate-architectures.ts` | Architecture sims | Seven named wirings, keyless |
+| `drivers/simulate-architectures.ts` | Architecture sims | Eight named wirings, keyless |
 | `drivers/live-session-smoke.ts` | Optional ping | Skip without keys |
 
 #### File map — evals and scripts
@@ -151,11 +153,12 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `evals/checker/posix-bash.ts` | Windows scoring | Prefer Git bash over the WSL launcher |
 | `evals/tb-adapter/` | Local Harbor layout | Not public Terminal-Bench |
 | `evals/benchmarks/local-20/` | Recorded report | Held-in/held-out after search |
-| `evals/simulations/latest/` | Last sim report | Seven-row table |
+| `evals/simulations/latest/` | Last sim report | Eight-row table |
+| `evals/procedure/` | Order trajectories | Keyless success vs skip-verify; not 12/8 |
 | `scripts/validate.sh` | Fast gate | bun test + KERNEL greps + ripgrep |
 | `scripts/qa.sh` | Full gate | validate + qa-repo + sims |
 | `scripts/install-overlay.sh` | Merge overlay | Into existing `oh-my-pi/.omp/` |
-| `tests/` (24 files) | Unit + contract | Includes plugin JIT, apply-snapshot, JSONL, P1 HostPort |
+| `tests/` (26 files) | Unit + contract | Includes plugin JIT, procedure graph, apply-snapshot, JSONL, P1 HostPort |
 
 ### 3.2 Working snapshot (`oh-my-pi/`)
 
@@ -191,8 +194,10 @@ Do not file-list the rest of `oh-my-pi/packages/`. It is a vendored snapshot, no
 |------|----------------|--------------|
 | [`00-index.md`](00-index.md) | Reading order | Paper map + default recommendation |
 | [`01-rsi-and-harness.md`](01-rsi-and-harness.md) … [`09-challenges-and-evals.md`](09-challenges-and-evals.md) | Survey segments | One Weng topic each |
-| [`methods/README.md`](methods/README.md) | Method index | ACE, AHE, Self-Harness, Cordis, HostPort, JIT, HELIX, … |
+| [`methods/README.md`](methods/README.md) | Method index | ACE, AHE, Self-Harness, Procedural Graph, Cordis, HostPort, JIT, HELIX, … |
 | [`CLAIM_LEDGER.md`](CLAIM_LEDGER.md) | Allowed README claims | Proven vs forbidden |
+| [`methods/procedural-graph.md`](methods/procedural-graph.md) | Ingrained order | Sibling graph; not a fourth section |
+| [`plans/p4-procedural-graph.md`](plans/p4-procedural-graph.md) | D20 nawab plan | Procedural order wave |
 | [`methods/host-port.md`](methods/host-port.md) | Thin adapter | HELIX-inspired surface |
 | [`methods/two-speed.md`](methods/two-speed.md) | JIT vs AOT | Session vs durable |
 | [`methods/node-bun-protocol.md`](methods/node-bun-protocol.md) | Dual runtime | JSONL RPC |
@@ -252,15 +257,15 @@ Nothing is required for `qa.sh`. Full list: [`.env.example`](../.env.example).
 
 | Tier | What | Command |
 |------|------|---------|
-| Fast | 24 test files | `bun test harness/omp/tests/` |
+| Fast | 26 test files | `bun test harness/omp/tests/` |
 | Overlay | locked-path greps, ≥20 tasks, no public-bench download URLs | `harness/omp/scripts/validate.sh` |
-| Whole repo | catalog rows (incl. `dsh.bundle`), links, seven replays | `harness/omp/scripts/qa.sh` |
+| Whole repo | catalog rows (incl. `dsh.bundle`), links, eight replays | `harness/omp/scripts/qa.sh` |
 | Slow | real DSH or OMP session | `DSH_LIVE_SMOKE=1` / `OMP_LIVE_SMOKE=1` plus keys |
 | Not our gate | Oh My Pi’s heavy suite | do not run as the Improveness check |
 
 CI ([`.github/workflows/overlay.yml`](../.github/workflows/overlay.yml)) installs ripgrep, then runs `qa.sh` (Bun 1.3.14). Without `rg`, gold trees fail.
 
-Seven architecture sims (`simulate-architectures.ts`):
+Eight architecture sims (`simulate-architectures.ts`):
 
 | Id | What we wired | Must happen | Practice | Hidden |
 |----|---------------|-------------|----------|--------|
@@ -271,6 +276,7 @@ Seven architecture sims (`simulate-architectures.ts`):
 | `kernel-write` | Edit the grader | refuse | — | — |
 | `unbounded-search` | 9 steps (cap is 8) | refuse | — | — |
 | `auto-promote` | Write the grader or skip the gate | must refuse | — | — |
+| `procedural-order` | Empty graph vs typed `leads_to` | success path scores 1; skip-verify does not | 0/12 seed | 0/8 seed |
 
 `auto-promote` means “no kernel / no skip-gate,” not a ban on gated generated-plugin apply (D15).
 
@@ -306,7 +312,7 @@ Main README teaches five named techniques. This section is the **engineering ide
 
 **The problem.** Comparing “who may write, who may see the hidden set” on a live frontier run is slow and leaks the public set.
 
-**How it works.** [`simulate-architectures.ts`](../harness/omp/drivers/simulate-architectures.ts) replays seven named designs against the frozen 20 tasks with no model.
+**How it works.** [`simulate-architectures.ts`](../harness/omp/drivers/simulate-architectures.ts) replays eight named designs against the frozen 20 tasks (and a parallel procedure eval) with no model.
 
 **Like.** A crash-test dummy for the plumbing.
 
@@ -388,6 +394,7 @@ Main README teaches five named techniques. This section is the **engineering ide
 | JIT vs AOT skills | [JIT-Agent](https://arxiv.org/abs/2608.25593) | Session tools vs durable skills |
 | Thin host adapter | [HELIX](https://arxiv.org/abs/2608.13951) | Do not wrap the host in a second OS |
 | Frozen outer loop | [HSI](https://arxiv.org/html/2608.08466) | Improver cannot silence the judge |
+| Typed procedure order | [Procedural Graphs](https://arxiv.org/abs/2609.09153) | 2-hop localize; we freeze the checker, not ReAct |
 | Skill compilation | [Evo-Harness](https://arxiv.org/abs/2608.15071) | Procedure → SKILL.md |
 | Held-out methodology | [Evo-Bench](https://arxiv.org/html/2608.09096) | Harness-sensitive hidden sets |
 | Frozen prepare | [AutoResearch](https://github.com/karpathy/autoResearch) | Kernel vs sibling experiment files |
