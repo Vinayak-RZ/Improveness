@@ -34,6 +34,7 @@ One occupant for `memory`, `planning`, `action`. `capability` is an ordered set.
 | Item | Surface in this repo |
 |------|----------------------|
 | HostPort | `harness/omp/host-port/` |
+| TargetPort | `harness/omp/target-port/` — domain kernels and any agentic system (`targets/<id>/`) |
 | DSH bundle | `plugins/dsh-improveness/` |
 | JSONL runner | `harness/omp/drivers/dsh-core-runner.ts` |
 | Durable apply | `harness/omp/drivers/apply-snapshot.ts` → `harness/omp/generated/` |

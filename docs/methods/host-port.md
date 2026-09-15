@@ -23,3 +23,5 @@ Thin adapter between Improveness (decide, score, archive, apply) and a plugin ho
 
 - P0: DeepSeek Harness adapter (`host-port/dsh-port.ts` + Node `plugins/dsh-improveness`).
 - P1: Oh My Pi adapter (`host-port/omp-port.ts`). `oh-my-pi/` stays in-tree as a parked working snapshot, not the default install path.
+
+Domain kernels and non-host agentic systems use [TargetPort](target-port.md) (D21), not this Fiber/JIT surface.

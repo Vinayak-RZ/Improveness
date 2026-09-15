@@ -1,6 +1,6 @@
 # CACD — Contract · Architecture · Control · Delivery
 
-Improveness’s operating model for evolving an **agentic harness** while the model and the permission kernel stay frozen.
+Improveness’s operating model for evolving an **agentic harness**, a **domain kernel**, or any **agentic system** while the model and the permission kernel stay frozen. TargetPort (D21) is the plug-in contract; HostPort stays the DSH/OMP Fiber adapter.
 
 This is not a second nawab plan. It is the checklist a simulation or QA run can verify.
 

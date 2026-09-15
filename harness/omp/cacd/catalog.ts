@@ -35,7 +35,7 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "ADRs",
     path: "DECISIONS.md",
-    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "D16", "D20", "dsh.bundle", "HostPort"],
+    mustContain: ["D7", "D11", "D12", "D13", "D14", "D15", "D16", "D20", "D21", "dsh.bundle", "HostPort"],
   },
   {
     id: "a-cacd",
@@ -56,7 +56,7 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "control",
     title: "Evolver path policy",
     path: "harness/omp/drivers/allowlist.ts",
-    mustContain: ["assertEvolverWrite", "KERNEL_PATH_MARKERS"],
+    mustContain: ["assertEvolverWrite", "assertTargetWrite", "KERNEL_PATH_MARKERS"],
   },
   {
     id: "k-search-cap",
@@ -113,6 +113,13 @@ export const CACD_ITEMS: CacdItem[] = [
     title: "HostPort surface",
     path: "docs/methods/host-port.md",
     mustContain: ["HostPort", "frozenIds", "mountEphemeral"],
+  },
+  {
+    id: "c-target-port",
+    layer: "contract",
+    title: "TargetPort surface",
+    path: "docs/methods/target-port.md",
+    mustContain: ["TargetPort", "domain-kernel", "agentic-system", "decideAccept"],
   },
 ];
 

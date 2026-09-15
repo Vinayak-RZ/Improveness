@@ -18,6 +18,7 @@ One page per cited system, enough to specify from. Parent survey: [../00-index.m
 | DGM | [dgm.md](dgm.md) |
 | Spatiotemporal composability (Cordis) | [spatiotemporal-composability.md](spatiotemporal-composability.md) |
 | HostPort | [host-port.md](host-port.md) |
+| TargetPort | [target-port.md](target-port.md) |
 | Sections (JIT / Improve / Taste) | [sections.md](sections.md) |
 | ModelTaste | [modeltaste.md](modeltaste.md) |
 | Composability (strap/unstrap) | [composability.md](composability.md) |

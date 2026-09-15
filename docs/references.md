@@ -96,3 +96,6 @@ Citations used in this corpus. Dates and URLs as of 2026-08-17.
 - Project nawab-plans: [../.cursor/skills/nawab-plans/SKILL.md](../.cursor/skills/nawab-plans/SKILL.md)
 - Claim ledger: [CLAIM_LEDGER.md](CLAIM_LEDGER.md)
 - HostPort: [methods/host-port.md](methods/host-port.md)
+- TargetPort: [methods/target-port.md](methods/target-port.md)
+- ARC domain kernel (external): https://github.com/Vinayak-RZ/ARC
+- Agrawal et al. “GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning.” https://arxiv.org/abs/2507.19457 — cited; not ported (we reuse `decideAccept`)

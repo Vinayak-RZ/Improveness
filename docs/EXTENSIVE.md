@@ -115,13 +115,16 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 
 | File | Why it is here | What it does |
 |------|----------------|--------------|
-| `drivers/allowlist.ts` | Path policy | `assertEvolverWrite`; `KERNEL_PATH_MARKERS` |
+| `drivers/allowlist.ts` | Path policy | `assertEvolverWrite`; `assertTargetWrite`; `KERNEL_PATH_MARKERS` |
 | `drivers/curate-playbook.ts` | ACE curator | Append-only lessons; rejects secrets and SYSTEM.md advice |
 | `drivers/playbook-solver.ts` | Measurable ACE | Unlocks `recipe:*` families on fixtures |
 | `drivers/export-session.ts` | Weakness mining | Session jsonl → trace tree |
 | `drivers/write-diagnosis.ts` | Debugger write | `diagnosis.md` under traces/reports only |
 | `drivers/run-eval.ts` | Score a split | Starter vs gold trees |
 | `drivers/self-harness.ts` | Accept rule | Practice up and hidden not down |
+| `drivers/improve-target.ts` | TargetPort CLI | Keyless improve for kernels / any agentic system |
+| `target-port/` | D21 adapter | Manifest kinds; `assertTargetWrite`; reuse `decideAccept` |
+| `targets/arc/` | ARC fixture | Domain-kernel contract; live ARC is external |
 | `drivers/manifest.ts` | Candidate shape | Falsifiable record + rollback command |
 | `drivers/apply-candidate.ts` | P2 apply | Writes **staging**, not `oh-my-pi/` |
 | `drivers/rollback-candidate.ts` | Undo | Restore parent hash |
@@ -158,7 +161,7 @@ Generated noise (`oh-my-pi/node_modules`, lockfile internals) is not listed belo
 | `scripts/validate.sh` | Fast gate | bun test + KERNEL greps + ripgrep |
 | `scripts/qa.sh` | Full gate | validate + qa-repo + sims |
 | `scripts/install-overlay.sh` | Merge overlay | Into existing `oh-my-pi/.omp/` |
-| `tests/` (26 files) | Unit + contract | Includes plugin JIT, procedure graph, apply-snapshot, JSONL, P1 HostPort |
+| `tests/` (27 files) | Unit + contract | Includes plugin JIT, procedure graph, apply-snapshot, JSONL, P1 HostPort, TargetPort |
 
 ### 3.2 Working snapshot (`oh-my-pi/`)
 
@@ -199,6 +202,8 @@ Do not file-list the rest of `oh-my-pi/packages/`. It is a vendored snapshot, no
 | [`methods/procedural-graph.md`](methods/procedural-graph.md) | Ingrained order | Sibling graph; not a fourth section |
 | [`plans/p4-procedural-graph.md`](plans/p4-procedural-graph.md) | D20 nawab plan | Procedural order wave |
 | [`methods/host-port.md`](methods/host-port.md) | Thin adapter | HELIX-inspired surface |
+| [`methods/target-port.md`](methods/target-port.md) | D21 | Domain kernels + any agentic system |
+| [`plans/p5-target-port.md`](plans/p5-target-port.md) | D21 nawab plan | TargetPort wave |
 | [`methods/two-speed.md`](methods/two-speed.md) | JIT vs AOT | Session vs durable |
 | [`methods/node-bun-protocol.md`](methods/node-bun-protocol.md) | Dual runtime | JSONL RPC |
 | [`methods/spatiotemporal-composability.md`](methods/spatiotemporal-composability.md) | Live self-mod | Temporal + spatial composability |
@@ -215,7 +220,7 @@ Do not file-list the rest of `oh-my-pi/packages/`. It is a vendored snapshot, no
 
 **How it is used.** Agents read `.cursor/skills`. README work routes through [`readme`](../.cursor/skills/readme/SKILL.md) → `product-readme` (landing) / `readable-readme` / `extensive-readme` (this file).
 
-**How it works.** Upstream: [Vinayak-RZ/cursor-config-coding](https://github.com/Vinayak-RZ/cursor-config-coding). Landing page: `product-readme`. Internals: this file.
+**How it works.** Upstream: [Vinayak-RZ/cursor-config-coding](https://github.com/Vinayak-RZ/cursor-config-coding). Pin: [`vendor/cursor-config-coding/SNAPSHOT.md`](../vendor/cursor-config-coding/SNAPSHOT.md) (`45a585d`). Landing page: `product-readme`. Internals: this file.
 
 One line, not a file list: do not dump every GSAP/Spec Kit skill here.
 
@@ -257,7 +262,7 @@ Nothing is required for `qa.sh`. Full list: [`.env.example`](../.env.example).
 
 | Tier | What | Command |
 |------|------|---------|
-| Fast | 26 test files | `bun test harness/omp/tests/` |
+| Fast | 27 test files | `bun test harness/omp/tests/` |
 | Overlay | locked-path greps, ≥20 tasks, no public-bench download URLs | `harness/omp/scripts/validate.sh` |
 | Whole repo | catalog rows (incl. `dsh.bundle`), links, eight replays | `harness/omp/scripts/qa.sh` |
 | Slow | real DSH or OMP session | `DSH_LIVE_SMOKE=1` / `OMP_LIVE_SMOKE=1` plus keys |

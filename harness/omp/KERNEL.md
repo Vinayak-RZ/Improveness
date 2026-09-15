@@ -31,6 +31,7 @@ Stable kernel ids are **row ids / package namespaces / routes / owned paths**, n
 | `IMPLEMENTATION_PLAN.md` | Execution contract |
 | `DECISIONS.md` | ADRs |
 | `plugins/dsh-improveness/` | The Improveness plugin **is** the kernel for DSH; siblings go in generated dirs |
+| `harness/omp/targets/*/eval/` | TargetPort frozen physics (gold / grader). Analog of ARC `eval_runner/score.py` |
 
 ## Runtime / config the evolver cannot change
 

@@ -7,7 +7,7 @@ Improveness is a **DeepSeek Harness bundle plugin** (`dsh-improveness`) that imp
 You add the plugin to a live `improveness` profile (`dsh-base` + `dsh-web-app` + `dsh-improveness`). After held-in/held-out accept, **generated plugins** land in a profile-owned directory and HMR. The Oh My Pi tree is a **parked P1 HostPort**, not the default install path ([D15](DECISIONS.md)).
 
 1. Explains Lilian Weng’s [“Harness Engineering for Self-Improvement”](https://lilianweng.github.io/posts/2026-07-04-harness/) by natural segment.
-2. Specifies what **any** coding harness must add to become self-improving (HostPort).
+2. Specifies what **any** coding harness must add to become self-improving (HostPort), and what **any** domain kernel or agentic system must declare to be improved (TargetPort, D21).
 3. Implements those additions as [`plugins/dsh-improveness`](plugins/dsh-improveness) plus [`harness/omp/`](harness/omp/SURFACES.md) — without rewriting the checker or the Improveness bundle itself.
 
 ## System overview
@@ -18,7 +18,7 @@ You add the plugin to a live `improveness` profile (`dsh-base` + `dsh-web-app` +
 | Claim ledger | [`docs/CLAIM_LEDGER.md`](docs/CLAIM_LEDGER.md) |
 | Research | [`docs/`](docs/00-index.md) segments and [`docs/methods/`](docs/methods/) |
 | DSH bundle | [`plugins/dsh-improveness`](plugins/dsh-improveness) (`dsh.bundle`) |
-| Overlay / loop | [`harness/omp/`](harness/omp/SURFACES.md) — Bun checker, search, apply |
+| Overlay / loop | [`harness/omp/`](harness/omp/SURFACES.md) — Bun checker, search, apply, TargetPort |
 | Parked snapshot | [`oh-my-pi/`](oh-my-pi/) — P1 OMP adapter target (D14 working snapshot) |
 | Skills authority | [`vendor/cursor-config-coding/`](vendor/cursor-config-coding/) |
 
@@ -26,7 +26,7 @@ You add the plugin to a live `improveness` profile (`dsh-base` + `dsh-web-app` +
 
 A seed harness runs tasks. Traces land on disk. A debugger distills them. An evolver proposes bounded edits. A held-in / held-out verifier accepts or rejects. **JIT** mounts last for this session. **AOT** writes an immutable candidate, validates load/dispose/policy, atomically replaces the generated dir, then HMR. Permission-widening still stops for a human.
 
-See [docs/methods/host-port.md](docs/methods/host-port.md).
+See [docs/methods/host-port.md](docs/methods/host-port.md) and [docs/methods/target-port.md](docs/methods/target-port.md).
 
 ## Constraints
 

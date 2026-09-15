@@ -154,7 +154,16 @@ D14 still applies when the host is Oh My Pi: the **working snapshot** is the app
 
 ## Named techniques (README)
 
-Two-Speed · Sections (JIT / Improve) · Procedural order (ingrained) · Tool Catalog · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane
+Two-Speed · Sections (JIT / Improve) · Procedural order (ingrained) · Tool Catalog · Live Ratchet · Frozen Physics · Harness Slots · Filesystem Evidence Plane · TargetPort (D21)
+
+## D21 — TargetPort (approved)
+
+See [DECISIONS.md](DECISIONS.md) D21 and [docs/plans/p5-target-port.md](docs/plans/p5-target-port.md). Loop graph: [docs/plans/LOOP_GRAPH.md](docs/plans/LOOP_GRAPH.md).
+
+**In:** Manifest TargetPort for `domain-kernel | agentic-harness | agentic-system`; ARC fixture; generic agentic fixture; reuse `decideAccept`; `bun harness/omp/drivers/improve-target.ts`.
+
+**Out:** Vendoring ARC; DSH as Arc runtime; public Terminal-Bench as fitness; GEPA/DSPy port; live `ARC_ROOT` CI (P1).
+
 
 
 ## D16 — Two-section split (approved)
