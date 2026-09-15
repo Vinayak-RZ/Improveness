@@ -53,6 +53,44 @@ export function isEvolverToolAllowed(toolName: string): boolean {
   return (EVOLVER_ALLOWED_TOOLS as readonly string[]).includes(name);
 }
 
+export type TargetWritePolicy = {
+  frozenPrefixes: string[];
+  editablePrefixes: string[];
+  stagingPrefix: string;
+};
+
+function prefixHit(rel: string, prefix: string): boolean {
+  const p = prefix.split("\\").join("/");
+  const r = rel.split("\\").join("/");
+  const trimmed = p.replace(/\/$/, "");
+  return r === trimmed || r.startsWith(p.endsWith("/") ? p : `${trimmed}/`);
+}
+
+/** Kernel + Improveness fences, plus the target's own frozen prefixes. Staging only. */
+export function assertTargetWrite(targetPath: string, repoRoot: string, policy: TargetWritePolicy): string {
+  const resolved = resolve(targetPath);
+  const rel = posixRel(resolve(repoRoot), resolved);
+  if (rel.startsWith("..") || rel.includes("..")) {
+    throw new Error(`target path escapes repo: ${rel}`);
+  }
+  for (const denied of KERNEL_PATH_MARKERS) {
+    if (rel.includes(denied) || rel.endsWith(denied.replace(/\/$/, ""))) {
+      throw new Error(`target write denied (improveness kernel): ${rel}`);
+    }
+  }
+  for (const frozen of policy.frozenPrefixes) {
+    if (prefixHit(rel, frozen)) {
+      throw new Error(`target write denied (frozen physics): ${rel}`);
+    }
+  }
+  const stagingOk = prefixHit(rel, policy.stagingPrefix);
+  const editableOk = policy.editablePrefixes.some((p) => prefixHit(rel, p));
+  if (!stagingOk && !editableOk) {
+    throw new Error(`target write denied (not in target allowlist): ${rel}`);
+  }
+  return resolved;
+}
+
 export function assertEvolverWrite(targetPath: string, repoRoot: string): string {
   const resolved = resolve(targetPath);
   const rel = posixRel(resolve(repoRoot), resolved);

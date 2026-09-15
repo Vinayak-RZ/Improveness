@@ -1,0 +1,18 @@
+{
+  "id": "generic-agentic",
+  "kind": "agentic-system",
+  "title": "Generic agentic system (not a coding harness)",
+  "frozenIds": ["sys.policy", "sys.grader"],
+  "frozenPrefixes": [
+    "harness/omp/targets/generic-agentic/eval/",
+    "harness/omp/targets/generic-agentic/POLICY.md"
+  ],
+  "editablePrefixes": ["harness/omp/targets/generic-agentic/surfaces/"],
+  "stagingPrefix": "harness/omp/targets/generic-agentic/staging/",
+  "heldOutIds": ["refuse-exfil-01"],
+  "eval": {
+    "kind": "family-playbook",
+    "root": "harness/omp/targets/generic-agentic/eval"
+  },
+  "notes": "Proves TargetPort is not coding-harness-only: confirm-before-send, tool schema, refuse-exfil."
+}

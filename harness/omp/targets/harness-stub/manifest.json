@@ -1,0 +1,14 @@
+{
+  "id": "harness-stub",
+  "kind": "agentic-harness",
+  "title": "Minimal agentic-harness kind check (not DSH HostPort)",
+  "frozenIds": ["harness.checker"],
+  "frozenPrefixes": ["harness/omp/targets/harness-stub/eval/"],
+  "editablePrefixes": ["harness/omp/targets/harness-stub/surfaces/"],
+  "stagingPrefix": "harness/omp/targets/harness-stub/staging/",
+  "heldOutIds": ["hidden-01"],
+  "eval": {
+    "kind": "family-playbook",
+    "root": "harness/omp/targets/harness-stub/eval"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "arc",
+  "kind": "domain-kernel",
+  "title": "ARC (A R C) undergraduate EE domain kernel — contract fixture",
+  "upstream": "https://github.com/Vinayak-RZ/ARC",
+  "frozenIds": ["arc.eval.score", "arc.gold", "arc.unchecked-token"],
+  "frozenPrefixes": [
+    "harness/omp/targets/arc/eval/",
+    "harness/omp/targets/arc/KERNEL.md"
+  ],
+  "editablePrefixes": ["harness/omp/targets/arc/surfaces/"],
+  "stagingPrefix": "harness/omp/targets/arc/staging/",
+  "heldOutIds": ["wheatstone-01", "viva-norton-01", "unverified-novel-01"],
+  "eval": {
+    "kind": "family-playbook",
+    "root": "harness/omp/targets/arc/eval"
+  },
+  "notes": "ARC is external (Apache-2.0). This fixture encodes the kernel contract: frozen gold, recipe playbook, exact token unchecked. Live ARC_ROOT eval is P1."
+}
