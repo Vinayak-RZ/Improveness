@@ -2,6 +2,8 @@
 
 ## Current phase
 
+**TargetPort (D21)** — domain kernels and any agentic system. Coding-config pin `45a585d`. Live DeepSeek-class measured row still open.
+
 **ModelTaste + Hardening + Strong Release** — package, straps, fit-suite, and keyless hardening gates are green. Live DeepSeek-class measured row and live DSH smoke remain open (need API keys).
 
 **Procedural order (D20)** — sibling graph, `plan_step` inject, improve deltas, and eighth sim `procedural-order` are in. Frozen 12/8 search numbers unchanged.
@@ -10,19 +12,14 @@
 
 | Item | Status |
 |------|--------|
-| D17–D19 ADRs + STRONG_RELEASE / PROJECT_HARDENING | done |
-| OMP snapshot refresh + SNAPSHOT.md | done |
-| `packages/improveness-modeltaste` (profiles, repairs, dialects, import fence) | done |
-| DSH `IMPROVENESS_TASTE` thin strap + agent RPC + unstrap / dispose tests | done |
-| OMP HostPort attach/detach + Qwen3 strap test | done |
-| Private fit-suite keyless + demo.sh | done |
-| Packaged runner + `private: false` | done |
-| Claim-honesty + taste-secrets qa findings | done |
-| Skip-gated `DSH_LIVE_SMOKE` driver + CI step + `.env.example` | done |
+| cursor-config-coding pin `45a585d` (graph-of-loops) | done |
+| nawab p5 + LOOP_GRAPH (defaults; graph-of-loops XOR) | done |
+| TargetPort + ARC / generic-agentic / harness-stub fixtures | done |
+| D21 ADR + methods + catalog | done |
+| `improve-target.ts` boot + T1 trials | done |
 | Live DSH smoke green once | **open** (env keys) |
-| Live fit ledger row (`IMPROVENESS_FIT_LIVE=1`) | **open** (env keys) |
-| STRONG_RELEASE P0 | **RED** until live row |
-| Procedural order (D20) eighth sim + README claim | **done** (keyless) |
+| Live ARC_ROOT eval | **P1** |
+| STRONG_RELEASE P0 | **RED** until live ModelTaste row |
 
 ## Remaining for strong release
 
@@ -30,7 +27,3 @@
 2. `IMPROVENESS_FIT_LIVE=1` before/after → CLAIM_LEDGER live row with delta > 0
 3. Human sign-off on STRONG_RELEASE.md
 4. Marketing only after P0 green
-
-## Blockers
-
-- Live API credentials for DeepSeek-class fit campaign (and optional DSH smoke)

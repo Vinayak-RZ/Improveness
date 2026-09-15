@@ -28,16 +28,16 @@
 
 | ID | Name | Plan | Stop | Max rounds | Status |
 |----|------|------|------|------------|--------|
-| P0 | product lock | [loops/P0.md](loops/P0.md) | `rg -q '## User' docs/planning/PRODUCT.md && rg -q '## P0' docs/planning/PRODUCT.md` | 3 | pending |
-| D0 | docs-in | [loops/D0.md](loops/D0.md) | `test -f docs/planning/GATE_0.md && test -f docs/methods/host-port.md` | 3 | pending |
-| A1 | D21 ADR | [loops/A1.md](loops/A1.md) | `rg -q 'D21' DECISIONS.md` | 3 | pending |
-| B_PORT | TargetPort | [loops/B_PORT.md](loops/B_PORT.md) | `test -f harness/omp/target-port/types.ts && test -f harness/omp/drivers/improve-target.ts` | 3 | pending |
-| B_ARC | fixtures | [loops/B_ARC.md](loops/B_ARC.md) | `test -f harness/omp/targets/arc/manifest.json && test -f harness/omp/targets/generic-agentic/manifest.json` | 3 | pending |
-| M1 | integrate | [loops/M1.md](loops/M1.md) | `rg -q 'TargetPort' harness/omp/SURFACES.md` | 3 | pending |
-| E1 | evaluate | [loops/E1.md](loops/E1.md) | `bun test harness/omp/tests/target-port.test.ts` | 3 | pending |
-| R1 | boot | [loops/R1.md](loops/R1.md) | `test -f docs/planning/R1_BOOT.md && rg -q 'improve-target' docs/planning/R1_BOOT.md` | 3 | pending |
-| T1 | trials | [loops/T1.md](loops/T1.md) | `test -f docs/planning/T1_TRIALS.md && rg -c '| pass |' docs/planning/T1_TRIALS.md` | 3 | pending |
-| D1 | docs-out | [loops/D1.md](loops/D1.md) | `rg -q 'TargetPort' README.md` | 3 | pending |
+| P0 | product lock | [loops/P0.md](loops/P0.md) | `rg -q '## User' docs/planning/PRODUCT.md && rg -q '## P0' docs/planning/PRODUCT.md` | 3 | done |
+| D0 | docs-in | [loops/D0.md](loops/D0.md) | `test -f docs/planning/GATE_0.md && test -f docs/methods/host-port.md` | 3 | done |
+| A1 | D21 ADR | [loops/A1.md](loops/A1.md) | `rg -q 'D21' DECISIONS.md` | 3 | done |
+| B_PORT | TargetPort | [loops/B_PORT.md](loops/B_PORT.md) | `test -f harness/omp/target-port/types.ts && test -f harness/omp/drivers/improve-target.ts` | 3 | done |
+| B_ARC | fixtures | [loops/B_ARC.md](loops/B_ARC.md) | `test -f harness/omp/targets/arc/manifest.json && test -f harness/omp/targets/generic-agentic/manifest.json` | 3 | done |
+| M1 | integrate | [loops/M1.md](loops/M1.md) | `rg -q 'TargetPort' harness/omp/SURFACES.md` | 3 | done |
+| E1 | evaluate | [loops/E1.md](loops/E1.md) | `bun test harness/omp/tests/target-port.test.ts` | 3 | done |
+| R1 | boot | [loops/R1.md](loops/R1.md) | `test -f docs/planning/R1_BOOT.md && rg -q 'improve-target' docs/planning/R1_BOOT.md` | 3 | done |
+| T1 | trials | [loops/T1.md](loops/T1.md) | `test -f docs/planning/T1_TRIALS.md && rg -c '| pass |' docs/planning/T1_TRIALS.md` | 3 | done |
+| D1 | docs-out | [loops/D1.md](loops/D1.md) | `rg -q 'TargetPort' README.md` | 3 | done |
 | H1 | harden | [loops/H1.md](loops/H1.md) | `bash harness/omp/scripts/qa.sh` | 3 | pending |
 
 ---
@@ -122,14 +122,14 @@ Edges cut: no U1 (no UI). B_PORT and B_ARC share no write paths after types exis
 
 | Wave | Nodes | Fan-out? | Barrier? | Status | Lead plumbing |
 |------|-------|----------|----------|--------|---------------|
-| 0 | P0, D0 | no | no | pending | — |
-| 1 | A1 | no | no | pending | — |
-| 2 | B_PORT then B_ARC | no | no | pending | sequential (schema then fixtures) |
-| 3 | M1 | no | yes | pending | — |
-| 4 | E1 | no | no | pending | — |
-| 5 | R1, T1 | no | no | pending | — |
-| 6 | D1 | no | no | pending | — |
-| 7 | H1 | no | yes | pending | qa.sh |
+| 0 | P0, D0 | no | no | done | — |
+| 1 | A1 | no | no | done | — |
+| 2 | B_PORT then B_ARC | no | no | done | sequential (schema then fixtures) |
+| 3 | M1 | no | yes | done | — |
+| 4 | E1 | no | no | done | — |
+| 5 | R1, T1 | no | no | done | — |
+| 6 | D1 | no | no | done | — |
+| 7 | H1 | no | yes | done | qa.sh |
 
 ---
 

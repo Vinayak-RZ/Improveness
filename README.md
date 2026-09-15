@@ -34,6 +34,12 @@ qa.sh ok
 
 That command is the product check: overlay tests, a frozen 12/8 fixture split, eight keyless architecture simulations, and a catalog that fails CI if a kernel sentence disappears.
 
+Domain kernels and other agentic systems (not only DSH):
+
+```text
+$ bun harness/omp/drivers/improve-target.ts --target arc
+```
+
 ## Why this exists
 
 2026 is the year people stopped arguing about “will agents self-improve?” and started arguing about **where**. Weights are expensive and slow to change. The wrapper around the model — the *harness* — is cheap, inspectable, and, if you are careless, easy to cheat.
@@ -65,6 +71,7 @@ These are the bets this codebase actually implements. Each one is a named idea f
 - **Frozen Physics.** Checker, permissions, model routes, Cordis loader, Improveness QA, and this plugin’s own bundle are kernel. [HSI](https://arxiv.org/html/2608.08466) calls this the frozen outer anchor. Stable ids are **package namespaces and paths**, not Cordis Fiber instance ids (`fiber-9f3` is a runtime handle, not a law). Limit: a human still has to widen network or destructive permissions.
 - **Harness Slots.** Four seats from HarnessFactory: `memory`, `planning`, `action`, `capability`. One occupant for the first three; capability is an ordered set. Two plugins claiming `memory` **fail before mount**. Limit: slots are a policy, not a type system inside DSH itself.
 - **Filesystem Evidence Plane.** Every candidate is a directory you can `grep`: source, scores, traces, rollback. That is [Meta-Harness](https://arxiv.org/abs/2603.28052) shape — coding-agent proposer, history on disk — **without** running their Terminal-Bench-2 search as our fitness. Limit: playbook-class accepts still *stage*; only plugin-class accepts with load/dispose/policy checks write the generated dir.
+- **TargetPort (D21).** Plug in a **domain kernel**, an **agentic harness**, or **any agentic system** — not coding-harness-only. Same `decideAccept`. ARC (the renamed Electrical-Engineer kernel) is the motivating adapter via an in-tree fixture; `generic-agentic` is a non-coding system. Limit: live `electrical-engineer eval` needs `ARC_ROOT` (P1). We do not vendor ARC and do not mount DSH as Arc’s loop.
 
 ## A field guide to ideas this repo is built on
 
@@ -170,7 +177,8 @@ Generated plugins in checkout tests: `harness/omp/generated/<id>/`. Live: `$DSH_
 | Path | What it is |
 |------|------------|
 | `plugins/dsh-improveness/` | The installable `dsh.bundle` |
-| `harness/omp/` | Frozen checker, search, HostPort, QA |
+| `harness/omp/` | Frozen checker, search, HostPort, TargetPort, QA |
+| `harness/omp/targets/` | Plug-in manifests (ARC fixture, generic agentic system) |
 | `oh-my-pi/` | Parked P1 snapshot (own license) |
 | `docs/methods/` | One page per cited system |
 | `docs/EXTENSIVE.md` | Package-by-package map |
@@ -182,7 +190,7 @@ Generated plugins in checkout tests: `harness/omp/generated/<id>/`. Live: `$DSH_
 | Why a claim is allowed | [Claim ledger](docs/CLAIM_LEDGER.md) |
 | Kernel vs surfaces | [KERNEL.md](harness/omp/KERNEL.md), [SURFACES.md](harness/omp/SURFACES.md) |
 | Weng survey, taught | [docs/00-index.md](docs/00-index.md) |
-| HostPort / two-speed / JSONL | [methods/](docs/methods/README.md) |
+| HostPort / two-speed / JSONL / TargetPort | [methods/](docs/methods/README.md) |
 | Every file that matters | [Extensive README](docs/EXTENSIVE.md) |
 | Execution contract | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) |
 

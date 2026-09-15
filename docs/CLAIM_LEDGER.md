@@ -8,6 +8,7 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 |-------|----------|
 | Frozen 12 held-in / 8 held-out fixtures | `harness/omp/evals/held-in`, `held-out`; `qa-repo` inventory |
 | Playbook search sim 0/12 → 7/12 held-in, 0/8 → 3/8 held-out | `harness/omp/evals/benchmarks/local-20/` |
+| TargetPort keyless: ARC fixture 0/3→3/3; generic-agentic 0/2→2/2; frozen write denied | `bun harness/omp/drivers/improve-target.ts --target arc`; `target-port.test.ts` |
 | Eight named architecture simulations pass without an API key | `simulate-architectures.ts`; `qa.sh` |
 | Procedural-order sim: empty graph scores 0 on the success path; ordered `leads_to` graph scores 1 vs skip-verify below 1 | `evals/procedure/`; `procedural-order` row in `evals/simulations/latest/` |
 | Search step cap is 8 | `MAX_STEP_CAP = 8` in `search.ts` |
@@ -31,6 +32,7 @@ Every public claim must sit in one row. Forbidden claims stay forbidden even if 
 | Short-term / long-term improve drivers (still gated for durable) | `improve.test.ts` |
 | ModelTaste third section + agent RPC (inspect/analyze/propose/applyEphemeral) | `taste.js` + `dsh-plugin.test.ts` |
 | OMP HostPort attach/detach ModelProfile without writing `oh-my-pi/packages` | `p1-host-port.test.ts` |
+| TargetPort for domain kernels / any agentic system (ARC fixture; not live ARC eval) | `improve-target.ts` + `target-port.test.ts` |
 | Live ModelTaste before/after on DeepSeek-class via DSH | `IMPROVENESS_FIT_LIVE=1` + `CLAIM_LEDGER` live row (not yet filled) |
 
 ## Forbidden (do not put in README)
