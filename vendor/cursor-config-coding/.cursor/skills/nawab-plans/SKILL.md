@@ -5,8 +5,8 @@ description: >
   (§0 §1 §9 §16 §18). Standard and project profiles add sections. Use when
   drafting IMPLEMENTATION_PLAN.md or a Cursor plan, orchestrating delivery,
   or turning a vague project into a commit matrix. Pair with domain
-  architecture skills during research. Not graphify. graph-engineering is
-  opt-in §19 only.
+  architecture skills during research. Not graphify. graph-engineering and
+  graph-of-loops are opt-in §19 XOR (never both).
 argument-hint: "[lite|standard|project] [scope]"
 license: MIT
 ---
@@ -20,8 +20,9 @@ named product or customer into the skill; fill §0 from the repo in front of you
 Templates: [PLAN.template.lite.md](PLAN.template.lite.md) · [PLAN.template.md](PLAN.template.md)  
 Subagents: [SUBAGENT_ORCHESTRATION.md](SUBAGENT_ORCHESTRATION.md) (project / parallel WS only)
 
-**graph-engineering** is opt-in. Load only if the user named it. graphify is a
-knowledge-graph CLI — never a substitute for §19.
+**graph-engineering** and **graph-of-loops** are opt-in, mutually exclusive.
+Load only if the user named that skill. If they named both, stop and ask
+which wins. graphify is a knowledge-graph CLI — never a substitute for §19.
 
 ---
 
@@ -93,8 +94,16 @@ Unresolved P0 questions → ask; do not invent architecture in §4.
 
 ## Optional §19
 
-Default: `N/A — graph-engineering not requested`. If named: Gate 0 questions,
-then the graph is the plan you read. Approving runs it.
+Exactly one:
+
+| Named | §19 |
+|-------|-----|
+| nothing | `N/A — graph-engineering / graph-of-loops not requested` |
+| `graph-engineering` | Gate 0, then one-shot graph (`EXECUTION_GRAPH.md`) |
+| `graph-of-loops` | Gate 0, then loop graph (`LOOP_GRAPH.md`); nawab **standard/project** (not lite) |
+| both | **illegal** — ask which wins |
+
+The filled graph is the plan you read. Approving runs it.
 
 ---
 

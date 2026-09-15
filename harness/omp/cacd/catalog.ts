@@ -112,7 +112,14 @@ export const CACD_ITEMS: CacdItem[] = [
     layer: "contract",
     title: "HostPort surface",
     path: "docs/methods/host-port.md",
-    mustContain: ["HostPort", "frozenIds", "mountEphemeral"],
+    mustContain: ["HostPort", "frozenIds", "mountEphemeral", "DomainKernelPort"],
+  },
+  {
+    id: "c-domain-kernel",
+    layer: "contract",
+    title: "Domain kernel vocabulary",
+    path: "docs/methods/domain-kernel.md",
+    mustContain: ["DomainKernelPort", "domain kernel", "ARC"],
   },
 ];
 

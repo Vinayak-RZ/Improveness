@@ -1,6 +1,5 @@
 # Generated from github/spec-kit @ v1.0.6
-# Integration: cursor-agent (skills under .cursor/skills/speckit-*/SKILL.md)
-# Do not hand-edit to match upstream — regenerate in a temp dir and copy speckit-* only.
+# Integration: cursor-agent. This config keeps one speckit router skill, not speckit-* command copies.
 # Target apps: .\scripts\install-spec-kit.ps1 -Target <app>
-# speckit-taskstoissues remains vendored (legacy; may leave upstream core later).
+# Extra upstream commands: find-skills / catalog, not preinstalled.
 # See docs/SPEC_KIT.md

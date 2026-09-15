@@ -1,7 +1,8 @@
 # Readable README — templates
 
 Internal platform-layer `README.md`. Skip empty sections. Keep numbering
-sequential. **Do not use this skeleton for installable products.**
+sequential. **Do not use this skeleton for installable products.** Prose must
+pass [../readme/anti-slop.md](../readme/anti-slop.md).
 
 ## Skeleton
 

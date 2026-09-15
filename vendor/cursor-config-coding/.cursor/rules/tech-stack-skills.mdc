@@ -9,7 +9,7 @@ Before stack-specific implementation work:
 
 1. Read [docs/TECH_STACK_SKILLS.md](../../docs/TECH_STACK_SKILLS.md) or [.cursor/skills-catalog/stacks.json](../skills-catalog/stacks.json).
 2. Match the detected stack (Next.js, React, Flutter, Kotlin, Django, Express).
-3. Use **pre-installed** skills first (`nextjs-app-router-patterns` for Next.js; `gsap-*`, `impeccable`, `graphify` as appropriate).
+3. Use **pre-installed** skills first (`nextjs-app-router-patterns` for Next.js; `gsap-framer-scroll-animation`, `impeccable`, `graphify` as appropriate).
 4. If a catalog skill would help and is not in `.cursor/skills/`, run `scripts/install-catalog-skill.ps1` or ask the user to approve install.
 5. Do **not** pre-install the whole catalog — install 1–2 skills relevant to the current task.
 

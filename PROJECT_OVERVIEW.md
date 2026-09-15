@@ -2,6 +2,8 @@
 
 ## Purpose
 
+**ARC** (Agent Runtime Composability) is the direction: improve **domain kernels**
+(frozen verifier + permissions) by rewriting **harness surfaces** after a gate.
 Improveness is a **DeepSeek Harness bundle plugin** (`dsh-improveness`) that improves the host at runtime: JIT session plugins plus durable generated siblings after a Self-Harness gate. The same loop is a **CACD** operating model and a **keyless simulator of agentic architectures**.
 
 You add the plugin to a live `improveness` profile (`dsh-base` + `dsh-web-app` + `dsh-improveness`). After held-in/held-out accept, **generated plugins** land in a profile-owned directory and HMR. The Oh My Pi tree is a **parked P1 HostPort**, not the default install path ([D15](DECISIONS.md)).

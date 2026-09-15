@@ -107,6 +107,10 @@ Use `${env:VAR}` — never commit secrets. Set env vars in your shell or system.
 
 Project config wins when both define the same server name.
 
+## Computer use (not desktop CUA)
+
+This lab does not ship a full-desktop Computer Use MCP. Cursor has an IDE browser (snapshot, click, navigate). Policy is the `computer-use` skill: API and files first, then the IDE browser, then `agent-browser` for Chrome/CDP. Do not add unofficial macOS or Windows CUA MCPs as default. Auth-sensitive diffs: Cursor `/review-security`.
+
 ## Cloud agents
 
 Cloud agents can use MCP servers configured for the environment. Commit `.cursor/mcp.json` in the app repo so cloud runs inherit **agent-patterns** when the remote endpoint is reachable.
