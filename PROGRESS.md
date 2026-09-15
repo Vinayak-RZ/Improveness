@@ -17,7 +17,7 @@
 | TargetPort + ARC / generic-agentic / harness-stub fixtures | done |
 | D21 ADR + methods + catalog | done |
 | `improve-target.ts` boot + T1 trials | done |
-| Live DSH smoke green once | **open** (env keys) |
+| `qa.sh` green after TargetPort | done |
 | Live ARC_ROOT eval | **P1** |
 | STRONG_RELEASE P0 | **RED** until live ModelTaste row |
 

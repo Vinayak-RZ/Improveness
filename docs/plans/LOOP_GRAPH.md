@@ -38,7 +38,7 @@
 | R1 | boot | [loops/R1.md](loops/R1.md) | `test -f docs/planning/R1_BOOT.md && rg -q 'improve-target' docs/planning/R1_BOOT.md` | 3 | done |
 | T1 | trials | [loops/T1.md](loops/T1.md) | `test -f docs/planning/T1_TRIALS.md && rg -c '| pass |' docs/planning/T1_TRIALS.md` | 3 | done |
 | D1 | docs-out | [loops/D1.md](loops/D1.md) | `rg -q 'TargetPort' README.md` | 3 | done |
-| H1 | harden | [loops/H1.md](loops/H1.md) | `bash harness/omp/scripts/qa.sh` | 3 | pending |
+| H1 | harden | [loops/H1.md](loops/H1.md) | `bash harness/omp/scripts/qa.sh` | 3 | done |
 
 ---
 
