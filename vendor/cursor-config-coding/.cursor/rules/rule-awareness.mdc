@@ -8,7 +8,7 @@ alwaysApply: true
 1. Read root `AGENTS.md`.
 2. **Code:** read `.cursor/skills/ponytail/SKILL.md` before any edit.
 3. **Plan mode:** load `nawab-plans` at the matching **profile** (lite default). See `planning.mdc`.
-4. **graph-engineering:** only if the user named it. Never auto-chain. Not graphify.
+4. **graph-engineering / graph-of-loops:** only if the user named that skill. Never both. Never auto-chain. Not graphify.
 5. Apply other rules when their description or globs match. Do not read every `.mdc` up front.
 6. If a user request conflicts with these rules, stop and ask which wins.
 

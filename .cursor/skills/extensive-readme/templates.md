@@ -3,7 +3,8 @@
 Default file: `docs/EXTENSIVE.md`. Number sections sequentially.
 
 **Order rule:** domain concepts and how-it-runs **before** the package map.
-Do not open with a package table.
+Do not open with a package table. Prose must pass
+[../readme/anti-slop.md](../readme/anti-slop.md).
 
 ## Skeleton
 

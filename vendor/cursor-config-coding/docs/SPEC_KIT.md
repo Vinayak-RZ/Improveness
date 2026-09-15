@@ -1,20 +1,20 @@
 # Spec Kit (Spec-Driven Development)
 
-This coding config vendors **[GitHub Spec Kit](https://github.com/github/spec-kit)** Cursor skills (`speckit-*`) so agents can run Spec-Driven Development when linked into a code project.
+This coding config ships **one** [GitHub Spec Kit](https://github.com/github/spec-kit) skill: `speckit`. Agents say **use speckit** and follow `.specify/` in the **code app**. The ten `/speckit-*` command skills are not preinstalled.
 
 Pinned CLI version: **v1.0.6**.
 
-`speckit-taskstoissues` is still vendored (legacy). Prefer converting tasks to GitHub issues from the tasks artifact if upstream drops that skill from core.
+Extra upstream command skills: `find-skills` plus the catalog, not this folder.
 
 ## What lives where
 
 | Location | Role |
 |----------|------|
-| `cursor-config-coding/.cursor/skills/speckit-*/` | Agent skills (pre-installed in this config) |
+| `cursor-config-coding/.cursor/skills/speckit/` | Router skill (when to use, phase order) |
 | `cursor-config-coding/.cursor/rules/speckit.mdc` | When to use Spec Kit vs trivial edits |
-| **Code project** `.specify/` | Templates + PowerShell scripts the skills call |
+| **Code project** `.specify/` | Templates + PowerShell scripts the phases call |
 
-Skills alone are not enough — the **target app repo** needs `.specify/`.
+The skill alone is not enough. The **target app repo** needs `.specify/`.
 
 ## One-time machine setup
 
@@ -36,18 +36,23 @@ That installs `specify-cli@v1.0.6` if needed, then inits in a **temp directory**
 
 ## Workflow
 
-| Order | Skill / command | Purpose |
-|------:|-----------------|---------|
-| 1 | `/speckit-constitution` | Governing principles |
-| 2 | `/speckit-specify` | Requirements (what / why) |
-| 3 | `/speckit-clarify` | Optional — resolve ambiguities |
-| 4 | `/speckit-plan` | Tech stack + design plan |
-| 5 | `/speckit-checklist` | Optional — requirements quality checklist |
-| 6 | `/speckit-tasks` | Task breakdown |
-| 7 | `/speckit-analyze` | Optional — artifact consistency |
-| 8 | `/speckit-implement` | Build from tasks |
-| 9 | `/speckit-converge` | Gap assessment vs codebase |
-| — | `/speckit-taskstoissues` | Tasks → GitHub issues (legacy) |
+Say **use speckit**. Run phases in order:
+
+| Order | Phase | Purpose |
+|------:|-------|---------|
+| 1 | constitution | Governing principles |
+| 2 | specify | Requirements (what / why) |
+| 3 | clarify | Optional: resolve ambiguities |
+| 4 | plan | Tech stack + design plan |
+| 5 | checklist | Optional: requirements quality checklist |
+| 6 | tasks | Task breakdown |
+| 7 | analyze | Optional: artifact consistency |
+| 8 | implement | Build from tasks (ponytail on code) |
+| 9 | converge | Gap assessment vs codebase |
+
+Tasks to GitHub issues: use `gh` from the tasks artifact if you ask. That is not a separate skill here.
+
+For each phase, read `.specify/templates/` and run `.specify/scripts/powershell/` for that step.
 
 ## Precedence with this config
 
@@ -60,12 +65,14 @@ Do **not** force Spec Kit for one-line fixes.
 
 ## Upgrade
 
-Regenerate vendored skills in a **temp app dir**, copy `speckit-*` only into this config. Then:
+Keep the `speckit` router in this config. Bump the CLI pin, then:
 
 ```powershell
 uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
 .\scripts\install-spec-kit.ps1 -Target "D:\Startups\YourApp" -Tag "vX.Y.Z"
 ```
+
+Update `v1.0.6` in `skills-manifest.json`, `scripts/install-spec-kit.ps1`, `.cursor/skills/speckit-SOURCE.txt`, and this file.
 
 ## Upstream
 

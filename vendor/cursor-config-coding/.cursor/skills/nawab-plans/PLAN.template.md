@@ -371,7 +371,7 @@ _or:_
 ```text
 1. Load this plan + nawab-plans skill; ponytail on every edit
 2. Clear §2 blockers
-3. Phase 0 if spec artifacts required (speckit-*)
+3. Phase 0 if spec artifacts required (speckit)
 4. For each phase in §7:
    a. Sync §8 todos
    b. Execute §6 spawns at trigger rows
@@ -386,23 +386,34 @@ _or:_
 ```
 
 If **§19 is filled**, do not run this linear protocol as the primary loop.
-On approval: the graph is the plan you read; node plans are linked from it.
-Write `EXECUTION_GRAPH.md` and execute graph waves immediately
-(`graph-engineering` skill). Keep §9 commits, gates, and lead-owned git.
+On approval: the graph is the plan you read.
+
+- `graph-engineering` → `EXECUTION_GRAPH.md` + `plans/nodes/` (one-shot nodes)
+- `graph-of-loops` → `LOOP_GRAPH.md` + `plans/loops/` (maker + checker until stop)
+
+Never both. Keep §9 commits, gates, and lead-owned git.
 
 ---
 
 ## §19 Execution graph
 
-`N/A — graph-engineering not requested`
+`N/A — graph-engineering / graph-of-loops not requested`
 
-When `graph-engineering` was named, **ask questions first**, then replace N/A
-with the full shape from
-`.cursor/skills/graph-engineering/GRAPH.template.md`. **Required:** a
-**Node plans** table with working links, and a **Lifecycle** table (run,
-trials, docs-out present or N/A with reason).
+Exactly one named skill may fill this section:
 
-**If this section is filled:** approving this plan starts graph execution
+- **graph-engineering:** ask questions first, then
+  `.cursor/skills/graph-engineering/GRAPH.template.md`. **Required:** Node
+  plans table with working links; Lifecycle table (run, trials, docs-out
+  present or N/A with reason).
+- **graph-of-loops:** ask questions first, then
+  `.cursor/skills/graph-of-loops/LOOP_GRAPH.template.md`. Use nawab
+  **standard or project** (not lite). **Required:** Loop plans table with
+  working links; each loop names a **stop command**; Lifecycle includes
+  product lock, architecture, evaluate, run, trials, docs-out (or N/A with
+  reason).
+- **Both named:** stop and ask which wins. Do not compile either until then.
+
+**If this section is filled:** approving this plan starts that graph
 immediately. No second wait.
 
 ---
@@ -418,4 +429,4 @@ immediately. No second wait.
 **Mode:** [project | feature]  
 Plan ready for review. Approve to begin **Phase [0/A]**.  
 Lead agent follows **§18 Execution protocol**.  
-If §19 is filled: approving writes `EXECUTION_GRAPH.md` and **starts graph execution immediately**.
+If §19 is filled: approving writes `EXECUTION_GRAPH.md` **or** `LOOP_GRAPH.md` (whichever skill was named) and **starts that graph immediately**.

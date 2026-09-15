@@ -3,7 +3,7 @@ name: graphify
 description: >-
   Turn a folder into a knowledge graph (HTML, JSON, GRAPH_REPORT.md).
   Use only when the user says /graphify or explicitly asks to graphify a
-  corpus. Not graph-engineering (execution graphs / nawab §19).
+  corpus. Not graph-engineering or graph-of-loops (execution graphs / nawab §19).
 disable-model-invocation: true
 ---
 
@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Knowledge graph of a folder: communities, HTML viz, GraphRAG JSON, `GRAPH_REPORT.md`.
 
-**Not** `graph-engineering` (nawab §19 execution graphs). **Not** a substitute for a nawab plan.
+**Not** `graph-engineering` or `graph-of-loops` (nawab §19 execution graphs). **Not** a substitute for a nawab plan.
 
 ## When invoked
 
@@ -36,5 +36,5 @@ See [references/cli.md](references/cli.md) for the full list.
 
 ## Must not
 
-- Auto-run because the user said “graph this plan” (that is graph-engineering)
+- Auto-run because the user said “graph this plan” (that is graph-engineering) or “graph of loops”
 - Invent edges without EXTRACTED / INFERRED / AMBIGUOUS tags

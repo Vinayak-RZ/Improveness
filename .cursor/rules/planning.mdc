@@ -13,6 +13,6 @@ Non-trivial work: read `.cursor/skills/nawab-plans/SKILL.md` and use the
 - Do not invent a thinner format inside the chosen profile
 - Ask commit budget before §9 if missing
 - Skip-plan / one-line hotfix: ponytail only
-- graph-engineering only if named; graphify is not §19
+- graph-engineering **or** graph-of-loops only if named (never both); graphify is not §19
 
 Present the plan and wait for approval before implementation.

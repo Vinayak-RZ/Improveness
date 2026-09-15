@@ -26,6 +26,10 @@ Each **node** is a bounded workstream with **its own plan file**. The master
 graph **must list a markdown link to every node plan** so you can open any
 slice without hunting.
 
+**XOR with `graph-of-loops`.** That skill uses the same lifecycle but each
+node is maker + checker until a stop command holds. If the user named both,
+**stop and ask** which wins. Do not compile both into §19.
+
 **Not graphify.** `graphify` maps a codebase. This skill shapes *execution*.
 
 Template: [GRAPH.template.md](GRAPH.template.md)  
@@ -51,7 +55,8 @@ Load **only** when the user named this skill. Signals:
 - "graph this plan" / "graph engineering" / "run this as a graph"
 - "one-shot this project" / "one-shot this feature"
 
-**Do not load** because Plan mode is on or nawab-plans loaded.
+**Do not load** because Plan mode is on or nawab-plans loaded. **Do not load**
+if the user named `graph-of-loops` instead (XOR).
 
 **Skip the fleet** (one-node or short chain in §19) when the work is a real
 1–3 step dependency. Do not invent nodes or nested plans for a hotfix.
@@ -239,6 +244,7 @@ The graph is the execution program. Node plans are additive files.
 - One Task prompt that pastes every node plan (kills the point of the graph)
 - Restarting from wave 0 after a dead session instead of the checkpoint
 - Parallel writers on the same files
+- Loading this skill **and** `graph-of-loops` in one plan
 - Confusing this skill with `graphify`
 - Inventing a fleet for a 1–3 step real chain
 - Guessing a `model` slug not in the session list

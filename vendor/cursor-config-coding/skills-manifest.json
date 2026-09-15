@@ -1,6 +1,6 @@
 ﻿{
-  "version": 7,
-  "description": "Coding Cursor config — 40 skills, 21 rules, 3 always-on stubs, agent-patterns MCP, nawab-plans profiles + opt-in graph-engineering + ponytail + Spec Kit v1.0.6",
+  "version": 8,
+  "description": "Coding Cursor config — 30 skills, 21 rules, 3 always-on stubs, agent-patterns MCP, nawab-plans profiles + opt-in graph-engineering XOR graph-of-loops + ponytail + Spec Kit v1.0.6",
   "mcp": {
     "default_server": "agent-patterns",
     "url": "https://mcp.agentpatternscatalog.org/mcp",
@@ -15,9 +15,9 @@
     "rule": "speckit"
   },
   "preinstalled": {
-    "count": 40,
+    "count": 30,
     "categories": {
-      "planning": ["nawab-plans", "graph-engineering"],
+      "planning": ["nawab-plans", "graph-engineering", "graph-of-loops"],
       "minimal-code": [
         "ponytail",
         "ponytail-review",
@@ -26,39 +26,19 @@
         "ponytail-gain",
         "ponytail-help"
       ],
-      "spec-driven": [
-        "speckit-constitution",
-        "speckit-specify",
-        "speckit-clarify",
-        "speckit-plan",
-        "speckit-checklist",
-        "speckit-tasks",
-        "speckit-analyze",
-        "speckit-implement",
-        "speckit-converge",
-        "speckit-taskstoissues"
-      ],
+      "spec-driven": ["speckit"],
       "architecture": [
         "frontend-architecture",
         "backend-architecture",
         "agentic-system-design",
         "system-design-tradeoffs"
       ],
-      "nextjs": ["nextjs-app-router-patterns"],
-      "documentation": ["readme", "product-readme", "readable-readme", "extensive-readme"],
+      "nextjs": ["nextjs-app-router-patterns", "vercel-react-best-practices"],
+      "documentation": ["readme", "product-readme", "readable-readme", "extensive-readme", "copywriting"],
       "learning": ["learn-while-building"],
-      "animation": [
-        "gsap-core",
-        "gsap-react",
-        "gsap-scrolltrigger",
-        "gsap-timeline",
-        "gsap-plugins",
-        "gsap-performance",
-        "gsap-frameworks",
-        "gsap-utils",
-        "gsap-framer-scroll-animation"
-      ],
-      "ui": ["impeccable"],
+      "animation": ["gsap-framer-scroll-animation"],
+      "ui": ["impeccable", "web-design-guidelines", "frontend-design"],
+      "computer-use": ["computer-use", "agent-browser"],
       "exploration": ["graphify"],
       "utility": ["find-skills"]
     }
@@ -86,30 +66,12 @@
     ]
   },
   "workflows": {
-    "implementation": "nawab-plans (lite default) → approve → implement; opt-in graph-engineering in §19",
+    "implementation": "nawab-plans (lite default) → approve → implement; opt-in graph-engineering XOR graph-of-loops in §19",
     "spec_driven": "constitution → specify → plan → tasks → implement (ponytail on code)",
     "learning": "docs/LEARNING_AND_RESEARCH.md",
     "commits": "conventional commits after milestones; auto-push at 10 unpushed or when user asks"
   },
   "optional_catalog": [
-    {
-      "name": "frontend-design",
-      "installs": null,
-      "command": "npx skills add anthropics/skills@frontend-design -y --copy",
-      "when": "High-craft UI from a blank canvas — catalog only, not pre-installed"
-    },
-    {
-      "name": "agent-browser",
-      "installs": null,
-      "command": "npx skills add vercel-labs/agent-browser@agent-browser -y --copy",
-      "when": "Browser automation for agents — catalog only, not pre-installed"
-    },
-    {
-      "name": "vercel-react-best-practices",
-      "installs": 467600,
-      "command": "npx skills add vercel-labs/agent-skills@vercel-react-best-practices -y --copy",
-      "when": "React/Next performance and patterns"
-    },
     {
       "name": "senior-architect",
       "installs": 1800,
@@ -126,7 +88,7 @@
       "name": "security-reviewer",
       "installs": 3400,
       "command": "npx skills add jeffallan/claude-skills@security-reviewer -y --copy",
-      "when": "Auth, payments, sensitive API changes"
+      "when": "Prefer Cursor /review-security for auth, payments, sensitive API changes"
     },
     {
       "name": "frontend-developer",
