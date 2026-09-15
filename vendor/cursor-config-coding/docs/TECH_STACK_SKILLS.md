@@ -1,8 +1,8 @@
 # Tech Stack Skills Catalog
 
-Use this document when working in a **specific stack**. Skills listed here are **not pre-installed** by default (except Next.js). Install on demand into `.cursor/skills/` for the current project, or ask the user to run the install script.
+Use this document when working in a **specific stack**. Install catalog skills on demand into `.cursor/skills/` for the current project, or ask the user to run the install script.
 
-**Pre-installed in this config:** `nextjs-app-router-patterns` only (stack-specific). Core skills (`graphify`, `impeccable`, `gsap-*`, `find-skills`) are always available.
+**Pre-installed in this config:** `nextjs-app-router-patterns` and `vercel-react-best-practices` (stack). Core skills (`graphify`, `impeccable`, `gsap-framer-scroll-animation`, `find-skills`, `computer-use`, `agent-browser`) are always available. Extra GSAP slices stay catalog / `find-skills`.
 
 ## How the agent should use this
 
@@ -18,13 +18,13 @@ Use this document when working in a **specific stack**. Skills listed here are *
 | Priority | Skill | Installs | Status | Install |
 |----------|-------|----------|--------|---------|
 | **Primary** | `nextjs-app-router-patterns` | 20.7K | **Pre-installed** | — |
-| Recommended | `vercel-react-best-practices` | 467K | Optional | `npx skills add vercel-labs/agent-skills@vercel-react-best-practices -y --copy` |
+| Recommended | `vercel-react-best-practices` | 467K | **Pre-installed** | — |
 | Recommended | `clerk-nextjs-patterns` | 16.6K | Optional | `npx skills add clerk/skills@clerk-nextjs-patterns -y --copy` |
 | Optional | `nextjs-best-practices` | 5.9K | Optional | `npx skills add sickn33/antigravity-awesome-skills@nextjs-best-practices -y --copy` |
 | Optional | `nextjs-react-typescript` | 3.6K | Optional | `npx skills add mindrally/skills@nextjs-react-typescript -y --copy` |
 | Optional | `seo-aeo-best-practices` | — | Optional | Copy from `~/.agents/skills/seo-aeo-best-practices` or install via catalog |
 
-**Also use (pre-installed):** `impeccable` (UI polish), `gsap-framer-scroll-animation` (scroll/motion), `graphify` (map codebase before large refactors).
+**Also use (pre-installed):** `impeccable` (UI polish), `frontend-design` (blank-canvas UI), `web-design-guidelines` (a11y/UX audit), `gsap-framer-scroll-animation` (scroll/motion), `computer-use` then `agent-browser` for GUI work, `graphify` (map codebase before large refactors).
 
 ---
 
@@ -32,12 +32,12 @@ Use this document when working in a **specific stack**. Skills listed here are *
 
 | Priority | Skill | Installs | Install |
 |----------|-------|----------|---------|
-| **Primary** | `vercel-react-best-practices` | 467K | `npx skills add vercel-labs/agent-skills@vercel-react-best-practices -y --copy` |
+| **Primary** | `vercel-react-best-practices` | 467K | **Pre-installed** |
 | Recommended | `vercel-react-view-transitions` | 54.8K | `npx skills add vercel-labs/agent-skills@vercel-react-view-transitions -y --copy` |
 | Recommended | `react-nextjs-patterns` | 284 | `npx skills add duyet/claude-plugins@react-nextjs-patterns -y --copy` |
 | Optional | `nextjs-framer-motion-animations` | — | Copy from `~/.agents/skills/nextjs-framer-motion-animations` |
 
-**Also use (pre-installed):** `impeccable`, `gsap-react`, `gsap-core`, `graphify`.
+**Also use (pre-installed):** `impeccable`, `gsap-framer-scroll-animation`, `graphify`.
 
 ---
 
@@ -99,4 +99,4 @@ From a project linked to this coding config:
 
 Installs into the **current project's** `.cursor/skills/` (not global).
 
-**Catalog only (do not pre-install into this config):** `vercel-react-best-practices`, `frontend-design`, `agent-browser`. Use `install-catalog-skill.ps1` in the app that needs them.
+**Still catalog (do not duplicate into this config):** extra GSAP slices, full upstream Spec Kit command skills, Flutter/Django/Kotlin packs, Clerk, Playwright. Use `install-catalog-skill.ps1` in the app that needs them. Auth-sensitive diffs: Cursor `/review-security`, not a third-party `security-reviewer` as default.

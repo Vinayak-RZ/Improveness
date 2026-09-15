@@ -1,5 +1,5 @@
 # Scaffold GitHub Spec Kit (.specify) into a code project.
-# speckit-* skills already live in this coding config. Do not run specify init
+# The speckit router skill lives in this coding config. Do not run specify init
 # --force against a junctioned .cursor — that would write into the config repo.
 #
 # Usage:
@@ -109,9 +109,8 @@ Write-Host ""
 Write-Host "Spec Kit ready."
 Write-Host "  .specify/  -> $specifyDir"
 if (Test-Path $cursorLink) {
-    Write-Host "  .cursor/   -> $cursorLink (use vendored speckit-* skills; do not overwrite a junction)"
+    Write-Host "  .cursor/   -> $cursorLink (use the speckit skill; do not overwrite a junction)"
 }
 Write-Host ""
-Write-Host "In Cursor Agent, start with: /speckit-constitution  then  /speckit-specify"
+Write-Host "In Cursor Agent, say: use speckit"
 Write-Host "Guide: docs/SPEC_KIT.md in cursor-config-coding"
-Write-Host "Legacy: /speckit-taskstoissues is still vendored; prefer GitHub issues from tasks when upstream drops it."

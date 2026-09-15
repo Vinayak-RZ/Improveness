@@ -6,24 +6,23 @@
       "detect": ["next", "next.config"],
       "primary": ["nextjs-app-router-patterns"],
       "recommended": [
-        "vercel-labs/agent-skills@vercel-react-best-practices",
         "clerk/skills@clerk-nextjs-patterns"
       ],
       "optional": [
         "sickn33/antigravity-awesome-skills@nextjs-best-practices",
         "mindrally/skills@nextjs-react-typescript"
       ],
-      "also_use_preinstalled": ["impeccable", "gsap-framer-scroll-animation", "graphify"]
+      "also_use_preinstalled": ["impeccable", "vercel-react-best-practices", "frontend-design", "web-design-guidelines", "gsap-framer-scroll-animation", "computer-use", "agent-browser", "graphify"]
     },
     "react": {
       "detect": ["react", "vite", "create-react-app"],
       "exclude_if": ["next"],
-      "primary": ["vercel-labs/agent-skills@vercel-react-best-practices"],
+      "primary": ["vercel-react-best-practices"],
       "recommended": [
         "vercel-labs/agent-skills@vercel-react-view-transitions",
         "duyet/claude-plugins@react-nextjs-patterns"
       ],
-      "also_use_preinstalled": ["impeccable", "gsap-react", "gsap-core", "graphify"]
+      "also_use_preinstalled": ["impeccable", "frontend-design", "web-design-guidelines", "gsap-framer-scroll-animation", "computer-use", "agent-browser", "graphify"]
     },
     "flutter": {
       "detect": ["pubspec.yaml", "flutter"],

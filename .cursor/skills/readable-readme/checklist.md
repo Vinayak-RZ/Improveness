@@ -29,3 +29,10 @@
 
 - [ ] Paths and features exist in the tree
 - [ ] No invented URLs
+
+## Anti-slop (required)
+
+Run [../readme/anti-slop.md](../readme/anti-slop.md) **Pass**. Rewrite until clean.
+
+- [ ] No "not just X, it's Y" punch; is / is not is factual, once
+- [ ] No AI vocabulary stack, -ing tails, chatbot residue, em dashes, Title Case headings

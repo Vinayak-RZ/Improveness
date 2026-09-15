@@ -29,8 +29,9 @@ Requirement → research brief (if unfamiliar)
 | `learn-while-building` | Research, explain, learning summaries, LEARNING.md |
 | `readme` | "Make a README" — asks product vs readable, and whether extensive is also needed |
 | `readable-readme` | Human main README.md (finishable in one sitting) |
-| `product-readme` | Public product landing README (logo, tagline, tiny quickstart) |
+| `product-readme` | Public product landing (host-run: category + conversion + counts; library: is/isn’t + proof) |
 | `extensive-readme` | Internals companion (`docs/EXTENSIVE.md`) — every package and file map |
+| `copywriting` | Public sentences for READMEs and marketing; loads anti-slop |
 
 ## Rules
 

@@ -5,7 +5,8 @@ this file for **this repo only**.
 
 - **Code:** read `ponytail` before edits (lazy senior ladder).
 - **Plan mode:** `nawab-plans` at **lite** unless you asked for standard/project.
-- **Greenfield / specs-first:** `speckit-*` after `.specify/` exists.
+- **Greenfield / specs-first:** `speckit` after `.specify/` exists.
+- **Computer / browser GUI:** `computer-use` then `agent-browser`. Cursor has no full-desktop CUA.
 - **README:** `readme` router — product landing vs internal-service overview.
 - **Do not** duplicate the shared SDLC here. Point at skills by name.
 

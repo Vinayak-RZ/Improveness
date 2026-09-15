@@ -27,3 +27,11 @@
 
 - [ ] Non-obvious ideas explained simply; hard ones link a verified blog or wiki
 - [ ] Future advancements: at least 3, grounded in this repo
+- [ ] No "Despite its… faces challenges" closer; no "Future outlook" essay
+
+## Anti-slop (required)
+
+Run [../readme/anti-slop.md](../readme/anti-slop.md) **Pass**. Rewrite until clean.
+
+- [ ] No "not just X, it's Y" punch
+- [ ] No AI vocabulary stack, -ing tails, "serves as", em dashes, Title Case headings, chatbot residue
