@@ -2,6 +2,12 @@
 
 Thin adapter between Improveness (decide, score, archive, apply) and a plugin host. Inspired by HELIX ([arXiv:2608.13951](https://arxiv.org/abs/2608.13951)): do not wrap the host in a second operating system.
 
+**ARC / domain kernels:** the typed contract is `DomainKernelPort` in
+`harness/omp/host-port/types.ts` (HostPort is a legacy alias). See
+[domain-kernel.md](domain-kernel.md). Use `createDomainKernelImprover(port)` for a
+host-agnostic improver facade; register custom hosts via
+`registerDomainKernelAdapter`.
+
 ## Surface
 
 | Method | Job |
@@ -21,5 +27,5 @@ Thin adapter between Improveness (decide, score, archive, apply) and a plugin ho
 
 ## P0 / P1
 
-- P0: DeepSeek Harness adapter (`host-port/dsh-port.ts` + Node `plugins/dsh-improveness`).
+- P0: DeepSeek Harness adapter (`plugins/dsh-improveness/src/host-port-dsh.js` + registry id `dsh`).
 - P1: Oh My Pi adapter (`host-port/omp-port.ts`). `oh-my-pi/` stays in-tree as a parked working snapshot, not the default install path.
